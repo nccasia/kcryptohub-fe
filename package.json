@@ -24,9 +24,6 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
-    "@types/jest": "^27.5.1",
     "@hookform/resolvers": "^2.8.8",
     "@types/node": "17.0.31",
     "@types/react": "18.0.8",
@@ -35,9 +32,6 @@
     "babel-jest": "^28.1.0",
     "eslint": "8.14.0",
     "eslint-config-next": "12.1.6",
-    "jest": "^28.1.0",
-    "jest-environment-jsdom": "^28.1.0",
-    "react-test-renderer": "^18.1.0",
     "next-auth": "^4.3.4",
     "postcss": "^8.4.13",
     "react-hook-form": "^7.31.1",
