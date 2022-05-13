@@ -20,16 +20,6 @@ a {
   box-sizing: border-box;
 }
 
-.Toastify__toast--dark {
-}
-.Toastify__toast--default {
-}
-.Toastify__toast--info {
-}
-.Toastify__toast--success {
-}
-.Toastify__toast--warning {
-}
 .Toastify__toast--error {
   font-size: 13px;
 }
