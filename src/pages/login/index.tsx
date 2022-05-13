@@ -7,7 +7,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Link from "next/link";
-import InputField from "@/components/InputField";
 import { IFormLogin } from "@/type/login/login.type";
 
 const schemaValidation = Yup.object({
@@ -42,21 +41,43 @@ const Login = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="mt-10 mb-5 mx-auto max-w-[400px] text-center"
           >
-            <InputField
-              lable="Email or username"
-              type="text"
-              registerReturn={register("emailOrUsername")}
-              errorField={errors?.emailOrUsername}
-            />
-            <InputField
-              lable="Password"
-              type="password"
-              registerReturn={register("password")}
-              errorField={errors?.password}
-            />
+            <div className="flex flex-col py-2">
+              <div className="flex justify-between items-center ">
+                <label className="text-[#944C00] font-bold">
+                  Email or username
+                </label>
+                <input
+                  type="text"
+                  className="border border-solid border-black outline-none py-2 px-4 rounded-lg"
+                  {...register("emailOrUsername")}
+                  autoComplete="off"
+                />
+              </div>
+              {errors?.emailOrUsername && (
+                <span className="text-red-500 text-left text-sm mt-2">
+                  {errors?.emailOrUsername?.message}
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col py-2">
+              <div className="flex justify-between items-center ">
+                <label className="text-[#944C00] font-bold">Password</label>
+                <input
+                  type="password"
+                  className="border border-solid border-black outline-none py-2 px-4 rounded-lg"
+                  {...register("password")}
+                  autoComplete="off"
+                />
+              </div>
+              {errors?.password && (
+                <span className="text-red-500 text-left text-sm mt-2">
+                  {errors?.password?.message}
+                </span>
+              )}
+            </div>
             <button
               type="submit"
-              className="bg-rose-700 text-white block text-center py-2 px-5 rounded-md shadow-lg mt-8 mx-auto"
+              className="bg-[#944C00] text-white block text-center py-2 px-5 rounded-md shadow-lg mt-8 mx-auto"
             >
               Log In
             </button>
