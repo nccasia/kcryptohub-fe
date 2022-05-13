@@ -43,7 +43,9 @@ const Login = () => {
           >
             <div className="flex flex-col py-2">
               <div className="flex justify-between items-center ">
-                <label className="text-rose-700">Email or username</label>
+                <label className="text-[#944C00] font-bold">
+                  Email or username
+                </label>
                 <input
                   type="text"
                   className="border border-solid border-black outline-none py-2 px-4 rounded-lg"
@@ -59,7 +61,7 @@ const Login = () => {
             </div>
             <div className="flex flex-col py-2">
               <div className="flex justify-between items-center ">
-                <label className="text-rose-700">Password</label>
+                <label className="text-[#944C00] font-bold">Password</label>
                 <input
                   type="password"
                   className="border border-solid border-black outline-none py-2 px-4 rounded-lg"
@@ -75,7 +77,7 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="bg-rose-700 text-white block text-center py-2 px-5 rounded-md shadow-lg mt-8 mx-auto"
+              className="bg-[#944C00] text-white block text-center py-2 px-5 rounded-md shadow-lg mt-8 mx-auto"
             >
               Log In
             </button>
