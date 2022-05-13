@@ -1,4 +1,4 @@
 export interface IFormLogin {
-  emailOrUsername: string;
+  username: string;
   password: string;
 }
