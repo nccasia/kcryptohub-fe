@@ -2,13 +2,20 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yub from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import { ToastContainer, toast } from "react-toastify";
+import router from "next/router";
+import axios from "axios";
 const schema = yub.object().shape({
   username: yub.string().required("Username is required"),
   password: yub
     .string()
+    .required("Password is required")
     .min(8, "Password must contain at least 8 characters")
-    .required("Password is required"),
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+      "Password must includes lowercase, uppercase, number and special character"
+    ),
+
   email: yub
     .string()
     .email("Please enter a valid email format!")
@@ -23,10 +30,9 @@ const Register = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, isValid },
   } = useForm({ mode: "all", resolver: yupResolver(schema) });
   const [step, setStep] = React.useState(0);
-  const [isValid, setValid] = React.useState(false);
 
   const onNext = () => {
     if (step === 0) {
@@ -35,7 +41,29 @@ const Register = () => {
   };
 
   const handleRegister = () => {
-    console.log(watch());
+    const registerForm = watch();
+
+    axios({
+      method: "Post",
+      url: "http://localhost:3001/auth/register",
+      headers: {
+        "Content-type": "application/json",
+      },
+      data: JSON.stringify(registerForm),
+    })
+      .then((resp) => {
+        toast.success("Success!", {
+          position: "top-center",
+        });
+        setTimeout(() => {
+          router.push("/login");
+        }, 2000);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message[0], {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      });
   };
 
   return (
@@ -56,9 +84,9 @@ const Register = () => {
           </div>
           {step === 0 && (
             <>
-              <div className="mb-5">
+              <div className="mb-5 text-[#944C00]">
                 <div className="flex justify-center mb-4 items-center w-full">
-                  <span className="text-[#944C00] w-[130px] text-left mr-2 font-bold ">
+                  <span className=" w-[130px] text-left mr-2 font-bold ">
                     Email
                   </span>
                   <input
@@ -85,7 +113,12 @@ const Register = () => {
               <div className="flex justify-center mb-4 mt-9 items-center">
                 <button
                   disabled={!isDirty || errors.email}
-                  className="px-6 py-2 bg-[#944C00] text-white rounded"
+                  className={
+                    "px-6 py-2 text-white rounded " +
+                    (!isDirty || errors.email
+                      ? "bg-[gray] cursor-not-allowed"
+                      : "bg-[#944C00]")
+                  }
                   onClick={onNext}
                 >
                   Next
@@ -95,9 +128,9 @@ const Register = () => {
           )}
           {step === 1 && (
             <>
-              <div className="mb-5">
+              <div className="mb-5 text-[#944C00]">
                 <div className="flex justify-center mb-4 items-center w-full">
-                  <span className="text-[#944C00] w-[150px] text-left mr-2 font-bold ">
+                  <span className=" w-[150px] text-left mr-2 font-bold ">
                     Username
                   </span>
                   <input
@@ -119,7 +152,7 @@ const Register = () => {
                   </div>
                 )}
                 <div className="flex justify-center mb-4 items-center w-full">
-                  <span className="text-[#944C00] w-[150px] text-left mr-2 font-bold ">
+                  <span className=" w-[150px] text-left mr-2 font-bold ">
                     Password
                   </span>
                   <input
@@ -141,7 +174,7 @@ const Register = () => {
                   </div>
                 )}
                 <div className="flex justify-center mb-4 items-center w-full">
-                  <span className="text-[#944C00] w-[150px] text-left mr-2 font-bold ">
+                  <span className=" w-[150px] text-left mr-2 font-bold ">
                     Confirm password
                   </span>
                   <input
@@ -175,15 +208,22 @@ const Register = () => {
                   Back
                 </button>
                 <button
-                  className="px-6 py-2 bg-[#944C00] text-white rounded"
+                  disabled={!isValid}
+                  className={
+                    "px-6 py-2  text-white rounded " +
+                    (isValid
+                      ? "bg-[#944C00]"
+                      : "bg-[gray] hover:cursor-not-allowed")
+                  }
                   onClick={handleSubmit(handleRegister)}
                 >
-                  Register
+                  Submit
                 </button>
               </div>
             </>
           )}
         </form>
+        <ToastContainer autoClose={2000} />
       </div>
     </div>
   );

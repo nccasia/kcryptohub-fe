@@ -1,6 +1,6 @@
 import React from "react";
 import { signIn } from "next-auth/react";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import GitHubIcon from "@mui/icons-material/github";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { useForm, SubmitHandler } from "react-hook-form";
