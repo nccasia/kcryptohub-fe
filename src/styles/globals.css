@@ -18,3 +18,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.Toastify__toast--error {
+  font-size: 13px;
+}
