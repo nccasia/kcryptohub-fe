@@ -60,7 +60,7 @@ const Register = () => {
         }, 2000);
       })
       .catch((err) => {
-        toast.error(err.response.data.message[0], {
+        toast.error(err.response.message, {
           position: toast.POSITION.TOP_CENTER,
         });
       });
@@ -198,6 +198,7 @@ const Register = () => {
               </div>
               <div className="flex justify-center mb-4 mt-9 items-center">
                 <button
+                  type="button"
                   onClick={() => {
                     if (step === 1) {
                       setStep((cur) => cur - 1);
@@ -209,6 +210,7 @@ const Register = () => {
                 </button>
                 <button
                   disabled={!isValid}
+                  type="submit"
                   className={
                     "px-6 py-2  text-white rounded " +
                     (isValid
