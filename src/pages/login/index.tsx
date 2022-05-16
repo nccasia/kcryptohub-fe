@@ -10,6 +10,7 @@ import Link from "next/link";
 import { IFormLogin } from "@/type/login/login.type";
 import { authApi } from "@/api/auth-api";
 import { ToastContainer } from "react-toastify";
+import { useRouter } from "next/router";
 
 const schemaValidation = Yup.object({
   username: Yup.string().required("Email or username is required!"),
@@ -112,10 +113,7 @@ const Login = () => {
                   onClick={() => signIn("google")}
                   className="text-white bg-teal-600 rounded-full text-base p-1.5 w-[30px] h-[30px] cursor-pointer"
                 />
-                <FacebookIcon
-                  onClick={() => signIn("facebook")}
-                  className="text-white bg-teal-600 rounded-full text-base p-1.5 w-[30px] h-[30px] cursor-pointer"
-                />
+                <FacebookIcon className="text-white bg-teal-600 rounded-full text-base p-1.5 w-[30px] h-[30px] cursor-pointer" />
               </div>
             </div>
             <div className="block text-black text-center text-sm mt-3">
