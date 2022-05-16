@@ -1,5 +1,5 @@
-import React from "react";
-import { signIn } from "next-auth/react";
+import React, { useEffect } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import GitHubIcon from "@mui/icons-material/github";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -13,11 +13,14 @@ import { ToastContainer } from "react-toastify";
 import { useRouter } from "next/router";
 
 const schemaValidation = Yup.object({
-  username: Yup.string().required("Email or username is required!"),
+  usernameOrEmail: Yup.string().required("Email or username is required!"),
   password: Yup.string().required("Password is required!"),
 });
 
 const Login = () => {
+  const { data } = useSession();
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -27,6 +30,14 @@ const Login = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
+
+  useEffect(() => {
+    if (data?.accessToken) {
+      console.log(data.accessToken);
+      // router.push("/");
+    }
+  }, [data, router]);
+
   const handleLogin = async (payload: IFormLogin) => {
     try {
       await authApi.logIn(payload);
@@ -59,13 +70,13 @@ const Login = () => {
                   <input
                     type="text"
                     className="border border-solid border-black outline-none py-2 px-4 rounded-lg"
-                    {...register("username")}
+                    {...register("usernameOrEmail")}
                     autoComplete="off"
                   />
                 </div>
-                {errors?.username && (
+                {errors?.usernameOrEmail && (
                   <span className="text-red-500 text-left text-sm mt-2">
-                    {errors?.username?.message}
+                    {errors?.usernameOrEmail?.message}
                   </span>
                 )}
               </div>
