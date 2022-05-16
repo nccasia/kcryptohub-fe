@@ -45,7 +45,7 @@ const Register = () => {
 
     axios({
       method: "Post",
-      url: "http://localhost:3001/auth/register",
+      url: "http://kryptohub-be.herokuapp.com/auth/register",
       headers: {
         "Content-type": "application/json",
       },
@@ -60,7 +60,7 @@ const Register = () => {
         }, 2000);
       })
       .catch((err) => {
-        toast.error(err.response.data.message[0], {
+        toast.error(err.response.data.message, {
           position: toast.POSITION.TOP_CENTER,
         });
       });
@@ -198,6 +198,7 @@ const Register = () => {
               </div>
               <div className="flex justify-center mb-4 mt-9 items-center">
                 <button
+                  type="button"
                   onClick={() => {
                     if (step === 1) {
                       setStep((cur) => cur - 1);
@@ -208,6 +209,7 @@ const Register = () => {
                   Back
                 </button>
                 <button
+                  type="submit"
                   disabled={!isValid}
                   className={
                     "px-6 py-2  text-white rounded " +
