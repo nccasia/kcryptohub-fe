@@ -45,7 +45,7 @@ const Register = () => {
 
     axios({
       method: "Post",
-      url: "http://kryptohub-be.herokuapp.com/auth/register",
+      url: "http://localhost:3001/auth/register",
       headers: {
         "Content-type": "application/json",
       },
@@ -60,7 +60,7 @@ const Register = () => {
         }, 2000);
       })
       .catch((err) => {
-        toast.error(err.response.data.message, {
+        toast.error(err.response.message, {
           position: toast.POSITION.TOP_CENTER,
         });
       });
@@ -209,8 +209,8 @@ const Register = () => {
                   Back
                 </button>
                 <button
-                  type="submit"
                   disabled={!isValid}
+                  type="submit"
                   className={
                     "px-6 py-2  text-white rounded " +
                     (isValid
