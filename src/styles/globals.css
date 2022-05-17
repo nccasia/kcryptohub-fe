@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 @import "react-toastify/dist/ReactToastify.css";
-
 html,
 body {
   padding: 0;

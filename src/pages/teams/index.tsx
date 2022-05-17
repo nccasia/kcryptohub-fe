@@ -51,6 +51,126 @@ const data = [
       author: "Co-Founder, 4té",
     },
   },
+  {
+    companyName: "Hyperlink InfoSystem",
+    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/logo_new.jpg",
+    url: "https://algoworks.com/",
+    description: "Best Android & iPhone App Development Services",
+    rating: 4.8,
+    reviewCount: 110,
+    isVerified: true,
+    stats: {
+      minProjectSize: 10000,
+      minHourlyRate: null,
+      maxHourlyRate: 25,
+      employees: "250 - 999",
+      location: "Ahmedabad, India",
+    },
+    serviceFocus: [
+      {
+        name: "Mobile App Development",
+        percent: 60,
+      },
+      {
+        name: "AR/VR Development",
+        percent: 10,
+      },
+      {
+        name: "Blockchain",
+        percent: 10,
+      },
+      {
+        name: "CRM Consulting and Sl",
+        percent: 10,
+      },
+      {
+        name: "Custom Software Development",
+        percent: 10,
+      },
+    ],
+    quote: {
+      content:
+        "Their development team understands the requirements first and develops a solution that matches client expectations.",
+      author: "Co-Founder & CTO, Cryptocurrency Company",
+    },
+  },
+  {
+    companyName: "Algoworks",
+    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/200-x-200.png",
+    url: "https://algoworks.com/",
+    description: "Go Mobile. Go Cloud. Go Digital",
+    rating: 4.9,
+    reviewCount: 67,
+    isVerified: true,
+    stats: {
+      minProjectSize: 10000,
+      minHourlyRate: 25,
+      maxHourlyRate: 49,
+      employees: "250 - 999",
+      location: "Sunnyvale, CA",
+    },
+    serviceFocus: [
+      {
+        name: "Mobile App Development",
+        percent: 60,
+      },
+      {
+        name: "Web Development",
+        percent: 30,
+      },
+      {
+        name: "CRM Consulting and Sl",
+        percent: 10,
+      },
+    ],
+    quote: {
+      content: "They’re always hands-on, and their resources are go-getters",
+      author: "Co-Founder, 4té",
+    },
+  },
+  {
+    companyName: "Hyperlink InfoSystem",
+    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/logo_new.jpg",
+    url: "https://algoworks.com/",
+    description: "Best Android & iPhone App Development Services",
+    rating: 4.8,
+    reviewCount: 110,
+    isVerified: true,
+    stats: {
+      minProjectSize: 10000,
+      minHourlyRate: null,
+      maxHourlyRate: 25,
+      employees: "250 - 999",
+      location: "Ahmedabad, India",
+    },
+    serviceFocus: [
+      {
+        name: "Mobile App Development",
+        percent: 60,
+      },
+      {
+        name: "AR/VR Development",
+        percent: 10,
+      },
+      {
+        name: "Blockchain",
+        percent: 10,
+      },
+      {
+        name: "CRM Consulting and Sl",
+        percent: 10,
+      },
+      {
+        name: "Custom Software Development",
+        percent: 10,
+      },
+    ],
+    quote: {
+      content:
+        "Their development team understands the requirements first and develops a solution that matches client expectations.",
+      author: "Co-Founder & CTO, Cryptocurrency Company",
+    },
+  },
 ];
 const serviceFocusColor = ["#1b85ce", "#08537e", "#267c87", "#5d997e", '#62ba56'];
 
@@ -58,7 +178,7 @@ export const Teams = () => {
   return (
     <>
       <div className="">
-        <div className="bg-cyan-900">
+        <div className="bg-cyan-900 text-white">
           <div className="flex flex-row border-b border-cyan-200">
             <div className="">KryptoHub</div>
             <div className="flex flex-col flex-1">
@@ -137,14 +257,16 @@ export const Teams = () => {
       </div>
       <div className="flex flex-col items-center justify-center">
         <div className="container-lg relative border-x-2 border-gray-200 w-3/4">
-          <div className="sticky top-0 w-full flex flex-col text-gray-700">
+          <div className="sticky top-0 w-full flex flex-col text-gray-700 bg-white">
             <div className="flex flex-row border-b border-gray-200">
               <div className="flex flex-row items-center justify-between">
                 <div className="p-4 bg-gray-900 text-white font-semibold">
                   <span>{data.length} Teams</span>
                 </div>
               </div>
-              <div className="flex-1"></div>
+              <div className="flex-1 bg-white
+              
+              "></div>
               <div className="flex flex-row items-center justify-center p-2">
                 <label className="p-1 border-2 border-gray-400">Sort By</label>
                 <select
@@ -202,7 +324,7 @@ export const Teams = () => {
           </div>
           <div className="flex flex-col items-center justify-center w-full">
             {data.map((item, index) => (
-              <div className="flex flex-row w-full border-b" key={index}>
+              <div className="flex flex-row w-full border-y my-4" key={index}>
                 <div className="flex-1">
                   <div className="flex flex-row border-b">
                     <div className="flex items-center justify-center p-2">
@@ -237,7 +359,7 @@ export const Teams = () => {
                     </div>
                   </div>
                   <div className="flex flex-row ">
-                    <div className="flex flex-col text-sm p-2 w-1/4">
+                    <div className="flex flex-col text-sm p-4 w-1/4">
                       <span className="text-red-500">
                         <CheckCircleOutlinedIcon /> Verified
                       </span>
@@ -259,7 +381,7 @@ export const Teams = () => {
                         <LocationOnOutlined /> {item.stats.location}
                       </span>
                     </div>
-                    <div className="flex flex-col items-start justify-start p-2 border-x w-1/2 ">
+                    <div className="flex flex-col items-start justify-start p-4 border-x w-1/2 ">
                       <span>Service Focus</span>
                       <div className="w-full h-16  flex flex-row items-center justify-center border-x relative">
                         {item.serviceFocus.map((service, i) => (
