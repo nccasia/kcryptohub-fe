@@ -7,10 +7,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Link from "next/link";
-import { IFormLogin } from "@/type/login/login.type";
+import { IFormLogin } from "@/type/auth/login.type";
 import { authApi } from "@/api/auth-api";
 import { ToastContainer } from "react-toastify";
 import { useRouter } from "next/router";
+import { ELoginProvider } from "@/type/auth/login.type";
 
 const schemaValidation = Yup.object({
   usernameOrEmail: Yup.string().required("Email or username is required!"),
@@ -33,7 +34,6 @@ const Login = () => {
 
   useEffect(() => {
     if (data?.accessToken) {
-      console.log(data.accessToken);
       // router.push("/");
     }
   }, [data, router]);

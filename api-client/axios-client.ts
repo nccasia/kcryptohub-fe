@@ -9,6 +9,6 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error.response?.data)
+  (error) => Promise.reject(error)
 );
 export default axiosClient;
