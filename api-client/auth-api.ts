@@ -59,9 +59,7 @@ export const authApi = {
     const response = axiosClient.post("/auth/github", payload);
     response
       .then((res) => {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("accessToken", JSON.parse(res.data.accessToken));
-        }
+        localStorage.setItem("accessToken", res.data.accessToken);
       })
       .catch((err) => {
         throw new Error();
@@ -71,9 +69,7 @@ export const authApi = {
     const response = axiosClient.post("/auth/google", payload);
     response
       .then((res) => {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("accessToken", JSON.parse(res.data.accessToken));
-        }
+        localStorage.setItem("accessToken", res.data.accessToken);
       })
       .catch((err) => {
         throw new Error();
