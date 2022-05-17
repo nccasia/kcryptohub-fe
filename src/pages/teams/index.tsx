@@ -3,19 +3,24 @@ import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import { IconButton, InputAdornment, InputLabel, OutlinedInput, Rating } from "@mui/material";
 import {
-    AccessAlarm,
-    ContactlessOutlined,
-    InfoOutlined,
-    LanguageOutlined,
-    LocalOffer,
-  LocationCityOutlined,
+  Rating,
+} from "@mui/material";
+import {
+  AccessAlarm,
+  Bookmark,
+  ContactlessOutlined,
+  InfoOutlined,
+  KeyboardArrowDownOutlined,
+  LanguageOutlined,
+  LocalOffer,
   LocationOnOutlined,
+  Menu,
   StarBorderOutlined,
 } from "@mui/icons-material";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
+import { useState } from "react";
 const data = [
   {
     companyName: "Algoworks",
@@ -172,76 +177,92 @@ const data = [
     },
   },
 ];
-const serviceFocusColor = ["#1b85ce", "#08537e", "#267c87", "#5d997e", '#62ba56'];
+const serviceFocusColor = [
+  "#1b85ce",
+  "#08537e",
+  "#267c87",
+  "#5d997e",
+  "#62ba56",
+];
 
 export const Teams = () => {
+  const [showMenu, setShowMenu] = useState(false);
   return (
     <>
       <div className="">
-        <div className="bg-cyan-900 text-white">
-          <div className="flex flex-row border-b border-cyan-200">
-            <div className="">KryptoHub</div>
-            <div className="flex flex-col flex-1">
-              <div className="flex flex-row items-center justify-end">
-                <div className="">
-                  <OutlinedInput
-                    type="text"
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          edge="end"
-                        ></IconButton>
-                      </InputAdornment>
-                    }
-                    label="Search"
-                    size="small"
-                  />
-                </div>
-                <div className="">
-                  <span>Leave a review</span>
-                  <CreateOutlinedIcon fontSize="small" />
-                </div>
-                <div className="">
-                  <span>Sign in</span>
-                  <PersonOutlineIcon fontSize="small" />
-                </div>
+        <div className="bg-cyan-900 text-white ">
+          <div className="flex flex-col items-center justify-center w-full border-b border-cyan-700">
+            <div className="flex md:flex-row flex-col md:items-center items-start justify-center w-full md:w-4/5 px-2 pt-2">
+              <div className="flex justify-between w-full md:w-auto">
+                <Menu className="md:hidden" onClick={()=>{setShowMenu(!showMenu); console.log(showMenu)}}/>
+                <h1 className="" >KryptoHub</h1>
+                <SearchIcon className="md:hidden"/>
               </div>
-              <div className="flex flex-row items-center justify-end">
-                <div className="">
-                  <span>More in Mobile App Developers</span>
+              <div className={`${showMenu ? 'flex' : 'hidden'} md:flex flex-col flex-1`}>
+                <div className="flex flex-row items-center justify-end text-cyan-600">
+                  <div className="flex">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      className="shadow appearance-none border  w-full focus:outline-none focus:shadow-outline bg-transparent pl-2"
+                    />
+                    <div className="ml-[-1.5rem]">
+                      <SearchIcon fontSize="sm" />
+                    </div>
+                  </div>
+                  <div className="px-8 uppercase tracking-wider text-xs">
+                    <span>Leave a review</span>
+                    <CreateOutlinedIcon fontSize="sm" />
+                  </div>
+                  <div className="uppercase tracking-wider text-xs">
+                    <span>Sign in</span>
+                    <PersonOutlineIcon fontSize="sm" />
+                  </div>
                 </div>
-                <div className="">
-                  <span>Other Categories</span>
-                </div>
-                <div className="">
-                  <span>Resource</span>
-                </div>
-                <div className="">
-                  <span>
-                    0 <BookmarkBorderOutlinedIcon color="error" />
-                  </span>
-                </div>
-                <div className="">
-                  <span>
-                    0 <ChatOutlinedIcon color="error" />
-                  </span>
+                <div className="flex xs:flex-row flex-col md:items-center items-start justify-end font-semibold xl:text-xl pt-4 px-4 lg:text-lg text-md ">
+                  <div className="cursor-pointer group relative">
+                    <div className="">
+                      <span>More in Mobile App Developers</span>
+                      <KeyboardArrowDownOutlined className="text-red-800 " />
+                    </div>
+                    <div className="absolute w-full h-20 bg-cyan-600 hidden group-hover:block"></div>
+                  </div>
+                  <div className="border-l border-cyan-700 px-2 cursor-pointer">
+                    <span>Other Categories</span>
+                    <KeyboardArrowDownOutlined className="text-red-800" />
+                  </div>
+                  <div className="border-l border-cyan-700 px-2 cursor-pointer">
+                    <span>Resource</span>
+                    <KeyboardArrowDownOutlined className="text-red-800" />
+                  </div>
+                  <div className="border-l border-cyan-700 px-2 cursor-pointer">
+                    <span>
+                      0 <BookmarkBorderOutlinedIcon className="text-red-800" />
+                    </span>
+                  </div>
+                  <div className="border-l border-cyan-700 px-2 cursor-pointer">
+                    <span>
+                      0 <ChatOutlinedIcon className="text-red-800" />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="p-8 flex items-center justify-start text-white  font-semibold">
-            <div className="p-4 border-2 border-red-500 w-32 h-12 flex items-center justify-center  ">
-              <span>2022 Teams</span>
-            </div>
-            <div className="ml-4 text-3xl">
-              <h1>List Teams</h1>
+          <div className="flex items-center justify-center relative">
+            <div className="py-8 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
+              <div className="p-4 border-2 border-red-500 w-32 h-12 flex items-center justify-center before:bg-cyan-300 before:h-1 before:w-1 before:rounded before:absolute before:top-[-2px] after:bg-cyan-700 after:h-3 after:w-[1px] after:absolute after:top-[2px]">
+                <span>2022 Teams</span>
+              </div>
+              <div className="ml-4 text-3xl">
+                <h1>List Teams</h1>
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center border-b-4 border-gray-900">
-          <div className="w-3/4 border-x-2 border-gray-200 p-8">
-            <div className="w-3/4 text-gray-500 text-sm">
+        <div className="flex items-center justify-center border-b-4 border-cyan-900">
+          <div className="xl:w-3/4 md:w-11/12 lg:w-5/6 w-full border-x-2 p-8">
+            <div className="md:w-3/4 w-full text-cyan-900 text-sm">
               <p>
                 Are you wondering how to create a mobile app? We've vetted over
                 4,000 app development companies to help you find the best app
@@ -256,65 +277,71 @@ export const Teams = () => {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center">
-        <div className="container-lg relative border-x-2 border-gray-200 w-3/4">
-          <div className="sticky top-0 w-full flex flex-col text-gray-700 bg-white">
-            <div className="flex flex-row border-b border-gray-200">
+        <div className="container-lg relative border-x-2  xl:w-3/4 md:w-11/12 lg:w-5/6 w-full shadow-xl">
+          <div className="sticky top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
+            <div className="flex flex-row border-b ">
               <div className="flex flex-row items-center justify-between">
-                <div className="p-4 bg-gray-900 text-white font-semibold">
+                <div className="p-4 bg-cyan-900 text-white font-semibold">
                   <span>{data.length} Teams</span>
                 </div>
               </div>
-              <div className="flex-1 bg-white
+              <div
+                className="flex-1 bg-white
               
-              "></div>
-              <div className="flex flex-row items-center justify-center p-2">
-                <label className="p-1 border-2 border-gray-400">Sort By</label>
-                <select
-                  className="p-1 border-2 border-gray-400"
-                  name="sort"
-                  id=""
-                >
-                  <option>Sponsor</option>
-                </select>
+              "
+              ></div>
+              <div className="flex flex-row items-center justify-center p-4 border-l">
+                <div className="h-8 flex flex-row items-center justify-center text-sm">
+                  <span className="px-1 flex items-center border-l border-y border-cyan-700 h-full">
+                    Sort By
+                  </span>
+                  <select
+                    className="px-1 flex items-center border border-cyan-700 h-full"
+                    name="sort"
+                    id=""
+                  >
+                    <option>Sponsor</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div className="flex flex-row p-2 border-b border-gray-200 justify-start">
+            <div className="flex flex-row p-2 border-b  justify-start text-sm md:text-md">
               <div className="flex flex-row items-center justify-center">
                 <input
                   type="text"
                   placeholder="Location"
-                  className="shadow appearance-none border  w-full text-gray-700 focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline"
                 />
                 <div className="ml-[-2rem] flex items-center justify-center">
                   <SearchIcon />
                 </div>
               </div>
-              <div className="flex items-center justify-center border-2 border-gray-200 px-2 ml-2">
+              <div className="items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden xs:flex">
                 <select name="service" id="">
                   <option value="">Services</option>
                 </select>
               </div>
-              <div className="flex items-center justify-center border-2 border-gray-200 px-2 ml-2">
+              <div className="items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden xs:flex">
                 <select name="service" id="">
                   <option value="">Client Budget</option>
                 </select>
               </div>
-              <div className="flex items-center justify-center border-2 border-gray-200 px-2 ml-2">
+              <div className=" items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden xl:flex">
                 <select name="service" id="">
                   <option value="">Hourly Rate</option>
                 </select>
               </div>
-              <div className="flex items-center justify-center border-2 border-gray-200 px-2 ml-2">
+              <div className=" items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden xl:flex">
                 <select name="service" id="">
                   <option value="">Industry</option>
                 </select>
               </div>
-              <div className="flex items-center justify-center border-2 border-gray-200 px-2 ml-2">
+              <div className=" items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden xl:flex">
                 <select name="service" id="">
                   <option value="">Reviews</option>
                 </select>
               </div>
-              <div className="flex items-center justify-center border-2 border-gray-200 px-1 ml-2">
+              <div className="flex items-center justify-center border-2 border-cyan-800 px-1 ml-2">
                 <span>All Filter</span>
               </div>
               <div className="flex items-center justify-center ml-2">
@@ -324,23 +351,34 @@ export const Teams = () => {
           </div>
           <div className="flex flex-col items-center justify-center w-full">
             {data.map((item, index) => (
-              <div className="flex flex-row w-full border-y my-4" key={index}>
+              <div
+                className="flex md:flex-row w-full border-y my-4 shadow-md flex-col"
+                key={index}
+              >
                 <div className="flex-1">
-                  <div className="flex flex-row border-b">
+                  <div className="flex xs:flex-row flex-col items-start border-b relative">
                     <div className="flex items-center justify-center p-2">
                       <img src={item.logo} alt="logo" />
                     </div>
-                    <div className="flex flex-col w-full p-2">
-                      <div className="flex flex-row">
+                    <div className="flex flex-col w-full px-2">
+                      <div className="flex flex-row ">
                         <div className="flex items-end">
                           <h1 className="text-3xl">{item.companyName}</h1>
-                          <span className="text-gray-400 ml-2">
+                          <span className="text-cyan-700 ml-2">
                             {item.description}
                           </span>
                         </div>
-                        <div className="flex-1 text-right">
-                          <span>Sponsor</span>
-                          <BookmarkBorderOutlinedIcon />
+                        <div className="absolute top-0 right-0 flex-1 text-right">
+                          <span className="uppercase  text-xs font-semibold tracking-widest text-gray-400 mr-8 mt-[-1rem]">
+                            Sponsor
+                          </span>
+                          <div className="absolute top-[-6px] right-2 group">
+                            <BookmarkBorderOutlinedIcon className="group-hover:hidden" />
+                            <Bookmark className="hidden text-white group-hover:block group-hover:bg-black" />
+                            <div className="absolute right-0 w-48 h-16 hidden border border-black group-hover:block">
+                              <div className=""></div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div className="flex items-end">
@@ -358,30 +396,30 @@ export const Teams = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-row ">
-                    <div className="flex flex-col text-sm p-4 w-1/4">
+                  <div className="flex xs:flex-row flex-col ">
+                    <div className="flex flex-col text-sm p-4 xs:w-1/4">
                       <span className="text-red-500">
                         <CheckCircleOutlinedIcon /> Verified
                       </span>
-                      <span className="text-gray-500">
+                      <span className="text-cyan-500">
                         <LocalOffer />{" "}
                         {item.stats.minProjectSize.toLocaleString("en-US", {
                           style: "currency",
                           currency: "USD",
                         })}
                       </span>
-                      <span className="text-gray-500">
+                      <span className="text-cyan-500">
                         <AccessAlarm /> ${item.stats.minHourlyRate} - $
                         {item.stats.maxHourlyRate} / hr
                       </span>
-                      <span className="text-gray-500">
+                      <span className="text-cyan-500">
                         <PersonOutlineIcon /> {item.stats.employees}
                       </span>
-                      <span className="text-gray-500">
+                      <span className="text-cyan-500">
                         <LocationOnOutlined /> {item.stats.location}
                       </span>
                     </div>
-                    <div className="flex flex-col items-start justify-start p-4 border-x w-1/2 ">
+                    <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
                       <span>Service Focus</span>
                       <div className="w-full h-16  flex flex-row items-center justify-center border-x relative">
                         {item.serviceFocus.map((service, i) => (
@@ -393,7 +431,7 @@ export const Teams = () => {
                             }}
                             key={i}
                           >
-                            <div className="absolute text-xs text-gray-400 border-2 top-[-0.25rem] w-fit hidden group-hover:block">
+                            <div className="absolute text-xs text-cyan-700 border-2 top-[-0.25rem] w-fit hidden group-hover:block">
                               {service.percent}% {service.name}
                             </div>
                           </div>
@@ -413,7 +451,7 @@ export const Teams = () => {
                         }
                       </span>
                     </div>
-                    <div className="w-1/4 p-4 text-sm text-gray-500">
+                    <div className="xs:w-1/4 p-4 text-sm text-cyan-500">
                       <p className="text-base">“{item.quote.content}“</p>
                       <span>
                         {item.quote.author}{" "}
@@ -422,20 +460,20 @@ export const Teams = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col border-l text-gray-700 transition-all duration-500 ease-in-out">
-                  <a className="px-2 flex items-center justify-start h-1/3 ">
-                    <span className="p-4 w-full bg-red-500 font-semibold text-white flex justify-between cursor-pointer border-2 border-red-500 hover:bg-transparent hover:text-red-500">
-                      Visit Website <LanguageOutlined />
+                <div className="flex flex-row md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-sm xs:text-md">
+                  <a className="px-2 flex items-center justify-start h-1/3 flex-1">
+                    <span className="xs:p-4 px-2 w-full bg-red-500 font-semibold text-white flex justify-between cursor-pointer border-2 border-red-500 hover:bg-transparent hover:text-red-500">
+                      Visit Website <LanguageOutlined fontSize="sm" />
                     </span>
                   </a>
-                  <a className="px-2 flex items-center justify-start h-1/3 border-y cursor-pointer hover:text-red-500">
-                    <span className="p-4 w-full flex justify-between">
-                      View Profile <InfoOutlined />
+                  <a className="px-2 flex items-center justify-start h-1/3 border-y cursor-pointer hover:text-red-500 flex-1">
+                    <span className="xs:p-4 px-2 w-full flex justify-between">
+                      View Profile <InfoOutlined fontSize="sm" />
                     </span>
                   </a>
-                  <a className="px-2 flex items-center justify-start h-1/3 cursor-pointer hover:text-red-500">
-                    <span className="p-4 w-full flex justify-between">
-                      Contact <ContactlessOutlined />
+                  <a className="px-2 flex items-center justify-start h-1/3 cursor-pointer hover:text-red-500 flex-1">
+                    <span className="xs:p-4 px-2 w-full flex justify-between">
+                      Contact <ContactlessOutlined fontSize="sm" />
                     </span>
                   </a>
                 </div>
