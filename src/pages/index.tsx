@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Register from "./register";
 
 const Home: NextPage = () => {
-  return <Register />;
+  return <div>Home pages</div>;
 };
 
 export default Home;

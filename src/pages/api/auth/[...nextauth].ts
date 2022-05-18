@@ -12,4 +12,28 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_SECRET!,
     }),
   ],
+  callbacks: {
+    async jwt({ token, account }) {
+      if (account) {
+        token.accessToken = account.access_token;
+        token.sub = account.provider;
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      session.accessToken = token.accessToken;
+      session.provider = token.sub;
+      return session;
+    },
+    async signIn({ user, account }) {
+      if (account.access_token) {
+        if (account.provider === "google") {
+          account.access_token = account.id_token;
+        }
+        return true;
+      } else {
+        return "/login";
+      }
+    },
+  },
 });

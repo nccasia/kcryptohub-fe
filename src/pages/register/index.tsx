@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import * as yub from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
+import { authApi } from "@/api/auth-api";
 import router from "next/router";
-import axios from "axios";
+import { IRegisterForm } from "@/type/auth/register.type";
+
 const schema = yub.object().shape({
   username: yub.string().required("Username is required"),
   password: yub
@@ -25,6 +27,7 @@ const schema = yub.object().shape({
     .oneOf([yub.ref("password")], "Password does not match")
     .required("This field is required"),
 });
+
 const Register = () => {
   const {
     register,
@@ -40,30 +43,17 @@ const Register = () => {
     }
   };
 
-  const handleRegister = () => {
+  const handleRedirectToLogin = () => {
+    router.push("/login");
+  };
+
+  const handleRegister = async () => {
     const registerForm = watch();
 
-    axios({
-      method: "Post",
-      url: "http://localhost:3001/auth/register",
-      headers: {
-        "Content-type": "application/json",
-      },
-      data: JSON.stringify(registerForm),
-    })
-      .then((resp) => {
-        toast.success("Success!", {
-          position: "top-center",
-        });
-        setTimeout(() => {
-          router.push("/login");
-        }, 2000);
-      })
-      .catch((err) => {
-        toast.error(err.response.message, {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      });
+    await authApi.register(
+      registerForm as IRegisterForm,
+      handleRedirectToLogin
+    );
   };
 
   return (
