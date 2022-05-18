@@ -71,8 +71,7 @@ export const authApi = {
       .then((res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
       })
-      .catch((err) => {
-        throw new Error();
-      });
+
+      .catch((err) => {});
   },
 };

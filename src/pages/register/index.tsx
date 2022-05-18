@@ -76,9 +76,7 @@ const Register = () => {
             <>
               <div className="mb-5 text-[#944C00]">
                 <div className="flex justify-center mb-4 items-center w-full">
-                  <span className=" w-[130px] text-left mr-2 font-bold ">
-                    Email
-                  </span>
+                  <span className="text-left mr-9 font-bold ">Email</span>
                   <input
                     id="email-address"
                     type="email"
@@ -89,7 +87,7 @@ const Register = () => {
                   />
                 </div>
                 {errors.email && (
-                  <div className="flex justify-center ml-40 ">
+                  <div className="flex justify-center ml-24 ">
                     <p
                       className={
                         "text-xs w-[250px] block mt-[-10px] text-red-600"
