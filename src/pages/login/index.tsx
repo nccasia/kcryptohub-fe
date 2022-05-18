@@ -37,7 +37,12 @@ const Login = () => {
   });
 
   useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      router.push("/");
+    }
     if (data) {
+      console.log(data);
       switch (data.provider) {
         case ELoginProvider[ELoginProvider.GITHUB].toLowerCase(): {
           handleLoginGithub({
