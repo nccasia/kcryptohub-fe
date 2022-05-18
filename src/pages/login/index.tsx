@@ -7,7 +7,7 @@ import {
 } from "@/type/auth/login.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import GitHubIcon from "@mui/icons-material/github";
+import GitHubIcon from "@mui/icons-material/Github";
 import GoogleIcon from "@mui/icons-material/Google";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
