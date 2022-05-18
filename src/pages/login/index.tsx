@@ -76,6 +76,29 @@ const Login = () => {
     await authApi.logInGoogle(payload);
   };
 
+  useEffect(() => {
+    if (data) {
+      switch (data.provider) {
+        case ELoginProvider[ELoginProvider.GITHUB].toLowerCase():
+          authApi.logInGithub({
+            email: data.user?.email,
+            accessToken: data.accessToken as string,
+          });
+          break;
+        case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase():
+          authApi.logInGoogle({
+            email: data.user?.email,
+            name: data.user?.name,
+            provider: data.provider as string,
+            accessToken: data.idToken as string,
+          });
+          break;
+        default:
+          break;
+      }
+    }
+  }, [data, router]);
+
   const onSubmit: SubmitHandler<IFormLogin> = (values) => {
     handleLogin(values);
     reset();
