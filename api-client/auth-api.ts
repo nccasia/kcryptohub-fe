@@ -61,7 +61,9 @@ export const authApi = {
       .then((res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        throw new Error();
+      });
   },
   logInGoogle(payload: IFormLoginGoogle) {
     const response = axiosClient.post("/auth/google", payload);
@@ -69,6 +71,7 @@ export const authApi = {
       .then((res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
       })
+
       .catch((err) => {});
   },
 };

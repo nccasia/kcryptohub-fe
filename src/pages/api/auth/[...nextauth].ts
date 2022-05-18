@@ -19,26 +19,19 @@ export default NextAuth({
     async jwt({ token, account }) {
       if (account) {
         token.accessToken = account.access_token;
-        token.idToken = account.id_token;
-        token.provider = account.provider;
+        token.sub = account.provider;
       }
       return token;
     },
     async session({ session, token, user }) {
       session.accessToken = token.accessToken;
-      session.idToken = token.idToken;
-      session.provider = token.provider;
+      session.provider = token.sub;
       return session;
     },
     async signIn({ user, account }) {
       if (account.access_token) {
-        switch (account.provider) {
-          case ELoginProvider[ELoginProvider.GITHUB].toLowerCase():
-            break;
-          case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase():
-            break;
-          default:
-            break;
+        if (account.provider === "google") {
+          account.access_token = account.id_token;
         }
         return true;
       } else {

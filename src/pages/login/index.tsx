@@ -1,23 +1,21 @@
-import React, { useEffect } from "react";
+import { authApi } from "@/api/auth-api";
 import {
-  signIn,
-  signOut,
-  useSession,
-  getSession,
-  getCsrfToken,
-} from "next-auth/react";
+  ELoginProvider,
+  IFormLogin,
+  IFormLoginGithub,
+  IFormLoginGoogle,
+} from "@/type/auth/login.type";
+import { yupResolver } from "@hookform/resolvers/yup";
+import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/github";
 import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import { IFormLogin } from "@/type/auth/login.type";
-import { authApi } from "@/api/auth-api";
-import { ToastContainer } from "react-toastify";
 import { useRouter } from "next/router";
-import { ELoginProvider } from "@/type/auth/login.type";
+import React, { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
+import * as Yup from "yup";
 
 const schemaValidation = Yup.object({
   usernameOrEmail: Yup.string().required("Email or username is required!"),
@@ -37,12 +35,45 @@ const Login = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
+
+  useEffect(() => {
+    if (data) {
+      switch (data.provider) {
+        case ELoginProvider[ELoginProvider.GITHUB].toLowerCase(): {
+          handleLoginGithub({
+            email: data?.user?.email,
+            accessToken: data!.accessToken as string,
+          });
+          break;
+        }
+        case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase(): {
+          handleLoginGoogle({
+            name: data?.user?.name,
+            email: data?.user?.email,
+            accessToken: data!.accessToken as string,
+            provider: "google",
+          });
+          break;
+        }
+        default:
+          break;
+      }
+      router.push("/");
+    }
+  }, [data, router]);
+
   const handleLogin = async (payload: IFormLogin) => {
     try {
       await authApi.logIn(payload);
     } catch (error) {
       throw new Error();
     }
+  };
+  const handleLoginGithub = async (payload: IFormLoginGithub) => {
+    await authApi.logInGithub(payload);
+  };
+  const handleLoginGoogle = async (payload: IFormLoginGoogle) => {
+    await authApi.logInGoogle(payload);
   };
 
   useEffect(() => {
