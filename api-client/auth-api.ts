@@ -25,7 +25,7 @@ export const authApi = {
         });
       });
   },
-  logIn(payload: IFormLogin) {
+  logIn(payload: IFormLogin, redirectToHome: Function) {
     const response = axiosClient.post("/auth/login", payload);
     response
       .then((res) => {
@@ -42,6 +42,10 @@ export const authApi = {
           draggable: true,
           progress: undefined,
         });
+
+        setTimeout(() => {
+          redirectToHome();
+        }, 2000);
       })
       .catch((err) => {
         toast.error(err.response.data.message, {

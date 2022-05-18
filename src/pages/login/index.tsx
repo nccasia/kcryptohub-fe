@@ -62,9 +62,12 @@ const Login = () => {
     }
   }, [data, router]);
 
+  const handleRedirectToHome = () => {
+    router.push("/");
+  };
   const handleLogin = async (payload: IFormLogin) => {
     try {
-      await authApi.logIn(payload);
+      await authApi.logIn(payload, handleRedirectToHome);
     } catch (error) {
       throw new Error();
     }
