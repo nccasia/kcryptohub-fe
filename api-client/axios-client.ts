@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: "http://kryptohub-be.herokuapp.com/api",
   headers: {
     "Content-Type": "application/json",
   },

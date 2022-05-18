@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import {
+  signIn,
+  signOut,
+  useSession,
+  getSession,
+  getCsrfToken,
+} from "next-auth/react";
 import GitHubIcon from "@mui/icons-material/github";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -40,8 +46,25 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (data?.accessToken) {
-      // router.push("/");
+    if (data) {
+      switch (data.provider) {
+        case ELoginProvider[ELoginProvider.GITHUB].toLowerCase():
+          authApi.logInGithub({
+            email: data.user?.email,
+            accessToken: data.accessToken as string,
+          });
+          break;
+        case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase():
+          authApi.logInGoogle({
+            email: data.user?.email,
+            name: data.user?.name,
+            provider: data.provider as string,
+            accessToken: data.idToken as string,
+          });
+          break;
+        default:
+          break;
+      }
     }
   }, [data, router]);
 

@@ -19,29 +19,23 @@ export default NextAuth({
     async jwt({ token, account }) {
       if (account) {
         token.accessToken = account.access_token;
+        token.idToken = account.id_token;
+        token.provider = account.provider;
       }
       return token;
     },
     async session({ session, token, user }) {
       session.accessToken = token.accessToken;
+      session.idToken = token.idToken;
+      session.provider = token.provider;
       return session;
     },
     async signIn({ user, account }) {
       if (account.access_token) {
         switch (account.provider) {
           case ELoginProvider[ELoginProvider.GITHUB].toLowerCase():
-            authApi.logInGithub({
-              email: user.email,
-              accessToken: account.access_token,
-            });
             break;
           case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase():
-            authApi.logInGoogle({
-              name: user.name,
-              email: user.email,
-              accessToken: account.id_token,
-              provider: "google",
-            });
             break;
           default:
             break;
