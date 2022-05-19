@@ -326,17 +326,17 @@ export const Teams = () => {
                   <option value="">Client Budget</option>
                 </select>
               </div>
-              <div className=" items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden xl:flex">
+              <div className=" items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden sm:flex">
                 <select name="service" id="">
                   <option value="">Hourly Rate</option>
                 </select>
               </div>
-              <div className=" items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden xl:flex">
+              <div className=" items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden md:flex">
                 <select name="service" id="">
                   <option value="">Industry</option>
                 </select>
               </div>
-              <div className=" items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden xl:flex">
+              <div className=" items-center justify-center border-2 border-cyan-800 px-2 ml-2 hidden lg:flex">
                 <select name="service" id="">
                   <option value="">Reviews</option>
                 </select>
