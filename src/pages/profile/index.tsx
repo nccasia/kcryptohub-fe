@@ -38,10 +38,11 @@ const UpdateProfilePage = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setAnchorEl(null);
-    signOut();
-    router.push("/login");
+    const data = await signOut({ redirect: false, callbackUrl: "/login" });
+    localStorage.removeItem("accessToken");
+    router.push(data.url);
   };
   return (
     <Box>
