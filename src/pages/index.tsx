@@ -27,35 +27,33 @@ const Home: NextPage = () => {
                   <span>{data.user?.name}</span>
                   <ArrowDropDownIcon />
                 </label>
-                <div className="invisible peer-checked:visible flex flex-col absolute top-6 border px-2 w-full bg-cyan-700">
-                  <div className="border-b">
-                    <Link href="/profile">
+                <div className="invisible peer-checked:visible flex flex-col absolute top-6 border w-full bg-cyan-700 ">
+                  <Link href="/profile">
+                    <div className="p-1 border-l-2 border-cyan-700 hover:border-red-700 hover:bg-cyan-900 cursor-pointer">
                       <a>Profile</a>
-                    </Link>
-                  </div>
-                  <div className="border-b">
-                    <Link href="/teams/myteams">
+                    </div>
+                  </Link>
+                  <Link href="/teams/myteams">
+                    <div className="p-1 border-l-2 border-cyan-700 hover:border-red-700 hover:bg-cyan-900 cursor-pointer">
                       <a>My Teams</a>
-                    </Link>
-                  </div>
-                  <div className="border-b">
-                    <span
-                      className="cursor-pointer"
-                      onClick={() => {
-                        localStorage.removeItem("accessToken");
-                        signOut();
-                      }}
-                    >
-                      Logout
-                    </span>
+                    </div>
+                  </Link>
+                  <div
+                    className="p-1 border-l-2 border-cyan-700 hover:border-red-700 hover:bg-cyan-900 cursor-pointer"
+                    onClick={() => {
+                      localStorage.removeItem("accessToken");
+                      signOut();
+                    }}
+                  >
+                    <span>Logout</span>
                   </div>
                 </div>
               </div>
-              <div className="">
-                <Link href={'/profile'}>
+              <div className="rounded-full truncate">
+                <Link href={"/profile"}>
                   <a>
                     <img
-                      src={data.user?.image || "vercel.svg"}
+                      src={data.user?.image || "favicon.ico"}
                       width={30}
                       height={30}
                       alt="avatar"
