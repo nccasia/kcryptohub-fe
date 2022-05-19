@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import * as yub from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
+import { authApi } from "@/api/auth-api";
 import router from "next/router";
-import axios from "axios";
+import { IRegisterForm } from "@/type/auth/register.type";
+
 const schema = yub.object().shape({
   username: yub.string().required("Username is required"),
   password: yub
@@ -25,6 +27,7 @@ const schema = yub.object().shape({
     .oneOf([yub.ref("password")], "Password does not match")
     .required("This field is required"),
 });
+
 const Register = () => {
   const {
     register,
@@ -40,30 +43,17 @@ const Register = () => {
     }
   };
 
-  const handleRegister = () => {
+  const handleRedirectToLogin = () => {
+    router.push("/login");
+  };
+
+  const handleRegister = async () => {
     const registerForm = watch();
 
-    axios({
-      method: "Post",
-      url: "http://localhost:3001/auth/register",
-      headers: {
-        "Content-type": "application/json",
-      },
-      data: JSON.stringify(registerForm),
-    })
-      .then((resp) => {
-        toast.success("Success!", {
-          position: "top-center",
-        });
-        setTimeout(() => {
-          router.push("/login");
-        }, 2000);
-      })
-      .catch((err) => {
-        toast.error(err.response.message, {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      });
+    await authApi.register(
+      registerForm as IRegisterForm,
+      handleRedirectToLogin
+    );
   };
 
   return (
@@ -86,9 +76,7 @@ const Register = () => {
             <>
               <div className="mb-5 text-[#944C00]">
                 <div className="flex justify-center mb-4 items-center w-full">
-                  <span className=" w-[130px] text-left mr-2 font-bold ">
-                    Email
-                  </span>
+                  <span className="text-left mr-9 font-bold ">Email</span>
                   <input
                     id="email-address"
                     type="email"
@@ -99,7 +87,7 @@ const Register = () => {
                   />
                 </div>
                 {errors.email && (
-                  <div className="flex justify-center ml-40 ">
+                  <div className="flex justify-center ml-24 ">
                     <p
                       className={
                         "text-xs w-[250px] block mt-[-10px] text-red-600"

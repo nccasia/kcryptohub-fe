@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -9,6 +9,6 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error.response?.data)
+  (error) => Promise.reject(error)
 );
 export default axiosClient;

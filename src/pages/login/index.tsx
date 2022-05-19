@@ -1,23 +1,31 @@
-import React from "react";
-import { signIn } from "next-auth/react";
-import GitHubIcon from "@mui/icons-material/github";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import Link from "next/link";
-import { IFormLogin } from "@/type/login/login.type";
 import { authApi } from "@/api/auth-api";
-import { ToastContainer } from "react-toastify";
+import {
+  ELoginProvider,
+  IFormLogin,
+  IFormLoginGithub,
+  IFormLoginGoogle,
+} from "@/type/auth/login.type";
+import { yupResolver } from "@hookform/resolvers/yup";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import GoogleIcon from "@mui/icons-material/Google";
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
+import * as Yup from "yup";
 
 const schemaValidation = Yup.object({
-  username: Yup.string().required("Email or username is required!"),
+  usernameOrEmail: Yup.string().required("Email or username is required!"),
   password: Yup.string().required("Password is required!"),
 });
 
 const Login = () => {
+  const { data } = useSession();
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -27,6 +35,38 @@ const Login = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      router.push("/");
+    }
+    if (data) {
+      console.log(data);
+      switch (data.provider) {
+        case ELoginProvider[ELoginProvider.GITHUB].toLowerCase(): {
+          handleLoginGithub({
+            email: data?.user?.email,
+            accessToken: data!.accessToken as string,
+          });
+          break;
+        }
+        case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase(): {
+          handleLoginGoogle({
+            name: data?.user?.name,
+            email: data?.user?.email,
+            accessToken: data!.accessToken as string,
+            provider: "google",
+          });
+          break;
+        }
+        default:
+          break;
+      }
+      router.push("/");
+    }
+  }, [data, router]);
+
   const handleLogin = async (payload: IFormLogin) => {
     try {
       await authApi.logIn(payload);
@@ -34,6 +74,35 @@ const Login = () => {
       throw new Error();
     }
   };
+  const handleLoginGithub = async (payload: IFormLoginGithub) => {
+    await authApi.logInGithub(payload);
+  };
+  const handleLoginGoogle = async (payload: IFormLoginGoogle) => {
+    await authApi.logInGoogle(payload);
+  };
+
+  useEffect(() => {
+    if (data) {
+      switch (data.provider) {
+        case ELoginProvider[ELoginProvider.GITHUB].toLowerCase():
+          authApi.logInGithub({
+            email: data.user?.email,
+            accessToken: data.accessToken as string,
+          });
+          break;
+        case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase():
+          authApi.logInGoogle({
+            email: data.user?.email,
+            name: data.user?.name,
+            provider: data.provider as string,
+            accessToken: data.idToken as string,
+          });
+          break;
+        default:
+          break;
+      }
+    }
+  }, [data, router]);
 
   const onSubmit: SubmitHandler<IFormLogin> = (values) => {
     handleLogin(values);
@@ -59,13 +128,13 @@ const Login = () => {
                   <input
                     type="text"
                     className="border border-solid border-black outline-none py-2 px-4 rounded-lg"
-                    {...register("username")}
+                    {...register("usernameOrEmail")}
                     autoComplete="off"
                   />
                 </div>
-                {errors?.username && (
+                {errors?.usernameOrEmail && (
                   <span className="text-red-500 text-left text-sm mt-2">
-                    {errors?.username?.message}
+                    {errors?.usernameOrEmail?.message}
                   </span>
                 )}
               </div>
