@@ -3,11 +3,8 @@ import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Link from "next/link";
-interface User {
-  email: string;
-  image: string;
-  name: string;
-}
+import Image from "next/image";
+
 const Home: NextPage = () => {
   const { data } = useSession();
   return (
@@ -49,18 +46,17 @@ const Home: NextPage = () => {
                   </div>
                 </div>
               </div>
-              <div className="rounded-full truncate">
-                <Link href={"/profile"}>
-                  <a>
-                    <img
-                      src={data.user?.image || "favicon.ico"}
-                      width={30}
-                      height={30}
-                      alt="avatar"
-                    />
-                  </a>
-                </Link>
-              </div>
+              <Link href={"/profile"}>
+                <a>
+                  <Image
+                    src={data.user?.image || "favicon.ico"}
+                    width={30}
+                    height={30}
+                    alt="avatar"
+                    className="rounded-full"
+                  />
+                </a>
+              </Link>
             </div>
           ) : (
             <div className="">
