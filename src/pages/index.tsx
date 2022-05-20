@@ -9,7 +9,7 @@ const Home: NextPage = () => {
       <Header />
       <div className="flex items-center justify-center">
         <h1 className="text-3xl font-bold text-cyan-900">
-          WELCOM TO KRYPTOHUB
+          WELCOME TO KRYPTOHUB
         </h1>
       </div>
     </div>
