@@ -21,6 +21,7 @@ import {
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import { useState } from "react";
+import Image from "next/image";
 const data = [
   {
     companyName: "Algoworks",
@@ -194,11 +195,21 @@ export const Teams = () => {
           <div className="flex flex-col items-center justify-center w-full border-b border-cyan-700">
             <div className="flex md:flex-row flex-col md:items-center items-start justify-center w-full md:w-4/5 px-2 pt-2">
               <div className="flex justify-between w-full md:w-auto">
-                <Menu className="md:hidden" onClick={()=>{setShowMenu(!showMenu); console.log(showMenu)}}/>
-                <h1 className="" >KryptoHub</h1>
-                <SearchIcon className="md:hidden"/>
+                <Menu
+                  className="md:hidden"
+                  onClick={() => {
+                    setShowMenu(!showMenu);
+                    console.log(showMenu);
+                  }}
+                />
+                <h1 className="">KryptoHub</h1>
+                <SearchIcon className="md:hidden" />
               </div>
-              <div className={`${showMenu ? 'flex' : 'hidden'} md:flex flex-col flex-1`}>
+              <div
+                className={`${
+                  showMenu ? "flex" : "hidden"
+                } md:flex flex-col flex-1`}
+              >
                 <div className="flex flex-row items-center justify-end text-cyan-600">
                   <div className="flex">
                     <input
@@ -207,16 +218,16 @@ export const Teams = () => {
                       className="shadow appearance-none border  w-full focus:outline-none focus:shadow-outline bg-transparent pl-2"
                     />
                     <div className="ml-[-1.5rem]">
-                      <SearchIcon fontSize="sm" />
+                      <SearchIcon fontSize="small" />
                     </div>
                   </div>
                   <div className="px-8 uppercase tracking-wider text-xs">
                     <span>Leave a review</span>
-                    <CreateOutlinedIcon fontSize="sm" />
+                    <CreateOutlinedIcon fontSize="small" />
                   </div>
                   <div className="uppercase tracking-wider text-xs">
                     <span>Sign in</span>
-                    <PersonOutlineIcon fontSize="sm" />
+                    <PersonOutlineIcon fontSize="small" />
                   </div>
                 </div>
                 <div className="flex xs:flex-row flex-col md:items-center items-start justify-end font-semibold xl:text-xl pt-4 px-4 lg:text-lg text-md ">
@@ -264,10 +275,10 @@ export const Teams = () => {
           <div className="xl:w-3/4 md:w-11/12 lg:w-5/6 w-full border-x-2 p-8">
             <div className="md:w-3/4 w-full text-cyan-900 text-sm">
               <p>
-                Are you wondering how to create a mobile app? We've vetted over
-                4,000 app development companies to help you find the best app
-                developer for your needs. Use Clutch to create a shortlist of
-                your top app development contenders, read detailed client
+                Are you wondering how to create a mobile app? We&apos;ve vetted
+                over 4,000 app development companies to help you find the best
+                app developer for your needs. Use Clutch to create a shortlist
+                of your top app development contenders, read detailed client
                 reviews of each company, and view examples of past mobile app
                 projects. Our research will help you find the right app
                 developer for your project.
@@ -358,7 +369,7 @@ export const Teams = () => {
                 <div className="flex-1">
                   <div className="flex xs:flex-row flex-col items-start border-b relative">
                     <div className="flex items-center justify-center p-2">
-                      <img src={item.logo} alt="logo" />
+                      <Image width={50} height={50} src={item.logo} alt="logo" />
                     </div>
                     <div className="flex flex-col w-full px-2">
                       <div className="flex flex-row ">
@@ -463,17 +474,17 @@ export const Teams = () => {
                 <div className="flex flex-row md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-sm xs:text-md">
                   <a className="px-2 flex items-center justify-start h-1/3 flex-1">
                     <span className="xs:p-4 w-full bg-red-500 font-semibold text-white flex justify-between cursor-pointer border-2 border-red-500 hover:bg-transparent hover:text-red-500">
-                      Visit Website <LanguageOutlined fontSize="sm" />
+                      Visit Website <LanguageOutlined fontSize="small" />
                     </span>
                   </a>
                   <a className="px-2 flex items-center justify-start h-1/3 border-y cursor-pointer hover:text-red-500 flex-1">
                     <span className="xs:p-4 px-2 w-full flex justify-between">
-                      View Profile <InfoOutlined fontSize="sm" />
+                      View Profile <InfoOutlined fontSize="small" />
                     </span>
                   </a>
                   <a className="px-2 flex items-center justify-start h-1/3 cursor-pointer hover:text-red-500 flex-1">
                     <span className="xs:p-4 px-2 w-full flex justify-between">
-                      Contact <ContactlessOutlined fontSize="sm" />
+                      Contact <ContactlessOutlined fontSize="small" />
                     </span>
                   </a>
                 </div>
