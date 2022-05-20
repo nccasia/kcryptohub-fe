@@ -39,10 +39,9 @@ const Login = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      router.push("/");
+      router.push("/profile");
     }
     if (data) {
-      console.log(data);
       switch (data.provider) {
         case ELoginProvider[ELoginProvider.GITHUB].toLowerCase(): {
           handleLoginGithub({
@@ -69,7 +68,7 @@ const Login = () => {
 
   const handleLogin = async (payload: IFormLogin) => {
     try {
-      await authApi.logIn(payload);
+      await authApi.logIn(payload, handleRedirectProfilePage);
     } catch (error) {
       throw new Error();
     }
@@ -79,6 +78,9 @@ const Login = () => {
   };
   const handleLoginGoogle = async (payload: IFormLoginGoogle) => {
     await authApi.logInGoogle(payload);
+  };
+  const handleRedirectProfilePage = () => {
+    router.push("/");
   };
 
   useEffect(() => {
