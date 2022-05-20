@@ -62,7 +62,7 @@ const Login = () => {
         default:
           break;
       }
-      router.push("/profile");
+      router.push("/");
     }
   }, [data, router]);
 
@@ -80,7 +80,7 @@ const Login = () => {
     await authApi.logInGoogle(payload);
   };
   const handleRedirectProfilePage = () => {
-    router.push("/profile");
+    router.push("/");
   };
 
   useEffect(() => {
