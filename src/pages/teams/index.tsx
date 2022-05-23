@@ -60,7 +60,7 @@ export const Teams = () => {
   const [filter, setFilter] = useState({search:'', skill:0, timezone:0});
 
   useEffect(()=>{
-    let filtered = data.filter(team => team.name.includes(filter.search));
+    let filtered = data.filter(team => team.name.toLowerCase().includes(filter.search.toLowerCase()));
     if(filter.skill !== 0){
       filtered = filtered.filter((team) =>
         team.skills.includes(SkillSelect[filter.skill])
@@ -90,8 +90,8 @@ export const Teams = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col items-center justify-center">
-        <div className="container-lg relative border-x-2  xl:w-3/4 md:w-11/12 lg:w-5/6 w-full shadow-xl">
+      <div className="flex flex-col items-center justify-center px-1">
+        <div className="container-lg relative border-x-2  xl:w-3/4 md:w-11/12 lg:w-5/6 w-full  shadow-xl">
           <div className="sticky top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
             <div className="flex flex-row border-b ">
               <div className="flex flex-row items-center justify-between">
@@ -132,18 +132,31 @@ export const Teams = () => {
                       </select>
                     </div>
                     <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2 flex">
-                      <select name="timezone" id="" defaultValue={0} onChange={handleTimezoneSelect}>
+                      <select
+                        name="timezone"
+                        id=""
+                        defaultValue={0}
+                        onChange={handleTimezoneSelect}
+                      >
                         {TimezoneSelect.map((key, index) => (
                           <option key={index} value={index}>
                             {key}
                           </option>
-                        ))}  
+                        ))}
+                      </select>
+                    </div>
+                    <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2 xs:hidden flex">
+                      <select name="sort" id="" defaultValue="">
+                        <option hidden value="">
+                          Sort by
+                        </option>
+                        <option value="1">Rating</option>
                       </select>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-row items-center justify-center xs:p-2 sm:p-4 border-l">
+              <div className="hidden xs:flex flex-row items-center justify-center xs:p-2 sm:p-4 border-l">
                 <select
                   className="px-1 flex items-center border border-cyan-700 h-full p-1 xs:p-2"
                   name="sort"

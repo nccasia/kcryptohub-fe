@@ -15,6 +15,7 @@ import {
 } from "@mui/icons-material";
 import { Rating } from '@mui/material';
 import Image from 'next/image';
+import { IconHover } from './IconHover';
 interface Props {
     team: Team;
 }
@@ -74,16 +75,26 @@ export const TeamCard = (props: Props) => {
           <div className="flex xs:flex-row flex-col">
             <div className="flex flex-col text-sm p-4 xs:w-1/4">
               <span className="text-cyan-900">
-                <GroupsOutlined /> {team.size}
+                <IconHover icon={<GroupsOutlined />} hoverText="Team size" />{" "}
+                {team.size}
               </span>
               <span className="text-cyan-900">
-                <AvTimerOutlined /> {team.timezone}
+                <IconHover icon={<AvTimerOutlined />} hoverText="Timezone" />
+                {team.timezone}
               </span>
               <span className="text-cyan-900">
-                <ApartmentOutlined /> {team.organization}
+                <IconHover
+                  icon={<ApartmentOutlined />}
+                  hoverText="Organiztion"
+                />
+                {team.organization}
               </span>
               <span className="text-cyan-900">
-                <AccessAlarmOutlined /> {team.workingTime}
+                <IconHover
+                  icon={<AccessAlarmOutlined />}
+                  hoverText="Working hours"
+                />
+                {team.workingTime}
               </span>
             </div>
             <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
@@ -91,11 +102,12 @@ export const TeamCard = (props: Props) => {
                 <ApiOutlined />
                 <p className="text-cyan-900 w-full break-normal">
                   {team.skills.map((skill, i) => (
-                    <span
-                      key={i}
-                      className={`px-2 rounded-2xl ${skillColor[skill]} text-white ml-2`}
-                    >
-                      <b>{skill}</b>{" "}
+                    <span key={i}>
+                      <b
+                        className={`px-2 rounded-2xl ${skillColor[skill]} text-white ml-2`}
+                      >
+                        {skill}
+                      </b>{" "}
                     </span>
                   ))}
                 </p>
