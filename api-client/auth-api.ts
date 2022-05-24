@@ -25,12 +25,13 @@ export const authApi = {
         });
       });
   },
-  logIn(payload: IFormLogin, redirectToHome: Function) {
+  logIn(payload: IFormLogin, handleRedirectProfilePage: Function) {
     const response = axiosClient.post("/auth/login", payload);
     response
       .then((res) => {
         if (res.data.accessToken) {
           localStorage.setItem("accessToken", res.data.accessToken);
+          handleRedirectProfilePage();
         }
 
         toast.success("Login Successfully!", {
@@ -42,10 +43,6 @@ export const authApi = {
           draggable: true,
           progress: undefined,
         });
-
-        setTimeout(() => {
-          redirectToHome();
-        }, 2000);
       })
       .catch((err) => {
         toast.error(err.response.data.message, {
