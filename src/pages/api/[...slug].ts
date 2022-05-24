@@ -18,10 +18,6 @@ export default function handler(
   res: NextApiResponse<Data>
 ) {
   return new Promise((resolve) => {
-    if (typeof window !== "undefined") {
-      const accessToken = localStorage.getItem("access_token");
-      req.headers.Authorization = `Bearer ${accessToken}`;
-    }
     proxy.web(req, res, {
       target: process.env.API_URL,
       changeOrigin: true,

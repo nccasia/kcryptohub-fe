@@ -20,7 +20,8 @@
       "@/type/*": ["./type/*"],
       "@/src/*": ["./src/*"],
       "@/api/*": ["./api-client/*"],
-      "@/images/*": ["./images/*"]
+      "@/images/*": ["./images/*"],
+      "@/redux/*": ["./redux/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

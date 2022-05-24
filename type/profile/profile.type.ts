@@ -1,8 +1,13 @@
 export interface IProfile {
-  username?: string;
-  email?: string;
-  skills?: string;
-  githubAccount?: string;
-  googleAccount?: string;
   description: string;
+  username: string;
+  avatar: string;
+  createdAt: string;
+  emailAddress: string;
+  github: string;
+  google: string;
+  id: number;
+  provider: string;
+  status: string;
+  skills: string[];
 }

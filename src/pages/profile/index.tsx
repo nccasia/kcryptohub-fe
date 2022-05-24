@@ -1,4 +1,6 @@
 import avatar from "@/images/avatar.png";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { updateProfile } from "@/redux/profile-slice";
 import { IProfile } from "@/type/profile/profile.type";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import CloseIcon from "@mui/icons-material/Close";
@@ -8,25 +10,38 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Modal,
   Stack,
 } from "@mui/material";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { KeyboardEvent, useEffect, useState } from "react";
+import React, { KeyboardEvent, useState } from "react";
 import { useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
 
 const UpdateProfilePage = () => {
+  const userInfo = useAppSelector((state) => state.ProfileReducer.userInfo);
+  const dispatch = useAppDispatch();
+  const initialValues = {
+    description: userInfo.description || "",
+    username: userInfo.username || "",
+    avatar: userInfo.avatar || "",
+    createdAt: userInfo.createdAt || "",
+    emailAddress: userInfo.emailAddress || "",
+    github: userInfo.github || "",
+    google: userInfo.google || "",
+    id: userInfo.id || undefined,
+    provider: userInfo.provider || "",
+    status: userInfo.status || "",
+    skills: userInfo.skills,
+  };
   const router = useRouter();
-  const { register, handleSubmit } = useForm<IProfile>({});
+  const { register, handleSubmit, getValues } = useForm<IProfile>({
+    defaultValues: initialValues,
+  });
   const [isEditting, setIsEditing] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [skills, setSkills] = useState<string[]>([]);
-
-  const [openWarning, setOpenWarning] = React.useState(false);
-  const handleOpen = () => setOpenWarning(true);
-  const handleClose = () => setOpenWarning(false);
+  const [skills, setSkills] = useState<string[]>(userInfo.skills || []);
 
   const handleAddSkills = (event: KeyboardEvent<HTMLInputElement>) => {
     let value = (event.target as HTMLInputElement).value;
@@ -45,7 +60,9 @@ const UpdateProfilePage = () => {
     setIsEditing(!isEditting);
 
     if (isEditting) {
-      handleSubmit((value) => console.log(value))();
+      handleSubmit((value) => {
+        dispatch(updateProfile({ ...userInfo, ...value, skills }));
+      })();
     }
   };
 
@@ -56,15 +73,9 @@ const UpdateProfilePage = () => {
     router.push(data.url);
   };
 
-  useEffect(() => {
-    if (true) {
-      setOpenWarning(true);
-    }
-  }, []);
-
   return (
     <>
-      <Box mt={5}>
+      <Box my={5}>
         <Container
           fixed
           maxWidth="md"
@@ -112,25 +123,72 @@ const UpdateProfilePage = () => {
               <Box mt={{ xs: 4, md: 0 }}>
                 <div className="flex items-center gap-x-10 mb-3">
                   <h3 className="text-xl text-right min-w-[150px]">Username</h3>
-                  <input
-                    autoComplete="off"
-                    type="text"
-                    value="NCC Plus"
-                    className="bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px]"
-                    {...register("username")}
-                    disabled
-                  />
+                  {!isEditting && (
+                    <span className="italic py-2 px-4 ">
+                      {getValues("username") || "No Data"}
+                    </span>
+                  )}
+                  {isEditting && (
+                    <input
+                      autoComplete="off"
+                      type="text"
+                      className={
+                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
+                        (isEditting
+                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
+                          : "")
+                      }
+                      {...register("username")}
+                      disabled={!isEditting}
+                      placeholder="Add your username here"
+                    />
+                  )}
                 </div>
                 <div className="flex items-center gap-x-10 mb-3">
                   <h3 className="text-xl text-right min-w-[150px]">Email</h3>
-                  <input
-                    autoComplete="off"
-                    type="text"
-                    value="info@ncc.asia"
-                    className="bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px]"
-                    {...register("email")}
-                    disabled
-                  />
+                  {!isEditting && (
+                    <span className="italic py-2 px-4 ">
+                      {getValues("emailAddress") || "No Data"}
+                    </span>
+                  )}
+                  {isEditting && (
+                    <input
+                      autoComplete="off"
+                      type="text"
+                      className={
+                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
+                        (isEditting
+                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
+                          : "")
+                      }
+                      {...register("emailAddress")}
+                      disabled={!isEditting}
+                      placeholder="Add your email address here"
+                    />
+                  )}
+                </div>
+                <div className="flex items-center gap-x-10 mb-3">
+                  <h3 className="text-xl text-right min-w-[150px]">Avatar</h3>
+                  {!isEditting && (
+                    <span className="italic py-2 px-4 ">
+                      {getValues("avatar") || "No Data"}
+                    </span>
+                  )}
+                  {isEditting && (
+                    <input
+                      autoComplete="off"
+                      type="text"
+                      className={
+                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
+                        (isEditting
+                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
+                          : "")
+                      }
+                      {...register("avatar")}
+                      disabled={!isEditting}
+                      placeholder="Add your avatar link here"
+                    />
+                  )}
                 </div>
                 <div className="flex items-center gap-x-10 mb-3">
                   <h3 className="text-xl text-right min-w-[150px]">Skill</h3>
@@ -143,7 +201,7 @@ const UpdateProfilePage = () => {
                     }
                   >
                     <ul id="tags" className="flex flex-wrap">
-                      {skills.length === 0 && !isEditting && (
+                      {!skills.length && !isEditting && (
                         <span className="italic">No Data</span>
                       )}
                       {skills.map((skill, index) => (
@@ -179,43 +237,86 @@ const UpdateProfilePage = () => {
                 </div>
                 <div className="flex items-center gap-x-10 mb-3">
                   <h3 className="text-xl text-right min-w-[150px]">
-                    GitHub Account
+                    Github account
                   </h3>
-                  <input
-                    autoComplete="off"
-                    type="text"
-                    defaultValue="No Data"
-                    className={
-                      "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
-                      (isEditting
-                        ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
-                        : "")
-                    }
-                    {...register("githubAccount")}
-                    disabled={!isEditting}
-                  />
+                  {!isEditting && (
+                    <span className="italic py-2 px-4 ">
+                      {getValues("github") || "No Data"}
+                    </span>
+                  )}
+                  {isEditting && (
+                    <input
+                      autoComplete="off"
+                      type="text"
+                      className={
+                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
+                        (isEditting
+                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
+                          : "")
+                      }
+                      {...register("github")}
+                      disabled={!isEditting}
+                      placeholder="Add your github account here"
+                    />
+                  )}
+                </div>
+                <div className="flex items-center gap-x-10 mb-3">
+                  <h3 className="text-xl text-right min-w-[150px]">
+                    Google account
+                  </h3>
+                  {!isEditting && (
+                    <span className="italic py-2 px-4 ">
+                      {getValues("google") || "No Data"}
+                    </span>
+                  )}
+                  {isEditting && (
+                    <input
+                      autoComplete="off"
+                      type="text"
+                      className={
+                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
+                        (isEditting
+                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
+                          : "")
+                      }
+                      {...register("google")}
+                      disabled={!isEditting}
+                      placeholder="Add your google account here"
+                    />
+                  )}
                 </div>
                 <div className="flex items-center gap-x-10 mb-3">
                   <h3 className="text-xl text-right min-w-[150px]">
                     Description
                   </h3>
-                  <textarea
-                    defaultValue="info@ncc.asia"
-                    rows={isEditting ? 4 : 1}
-                    {...register("description")}
-                    className={
-                      "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent resize-none" +
-                      (isEditting
-                        ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
-                        : "")
-                    }
-                    disabled={!isEditting}
-                  ></textarea>
+                  {!isEditting && (
+                    <span className="italic py-2 px-4 ">
+                      {getValues("description") || "No Data"}
+                    </span>
+                  )}
+                  {isEditting && (
+                    <textarea
+                      rows={isEditting ? 4 : 1}
+                      {...register("description")}
+                      className={
+                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent resize-none" +
+                        (isEditting
+                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
+                          : "")
+                      }
+                      disabled={!isEditting}
+                      placeholder="Add your description here"
+                    ></textarea>
+                  )}
                 </div>
               </Box>
               <Box mr={{ md: 10 }} className="flex flex-col items-center">
-                <div className="flex justify-center items-center w-40 h-48 border border-black">
-                  <span>Avatar</span>
+                <div className="w-40 h-48 border border-slate-400">
+                  <img
+                    src={getValues("avatar") || "https://picsum.photos/160/192"}
+                    alt="avatar"
+                    className="w-full h-full"
+                  />
                 </div>
                 {isEditting && (
                   <button
@@ -230,24 +331,17 @@ const UpdateProfilePage = () => {
           </form>
         </Container>
       </Box>
-      <Modal open={openWarning}>
-        <div className="absolute top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 outline-none shadow-2xl bg-white rounded-lg border border-gray-400">
-          <h3 className="text-2xl font-bold px-5 py-4 border-b border-gray-400">
-            Warning
-          </h3>
-          <div className="px-5 py-4">
-            <span>Please complete your information</span>
-            <div className="text-right">
-              <button
-                className="px-4 py-2 text-white bg-blue-500 rounded-lg mt-10"
-                onClick={() => setOpenWarning(false)}
-              >
-                OK
-              </button>
-            </div>
-          </div>
-        </div>
-      </Modal>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 };
