@@ -29,7 +29,7 @@ const Layout = (props: IHeaderProps) => {
               <Image
                 className="rounded-full"
                 alt="Avarta"
-                src={(data?.user?.image as string) || "/vercel.svg"}
+                src={(data?.user?.image as string) || "/user1.png"}
                 width={60}
                 height={60}
               />

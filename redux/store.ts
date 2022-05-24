@@ -1,4 +1,4 @@
-import { createTeamSlice } from "./../pages/manage-teams/create-new-team/createTeam";
+import { createTeamSlice } from "./createTeam";
 import { configureStore } from "@reduxjs/toolkit";
 // ...
 

@@ -1,3 +1,4 @@
+import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   value: [],
@@ -14,11 +15,17 @@ export const createTeamSlice = createSlice({
       };
     },
 
-    setValue: (state, action) => {
+    setTeam: (state, action) => {
       state.value = action.payload;
+    },
+
+    deleteTeam: (state, action) => {
+      state.value = state.value.filter(
+        (team: ICreateTeam) => team.id !== action.payload.id
+      );
     },
   },
 });
 
-export const { setValue, postValue } = createTeamSlice.actions;
+export const { postValue, setTeam, deleteTeam } = createTeamSlice.actions;
 export default createTeamSlice.reducer;

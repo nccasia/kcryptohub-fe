@@ -12,22 +12,30 @@ export const CreateTeam = async (payload: ICreateTeam) => {
   })
     .then((res) => {
       toast.success("Success!", {
-        position: "top-center",
+        position: "bottom-right",
       });
     })
     .catch((err) => {
       toast.error(err.response.data.message, {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
     });
   return response;
 };
 
-export const GetTeam = async () => {
+export const GetAllTeam = async () => {
   const response = axiosClient({
     method: "get",
     url: "/team/getAll",
   });
 
+  return (await response).data;
+};
+
+export const DeleteTeam = async (id: string) => {
+  const response = axiosClient({
+    method: "delete",
+    url: `/team/delete/${id}`,
+  });
   return response;
 };

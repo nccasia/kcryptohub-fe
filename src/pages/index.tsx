@@ -48,7 +48,7 @@ const Home: NextPage = () => {
                   >
                     <Image
                       className={styles.image}
-                      src={(data?.user?.image as string) || "/vercel.svg"}
+                      src={(data?.user?.image as string) || "/user1.png"}
                       width={40}
                       height={40}
                       alt="Avarta"

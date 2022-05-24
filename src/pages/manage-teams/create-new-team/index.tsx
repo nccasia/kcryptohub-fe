@@ -10,8 +10,8 @@ import Image from "next/image";
 import { Layout } from "@/src/layouts/layout";
 import { Multiselect } from "multiselect-react-dropdown";
 import { useDispatch, useSelector } from "react-redux";
-import { postValue, setValue } from "./createTeam";
-import { CreateTeam } from "@/src/redux/teamSlice";
+import { postValue } from "../../../../redux/createTeam";
+import { CreateTeam } from "redux/teamSlice";
 import { ToastContainer } from "react-toastify";
 
 const schema = yub.object().shape({
@@ -37,15 +37,36 @@ const CreateNewTeam = () => {
   const [createObjectURL, setCreateObjectURL] = useState("");
   const [show, setShow] = useState(false);
   const router = useRouter();
-  const skills = [
-    { skill: "IT" },
-    { skill: "BA" },
-    { skill: "IT mobile dev" },
-    { skill: "IT web dev" },
+  const skills = ["IT", " BA", " IT mobile dev", " IT web dev"];
+  const timeZone = [
+    "UTC -12",
+    "UTC -11",
+    "UTC -10",
+    "UTC -9",
+    "UTC -8",
+    "UTC -7",
+    "UTC -6",
+    "UTC -5",
+    "UTC -4",
+    "UTC -3",
+    "UTC -2",
+    "UTC -1",
+    "UTC +-0",
+    "UTC +1",
+    "UTC +2",
+    "UTC +3",
+    "UTC +4",
+    "UTC +5",
+    "UTC +6",
+    "UTC +7",
+    "UTC +8",
+    "UTC +9",
+    "UTC +10",
+    "UTC +11",
+    "UTC +12",
   ];
 
   const [dataSkill, setData] = useState([]);
-  const [options] = useState(skills);
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
@@ -114,8 +135,10 @@ const CreateNewTeam = () => {
               {...register("teamSize")}
             >
               <option>Please select</option>
-              <option>1</option>
-              <option>2</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
             </select>
           </div>
           {errors?.teamSize && (
@@ -132,8 +155,9 @@ const CreateNewTeam = () => {
               {...register("timeZone")}
             >
               <option>Please select</option>
-              <option>1</option>
-              <option>2</option>
+              {timeZone.map((resp) => {
+                return <option key={resp}>{resp}</option>;
+              })}
             </select>
           </div>
           {errors?.timeZone && (
@@ -164,12 +188,10 @@ const CreateNewTeam = () => {
             <span className="text-right mr-4 font-500 w-[150px]">Skills</span>
             <div className="relative block w-9/12 px py-2 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
               <Multiselect
-                id="skills"
-                name="skills"
                 placeholder="Please select"
-                options={options}
+                options={skills}
                 onSelect={onSelect}
-                displayValue="skill"
+                isObject={false}
               />
             </div>
           </div>
@@ -231,7 +253,7 @@ const CreateNewTeam = () => {
                 src={
                   createObjectURL ||
                   (data?.user?.image as string) ||
-                  "/vercel.svg"
+                  "/user1.png"
                 }
                 width={200}
                 height={210}
