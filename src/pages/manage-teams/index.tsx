@@ -9,9 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 const ManageTeam = () => {
   const dispatch = useDispatch();
   const team = useSelector((state: any) => state.createTeam.value);
-  useEffect(() => {
-    console.log(team);
-  });
+  useEffect(() => {});
   return (
     <Layout>
       <div className="px-4 mb-5 mt-5 w-full justify-between flex items-center">

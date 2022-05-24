@@ -9,7 +9,6 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use((request) => {
   const accessToken = localStorage.getItem("accessToken");
-  console.log(accessToken);
   const accessHeader = `Bearer ${accessToken}`;
   if (request.headers) {
     request.headers["Authorization"] = accessHeader;
