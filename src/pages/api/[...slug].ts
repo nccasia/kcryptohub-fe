@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import httpProxy from "http-proxy";
+import Cookies from "cookies";
 
-type Data = {
-  message: string;
-};
+// type Data = {
+//     name: string
+// }
 
 export const config = {
   api: {
@@ -15,13 +16,19 @@ const proxy = httpProxy.createProxyServer();
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<any>
 ) {
   return new Promise((resolve) => {
-    if (typeof window !== "undefined") {
-      const accessToken = localStorage.getItem("access_token");
+    // convert cookies to header Authorization
+    const cookies = new Cookies(req, res);
+    const accessToken = cookies.get("access_token");
+    if (accessToken) {
       req.headers.Authorization = `Bearer ${accessToken}`;
     }
+
+    // don't send cookies to API server
+    req.headers.cookie = "";
+
     proxy.web(req, res, {
       target: process.env.API_URL,
       changeOrigin: true,

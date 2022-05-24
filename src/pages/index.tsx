@@ -1,7 +1,139 @@
 import type { NextPage } from "next";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import React, { useEffect, useState } from "react";
+import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-  return <div>Home pages</div>;
+  const { data } = useSession();
+  const [show, setShow] = useState(false);
+  const [token, setToken] = useState("");
+  useEffect(() => setToken(localStorage.getItem("accessToken") as string));
+  const handleLogOut = () => {
+    signOut();
+    localStorage.removeItem("accessToken");
+  };
+  return (
+    <div>
+      <div onMouseLeave={() => setShow(false)} className="fixed w-full z-10">
+        <div className="w-full h-[80px] bg-[#17313b] flex">
+          <div className="px-20 py-2 w-full flex justify-between items-center">
+            <div className="text-center text-white text-2xl font-bold">
+              KryptoHub
+            </div>
+            <div className="flex items-center">
+              <div className="flex text-white mr-10">
+                <Link href="/">
+                  <a className="text-xl mr-3 ">List team</a>
+                </Link>
+                <Link href="/">
+                  <a className="text-xl mr-3">Services</a>
+                </Link>
+              </div>
+
+              {token ? (
+                <div>
+                  <a
+                    onMouseEnter={() => setShow(true)}
+                    className="hover:cursor-pointer flex items-center text-white"
+                    onClick={() => {
+                      if (show) {
+                        setShow(false);
+                      } else setShow(true);
+                    }}
+                  >
+                    <Image
+                      className={styles.image}
+                      src={(data?.user?.image as string) || "/vercel.svg"}
+                      width={40}
+                      height={40}
+                      alt="Avarta"
+                    ></Image>
+
+                    <span className="ml-2">
+                      {data?.user?.name}
+                      {!show ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
+                    </span>
+                  </a>
+                  <div
+                    className={`w-[140px] shadow-md bg-white absolute mt-2  items-center flex flex-col ${
+                      !show ? "hidden" : "block"
+                    }`}
+                  >
+                    <ul className={styles.dropDown}>
+                      <li className="px-2 py-2 text-center hover:bg-gray-200 w-full list-none hover:cursor-pointer">
+                        Profile
+                      </li>
+                      <li className="py-2 hover:bg-gray-200 w-full text-center list-none">
+                        <Link href="/manage-teams">
+                          <a>Manage team</a>
+                        </Link>
+                      </li>
+
+                      <button
+                        onClick={handleLogOut}
+                        className="px-2 py-2 hover:bg-gray-200 w-full"
+                      >
+                        Logout
+                      </button>
+                    </ul>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <Link href="/login">
+                    <a className="px-4 py-2 text-white bg-red-500 rounded">
+                      Login
+                    </a>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="h-screen relative top-[80px] w-full">
+        <div>
+          <h1 className="px-20 py-2 text-white bg-cyan-700 font-bold">
+            Welcome to KryptoHub {">"}
+          </h1>
+          <div className="py-2 h-[300px] relative bg-cyan-100">
+            <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[900px] text-left">
+              <h1 className="text-4xl font-700 mb-5">
+                The only resource you need to find the right company.
+              </h1>
+
+              <h2 className="text-base text-gray-600 mb-5">
+                Choose the best-fit company for your business using 98,000+
+                client reviews from real people.
+              </h2>
+              <div className="flex items-center">
+                <h2 className="text-gray-600 mr-5">I am looking for</h2>
+                <input
+                  className="appearance-none relative mr-3 block w-[260px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  placeholder="e.g.App Development, UX design..."
+                  type="search"
+                />
+                <h2 className="text-gray-600 mr-3">in</h2>
+                <select className="appearance-none mr-3 relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                  <option>Location</option>
+                </select>
+
+                <button className="px-10 py-2 bg-transparent mr-2 bg-red-600 text-white rounded-sm">
+                  Find Provider
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Home;

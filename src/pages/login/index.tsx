@@ -42,7 +42,6 @@ const Login = () => {
       router.push("/");
     }
     if (data) {
-      console.log(data);
       switch (data.provider) {
         case ELoginProvider[ELoginProvider.GITHUB].toLowerCase(): {
           handleLoginGithub({

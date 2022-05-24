@@ -1,7 +1,3 @@
-.container {
-  padding: 0 2rem;
-}
-
 .main {
   min-height: 100vh;
   padding: 4rem 0;
@@ -106,6 +102,46 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.image {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+
+.container {
+  border-bottom: 1px solid black;
+}
+
+.dropDown {
+  width: 100%;
+}
+
+.dropDown:before {
+  content: "";
+  position: absolute;
+  border-color: rgba(194, 225, 245, 0);
+  border: solid transparent;
+  border-bottom-color: white;
+  border-width: 11px;
+  margin-left: -10px;
+  top: -21px;
+  right: 75px;
+  z-index: 1;
+}
+
+.dropDown:after {
+  content: "";
+  position: absolute;
+  right: 75px;
+  top: -21px;
+  width: 0;
+  height: 0;
+  border: solid transparent;
+  border-width: 10px;
+  border-bottom-color: #2b1a41;
+  z-index: 0;
 }
 
 @media (max-width: 600px) {
