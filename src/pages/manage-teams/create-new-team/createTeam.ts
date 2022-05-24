@@ -17,12 +17,8 @@ export const createTeamSlice = createSlice({
     setValue: (state, action) => {
       state.value = action.payload;
     },
-
-    getValue: (state, action) => {
-      return (state.value = action.payload);
-    },
   },
 });
 
-export const { setValue, postValue, getValue } = createTeamSlice.actions;
+export const { setValue, postValue } = createTeamSlice.actions;
 export default createTeamSlice.reducer;

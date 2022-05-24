@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getValue } from "./create-new-team/createTeam";
 
 const ManageTeam = () => {
   const dispatch = useDispatch();
