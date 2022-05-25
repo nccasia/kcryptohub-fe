@@ -11,7 +11,7 @@ const data = [
     rating: 4.9,
     reviewsCount: 67,
     size: 500,
-    timezone: "Asia",
+    timezone: "UTC/GMT + 5",
     organization: "Algoworks",
     workingTime: "8:00 - 18:00",
     skills: ["Mobile", "Cloud", "Digital", "Crypto"],
@@ -23,7 +23,7 @@ const data = [
     rating: 4.8,
     reviewsCount: 110,
     size: 99,
-    timezone: "China",
+    timezone: "UTC/GMT + 6",
     organization: "Hyperlink",
     workingTime: "8:00 - 18:00",
     skills: ["Web", "Blockchain", "AI", "Cloud"],
@@ -35,7 +35,7 @@ const data = [
     rating: 4.9,
     reviewsCount: 67,
     size: 500,
-    timezone: "Asia",
+    timezone: "UTC/GMT + 7",
     organization: "Algoworks",
     workingTime: "8:00 - 18:00",
     skills: ["Mobile", "Cloud", "Digital", "Crypto"],
@@ -47,23 +47,46 @@ const data = [
     rating: 4.8,
     reviewsCount: 110,
     size: 99,
-    timezone: "China",
+    timezone: "UTC/GMT + 8",
     organization: "Hyperlink",
     workingTime: "8:00 - 18:00",
     skills: ["Web", "Blockchain", "Digital", "Crypto"],
   },
 ] as Team[];
 const SkillSelect =  ['All Skill', 'Mobile', 'Web', 'Blockchain', 'Crypto', 'Digital', 'Cloud', 'AI'];
-const TimezoneSelect = ['All Timezone', 'Asia', 'China', 'Europe', 'North America', 'South America', 'Africa', 'Australia'];
+const TimezoneSelect = [
+  "All Timezone",
+  "UTC/GMT - 7",
+  "UTC/GMT - 6",
+  "UTC/GMT - 5",
+  "UTC/GMT - 4",
+  "UTC/GMT - 3",
+  "UTC/GMT - 2",
+  "UTC/GMT - 1",
+  "UTC/GMT + 0",
+  "UTC/GMT + 1",
+  "UTC/GMT + 2",
+  "UTC/GMT + 3",
+  "UTC/GMT + 4",
+  "UTC/GMT + 5",
+  "UTC/GMT + 6",
+  "UTC/GMT + 7",
+  "UTC/GMT + 8",
+];
 export const Teams = () => {
   const [teams, setTeams] = useState(data);
-  const [filter, setFilter] = useState({search:'', skill:0, timezone:0});
+  const [filter, setFilter] = useState({search:'', skill:[] as number[], timezone:0});
 
   useEffect(()=>{
     let filtered = data.filter(team => team.name.toLowerCase().includes(filter.search.toLowerCase()));
-    if(filter.skill !== 0){
-      filtered = filtered.filter((team) =>
-        team.skills.includes(SkillSelect[filter.skill])
+    if(filter.skill.length !== 0){
+      filtered = filtered.filter((team) => {
+        for( let i=0;i< team.skills.length; i++){
+          if(filter.skill.includes(SkillSelect.indexOf(team.skills[i]))){
+            return true;
+          }
+        }
+      }
       );
     }
     if(filter.timezone !== 0){
@@ -80,7 +103,17 @@ export const Teams = () => {
 
   const handleSkillSelect = (event: FormEvent<HTMLElement>) => {
     const target = event.target as HTMLInputElement;
-    setFilter({...filter, skill: parseInt(target.value)});
+    const value = parseInt(target.value);
+    console.log(value)
+    if(value === 0 ){
+      setFilter({...filter, skill: []});
+    }
+    else if(filter.skill.includes(value)){
+      setFilter({...filter, skill: filter.skill.filter(skill => skill !== value)});
+    } else {
+      setFilter({ ...filter, skill:[...filter.skill, value] });
+    }
+    
   };
 
   const handleTimezoneSelect = (event: FormEvent<HTMLElement>) => {
@@ -118,12 +151,15 @@ export const Teams = () => {
                     <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2 flex ">
                       <select
                         className="bg-transparent"
-                        name="skill"
+                        name="skill[]"
                         id=""
                         defaultValue={0}
                         onChange={handleSkillSelect}
                       >
                         {SkillSelect.map((key, index) => {
+                          if(filter.skill.includes(index)){
+                            return <option value={index} className="bg-cyan-300">{key}</option>
+                          }
                           return (
                             <option key={index} value={index}>
                               {key}

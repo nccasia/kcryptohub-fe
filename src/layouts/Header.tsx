@@ -3,16 +3,17 @@ import Link from "next/link";
 import Image from "next/image";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getProfile } from "@/redux/profile-slice";
 
 export const Header = () => {
-  const [user, setUser] = useState(useSession().data?.user);
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (!user && token) {
-      setUser({});
+  const user = useAppSelector((state) => state.ProfileReducer.userInfo);
+  const appDispath = useAppDispatch();
+  useEffect(()=>{
+    if(!user.username){
+      appDispath(getProfile());
     }
-    
-  }, [user]);
+  })
   return (
     <div className="w-full flex justify-between p-8 sm:px-16 bg-cyan-900 text-white z-50">
       <Link href="/">
@@ -21,7 +22,7 @@ export const Header = () => {
         </a>
       </Link>
       <div className="flex flex-col">
-        {user ? (
+        {user.username ? (
           <div className="flex justify-end items-center">
             <div className="flex group relative">
               <input
@@ -30,7 +31,7 @@ export const Header = () => {
                 className="hidden peer"
               />
               <label htmlFor="showDropdown" className="cursor-pointer">
-                <span>{user?.name || "anonymous"}</span>
+                <span>{user?.username || "anonymous"}</span>
                 <ArrowDropDown />
               </label>
               <div className="invisible peer-checked:visible flex flex-col absolute top-6 border w-full bg-cyan-700 peer-checked:z-20 peer-checked:animate-slide-in-up">
@@ -58,7 +59,7 @@ export const Header = () => {
             <Link href={"/profile"}>
               <a>
                 <Image
-                  src={user?.image || "/favicon.ico"}
+                  src={user?.avatar || "/favicon.ico"}
                   width={30}
                   height={30}
                   alt="avatar"
