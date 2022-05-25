@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import httpProxy from "http-proxy";
+import Cookies from "cookies";
 
-type Data = {
-  message: string;
-};
+// type Data = {
+//     name: string
+// }
 
 export const config = {
   api: {
@@ -15,7 +16,7 @@ const proxy = httpProxy.createProxyServer();
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<any>
 ) {
   return new Promise((resolve) => {
     proxy.web(req, res, {

@@ -69,6 +69,9 @@ const Login = () => {
     getUserSession();
   }, []);
 
+  const handleRedirectToHome = () => {
+    router.push("/");
+  };
   const handleLogin = async (payload: IFormLogin) => {
     try {
       await authApi.logIn(payload, handleRedirectHomePage);
