@@ -153,7 +153,7 @@ export const Teams = () => {
                         className="bg-transparent"
                         name="skill[]"
                         id=""
-                        defaultValue={0}
+                        value={filter.skill.length>0?' ':0}
                         onChange={handleSkillSelect}
                       >
                         {SkillSelect.map((key, index) => {
@@ -166,6 +166,7 @@ export const Teams = () => {
                             </option>
                           );
                         })}
+                        <option value=" " className="hidden">{filter.skill.map(sk=>(SkillSelect[sk]+','))}</option>
                       </select>
                     </div>
                     <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2 flex">

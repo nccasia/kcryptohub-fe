@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getProfile } from "@/redux/profile-slice";
 import { Modal } from "@mui/material";
 import type { NextPage } from "next";
-import { Modal } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -171,7 +170,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </Modal>
-    </div>
+    </>
   );
 };
 
