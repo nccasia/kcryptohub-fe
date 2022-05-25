@@ -13,7 +13,7 @@ const data = [
     size: 500,
     timezone: "UTC/GMT + 5",
     organization: "Algoworks",
-    workingTime: "8:00 - 18:00",
+    workingTime: "10h/day",
     skills: ["Mobile", "Cloud", "Digital", "Crypto"],
   },
   {
@@ -25,7 +25,7 @@ const data = [
     size: 99,
     timezone: "UTC/GMT + 6",
     organization: "Hyperlink",
-    workingTime: "8:00 - 18:00",
+    workingTime: "10h/day",
     skills: ["Web", "Blockchain", "AI", "Cloud"],
   },
   {
@@ -37,7 +37,7 @@ const data = [
     size: 500,
     timezone: "UTC/GMT + 7",
     organization: "Algoworks",
-    workingTime: "8:00 - 18:00",
+    workingTime: "10h/day",
     skills: ["Mobile", "Cloud", "Digital", "Crypto"],
   },
   {
@@ -49,7 +49,7 @@ const data = [
     size: 99,
     timezone: "UTC/GMT + 8",
     organization: "Hyperlink",
-    workingTime: "8:00 - 18:00",
+    workingTime: "10h/day",
     skills: ["Web", "Blockchain", "Digital", "Crypto"],
   },
 ] as Team[];
@@ -150,7 +150,7 @@ export const Teams = () => {
                   <div className="flex flex-1 justify-end">
                     <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2 flex ">
                       <select
-                        className="bg-transparent"
+                        className="bg-transparent max-w-[14rem]"
                         name="skill[]"
                         id=""
                         value={filter.skill.length>0?' ':0}
