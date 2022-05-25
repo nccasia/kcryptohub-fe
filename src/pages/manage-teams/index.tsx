@@ -1,31 +1,25 @@
 import { Layout } from "@/src/layouts/layout";
-import { DeleteTeam, GetAllTeam } from "redux/teamSlice";
+import { deleteTeam, getAllTeam } from "redux/teamSlice";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTeam, setTeam } from "../../../redux/createTeam";
+
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { toast } from "react-toastify";
 
 const ManageTeam = () => {
-  const dispatch = useDispatch();
-  const team = useSelector((state: any) => state.createTeam.value);
-  const [data, setData] = useState([]);
+  const dispatch = useAppDispatch();
+  const team = useAppSelector((state) => state.TeamReducer.value);
+
   useEffect(() => {
-    GetAllTeam().then((resp) => {
-      dispatch(setTeam(resp));
-    });
+    dispatch(getAllTeam());
   }, [dispatch]);
 
-  useEffect(() => {
-    setData(team);
-  }, [data, team]);
-
   const handleDelete = (teams: ICreateTeam) => {
-    /*   DeleteTeam(teams.id); */
-    dispatch(setTeam(teams));
-    console.log(teams);
+    dispatch(deleteTeam(teams.id));
   };
   return (
     <Layout>
@@ -40,8 +34,8 @@ const ManageTeam = () => {
         </div>
       </div>
       <div className="px-4">
-        {data != [] &&
-          data.map((resp: any) => {
+        {team.length > 0 &&
+          team.map((resp: any) => {
             return (
               <div
                 className="flex items-center justify-between mb-5"

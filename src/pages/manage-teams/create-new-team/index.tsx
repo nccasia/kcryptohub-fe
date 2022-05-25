@@ -10,16 +10,17 @@ import Image from "next/image";
 import { Layout } from "@/src/layouts/layout";
 import { Multiselect } from "multiselect-react-dropdown";
 import { useDispatch, useSelector } from "react-redux";
-import { postValue } from "../../../../redux/createTeam";
-import { CreateTeam } from "redux/teamSlice";
 import { ToastContainer } from "react-toastify";
+import { createTeam } from "@/redux/teamSlice";
+import { ICreateTeam } from "@/type/createTeam/createTeam.type";
+import { useAppDispatch } from "@/redux/hooks";
 
 const schema = yub.object().shape({
   teamName: yub.string().required("Team Name is required"),
   teamSize: yub
     .string()
     .required("Team Size is required")
-    .matches(/[1-9]/, "Team size require value"),
+    .matches(/[1-9]/, "Team size require value number"),
   timeZone: yub
     .string()
     .required("Time Zone is required")
@@ -32,7 +33,7 @@ const schema = yub.object().shape({
 });
 const CreateNewTeam = () => {
   const { data } = useSession();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState("");
   const [show, setShow] = useState(false);
@@ -82,7 +83,7 @@ const CreateNewTeam = () => {
       avatar: createObjectURL || data?.user?.image,
       skill: dataSkill,
     };
-    CreateTeam(dispatch(postValue(formSave)).payload);
+    dispatch(createTeam(formSave as unknown as ICreateTeam));
     reset();
     setTimeout(() => {
       router.push("/manage-teams");
@@ -130,16 +131,12 @@ const CreateNewTeam = () => {
             <span className="text-right mr-4 font-500 w-[150px]">
               Team Size
             </span>
-            <select
+            <input
+              type="text"
               className="relative block w-9/12 px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               {...register("teamSize")}
-            >
-              <option>Please select</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-            </select>
+              placeholder="Enter value"
+            ></input>
           </div>
           {errors?.teamSize && (
             <div className="flex justify-left ml-44 mb-2 text-sm ">
@@ -191,6 +188,7 @@ const CreateNewTeam = () => {
                 placeholder="Please select"
                 options={skills}
                 onSelect={onSelect}
+                showArrow={true}
                 isObject={false}
               />
             </div>
@@ -207,7 +205,6 @@ const CreateNewTeam = () => {
             <input
               className="appearance-none relative block min-w-[80px] w-1/12 px-3 py-2 border border-gray-700 border-solid mr-2 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               placeholder="Hours"
-              type="number"
               {...register("hour")}
             />
             <span className="text-xl mr-2">{"/"}</span>
@@ -216,8 +213,9 @@ const CreateNewTeam = () => {
               {...register("week")}
             >
               <option>Week</option>
-              <option>1</option>
-              <option>2</option>
+              <option>Days</option>
+              <option>Month</option>
+              <option>Year</option>
             </select>
           </div>
           <div className="flex mb-5">

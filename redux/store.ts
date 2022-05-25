@@ -1,16 +1,10 @@
-import { createTeamSlice } from "./createTeam";
 import { configureStore } from "@reduxjs/toolkit";
-// ...
+import ProfileReducer from "@/redux/profile-slice";
+import TeamReducer from "@/redux/teamSlice";
+const reducer = { ProfileReducer, TeamReducer };
 
-const store = configureStore({
-  reducer: {
-    createTeam: createTeamSlice.reducer,
-  },
-});
+const store = configureStore({ reducer });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
-
 export default store;
