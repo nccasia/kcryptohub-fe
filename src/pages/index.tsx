@@ -1,3 +1,5 @@
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getProfile } from "@/redux/profile-slice";
 import type { NextPage } from "next";
 
 import { Header } from "../layouts/Header";

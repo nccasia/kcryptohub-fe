@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
-import { signIn, useSession } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -23,8 +23,8 @@ const schemaValidation = Yup.object({
 });
 
 const Login = () => {
-  const { data } = useSession();
   const router = useRouter();
+  let renderNumber = 0;
 
   const {
     register,
@@ -35,76 +35,56 @@ const Login = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
-
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      router.push("/profile");
-    }
-    if (data) {
-      switch (data.provider) {
-        case ELoginProvider[ELoginProvider.GITHUB].toLowerCase(): {
-          handleLoginGithub({
-            email: data?.user?.email,
-            accessToken: data!.accessToken as string,
-          });
-          break;
-        }
-        case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase(): {
-          handleLoginGoogle({
-            name: data?.user?.name,
-            email: data?.user?.email,
-            accessToken: data!.accessToken as string,
-            provider: "google",
-          });
-          break;
-        }
-        default:
-          break;
-      }
       router.push("/");
     }
-  }, [data, router]);
+    async function getUserSession() {
+      const data = await getSession();
+      renderNumber++;
+      if (data && renderNumber === 1) {
+        switch (data.provider) {
+          case ELoginProvider[ELoginProvider.GITHUB].toLowerCase(): {
+            handleLoginGithub({
+              email: data?.user?.email,
+              accessToken: data!.accessToken as string,
+            });
+            break;
+          }
+          case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase(): {
+            handleLoginGoogle({
+              name: data?.user?.name,
+              email: data?.user?.email,
+              accessToken: data!.accessToken as string,
+              provider: "google",
+            });
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    }
+    getUserSession();
+  }, []);
 
   const handleLogin = async (payload: IFormLogin) => {
     try {
-      await authApi.logIn(payload, handleRedirectProfilePage);
+      await authApi.logIn(payload, handleRedirectHomePage);
     } catch (error) {
       throw new Error();
     }
   };
   const handleLoginGithub = async (payload: IFormLoginGithub) => {
-    await authApi.logInGithub(payload);
+    await authApi.logInGithub(payload, handleRedirectHomePage);
   };
   const handleLoginGoogle = async (payload: IFormLoginGoogle) => {
-    await authApi.logInGoogle(payload);
+    await authApi.logInGoogle(payload, handleRedirectHomePage);
   };
-  const handleRedirectProfilePage = () => {
+  const handleRedirectHomePage = () => {
     router.push("/");
   };
-
-  useEffect(() => {
-    if (data) {
-      switch (data.provider) {
-        case ELoginProvider[ELoginProvider.GITHUB].toLowerCase():
-          authApi.logInGithub({
-            email: data.user?.email,
-            accessToken: data.accessToken as string,
-          });
-          break;
-        case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase():
-          authApi.logInGoogle({
-            email: data.user?.email,
-            name: data.user?.name,
-            provider: data.provider as string,
-            accessToken: data.idToken as string,
-          });
-          break;
-        default:
-          break;
-      }
-    }
-  }, [data, router]);
 
   const onSubmit: SubmitHandler<IFormLogin> = (values) => {
     handleLogin(values);
