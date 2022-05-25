@@ -30,7 +30,7 @@ const Home: NextPage = () => {
 
   const handleCloseModal = () => {
     setOpenWarning(false);
-    /* router.push("/profile"); */
+    router.push("/profile");
   };
   const handleLogOut = () => {
     signOut();
