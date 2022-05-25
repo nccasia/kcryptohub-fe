@@ -18,7 +18,7 @@ const schema = yub.object().shape({
       "Password must includes lowercase, uppercase, number and special character"
     ),
 
-  email: yub
+  emailAddress: yub
     .string()
     .email("Please enter a valid email format!")
     .required("Email is required"),
@@ -83,27 +83,27 @@ const Register = () => {
                     required
                     autoComplete="email"
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    {...register("email")}
+                    {...register("emailAddress")}
                   />
                 </div>
-                {errors.email && (
+                {errors.emailAddress && (
                   <div className="flex justify-center ml-24 ">
                     <p
                       className={
                         "text-xs w-[250px] block mt-[-10px] text-red-600"
                       }
                     >
-                      {errors?.email?.message}
+                      {errors?.emailAddress?.message}
                     </p>
                   </div>
                 )}
               </div>
               <div className="flex justify-center mb-4 mt-9 items-center">
                 <button
-                  disabled={!isDirty || errors.email}
+                  disabled={!isDirty || errors.emailAddress}
                   className={
                     "px-6 py-2 text-white rounded " +
-                    (!isDirty || errors.email
+                    (!isDirty || errors.emailAddress
                       ? "bg-[gray] cursor-not-allowed"
                       : "bg-[#944C00]")
                   }

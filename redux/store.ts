@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import ProfileReducer from "@/redux/profile-slice";
-
-const reducer = { ProfileReducer };
+import TeamReducer from "@/redux/teamSlice";
+const reducer = { ProfileReducer, TeamReducer };
 
 const store = configureStore({ reducer });
 
