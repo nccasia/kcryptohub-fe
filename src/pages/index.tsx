@@ -20,13 +20,15 @@ const Home: NextPage = () => {
   const dispatch = useAppDispatch();
   const [openWarning, setOpenWarning] = useState<boolean>(false);
 
-   useEffect(() => {
-     dispatch(getProfile()).then((data) => {
-      //  if (data.payload.status === "isNew") {
-      //    setOpenWarning(true);
-      //  }
-     });
-   }, [dispatch]);
+  useEffect(() => {
+    if (token) {
+      dispatch(getProfile()).then((data) => {
+        //  if (data.payload.status === "isNew") {
+        //    setOpenWarning(true);
+        //  }
+      });
+    }
+  }, [dispatch]);
 
   const handleCloseModal = () => {
     setOpenWarning(false);

@@ -1,6 +1,6 @@
 import avatar from "@/images/avatar.png";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { updateProfile } from "@/redux/profile-slice";
+import { getProfile, updateProfile } from "@/redux/profile-slice";
 import { IProfile } from "@/type/profile/profile.type";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,13 +15,17 @@ import {
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { KeyboardEvent, useState } from "react";
+import React, { KeyboardEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
 
 const UpdateProfilePage = () => {
   const userInfo = useAppSelector((state) => state.ProfileReducer.userInfo);
+  
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
   const initialValues = {
     description: userInfo.description || "",
     username: userInfo.username || "",

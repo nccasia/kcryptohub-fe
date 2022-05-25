@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,6 +9,9 @@ type IHeaderProps = {
 };
 const Layout = (props: IHeaderProps) => {
   const { data } = useSession();
+  useEffect(()=>{
+    
+  })
   return (
     <div className="w-full min-h-screen px-5 py-5 shadow">
       <div className="shadow rounded-sm bg-white overflow-auto">
