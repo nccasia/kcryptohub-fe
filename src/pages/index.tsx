@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-  const { data } = useSession();
+  const data = useAppSelector((state) => state.ProfileReducer.userInfo);
   const [show, setShow] = useState(false);
   const [token, setToken] = useState("");
   useEffect(() => setToken(localStorage.getItem("accessToken") as string));
@@ -68,14 +68,14 @@ const Home: NextPage = () => {
                   >
                     <Image
                       className={styles.image}
-                      src={(data?.user?.image as string) || "/user1.png"}
+                      src={(data.avatar as string) || "/user1.png"}
                       width={40}
                       height={40}
                       alt="Avarta"
                     ></Image>
 
                     <span className="ml-2">
-                      {data?.user?.name}
+                      {data.username}
                       {!show ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
                     </span>
                   </a>
