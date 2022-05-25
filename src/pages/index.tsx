@@ -30,16 +30,13 @@ const Home: NextPage = () => {
 
   const handleCloseModal = () => {
     setOpenWarning(false);
-    /* router.push("/profile"); */
+    router.push("/profile");
   };
   const handleLogOut = () => {
     signOut();
     localStorage.removeItem("accessToken");
   };
-  const handleLogOut = () => {
-    signOut();
-    localStorage.removeItem("accessToken");
-  };
+
   return (
     <>
       <div onMouseLeave={() => setShow(false)} className="fixed w-full z-10">
