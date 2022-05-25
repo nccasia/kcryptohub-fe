@@ -36,6 +36,10 @@ const Home: NextPage = () => {
     signOut();
     localStorage.removeItem("accessToken");
   };
+  const handleLogOut = () => {
+    signOut();
+    localStorage.removeItem("accessToken");
+  };
   return (
     <>
       <div onMouseLeave={() => setShow(false)} className="fixed w-full z-10">
