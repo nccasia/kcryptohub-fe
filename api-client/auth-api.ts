@@ -25,13 +25,13 @@ export const authApi = {
         });
       });
   },
-  logIn(payload: IFormLogin, handleRedirectProfilePage: Function) {
+  logIn(payload: IFormLogin, handleRedirectHomePage: Function) {
     const response = axiosClient.post("/auth/login", payload);
     response
       .then((res) => {
         if (res.data.accessToken) {
           localStorage.setItem("accessToken", res.data.accessToken);
-          handleRedirectProfilePage();
+          handleRedirectHomePage();
         }
 
         toast.success("Login Successfully!", {
@@ -56,21 +56,23 @@ export const authApi = {
         });
       });
   },
-  logInGithub(payload: IFormLoginGithub) {
+  logInGithub(payload: IFormLoginGithub, handleRedirectHomePage: Function) {
     const response = axiosClient.post("/auth/github", payload);
     response
       .then((res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
+        handleRedirectHomePage();
       })
       .catch((err) => {
         throw new Error();
       });
   },
-  logInGoogle(payload: IFormLoginGoogle) {
+  logInGoogle(payload: IFormLoginGoogle, handleRedirectHomePage: Function) {
     const response = axiosClient.post("/auth/google", payload);
     response
       .then((res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
+        handleRedirectHomePage();
       })
 
       .catch((err) => {});
