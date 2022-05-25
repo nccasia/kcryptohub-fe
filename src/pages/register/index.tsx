@@ -6,7 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { authApi } from "@/api/auth-api";
 import router from "next/router";
 import { IRegisterForm } from "@/type/auth/register.type";
-
+import Link from "next/link";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 const schema = yub.object().shape({
   username: yub.string().required("Username is required"),
   password: yub
@@ -65,6 +66,13 @@ const Register = () => {
           method="POST"
         >
           <div>
+            <div>
+              <Link href="/login">
+                <a>
+                  <ArrowBackIosNewIcon />
+                </a>
+              </Link>
+            </div>
             <h1 className="mt-1 text-center text-3xl font-bold text-[#944C00]">
               Register
             </h1>
@@ -124,6 +132,7 @@ const Register = () => {
                   <input
                     id="username"
                     type="text"
+                    autoComplete="off"
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     {...register("username")}
                   />
@@ -146,6 +155,7 @@ const Register = () => {
                   <input
                     id="password"
                     type="password"
+                    autoComplete="off"
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     {...register("password")}
                   />
