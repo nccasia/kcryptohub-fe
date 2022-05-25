@@ -117,6 +117,7 @@ export const Teams = () => {
                   <div className="flex flex-1 justify-end">
                     <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2 flex ">
                       <select
+                        className="bg-transparent"
                         name="skill"
                         id=""
                         defaultValue={0}
@@ -133,6 +134,7 @@ export const Teams = () => {
                     </div>
                     <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2 flex">
                       <select
+                        className="bg-transparent"
                         name="timezone"
                         id=""
                         defaultValue={0}
@@ -146,7 +148,12 @@ export const Teams = () => {
                       </select>
                     </div>
                     <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2 xs:hidden flex">
-                      <select name="sort" id="" defaultValue="">
+                      <select
+                        name="sort"
+                        id=""
+                        defaultValue=""
+                        className="bg-transparent"
+                      >
                         <option hidden value="">
                           Sort by
                         </option>

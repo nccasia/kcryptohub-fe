@@ -85,7 +85,7 @@ export const TeamCard = (props: Props) => {
               <span className="text-cyan-900">
                 <IconHover
                   icon={<ApartmentOutlined />}
-                  hoverText="Organiztion"
+                  hoverText="Organization"
                 />
                 {team.organization}
               </span>
