@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import * as yub from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,9 +6,15 @@ import { ToastContainer, toast } from "react-toastify";
 import { authApi } from "@/api/auth-api";
 import router from "next/router";
 import { IRegisterForm } from "@/type/auth/register.type";
-
+import Link from "next/link";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import axios from "axios";
+import axiosClient from "@/api/axios-client";
 const schema = yub.object().shape({
-  username: yub.string().required("Username is required"),
+  username: yub
+    .string()
+    .required("Username is required")
+    .trim("Username is required"),
   password: yub
     .string()
     .required("Password is required")
@@ -18,10 +24,14 @@ const schema = yub.object().shape({
       "Password must includes lowercase, uppercase, number and special character"
     ),
 
-  email: yub
+  emailAddress: yub
     .string()
     .email("Please enter a valid email format!")
-    .required("Email is required"),
+    .required("Email is required")
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      "Invalid email"
+    ),
   confirmPassword: yub
     .string()
     .oneOf([yub.ref("password")], "Password does not match")
@@ -36,7 +46,7 @@ const Register = () => {
     formState: { errors, isDirty, isValid },
   } = useForm({ mode: "all", resolver: yupResolver(schema) });
   const [step, setStep] = React.useState(0);
-
+  const buttonRef = useRef(null);
   const onNext = () => {
     if (step === 0) {
       setStep((cur) => cur + 1);
@@ -49,22 +59,44 @@ const Register = () => {
 
   const handleRegister = async () => {
     const registerForm = watch();
-
+    (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
     await authApi.register(
       registerForm as IRegisterForm,
       handleRedirectToLogin
     );
+    (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
   };
+
+  useEffect(() => {
+    if (!errors.emailAddress && watch("emailAddress").length > 1) {
+      axiosClient
+        .post("/auth/check-email", { emailAddress: watch("emailAddress") })
+        .then((resp) => {
+          console.log(resp);
+        });
+    }
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-cyan-900">
       <div className="flex flex-col items-center content-center relative m-auto h-auto w-[470px] mt-20">
         <form
           className="space-y-6 relative bg-white w-full p-8 rounded-md"
-          action="#"
-          method="POST"
+          onChange={() => {
+            if (buttonRef.current) {
+              (buttonRef.current as unknown as HTMLButtonElement).disabled =
+                false;
+            }
+          }}
         >
           <div>
+            <div>
+              <Link href="/login">
+                <a>
+                  <ArrowBackIosNewIcon />
+                </a>
+              </Link>
+            </div>
             <h1 className="mt-1 text-center text-3xl font-bold text-[#944C00]">
               Register
             </h1>
@@ -83,27 +115,27 @@ const Register = () => {
                     required
                     autoComplete="email"
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    {...register("email")}
+                    {...register("emailAddress")}
                   />
                 </div>
-                {errors.email && (
+                {errors.emailAddress && (
                   <div className="flex justify-center ml-24 ">
                     <p
                       className={
                         "text-xs w-[250px] block mt-[-10px] text-red-600"
                       }
                     >
-                      {errors?.email?.message}
+                      {errors?.emailAddress?.message}
                     </p>
                   </div>
                 )}
               </div>
               <div className="flex justify-center mb-4 mt-9 items-center">
                 <button
-                  disabled={!isDirty || errors.email}
+                  disabled={!isDirty || errors.emailAddress}
                   className={
                     "px-6 py-2 text-white rounded " +
-                    (!isDirty || errors.email
+                    (!isDirty || errors.emailAddress
                       ? "bg-[gray] cursor-not-allowed"
                       : "bg-[#944C00]")
                   }
@@ -124,6 +156,7 @@ const Register = () => {
                   <input
                     id="username"
                     type="text"
+                    autoComplete="off"
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     {...register("username")}
                   />
@@ -146,6 +179,7 @@ const Register = () => {
                   <input
                     id="password"
                     type="password"
+                    autoComplete="off"
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     {...register("password")}
                   />
@@ -206,6 +240,7 @@ const Register = () => {
                       : "bg-[gray] hover:cursor-not-allowed")
                   }
                   onClick={handleSubmit(handleRegister)}
+                  ref={buttonRef}
                 >
                   Submit
                 </button>
