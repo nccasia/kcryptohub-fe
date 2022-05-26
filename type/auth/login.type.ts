@@ -9,13 +9,13 @@ export enum ELoginProvider {
 }
 
 export interface IFormLoginGithub {
-  email: string | null | undefined;
+  emailAddress: string | null | undefined;
   accessToken: string;
 }
 
 export interface IFormLoginGoogle {
   name: string | null | undefined;
-  email: string | null | undefined;
+  emailAddress: string | null | undefined;
   accessToken: string | undefined;
   provider: string;
 }

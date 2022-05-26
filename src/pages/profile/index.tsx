@@ -1,6 +1,6 @@
 import avatar from "@/images/avatar.png";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getProfile, updateProfile } from "@/redux/profile-slice";
+import { updateProfile } from "@/redux/profileSlice";
 import { IProfile } from "@/type/profile/profile.type";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import CloseIcon from "@mui/icons-material/Close";
