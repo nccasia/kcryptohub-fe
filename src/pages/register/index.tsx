@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import * as yub from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
@@ -43,10 +43,14 @@ const Register = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isDirty, isValid },
-  } = useForm({ mode: "all", resolver: yupResolver(schema) });
+  } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
   const [step, setStep] = React.useState(0);
   const buttonRef = useRef(null);
+  const [message, setMessage] = React.useState("");
+  const [validateEmail, setValidate] = React.useState(false);
+  const [validateUsername, setValidateUsername] = React.useState(false);
   const onNext = () => {
     if (step === 0) {
       setStep((cur) => cur + 1);
@@ -67,12 +71,37 @@ const Register = () => {
     (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
   };
 
+  const onSubmit: SubmitHandler<any> = () => {
+    handleRegister();
+    reset();
+  };
+
   useEffect(() => {
-    if (!errors.emailAddress && watch("emailAddress").length > 1) {
-      axiosClient
-        .post("/auth/check-email", { emailAddress: watch("emailAddress") })
+    if (
+      !errors.emailAddress &&
+      watch("emailAddress") &&
+      watch("emailAddress").length > 1
+    ) {
+      authApi
+        .checkEmail(watch("emailAddress"))
         .then((resp) => {
-          console.log(resp);
+          setValidate(true);
+        })
+        .catch((err) => {
+          setValidate(false);
+          setMessage(err.response.data.message);
+        });
+    }
+
+    if (!errors.username) {
+      authApi
+        .checkUsername(watch("username"))
+        .then((resp) => {
+          setValidateUsername(true);
+        })
+        .catch((err) => {
+          setValidateUsername(false);
+          setMessage(err.response.data.message);
         });
     }
   });
@@ -81,6 +110,7 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-cyan-900">
       <div className="flex flex-col items-center content-center relative m-auto h-auto w-[470px] mt-20">
         <form
+          onSubmit={handleSubmit(onSubmit)}
           className="space-y-6 relative bg-white w-full p-8 rounded-md"
           onChange={() => {
             if (buttonRef.current) {
@@ -105,7 +135,7 @@ const Register = () => {
             </h2>
           </div>
           {step === 0 && (
-            <>
+            <div>
               <div className="mb-5 text-[#944C00]">
                 <div className="flex justify-center mb-4 items-center w-full">
                   <span className="text-left mr-9 font-bold ">Email</span>
@@ -129,13 +159,24 @@ const Register = () => {
                     </p>
                   </div>
                 )}
+                {!validateEmail && !errors.emailAddress && (
+                  <div className="flex justify-center ml-24 ">
+                    <p
+                      className={
+                        "text-xs w-[250px] block mt-[-10px] text-red-600"
+                      }
+                    >
+                      {message}
+                    </p>
+                  </div>
+                )}
               </div>
-              <div className="flex justify-center mb-4 mt-9 items-center">
+              <div className="flex justify-center mb-4 items-center">
                 <button
-                  disabled={!isDirty || errors.emailAddress}
+                  disabled={!isDirty || errors.emailAddress || !validateEmail}
                   className={
                     "px-6 py-2 text-white rounded " +
-                    (!isDirty || errors.emailAddress
+                    (!isDirty || errors.emailAddress || !validateEmail
                       ? "bg-[gray] cursor-not-allowed"
                       : "bg-[#944C00]")
                   }
@@ -144,7 +185,7 @@ const Register = () => {
                   Next
                 </button>
               </div>
-            </>
+            </div>
           )}
           {step === 1 && (
             <>
@@ -169,6 +210,17 @@ const Register = () => {
                       }
                     >
                       {errors?.username?.message}
+                    </p>
+                  </div>
+                )}
+                {!validateUsername && !errors.username && (
+                  <div className="flex justify-center ml-[160px] ">
+                    <p
+                      className={
+                        "text-xs w-[230px] mb-3 block mt-[-10px] text-red-600"
+                      }
+                    >
+                      {message}
                     </p>
                   </div>
                 )}
@@ -231,15 +283,14 @@ const Register = () => {
                   Back
                 </button>
                 <button
-                  disabled={!isValid}
+                  disabled={!isValid || !validateUsername}
                   type="submit"
                   className={
                     "px-6 py-2  text-white rounded " +
-                    (isValid
+                    (isValid && validateUsername
                       ? "bg-[#944C00]"
                       : "bg-[gray] hover:cursor-not-allowed")
                   }
-                  onClick={handleSubmit(handleRegister)}
                   ref={buttonRef}
                 >
                   Submit
