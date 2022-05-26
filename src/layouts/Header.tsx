@@ -11,7 +11,7 @@ export const Header = () => {
   const appDispath = useAppDispatch();
   useEffect(()=>{
     if(!user.username){
-      appDispath(getProfile());
+      //appDispath(getProfile());
     }
   })
   return (
