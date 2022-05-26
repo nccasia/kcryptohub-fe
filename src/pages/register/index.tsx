@@ -88,6 +88,7 @@ const Register = () => {
                 false;
             }
           }}
+          onKeyDown={(e) => e.key !== "Enter"}
         >
           <div>
             <div>

@@ -23,13 +23,10 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error);
-    console.log(error.response.data.statusCode);
     const code = error.response.data.statusCode;
-    
     switch (code) {
       case 401:
-        window.location.href = '/login';
+        //window.location.href = '/login';
     }
   }
 );
