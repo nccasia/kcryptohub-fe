@@ -10,8 +10,8 @@ export const Header = () => {
   const user = useAppSelector((state) => state.ProfileReducer.userInfo);
   const appDispath = useAppDispatch();
   useEffect(()=>{
-    if(!user.username){
-      //appDispath(getProfile());
+    if(!user.username && localStorage.getItem("accessToken")){
+      appDispath(getProfile());
     }
   })
   return (

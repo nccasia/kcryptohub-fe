@@ -200,7 +200,7 @@ export const Teams = () => {
             <div className="flex flex-col sm:flex-row border-b ">
               <div className="flex flex-row items-center justify-between">
                 <div className="flex ">
-                  <div className="p-1 xs:p-4 bg-cyan-900 text-white font-semibold border-2 border-cyan-900 mr-2 hidden sm:block">
+                  <div className="p-1 xs:p-4 bg-cyan-900 text-white font-semibold border-2 border-cyan-900 mr-2 max-w-[10rem] hidden sm:block">
                     <span>{teams.length} Teams</span>
                   </div>
                 </div>
@@ -287,7 +287,7 @@ export const Teams = () => {
                     </div>
                     <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2  flex">
                       <select
-                        className="bg-transparent"
+                        className="bg-transparent max-w-[7rem]"
                         name="timezone"
                         id=""
                         value={filter.timezone.length > 0 ? " " : 0}
