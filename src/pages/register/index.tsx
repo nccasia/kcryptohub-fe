@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import * as yub from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,8 +8,13 @@ import router from "next/router";
 import { IRegisterForm } from "@/type/auth/register.type";
 import Link from "next/link";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import axios from "axios";
+import axiosClient from "@/api/axios-client";
 const schema = yub.object().shape({
-  username: yub.string().required("Username is required"),
+  username: yub
+    .string()
+    .required("Username is required")
+    .trim("Username is required"),
   password: yub
     .string()
     .required("Password is required")
@@ -22,7 +27,11 @@ const schema = yub.object().shape({
   emailAddress: yub
     .string()
     .email("Please enter a valid email format!")
-    .required("Email is required"),
+    .required("Email is required")
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      "Invalid email"
+    ),
   confirmPassword: yub
     .string()
     .oneOf([yub.ref("password")], "Password does not match")
@@ -37,7 +46,7 @@ const Register = () => {
     formState: { errors, isDirty, isValid },
   } = useForm({ mode: "all", resolver: yupResolver(schema) });
   const [step, setStep] = React.useState(0);
-
+  const buttonRef = useRef(null);
   const onNext = () => {
     if (step === 0) {
       setStep((cur) => cur + 1);
@@ -50,20 +59,35 @@ const Register = () => {
 
   const handleRegister = async () => {
     const registerForm = watch();
-
+    (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
     await authApi.register(
       registerForm as IRegisterForm,
       handleRedirectToLogin
     );
+    (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
   };
+
+  useEffect(() => {
+    if (!errors.emailAddress && watch("emailAddress").length > 1) {
+      axiosClient
+        .post("/auth/check-email", { emailAddress: watch("emailAddress") })
+        .then((resp) => {
+          console.log(resp);
+        });
+    }
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-cyan-900">
       <div className="flex flex-col items-center content-center relative m-auto h-auto w-[470px] mt-20">
         <form
           className="space-y-6 relative bg-white w-full p-8 rounded-md"
-          action="#"
-          method="POST"
+          onChange={() => {
+            if (buttonRef.current) {
+              (buttonRef.current as unknown as HTMLButtonElement).disabled =
+                false;
+            }
+          }}
         >
           <div>
             <div>
@@ -216,6 +240,7 @@ const Register = () => {
                       : "bg-[gray] hover:cursor-not-allowed")
                   }
                   onClick={handleSubmit(handleRegister)}
+                  ref={buttonRef}
                 >
                   Submit
                 </button>

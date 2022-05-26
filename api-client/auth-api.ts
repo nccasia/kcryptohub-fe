@@ -6,24 +6,26 @@ import {
 import { IRegisterForm } from "@/type/auth/register.type";
 import axiosClient from "./axios-client";
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 export const authApi = {
-  register(payload: IRegisterForm, redirectToLogin: Function) {
-    const response = axiosClient.post("/auth/register", payload);
-    response
-      .then((resp) => {
-        toast.success("Success!", {
-          position: "top-center",
-        });
+  async register(payload: IRegisterForm, redirectToLogin: Function) {
+    try {
+      const response = await axiosClient.post("/auth/register", payload);
+      toast.success("Success!", {
+        position: "top-center",
+      });
+      await new Promise((resolve) => {
         setTimeout(() => {
           redirectToLogin();
+          resolve(null);
         }, 2000);
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message, {
-          position: toast.POSITION.TOP_CENTER,
-        });
       });
+    } catch (error: any) {
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   },
   logIn(payload: IFormLogin, handleRedirectHomePage: Function) {
     const response = axiosClient.post("/auth/login", payload);
