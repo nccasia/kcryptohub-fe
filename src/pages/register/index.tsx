@@ -26,8 +26,8 @@ const schema = yub.object().shape({
 
   emailAddress: yub
     .string()
-    .email("Please enter a valid email format!")
     .required("Email is required")
+    .email("Please enter a valid email format!")
     .matches(
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Invalid email"
@@ -45,10 +45,13 @@ const Register = () => {
     watch,
     reset,
     formState: { errors, isDirty, isValid },
-  } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
+  } = useForm({ mode: "all", resolver: yupResolver(schema) });
   const [step, setStep] = React.useState(0);
   const buttonRef = useRef(null);
-  const [message, setMessage] = React.useState("");
+  const [message, setMessage] = React.useState({
+    email: "",
+    username: "",
+  });
   const [validateEmail, setValidate] = React.useState(false);
   const [validateUsername, setValidateUsername] = React.useState(false);
   const onNext = () => {
@@ -72,8 +75,21 @@ const Register = () => {
   };
 
   const onSubmit: SubmitHandler<any> = () => {
-    handleRegister();
-    reset();
+    if (!errors.username && watch("username")) {
+      authApi.checkUsername(watch("username")).then((resp) => {
+        if (resp.data === "") {
+          setValidateUsername(true);
+          handleRegister();
+          reset();
+        } else {
+          setValidateUsername(false);
+          setMessage({
+            email: "",
+            username: resp.data.message,
+          });
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -82,27 +98,19 @@ const Register = () => {
       watch("emailAddress") &&
       watch("emailAddress").length > 1
     ) {
-      authApi
-        .checkEmail(watch("emailAddress"))
-        .then((resp) => {
-          setValidate(true);
-        })
-        .catch((err) => {
-          setValidate(false);
-          setMessage(err.response.data.message);
+      setTimeout(() => {
+        authApi.checkEmail(watch("emailAddress")).then((resp) => {
+          if (resp.data === "") {
+            setValidate(true);
+          } else {
+            setValidate(false);
+            setMessage({
+              email: resp.data.message,
+              username: "",
+            });
+          }
         });
-    }
-
-    if (!errors.username) {
-      authApi
-        .checkUsername(watch("username"))
-        .then((resp) => {
-          setValidateUsername(true);
-        })
-        .catch((err) => {
-          setValidateUsername(false);
-          setMessage(err.response.data.message);
-        });
+      }, 3000);
     }
   });
 
@@ -120,13 +128,15 @@ const Register = () => {
           }}
         >
           <div>
-            <div>
-              <Link href="/login">
-                <a>
-                  <ArrowBackIosNewIcon />
-                </a>
-              </Link>
-            </div>
+            {step === 0 && (
+              <div>
+                <Link href="/login">
+                  <a>
+                    <ArrowBackIosNewIcon />
+                  </a>
+                </Link>
+              </div>
+            )}
             <h1 className="mt-1 text-center text-3xl font-bold text-[#944C00]">
               Register
             </h1>
@@ -142,8 +152,7 @@ const Register = () => {
                   <input
                     id="email-address"
                     type="email"
-                    required
-                    autoComplete="email"
+                    autoComplete="off"
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     {...register("emailAddress")}
                   />
@@ -160,15 +169,15 @@ const Register = () => {
                   </div>
                 )}
                 {!validateEmail && !errors.emailAddress && (
-                  <div className="flex justify-center ml-24 ">
+                  <span className="flex justify-center ml-24 ">
                     <p
                       className={
                         "text-xs w-[250px] block mt-[-10px] text-red-600"
                       }
                     >
-                      {message}
+                      {message.email}
                     </p>
-                  </div>
+                  </span>
                 )}
               </div>
               <div className="flex justify-center mb-4 items-center">
@@ -220,7 +229,7 @@ const Register = () => {
                         "text-xs w-[230px] mb-3 block mt-[-10px] text-red-600"
                       }
                     >
-                      {message}
+                      {message.username}
                     </p>
                   </div>
                 )}
@@ -283,11 +292,11 @@ const Register = () => {
                   Back
                 </button>
                 <button
-                  disabled={!isValid || !validateUsername}
+                  disabled={!isValid}
                   type="submit"
                   className={
                     "px-6 py-2  text-white rounded " +
-                    (isValid && validateUsername
+                    (isValid
                       ? "bg-[#944C00]"
                       : "bg-[gray] hover:cursor-not-allowed")
                   }
