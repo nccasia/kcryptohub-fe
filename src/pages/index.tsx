@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getProfile } from "@/redux/profile-slice";
+import { getProfile } from "@/redux/profileSlice";
 import type { NextPage } from "next";
 import { Modal } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
@@ -21,11 +21,15 @@ const Home: NextPage = () => {
   const [openWarning, setOpenWarning] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(getProfile()).then((data) => {
-      if (data.payload.status === "isNew") {
-        setOpenWarning(true);
-      }
-    });
+    dispatch(getProfile())
+      .then((data) => {
+        if (data.payload.status === "isNew") {
+          setOpenWarning(true);
+        }
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
   }, [dispatch]);
 
   const handleCloseModal = () => {
