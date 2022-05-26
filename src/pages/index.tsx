@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getProfile } from "@/redux/profileSlice";
 import type { NextPage } from "next";
-import { Modal } from "@mui/material";
+import { Collapse, Modal } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,27 +10,91 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
+import {
+  ArrowForwardIosOutlined,
+  ArrowForwardOutlined,
+  Code,
+} from "@mui/icons-material";
 
+const categoty:{[id:string]: string[]} = {
+  Development: [
+    "Mobile App Development",
+    "Software Development",
+    "Web Development",
+    "AR/VR",
+    "Artificial Intelligence",
+    "Blockchain",
+  ],
+  "Design & Production": [
+    "Web Design",
+    "User Experience Design",
+    "Logo Design",
+    "Graphics Design",
+    "Design & Production",
+    "Digital Design",
+  ],
+  Marketing: [
+    "Digital Marketing",
+    "SEO",
+    "Social Media Marketing",
+    "Mobile Marketing",
+    "Content Marketing",
+    "Search Marketing",
+  ],
+  Advertising: [
+    "Advertising",
+    "Branding",
+    "Creative Services",
+    "Video Production",
+    "Public Relations",
+    "Media Production",
+  ],
+  "Business Services": [
+    "Mobile App Development",
+    "Software Development",
+    "Web Development",
+    "AR/VR",
+    "Artificial Intelligence",
+    "Blockchain",
+  ],
+  "IT Services": [
+    "Web Design",
+    "User Experience Design",
+    "Logo Design",
+    "Graphics Design",
+    "Design & Production",
+    "Digital Design",
+  ],
+};
+const color = [
+  "border-blue-500",
+  "border-blue-900",
+  "border-green-900",
+  "border-blue-500",
+  "border-cyan-900",
+  "border-cyan-500",
+]
 const Home: NextPage = () => {
   const data = useAppSelector((state) => state.ProfileReducer.userInfo);
   const [show, setShow] = useState(false);
-  const [token, setToken] = useState("");
-  useEffect(() => setToken(localStorage.getItem("accessToken") as string));
+
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [openWarning, setOpenWarning] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(getProfile())
-      .then((data) => {
-        if (data.payload.status === "isNew") {
-          setOpenWarning(true);
-        }
-      })
-      .catch((err) => {
-        throw new Error(err);
-      });
-  }, [dispatch]);
+    if (localStorage.getItem("accessToken") && !data.username) {
+      dispatch(getProfile())
+        .then((data) => {
+          if (data.payload.status === "isNew") {
+            setOpenWarning(true);
+          }
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+    }
+  }, [data.username, dispatch]);
 
   const handleCloseModal = () => {
     setOpenWarning(false);
@@ -42,9 +106,9 @@ const Home: NextPage = () => {
   };
 
   return (
-    <>
-      <div onMouseLeave={() => setShow(false)} className="fixed w-full z-10">
-        <div className="w-full h-[80px] bg-[#17313b] flex">
+    <div>
+      <div onMouseLeave={() => setShow(false)} className="w-full z-10">
+        <div className="w-full py-4  bg-cyan-900 flex">
           <div className="px-20 py-2 w-full flex justify-between items-center">
             <div className="text-center text-white text-2xl font-bold">
               KryptoHub
@@ -59,7 +123,7 @@ const Home: NextPage = () => {
                 </Link>
               </div>
 
-              {token ? (
+              {data.username ? (
                 <div>
                   <a
                     onMouseEnter={() => setShow(true)}
@@ -120,42 +184,127 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-
-      <div className="h-screen relative top-[80px] w-full">
-        <div>
-          <h1 className="px-20 py-2 text-white bg-cyan-700 font-bold">
-            Welcome to KryptoHub {">"}
+      <div className="">
+        <h1 className="px-20 py-2 text-white bg-cyan-700 font-bold">
+          Welcome to KryptoHub <ArrowForwardIosOutlined className="text-sm" />
+        </h1>
+      </div>
+      <div className="p-4 flex items-center justify-center py-24 bg-gradient-to-b from-white to-cyan-100 border border-cyan-500 shadow-lg shadow-gray-200">
+        <div className="">
+          <h1 className="text-4xl font-700 mb-5">
+            The only resource you need to find the right company.
           </h1>
-          <div className="py-2 h-[300px] relative bg-cyan-100">
-            <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[900px] text-left">
-              <h1 className="text-4xl font-700 mb-5">
-                The only resource you need to find the right company.
-              </h1>
 
-              <h2 className="text-base text-gray-600 mb-5">
-                Choose the best-fit company for your business using 98,000+
-                client reviews from real people.
+          <h2 className="text-base text-gray-600 mb-5">
+            Choose the best-fit company for your business using 98,000+ client
+            reviews from real people.
+          </h2>
+          <div className="flex items-center">
+            <h2 className="text-gray-600 mr-5">I am looking for</h2>
+            <input
+              className="appearance-none relative mr-3 block w-[260px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              placeholder="e.g.App Development, UX design..."
+              type="search"
+            />
+            <h2 className="text-gray-600 mr-3">in</h2>
+            <select className="appearance-none mr-3 relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+              <option>Location</option>
+            </select>
+
+            <button className="px-10 py-2 mr-2 bg-red-500 text-white rounded-sm">
+              Find Provider
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="w-full flex flex-col items-center justify-center py-8">
+        <div className="w-3/4">
+          <div className="flex flex-row">
+            <div className="w-1/3">
+              <h2 className="text-3xl font-normal">
+                Start Your Search With Our Most Popular Services
               </h2>
-              <div className="flex items-center">
-                <h2 className="text-gray-600 mr-5">I am looking for</h2>
-                <input
-                  className="appearance-none relative mr-3 block w-[260px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="e.g.App Development, UX design..."
-                  type="search"
-                />
-                <h2 className="text-gray-600 mr-3">in</h2>
-                <select className="appearance-none mr-3 relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-                  <option>Location</option>
-                </select>
-
-                <button className="px-10 py-2 bg-transparent mr-2 bg-red-600 text-white rounded-sm">
-                  Find Provider
-                </button>
-              </div>
+              <p>
+                From development to marketing, find your next business partner
+                on Clutch.
+              </p>
+              <Link href="/teams">
+                <a>
+                  Browse All Services{" "}
+                  <ArrowForwardIosOutlined className="text-sm" />
+                </a>
+              </Link>
+            </div>
+            <div className="w-1/12"></div>
+            <div className="flex-1 grid grid-cols-2 gap-8">
+              {Object.keys(categoty).map((key, index) => (
+                <div
+                  key={index}
+                  className={`p-4  border-t-8 shadow-lg shadow-gray-300 ${color[index]}`}
+                >
+                  <button className="bg-transparent font-semibold text-2xl flex items-center justify-center">
+                    <Code className="text-3xl" /> {key}
+                  </button>
+                  <Collapse in={true} className="flex flex-col ">
+                    {categoty[key].map((item, i) => (
+                      <Link key={i} href={"/"}>
+                        <a className="block text-cyan-700 text-lg p-2 hover:underline">
+                          {item}
+                        </a>
+                      </Link>
+                    ))}
+                  </Collapse>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
+      <footer
+        className="w-full bg-cyan-900 relative
+      before:w-full before:h-[1px] before:bg-cyan-400 before:absolute before:top-1/4"
+      >
+        <div className=" grid grid-cols-5 ">
+          <div className="pl-32 relative before:w-[1px] before:h-full before:absolute before:right-[-5px] before:bg-cyan-400">
+            <div className="py-16">
+              <h1 className="text-3xl text-white">KryptoHub</h1>
+            </div>
+            <ul className="text-sm text-white font-medium">
+              <li>&copy; 2022 Clutch</li>
+              <li>
+                <a href="https://clutch.co/terms">Terms of Service</a>
+              </li>
+              <li>
+                <a href="https://clutch.co/privacy">Privacy</a>
+              </li>
+              <li>
+                We updated our Terms of Service
+                <br />
+                on August 9, 2021.
+              </li>
+            </ul>
+          </div>
+          <div className="pl-32 relative before:w-[1px] before:h-full before:absolute before:right-[-5px] before:bg-cyan-400">
+            <div className="py-16">
+              <h1 className="text-2xl text-white">About Clutch</h1>
+            </div>
+            <ul className="text-sm text-white font-medium">
+              <li>&copy; 2022 Clutch</li>
+              <li>
+                <a href="https://clutch.co/terms">Terms of Service</a>
+              </li>
+              <li>
+                <a href="https://clutch.co/privacy">Privacy</a>
+              </li>
+              <li>
+                We updated our Terms of Service
+                <br />
+                on August 9, 2021.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>
 
       <Modal open={openWarning}>
         <div className="absolute top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 outline-none shadow-2xl bg-white rounded-lg border border-gray-400">
@@ -175,7 +324,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </Modal>
-    </>
+    </div>
   );
 };
 
