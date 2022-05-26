@@ -17,7 +17,7 @@ axiosClient.interceptors.request.use((request) => {
   }
   return request;
 });
-
+  
 axiosClient.interceptors.response.use(
   (response) => {
     return response;
@@ -28,7 +28,9 @@ axiosClient.interceptors.response.use(
       case 401:
         //window.location.href = '/login';
     }
+    return Promise.reject(error);
   }
+  
 );
 
 export default axiosClient ;
