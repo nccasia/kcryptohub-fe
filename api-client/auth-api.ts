@@ -80,14 +80,14 @@ export const authApi = {
   },
 
   async checkEmail(email: string) {
-    const response = await axiosClient.post(`auth/check-email`, {
+    const response = await axiosClient.post(`/auth/check-email`, {
       emailAddress: email,
     });
     return response;
   },
 
   async checkUsername(username: string) {
-    const response = await axiosClient.post(`auth/check-username`, {
+    const response = await axiosClient.post(`/auth/check-username`, {
       username: username,
     });
     return response;
