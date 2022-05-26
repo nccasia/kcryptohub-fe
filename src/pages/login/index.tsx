@@ -47,7 +47,7 @@ const Login = () => {
         switch (data.provider) {
           case ELoginProvider[ELoginProvider.GITHUB].toLowerCase(): {
             handleLoginGithub({
-              email: data?.user?.email,
+              emailAddress: data?.user?.email,
               accessToken: data!.accessToken as string,
             });
             break;
@@ -55,7 +55,7 @@ const Login = () => {
           case ELoginProvider[ELoginProvider.GOOGLE].toLowerCase(): {
             handleLoginGoogle({
               name: data?.user?.name,
-              email: data?.user?.email,
+              emailAddress: data?.user?.email,
               accessToken: data!.accessToken as string,
               provider: "google",
             });
@@ -142,9 +142,11 @@ const Login = () => {
               >
                 Log In
               </button>
-              <h4 className="inline-block text-cyan-500 text-sm mt-3 cursor-pointer">
-                Forgot your password?
-              </h4>
+              <Link href="">
+                <a className="inline-block text-cyan-500 text-sm mt-3 cursor-pointer">
+                  Forgot your password?
+                </a>
+              </Link>
             </form>
             <div className="flex items-center mb-4">
               <div className="h-[1px] w-full bg-black block"></div>
@@ -156,15 +158,22 @@ const Login = () => {
             <div className="auth-social text-center">
               <h3>Sign in with your social account media</h3>
               <div className="flex justify-center gap-x-4 mt-6">
-                <GitHubIcon
-                  onClick={() => signIn("github")}
-                  className="text-white bg-teal-600 rounded-full text-base p-1.5 w-[30px] h-[30px] cursor-pointer"
-                />
-                <GoogleIcon
-                  onClick={() => signIn("google")}
-                  className="text-white bg-teal-600 rounded-full text-base p-1.5 w-[30px] h-[30px] cursor-pointer"
-                />
-                <FacebookIcon className="text-white bg-teal-600 rounded-full text-base p-1.5 w-[30px] h-[30px] cursor-pointer" />
+                <Link href="">
+                  <a>
+                    <GitHubIcon
+                      onClick={() => signIn("github")}
+                      className="text-white bg-teal-600 rounded-full text-base p-1.5 w-[30px] h-[30px] cursor-pointer"
+                    />
+                  </a>
+                </Link>
+                <Link href="">
+                  <a>
+                    <GoogleIcon
+                      onClick={() => signIn("google")}
+                      className="text-white bg-teal-600 rounded-full text-base p-1.5 w-[30px] h-[30px] cursor-pointer"
+                    />
+                  </a>
+                </Link>
               </div>
             </div>
             <div className="block text-black text-center text-sm mt-3">
