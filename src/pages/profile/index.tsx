@@ -21,11 +21,7 @@ import { ToastContainer } from "react-toastify";
 
 const UpdateProfilePage = () => {
   const userInfo = useAppSelector((state) => state.ProfileReducer.userInfo);
-  
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getProfile());
-  }, [dispatch]);
   const initialValues = {
     description: userInfo.description || "",
     username: userInfo.username || "",

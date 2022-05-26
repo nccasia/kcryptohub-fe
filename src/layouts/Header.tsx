@@ -4,7 +4,7 @@ import Image from "next/image";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getProfile } from "@/redux/profile-slice";
+import { getProfile } from "@/redux/profileSlice";
 
 export const Header = () => {
   const user = useAppSelector((state) => state.ProfileReducer.userInfo);
