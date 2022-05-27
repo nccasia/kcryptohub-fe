@@ -217,25 +217,25 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col items-center justify-center py-8">
+      <div className="w-full flex flex-col items-center justify-center py-16">
         <div className="w-3/4">
-          <div className="flex flex-row">
-            <div className="w-1/3">
-              <h2 className="text-3xl font-normal">
+          <div className="flex flex-row ">
+            <div className="w-1/3 ">
+              <h2 className="text-3xl font-normal mb-4">
                 Start Your Search With Our Most Popular Services
               </h2>
-              <p>
+              <p className="mb-4 text-gray-600">
                 From development to marketing, find your next business partner
                 on Clutch.
               </p>
               <Link href="/teams">
-                <a>
+                <a className="text-cyan-600 hover:underline">
                   Browse All Services{" "}
                   <ArrowForwardIosOutlined className="text-sm" />
                 </a>
               </Link>
             </div>
-            <div className="w-1/12"></div>
+            <div className="w-16"></div>
             <div className="flex-1 grid grid-cols-2 gap-8">
               {Object.keys(categoty).map((key, index) => (
                 <div
@@ -261,47 +261,162 @@ const Home: NextPage = () => {
         </div>
       </div>
       <footer
-        className="w-full bg-cyan-900 relative
-      before:w-full before:h-[1px] before:bg-cyan-400 before:absolute before:top-1/4"
+        className="w-full bg-cyan-900 relative  h-[400px]
+      before:w-full before:h-[1px] before:bg-cyan-600 before:absolute before:top-1/3"
       >
-        <div className=" grid grid-cols-5 ">
-          <div className="pl-32 relative before:w-[1px] before:h-full before:absolute before:right-[-5px] before:bg-cyan-400">
-            <div className="py-16">
-              <h1 className="text-3xl text-white">KryptoHub</h1>
+        <div className="flex items-center justify-center h-full">
+          <div className=" grid grid-cols-5 gap-x-4 text-white w-5/6 h-full">
+            <div className="relative h-full min-h-fit before:w-[1px] before:h-full before:absolute before:right-[-5px] before:bg-cyan-600">
+              <div className="mt-[30%] mb-4">
+                <h1 className="text-3xl ">KryptoHub</h1>
+              </div>
+              <ul className="text-xs flex flex-col justify-around h-1/3">
+                <li>&copy; 2022 Kryptohub</li>
+                <li>
+                  <a href="https://clutch.co/terms">Terms of Service</a>
+                </li>
+                <li>
+                  <a href="https://clutch.co/privacy">Privacy</a>
+                </li>
+                <li>
+                  We updated our Terms of Service
+                  <br />
+                  on August 9, 2021.
+                </li>
+              </ul>
             </div>
-            <ul className="text-sm text-white font-medium">
-              <li>&copy; 2022 Clutch</li>
-              <li>
-                <a href="https://clutch.co/terms">Terms of Service</a>
-              </li>
-              <li>
-                <a href="https://clutch.co/privacy">Privacy</a>
-              </li>
-              <li>
-                We updated our Terms of Service
-                <br />
-                on August 9, 2021.
-              </li>
-            </ul>
-          </div>
-          <div className="pl-32 relative before:w-[1px] before:h-full before:absolute before:right-[-5px] before:bg-cyan-400">
-            <div className="py-16">
-              <h1 className="text-2xl text-white">About Clutch</h1>
+            <div className="px-4 relative mb-16 before:w-[1px] before:h-3/4 before:absolute before:right-[-5px] before:top-1/4 before:mt-4 before:bg-cyan-600 ">
+              <div className="mt-[34%] mb-6 text-gray-400">
+                <h1 className="text-2xl ">About Kryptohub</h1>
+              </div>
+              <ul className="flex flex-col justify-around h-1/2 text-xl font-semibold">
+                <li>
+                  <a href="https://clutch.co/about-us" title="Our Story">
+                    Our Story
+                  </a>
+                </li>
+                <li>
+                  <a href="https://clutch.co/careers" title="Careers">
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://clutch.co/press-releases"
+                    title="News & Press Releases"
+                  >
+                    News & Press Releases
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://clutch.co/methodology"
+                    title="Research Methodology"
+                  >
+                    Research Methodology
+                  </a>
+                </li>
+              </ul>
             </div>
-            <ul className="text-sm text-white font-medium">
-              <li>&copy; 2022 Clutch</li>
-              <li>
-                <a href="https://clutch.co/terms">Terms of Service</a>
-              </li>
-              <li>
-                <a href="https://clutch.co/privacy">Privacy</a>
-              </li>
-              <li>
-                We updated our Terms of Service
-                <br />
-                on August 9, 2021.
-              </li>
-            </ul>
+            <div className="px-4 relative mb-16 before:mt-4 before:w-[1px] before:h-3/4 before:absolute before:right-[-5px] before:top-1/4 before:bg-cyan-600 ">
+              <div className="mt-[34%] mb-6 text-gray-400">
+                <h1 className="text-2xl ">Buyers</h1>
+              </div>
+              <ul className="flex flex-col justify-around h-1/2 text-xl font-semibold">
+                <li>
+                  <a href="https://clutch.co/about-us" title="Our Story">
+                    Our Story
+                  </a>
+                </li>
+                <li>
+                  <a href="https://clutch.co/careers" title="Careers">
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://clutch.co/press-releases"
+                    title="News & Press Releases"
+                  >
+                    News & Press Releases
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://clutch.co/methodology"
+                    title="Research Methodology"
+                  >
+                    Research Methodology
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="px-4 relative mb-16 before:mt-4 before:w-[1px] before:h-3/4 before:absolute before:right-[-5px] before:top-1/4 before:bg-cyan-600 ">
+              <div className="mt-[34%] mb-6 text-gray-400">
+                <h1 className="text-2xl ">Service Providers</h1>
+              </div>
+              <ul className="flex flex-col justify-around h-1/2 text-xl font-semibold">
+                <li>
+                  <a href="https://clutch.co/about-us" title="Our Story">
+                    Our Story
+                  </a>
+                </li>
+                <li>
+                  <a href="https://clutch.co/careers" title="Careers">
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://clutch.co/press-releases"
+                    title="News & Press Releases"
+                  >
+                    News & Press Releases
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://clutch.co/methodology"
+                    title="Research Methodology"
+                  >
+                    Research Methodology
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="px-4 relative mb-16 4">
+              <div className="mt-[34%] mb-6 text-gray-400">
+                <h1 className="text-2xl ">Contact</h1>
+              </div>
+              <ul className="flex flex-col justify-around h-1/3 text-xs">
+                <li>
+                  <a href="https://clutch.co/about-us" title="Our Story">
+                    Our Story
+                  </a>
+                </li>
+                <li>
+                  <a href="https://clutch.co/careers" title="Careers">
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://clutch.co/press-releases"
+                    title="News & Press Releases"
+                  >
+                    News & Press Releases
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://clutch.co/methodology"
+                    title="Research Methodology"
+                  >
+                    Research Methodology
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </footer>
