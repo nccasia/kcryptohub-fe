@@ -51,7 +51,7 @@ const Home: NextPage = () => {
             </div>
             <div className="flex items-center">
               <div className="flex text-white mr-10">
-                <Link href="/">
+                <Link href="/teams">
                   <a className="text-xl mr-3 ">List team</a>
                 </Link>
                 <Link href="/">

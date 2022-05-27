@@ -65,7 +65,6 @@ export const authApi = {
         handleRedirectHomePage();
       })
       .catch((err) => {
-        throw new Error();
       });
   },
   logInGoogle(payload: IFormLoginGoogle, handleRedirectHomePage: Function) {

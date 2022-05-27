@@ -76,7 +76,7 @@ const Register = () => {
 
   const onSubmit: SubmitHandler<any> = () => {
     if (!errors.username && watch("username")) {
-      authApi.checkUsername(watch("username")).then((resp) => {
+      authApi.checkUsername(watch("username").toLowerCase()).then((resp) => {
         if (resp.data === "") {
           setValidateUsername(true);
           handleRegister();
@@ -93,13 +93,13 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (
-      !errors.emailAddress &&
-      watch("emailAddress") &&
-      watch("emailAddress").length > 1
-    ) {
-      setTimeout(() => {
-        authApi.checkEmail(watch("emailAddress")).then((resp) => {
+    setTimeout(() => {
+      if (
+        !errors.emailAddress &&
+        watch("emailAddress") &&
+        watch("emailAddress").length > 1
+      ) {
+        authApi.checkEmail(watch("emailAddress").toLowerCase()).then((resp) => {
           if (resp.data === "") {
             setValidate(true);
           } else {
@@ -110,8 +110,8 @@ const Register = () => {
             });
           }
         });
-      }, 3000);
-    }
+      }
+    }, 3000);
   });
 
   return (
@@ -126,6 +126,7 @@ const Register = () => {
                 false;
             }
           }}
+          onKeyDown={(e) => e.key !== "Enter"}
         >
           <div>
             {step === 0 && (
@@ -147,7 +148,7 @@ const Register = () => {
           {step === 0 && (
             <div>
               <div className="mb-5 text-[#944C00]">
-                <div className="flex justify-center mb-4 items-center w-full">
+                <div className="flex justify-center items-center w-full">
                   <span className="text-left mr-9 font-bold ">Email</span>
                   <input
                     id="email-address"
@@ -161,7 +162,7 @@ const Register = () => {
                   <div className="flex justify-center ml-24 ">
                     <p
                       className={
-                        "text-xs w-[250px] block mt-[-10px] text-red-600"
+                        "text-xs w-[250px] mt-[2px] block text-red-600"
                       }
                     >
                       {errors?.emailAddress?.message}
@@ -170,11 +171,7 @@ const Register = () => {
                 )}
                 {!validateEmail && !errors.emailAddress && (
                   <span className="flex justify-center ml-24 ">
-                    <p
-                      className={
-                        "text-xs w-[250px] block mt-[-10px] text-red-600"
-                      }
-                    >
+                    <p className={"text-xs w-[250px] block text-red-600"}>
                       {message.email}
                     </p>
                   </span>

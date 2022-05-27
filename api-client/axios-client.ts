@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useRouter } from "next/router";
+
 
 const axiosClient = axios.create({
   baseURL: "/api",
@@ -15,4 +17,20 @@ axiosClient.interceptors.request.use((request) => {
   }
   return request;
 });
-export default axiosClient;
+  
+axiosClient.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const code = error.response.data.statusCode;
+    switch (code) {
+      case 401:
+        //window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+  
+);
+
+export default axiosClient ;
