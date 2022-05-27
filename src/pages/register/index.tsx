@@ -88,6 +88,7 @@ const Register = () => {
                 false;
             }
           }}
+          onKeyDown={(e) => e.key !== "Enter"}
         >
           <div>
             <div>
@@ -104,7 +105,7 @@ const Register = () => {
               Join with us to get the chance!
             </h2>
           </div>
-          {step === 0 && (
+          {step === 0 && ( 
             <>
               <div className="mb-5 text-[#944C00]">
                 <div className="flex justify-center mb-4 items-center w-full">
