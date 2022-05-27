@@ -21,15 +21,18 @@ const Home: NextPage = () => {
   const [openWarning, setOpenWarning] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(getProfile())
-      .then((data) => {
-        if (data.payload.status === "isNew") {
-          setOpenWarning(true);
-        }
-      })
-      .catch((err) => {
-        throw new Error(err);
-      });
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      dispatch(getProfile())
+        .then((data) => {
+          if (data.payload.status === "isNew") {
+            setOpenWarning(true);
+          }
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+    }
   }, [dispatch]);
 
   const handleCloseModal = () => {
@@ -90,7 +93,9 @@ const Home: NextPage = () => {
                   >
                     <ul className={styles.dropDown}>
                       <li className="px-2 py-2 text-center hover:bg-gray-200 w-full list-none hover:cursor-pointer">
-                        Profile
+                        <Link href="/profile">
+                          <a>Profile</a>
+                        </Link>
                       </li>
                       <li className="py-2 hover:bg-gray-200 w-full text-center list-none">
                         <Link href="/manage-teams">
