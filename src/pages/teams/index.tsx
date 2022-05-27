@@ -3,58 +3,16 @@ import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { Header } from "@/src/layouts/Header";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
 import { Team } from "@/type/team/team.type";
-import { ArrowDropDown, ArrowDropUp, JoinFullOutlined, JoinInnerOutlined } from "@mui/icons-material";
+import {
+  ArrowDropDown,
+  ArrowDropUp,
+  JoinFullOutlined,
+  JoinInnerOutlined,
+} from "@mui/icons-material";
 import { IconHover } from "@/src/layouts/team/IconHover";
-const data = [
-  {
-    name: "Algoworks",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/200-x-200.png",
-    description: "Go Mobile. Go Cloud. Go Digital",
-    rating: 4.7,
-    reviewsCount: 67,
-    size: 500,
-    timezone: "UTC/GMT + 5",
-    organization: "Algoworks",
-    workingTime: "10h/day",
-    skills: ["Mobile", "Cloud", "Digital", "Crypto"],
-  },
-  {
-    name: "Hyperlink InfoSystem",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/logo_new.jpg",
-    description: "Best Android & iPhone App Development Services",
-    rating: 4.6,
-    reviewsCount: 110,
-    size: 99,
-    timezone: "UTC/GMT + 6",
-    organization: "Hyperlink",
-    workingTime: "10h/day",
-    skills: ["Web", "Blockchain", "AI", "Cloud"],
-  },
-  {
-    name: "Algoworks",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/200-x-200.png",
-    description: "Go Mobile. Go Cloud. Go Digital",
-    rating: 4.9,
-    reviewsCount: 67,
-    size: 500,
-    timezone: "UTC/GMT + 7",
-    organization: "Algoworks",
-    workingTime: "10h/day",
-    skills: ["Mobile", "Cloud", "Digital", "Crypto"],
-  },
-  {
-    name: "Hyperlink InfoSystem",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/logo_new.jpg",
-    description: "Best Android & iPhone App Development Services",
-    rating: 4.8,
-    reviewsCount: 110,
-    size: 99,
-    timezone: "UTC/GMT + 8",
-    organization: "Hyperlink",
-    workingTime: "10h/day",
-    skills: ["Web", "Blockchain", "Digital", "Crypto"],
-  },
-] as Team[];
+import axios from "axios";
+import { toast } from "react-toastify";
+
 const SkillSelect = [
   "All Skill",
   "Mobile",
@@ -84,31 +42,49 @@ const TimezoneSelect = [
   "UTC/GMT + 7",
   "UTC/GMT + 8",
 ];
-const SortBy = ['none', 'rating', 'size', 'working time']
+const SortBy = ["none", "rating", "size", "working time"];
 export const Teams = () => {
-  const [teams, setTeams] = useState(data);
+  const [teams, setTeams] = useState([] as Team[]);
+  const [data, setData] = useState([] as Team[]);
   const [filter, setFilter] = useState({
     search: "",
     skill: [] as number[],
     timezone: [] as number[],
     matchAll: false,
     sortBy: 0,
-    sortDsc: true
+    sortDsc: true,
   });
 
   useEffect(() => {
+    axios
+      .get("http://localhost:3001/api/team/getAll", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+      })
+      .then((res) => {
+        setTeams(res.data);
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.message);
+      });
+  }, [setData]);
+
+  useEffect(() => {
     let filtered = data.filter((team) =>
-      team.name.toLowerCase().includes(filter.search.toLowerCase())
+      team.teamName.toLowerCase().includes(filter.search.toLowerCase())
     );
     if (filter.skill.length !== 0) {
       filtered = filtered.filter((team) => {
         if (filter.matchAll) {
           return filter.skill.every((skill) =>
-            team.skills.includes(SkillSelect[skill])
+            team.skill.includes(SkillSelect[skill])
           );
         } else {
-          for (let i = 0; i < team.skills.length; i++) {
-            if (filter.skill.includes(SkillSelect.indexOf(team.skills[i]))) {
+          for (let i = 0; i < team?.skill.length; i++) {
+            if (filter.skill.includes(SkillSelect.indexOf(team.skill[i]))) {
               return true;
             }
           }
@@ -117,37 +93,36 @@ export const Teams = () => {
     }
     if (filter.timezone.length !== 0) {
       filtered = filtered.filter((team) => {
-        if (filter.timezone.includes(TimezoneSelect.indexOf(team.timezone))) {
+        if (filter.timezone.includes(TimezoneSelect.indexOf(team.timeZone))) {
           return true;
         }
       });
     }
-    if(filter.sortBy !== 0){
-      switch(filter.sortBy){
-        case 1:
-          filtered.sort((a, b) => {
-            return (a.rating - b.rating)*(filter.sortDsc ? -1 : 1);
-          })
-          break;
+    if (filter.sortBy !== 0) {
+      switch (filter.sortBy) {
+        // case 1:
+        //   filtered.sort((a, b) => {
+        //     return (a.rating - b.rating)*(filter.sortDsc ? -1 : 1);
+        //   })
+        //   break;
         case 2:
           filtered.sort((a, b) => {
-            return (a.size - b.size) * (filter.sortDsc ? -1 : 1);
+            return (parseInt(a.teamSize) - parseInt(b.teamSize)) * (filter.sortDsc ? -1 : 1);
           })
           break;
         case 3:
           filtered.sort((a, b) => {
             return (
-              (parseInt(a.workingTime.split("h")[0]) -
-                parseInt(b.workingTime.split("h")[0])) *
+              (parseInt(a.workingTime?.split("h")[0]) -
+                parseInt(b.workingTime?.split("h")[0])) *
               (filter.sortDsc ? -1 : 1)
             );
-          })
+          });
           break;
-        
       }
     }
     setTeams(filtered);
-  }, [filter]);
+  }, [data, filter]);
 
   const handleSearch = (event: any) => {
     setFilter({ ...filter, search: event.target.value });
@@ -190,7 +165,7 @@ export const Teams = () => {
   const handleSortBySelect = (event: FormEvent<HTMLElement>) => {
     const target = event.target as HTMLInputElement;
     setFilter({ ...filter, sortBy: parseInt(target.value) });
-  }
+  };
   return (
     <>
       <Header />
@@ -212,6 +187,7 @@ export const Teams = () => {
                       type="text"
                       placeholder="Search here..."
                       className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-2"
+                      name="search"
                       onChange={handleSearch}
                     />
                     <div className="ml-[-2rem] flex items-center justify-center">
@@ -240,7 +216,14 @@ export const Teams = () => {
                           setFilter({ ...filter, sortDsc: !filter.sortDsc });
                         }}
                       >
-                        {filter.sortDsc ?<IconHover icon={<ArrowDropDown />} hoverText="DESC" />:<IconHover icon={<ArrowDropUp />} hoverText="ASC" />}
+                        {filter.sortDsc ? (
+                          <IconHover
+                            icon={<ArrowDropDown />}
+                            hoverText="DESC"
+                          />
+                        ) : (
+                          <IconHover icon={<ArrowDropUp />} hoverText="ASC" />
+                        )}
                       </div>
                     </div>
                   </div>

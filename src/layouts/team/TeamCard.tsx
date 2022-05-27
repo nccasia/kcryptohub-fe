@@ -36,12 +36,12 @@ export const TeamCard = (props: Props) => {
         <div className="flex-1">
           <div className="flex xs:flex-row flex-col items-start border-b relative">
             <div className="flex items-center justify-center p-2">
-              <Image width={50} height={50} src={team.logo} alt="logo" />
+              <Image width={50} height={50} src={team.avatar} alt="logo" />
             </div>
             <div className="flex flex-col w-full px-2">
               <div className="flex flex-row ">
                 <div className="flex items-end">
-                  <h1 className="text-3xl">{team.name}</h1>
+                  <h1 className="text-3xl">{team.teamName}</h1>
                   <span className="text-cyan-700 ml-2">{team.description}</span>
                 </div>
                 <div className="absolute top-0 right-0 flex-1 text-right">
@@ -57,8 +57,10 @@ export const TeamCard = (props: Props) => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-end">
-                <h1 className="text-xl mr-2">{team.rating}</h1>
+              {/* <div className="flex items-end">
+                <h1 className="text-xl mr-2">
+                  {team.rating ? team.rating : 0}
+                </h1>
                 <Rating
                   value={team.rating}
                   readOnly
@@ -69,18 +71,18 @@ export const TeamCard = (props: Props) => {
                   {team.reviewsCount} reviews{" "}
                   <ArrowForwardIosOutlined className="text-sm" />
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="flex xs:flex-row flex-col">
             <div className="flex flex-col text-sm p-4 xs:w-1/4">
               <span className="text-cyan-900">
                 <IconHover icon={<GroupsOutlined />} hoverText="Team size" />{" "}
-                {team.size}
+                {team.teamSize}
               </span>
               <span className="text-cyan-900">
                 <IconHover icon={<AvTimerOutlined />} hoverText="Timezone" />
-                {team.timezone}
+                {team.timeZone}
               </span>
               <span className="text-cyan-900">
                 <IconHover
@@ -101,7 +103,7 @@ export const TeamCard = (props: Props) => {
               <div className="flex w-full">
                 <ApiOutlined />
                 <p className="text-cyan-900 w-full break-normal">
-                  {team.skills.map((skill, i) => (
+                  {team.skill.map((skill, i) => (
                     <span key={i}>
                       <b
                         className={`px-2 rounded-2xl ${skillColor[skill]} text-white ml-2`}

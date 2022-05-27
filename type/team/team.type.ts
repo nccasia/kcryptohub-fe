@@ -1,12 +1,17 @@
+import { IProfile } from "../profile/profile.type";
+
 export type Team = {
-  name: string;
-  description: string;
-  logo: string;
-  size: number;
-  timezone: string;
-  organization: string;
-  skills: string[];
+  id: number;
+  teamName: string;
+  teamSize: string;
+  timeZone: string;
+  organization?: string;
+  skill: string[];
   workingTime: string;
-  rating: number;
-  reviewsCount: number;
+  hour?: string;
+  week?: string;
+  description: string;
+  avatar: string;
+  user?: IProfile;
+  userId?: number;
 };
