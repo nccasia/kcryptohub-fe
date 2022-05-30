@@ -16,16 +16,19 @@ import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { useAppDispatch } from "@/redux/hooks";
 
 const schema = yub.object().shape({
-  teamName: yub.string().required("Team Name is required"),
+  teamName: yub
+    .string()
+    .required("Team Name is required")
+    .trim("Team name is required"),
   teamSize: yub
     .string()
     .required("Team Size is required")
     .matches(/[1-9]/, "Team size require value number"),
-  timeZone: yub
+  timeZone: yub.string().required("Time Zone is required"),
+  organization: yub
     .string()
-    .required("Time Zone is required")
-    .matches(/[1-9]/, "Time Zone require value"),
-  organization: yub.string().required("Organization is required"),
+    .required("Organization is required")
+    .trim("Organization is required"),
   workingTime: yub.string(),
   hour: yub.string(),
   week: yub.string(),
