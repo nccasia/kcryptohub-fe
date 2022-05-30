@@ -1,62 +1,102 @@
-import { ArrowDropDown, ArrowDropUp, Search } from "@mui/icons-material"
-import { FormEvent, useState } from "react";
+import { KeyboardArrowDownOutlined, KeyboardArrowUpOutlined, Search } from "@mui/icons-material";
+import { Collapse } from "@mui/material";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
-export const ComboboxSelect = ({label, items, onChange}: {label: string, items: string[], onChange?:()=>void}) => {
-    const [isClose, setIsClose] = useState(false);
-    const [filteredItems, setFilteredItems] = useState(items);
-    const [selectedItems, setSelectedItems] = useState([]);
-
-    const handleItemsSelect = (event: FormEvent<HTMLInputElement>) => {
-
+export const ComboboxSelect = ({
+  label,
+  items,
+  selected,
+  setSelected,
+  className,
+  isCollapsor,
+}: {
+  label: string;
+  items: string[];
+  selected: string[];
+  setSelected: (selected: string[]) => void;
+  className?: string;
+  isCollapsor?: boolean;
+}) => {
+  const [filteredItems, setFilteredItems] = useState(items);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleItemsSelect = (
+    event: FormEvent<HTMLInputElement>,
+    value: string
+  ) => {
+    if (event.currentTarget.checked) {
+      setSelected([...selected, value]);
+    } else {
+      setSelected(selected.filter((item) => item !== value));
     }
-    const hanleSearchItems = (event: FormEvent<HTMLInputElement>) => {
-        const search = event.currentTarget.value;
-        const filtered = items.filter(item => item.toLowerCase().includes(search.toLowerCase()));
-        setFilteredItems(filtered);
-    }
-    return (
-      <form className=" bg-white" onChange={}>
-        <div
-          className={`cursor-pointer border-2 mb-2 px-1 ${
-            isClose ? "border-black" : ""
-          }`}
-          onClick={() => {
-            setIsClose(!isClose);
-          }}
-        >
-          <label className="">{label}</label>
-          {isClose ? <ArrowDropUp /> : <ArrowDropDown />}
-        </div>
+  };
+  const hanleSearchItems = (event: FormEvent<HTMLInputElement>) => {
+    const search = event.currentTarget.value;
+    const filtered = items.filter((item) =>
+      item.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredItems(filtered);
+  };
+  return (
+    <div className={`${className} bg-white`}>
+      <div
+        className={`cursor-pointer  py-1 
+         flex items-center justify-center w-full`}
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+      >
         <div
           className={`${
-            isClose ? "absolute" : "hidden"
-          }  bg-white border-2 z-10 
-          ${isClose ? "border-black" : ""} max-h-[200px] `}
+            isOpen ? "border-black" : ""
+          } border-2 flex items-center justify-between px-1 w-full`}
         >
-          <div className="relative flex items-center justify-center p-1">
-            <input
-              type="text"
-              placeholder="Search"
-              className="p-1 rounded-none border focus:border-black focus:outline-none"
-              onChange={hanleSearchItems}
-            />
-            <Search className="absolute right-2 text-sm" />
-          </div>
-          <div className="p-1 overflow-y-scroll custom-scrollbar max-h-[150px]">
-            {items.map((item, index) => (
-              <div key={index} className="">
-                <input
-                  type="checkbox"
-                  id={`${label}cb${index}`}
-                  className="mr-2"
-                />
-                <label htmlFor={`${label}cb${index}`} className="w-full">
-                  {item}
-                </label>
-              </div>
-            ))}
-          </div>
+          <label className="pointer-events-none">{label}</label>
+          {isOpen ? <KeyboardArrowUpOutlined /> : <KeyboardArrowDownOutlined />}
         </div>
-      </form>
-    );
-}
+      </div>
+      <Collapse in={isOpen} 
+        className={`${isCollapsor? '' :` ${
+          isOpen ? "block border-black" : "hidden"
+        } absolute bg-white border-2 z-10 
+           max-h-[200px] `}`}
+      >
+        <div className="relative flex items-center justify-center p-1">
+          <input
+            type="text"
+            placeholder="Search"
+            className="p-1 rounded-none border focus:border-black focus:outline-none w-full"
+            onChange={hanleSearchItems}
+          />
+          <Search className="absolute right-2 text-sm" />
+        </div>
+        <Collapse
+          in={true}
+          className={`overflow-y-scroll custom-scrollbar ${isCollapsor? '': 'max-h-[150px]'}`}
+        >
+          {filteredItems.length === 0
+            ? "No items found"
+            : filteredItems.map((item, index) => (
+                <label
+                  htmlFor={`${label}cb${index}`}
+                  key={index}
+                  className="block cursor-pointer border-l-2 pl-1 border-transparent hover:border-cyan-900 hover:bg-cyan-100 "
+                >
+                  <input
+                    type="checkbox"
+                    id={`${label}cb${index}`}
+                    className="mr-2"
+                    onChange={(e) => handleItemsSelect(e, item)}
+                  />
+                  <label
+                    htmlFor={`${label}cb${index}`}
+                    className="w-full cursor-pointer"
+                  >
+                    {item}
+                  </label>
+                </label>
+              ))}
+        </Collapse>
+      </Collapse>
+    </div>
+  );
+};
