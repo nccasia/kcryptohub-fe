@@ -6,7 +6,6 @@ import {
 import { IRegisterForm } from "@/type/auth/register.type";
 import axiosClient from "./axios-client";
 import { toast } from "react-toastify";
-import { AxiosError } from "axios";
 
 export const authApi = {
   async register(payload: IRegisterForm, redirectToLogin: Function) {
@@ -77,5 +76,19 @@ export const authApi = {
       })
 
       .catch((err) => {});
+  },
+
+  async checkEmail(email: string) {
+    const response = await axiosClient.post(`/auth/check-email`, {
+      emailAddress: email,
+    });
+    return response;
+  },
+
+  async checkUsername(username: string) {
+    const response = await axiosClient.post(`/auth/check-username`, {
+      username: username,
+    });
+    return response;
   },
 };

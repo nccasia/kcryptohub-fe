@@ -3,7 +3,12 @@ import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { Header } from "@/src/layouts/Header";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
 import { Team } from "@/type/team/team.type";
-import { ArrowDropDown, ArrowDropUp, JoinFullOutlined, JoinInnerOutlined } from "@mui/icons-material";
+import {
+  ArrowDropDown,
+  ArrowDropUp,
+  JoinFullOutlined,
+  JoinInnerOutlined,
+} from "@mui/icons-material";
 import { IconHover } from "@/src/layouts/team/IconHover";
 const data = [
   {
@@ -84,7 +89,7 @@ const TimezoneSelect = [
   "UTC/GMT + 7",
   "UTC/GMT + 8",
 ];
-const SortBy = ['none', 'rating', 'size', 'working time']
+const SortBy = ["none", "rating", "size", "working time"];
 export const Teams = () => {
   const [teams, setTeams] = useState(data);
   const [filter, setFilter] = useState({
@@ -93,7 +98,7 @@ export const Teams = () => {
     timezone: [] as number[],
     matchAll: false,
     sortBy: 0,
-    sortDsc: true
+    sortDsc: true,
   });
 
   useEffect(() => {
@@ -122,17 +127,17 @@ export const Teams = () => {
         }
       });
     }
-    if(filter.sortBy !== 0){
-      switch(filter.sortBy){
+    if (filter.sortBy !== 0) {
+      switch (filter.sortBy) {
         case 1:
           filtered.sort((a, b) => {
-            return (a.rating - b.rating)*(filter.sortDsc ? -1 : 1);
-          })
+            return (a.rating - b.rating) * (filter.sortDsc ? -1 : 1);
+          });
           break;
         case 2:
           filtered.sort((a, b) => {
             return (a.size - b.size) * (filter.sortDsc ? -1 : 1);
-          })
+          });
           break;
         case 3:
           filtered.sort((a, b) => {
@@ -141,9 +146,8 @@ export const Teams = () => {
                 parseInt(b.workingTime.split("h")[0])) *
               (filter.sortDsc ? -1 : 1)
             );
-          })
+          });
           break;
-        
       }
     }
     setTeams(filtered);
@@ -190,7 +194,7 @@ export const Teams = () => {
   const handleSortBySelect = (event: FormEvent<HTMLElement>) => {
     const target = event.target as HTMLInputElement;
     setFilter({ ...filter, sortBy: parseInt(target.value) });
-  }
+  };
   return (
     <>
       <Header />
@@ -240,7 +244,14 @@ export const Teams = () => {
                           setFilter({ ...filter, sortDsc: !filter.sortDsc });
                         }}
                       >
-                        {filter.sortDsc ?<IconHover icon={<ArrowDropDown />} hoverText="DESC" />:<IconHover icon={<ArrowDropUp />} hoverText="ASC" />}
+                        {filter.sortDsc ? (
+                          <IconHover
+                            icon={<ArrowDropDown />}
+                            hoverText="DESC"
+                          />
+                        ) : (
+                          <IconHover icon={<ArrowDropUp />} hoverText="ASC" />
+                        )}
                       </div>
                     </div>
                   </div>
