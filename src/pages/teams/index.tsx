@@ -12,6 +12,7 @@ import {
 import { IconHover } from "@/src/layouts/team/IconHover";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
 
 const SkillSelect = [
   "All Skill",
@@ -228,6 +229,9 @@ export const Teams = () => {
                     </div>
                   </div>
                   <div className="flex flex-1 justify-end">
+                    <div className="cursor-pointer flex items-center justify-center">
+                      <ComboboxSelect label="Select Skill" items={SkillSelect}/>
+                    </div>
                     <div
                       className="cursor-pointer flex items-center justify-center"
                       onClick={() => {
