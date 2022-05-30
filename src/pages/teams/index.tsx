@@ -230,7 +230,7 @@ export const Teams = () => {
                   </div>
                   <div className="flex flex-1 justify-end">
                     <div className="cursor-pointer flex items-center justify-center">
-                      <ComboboxSelect label="Select Skill" items={SkillSelect}/>
+                      <ComboboxSelect label="Skills" items={SkillSelect}/>
                     </div>
                     <div
                       className="cursor-pointer flex items-center justify-center"
