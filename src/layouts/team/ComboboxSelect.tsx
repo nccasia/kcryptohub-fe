@@ -80,12 +80,14 @@ export const ComboboxSelect = ({
                   htmlFor={`${label}cb${index}`}
                   key={index}
                   className="block cursor-pointer border-l-2 pl-1 border-transparent hover:border-cyan-900 hover:bg-cyan-100 "
+
                 >
                   <input
                     type="checkbox"
                     id={`${label}cb${index}`}
                     className="mr-2"
                     onChange={(e) => handleItemsSelect(e, item)}
+                    checked={selected.includes(item)}
                   />
                   <label
                     htmlFor={`${label}cb${index}`}
