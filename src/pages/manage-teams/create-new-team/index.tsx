@@ -7,30 +7,30 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { Layout } from "@/src/layouts/layout";
+
 import { Multiselect } from "multiselect-react-dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { createTeam } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { useAppDispatch } from "@/redux/hooks";
+import { Layout } from "@/src/layouts/layout";
 
 const schema = yub.object().shape({
   teamName: yub
     .string()
     .required("Team Name is required")
     .trim("Team name is required"),
-  teamSize: yub.string().required("Team Size is required"),
+  teamSize: yub
+    .string()
+    .required("Team Size is required")
+    .matches(/[1-9]/, "Team size require value number"),
   timeZone: yub.string().required("Time Zone is required"),
   organization: yub
     .string()
     .required("Organization is required")
     .trim("Organization is required"),
-  workingTime: yub.string().required("Working time is required"),
-  cost: yub.string().required("Project cost is required"),
-  founded: yub.string().required("Founded is required"),
-  linkWebsite: yub.string().required("Link website is required"),
-  contact: yub.string(),
+  workingTime: yub.string(),
   hour: yub.string(),
   week: yub.string(),
   description: yub.string(),

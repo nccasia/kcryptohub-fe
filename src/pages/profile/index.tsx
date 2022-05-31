@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { KeyboardEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -83,7 +84,11 @@ const UpdateProfilePage = () => {
         >
           <form id="profile-form">
             <div className="flex items-center justify-between aligns-center py-2 border-b">
-              <h2 className="text-red-500 text-2xl font-semibold">Kryptohub</h2>
+              <Link href="/">
+                <h2 className="text-red-500 text-2xl font-semibold">
+                  Kryptohub
+                </h2>
+              </Link>
               <div className="flex items-center gap-x-3">
                 <div className="flex gap-x-4">
                   <h3>NCC Plus</h3>
