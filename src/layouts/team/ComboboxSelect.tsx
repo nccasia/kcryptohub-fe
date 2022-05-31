@@ -47,31 +47,38 @@ export const ComboboxSelect = ({
       >
         <div
           className={`${
-            isOpen ? "border-black" : ""
-          } border-2 flex items-center justify-between px-1 w-full`}
+            isOpen ? "border-cyan-900" : ""
+          } ${isCollapsor? 'border-b-2' : 'border-2'} flex items-center justify-between px-1 w-full`}
         >
-          <label className="pointer-events-none">{label}</label>
+          <label className={`${isCollapsor? 'text-lg':''} pointer-events-none`}>{label}</label>
           {isOpen ? <KeyboardArrowUpOutlined /> : <KeyboardArrowDownOutlined />}
         </div>
       </div>
-      <Collapse in={isOpen} 
-        className={`${isCollapsor? '' :` ${
-          isOpen ? "block border-black" : "hidden"
-        } absolute bg-white border-2 z-10 
-           max-h-[200px] `}`}
+      <Collapse
+        in={isOpen}
+        className={`${
+          isCollapsor
+            ? ""
+            : ` ${
+                isOpen ? "block border-cyan-900" : "hidden"
+              } absolute bg-white border-2 z-10 
+           max-h-[200px] `
+        }`}
       >
         <div className="relative flex items-center justify-center p-1">
           <input
             type="text"
-            placeholder="Search"
-            className="p-1 rounded-none border focus:border-black focus:outline-none w-full"
+            placeholder={`Search ${label}`}
+            className="p-1 rounded-none border focus:border-cyan-900 focus:outline-none w-full"
             onChange={hanleSearchItems}
           />
           <Search className="absolute right-2 text-sm" />
         </div>
         <Collapse
           in={true}
-          className={`overflow-y-scroll custom-scrollbar ${isCollapsor? '': 'max-h-[150px]'}`}
+          className={`overflow-y-scroll custom-scrollbar ${
+            isCollapsor ? "" : "max-h-[150px]"
+          }`}
         >
           {filteredItems.length === 0
             ? "No items found"
@@ -80,7 +87,6 @@ export const ComboboxSelect = ({
                   htmlFor={`${label}cb${index}`}
                   key={index}
                   className="block cursor-pointer border-l-2 pl-1 border-transparent hover:border-cyan-900 hover:bg-cyan-100 "
-
                 >
                   <input
                     type="checkbox"
