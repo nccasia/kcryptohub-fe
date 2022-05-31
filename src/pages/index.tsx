@@ -81,6 +81,11 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
+      <div className="">
+        <h1 className="px-20 py-2 text-white bg-cyan-700 font-bold">
+          Welcome to KryptoHub <ArrowForwardIosOutlined className="text-sm" />
+        </h1>
+      </div>
       <div>
         <div className="p-4 flex items-center justify-center py-24 bg-gradient-to-b from-white to-cyan-50 border border-cyan-300 shadow-lg shadow-gray-200">
           <div className="">

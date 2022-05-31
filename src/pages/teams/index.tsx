@@ -1,6 +1,5 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { FormEvent, useEffect, useState } from "react";
-import { Header } from "@/src/layouts/Header";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
 import { Team } from "@/type/team/team.type";
 import {
@@ -10,7 +9,6 @@ import {
   JoinFullOutlined,
   JoinInnerOutlined,
 } from "@mui/icons-material";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
 import { Pagination } from "@mui/material";
@@ -109,7 +107,9 @@ export const Teams = () => {
         toast.error(err.message);
       });
   }, [setData]);
-
+  useEffect(()=>{
+    console.log("get team at page:" + page);
+  },[page])
   useEffect(() => {
     let filtered = data.filter((team) =>
       team.teamName.toLowerCase().includes(filter.search.toLowerCase())
@@ -188,6 +188,20 @@ export const Teams = () => {
   }
   return (
     <Layout>
+      <div className="flex items-center justify-center relative bg-cyan-900 border-t border-cyan-500  ">
+        <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
+          <div
+            className="px-4 py-2 w-fit border-4 border-red-500 xxs:flex hidden items-center justify-center text-xl
+           before:bg-cyan-300 before:h-[6px] before:w-[6px] before:rounded before:absolute before:top-[-4px] 
+           after:bg-cyan-700 after:h-4 after:w-[1px] after:absolute after:top-[2px]"
+          >
+            <span>2022 Kryptohub</span>
+          </div>
+          <div className="ml-4 text-3xl">
+            <h1>List Teams</h1>
+          </div>
+        </div>
+      </div>
       <div className="relative">
         <div className="flex flex-col items-center justify-center px-1 ">
           <div className="container-lg relative border-x-2  xl:w-3/4 md:w-11/12 lg:w-5/6 w-full  shadow-xl">
@@ -251,12 +265,12 @@ export const Teams = () => {
                       </div>
                       <div className="cursor-pointer flex items-center justify-center mr-2">
                         <div
-                          className={`border-2 flex items-center justify-between w-full px-1 py-[0.125rem]`}
+                          className={`border-2 flex items-center justify-between w-full px-1 py-[0.125rem] `}
                           onClick={() => {
                             setHideAllFilter(!hideAllFilter);
                           }}
                         >
-                          <label className={`pointer-events-none`}>
+                          <label className={`pointer-events-none min-w-[50px]`}>
                             All filter
                           </label>
                         </div>
@@ -300,7 +314,7 @@ export const Teams = () => {
             <div className="flex items-center justify-center pb-2">
               <Pagination
                 count={10}
-                defaultPage={page}
+                page={page}
                 onChange={(e, value) => {
                   setPage(value);
                 }}

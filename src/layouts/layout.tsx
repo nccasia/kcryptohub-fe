@@ -39,11 +39,7 @@ const Layout = (props: IHeaderProps) => {
   return (
     <div>
       <Header />
-      <div className="">
-        <h1 className="px-20 py-2 text-white bg-cyan-700 font-bold">
-          Welcome to KryptoHub <ArrowForwardIosOutlined className="text-sm" />
-        </h1>
-      </div>
+      
       
       <div className="">
         {props.children}
