@@ -78,7 +78,6 @@ const TimezoneSelect = [
   "UTC/GMT + 8",
 ];
 const SortBy = ["none", "rating", "size", "working time"];
-
 export const Teams = () => {
   const [teams, setTeams] = useState([] as Team[]);
   const [data, setData] = useState([] as Team[]);
