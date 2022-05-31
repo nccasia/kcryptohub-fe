@@ -22,3 +22,8 @@ a {
 .Toastify__toast--error {
   font-size: 13px;
 }
+
+.hidden-arrow-input-number::-webkit-inner-spin-button,
+.hidden-arrow-input-number::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}

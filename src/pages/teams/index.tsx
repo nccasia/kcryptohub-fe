@@ -10,56 +10,7 @@ import {
   JoinInnerOutlined,
 } from "@mui/icons-material";
 import { IconHover } from "@/src/layouts/team/IconHover";
-const data = [
-  {
-    name: "Algoworks",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/200-x-200.png",
-    description: "Go Mobile. Go Cloud. Go Digital",
-    rating: 4.7,
-    reviewsCount: 67,
-    size: 500,
-    timezone: "UTC/GMT + 5",
-    organization: "Algoworks",
-    workingTime: "10h/day",
-    skills: ["Mobile", "Cloud", "Digital", "Crypto"],
-  },
-  {
-    name: "Hyperlink InfoSystem",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/logo_new.jpg",
-    description: "Best Android & iPhone App Development Services",
-    rating: 4.6,
-    reviewsCount: 110,
-    size: 99,
-    timezone: "UTC/GMT + 6",
-    organization: "Hyperlink",
-    workingTime: "10h/day",
-    skills: ["Web", "Blockchain", "AI", "Cloud"],
-  },
-  {
-    name: "Algoworks",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/200-x-200.png",
-    description: "Go Mobile. Go Cloud. Go Digital",
-    rating: 4.9,
-    reviewsCount: 67,
-    size: 500,
-    timezone: "UTC/GMT + 7",
-    organization: "Algoworks",
-    workingTime: "10h/day",
-    skills: ["Mobile", "Cloud", "Digital", "Crypto"],
-  },
-  {
-    name: "Hyperlink InfoSystem",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/logo_new.jpg",
-    description: "Best Android & iPhone App Development Services",
-    rating: 4.8,
-    reviewsCount: 110,
-    size: 99,
-    timezone: "UTC/GMT + 8",
-    organization: "Hyperlink",
-    workingTime: "10h/day",
-    skills: ["Web", "Blockchain", "Digital", "Crypto"],
-  },
-] as Team[];
+const data = [] as Team[];
 const SkillSelect = [
   "All Skill",
   "Mobile",
@@ -103,17 +54,17 @@ export const Teams = () => {
 
   useEffect(() => {
     let filtered = data.filter((team) =>
-      team.name.toLowerCase().includes(filter.search.toLowerCase())
+      team.teamName.toLowerCase().includes(filter.search.toLowerCase())
     );
     if (filter.skill.length !== 0) {
       filtered = filtered.filter((team) => {
         if (filter.matchAll) {
           return filter.skill.every((skill) =>
-            team.skills.includes(SkillSelect[skill])
+            team.skill.includes(SkillSelect[skill])
           );
         } else {
-          for (let i = 0; i < team.skills.length; i++) {
-            if (filter.skill.includes(SkillSelect.indexOf(team.skills[i]))) {
+          for (let i = 0; i < team.skill.length; i++) {
+            if (filter.skill.includes(SkillSelect.indexOf(team.skill[i]))) {
               return true;
             }
           }
@@ -122,7 +73,7 @@ export const Teams = () => {
     }
     if (filter.timezone.length !== 0) {
       filtered = filtered.filter((team) => {
-        if (filter.timezone.includes(TimezoneSelect.indexOf(team.timezone))) {
+        if (filter.timezone.includes(TimezoneSelect.indexOf(team.timeZone))) {
           return true;
         }
       });
@@ -130,13 +81,16 @@ export const Teams = () => {
     if (filter.sortBy !== 0) {
       switch (filter.sortBy) {
         case 1:
-          filtered.sort((a, b) => {
-            return (a.rating - b.rating) * (filter.sortDsc ? -1 : 1);
-          });
+          /*  filtered.sort((a, b) => {
+             return (para.rating - b.rating) * (filter.sortDsc ? -1 : 1); 
+          }); */
           break;
         case 2:
           filtered.sort((a, b) => {
-            return (a.size - b.size) * (filter.sortDsc ? -1 : 1);
+            return (
+              (parseInt(a.teamSize) - parseInt(b.teamSize)) *
+              (filter.sortDsc ? -1 : 1)
+            );
           });
           break;
         case 3:

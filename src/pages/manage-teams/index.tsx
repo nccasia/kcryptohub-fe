@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toast } from "react-toastify";
+import { Team } from "@/type/team/team.type";
+import { TeamCard } from "@/src/layouts/team/TeamCard";
 
 const ManageTeam = () => {
   const dispatch = useAppDispatch();
@@ -35,30 +37,8 @@ const ManageTeam = () => {
       </div>
       <div className="px-4">
         {team.length > 0 &&
-          team.map((resp: any) => {
-            return (
-              <div
-                className="flex items-center justify-between mb-5"
-                key={resp.id}
-              >
-                <div>
-                  <span>Team name: {resp.teamName}</span>
-                  <span>Team Size: {resp.teamSize}</span>
-                  <span>Skills: {resp.skill}</span>
-                </div>
-                <div>
-                  <button className="px-6 py-2 text-white rounded bg-yellow-600 mt-5 mr-3">
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(resp)}
-                    className="px-6 py-2 text-white rounded bg-cyan-600 mt-5"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            );
+          team.map((item, index) => {
+            return <TeamCard team={item as unknown as Team} key={index} />;
           })}
       </div>
     </Layout>

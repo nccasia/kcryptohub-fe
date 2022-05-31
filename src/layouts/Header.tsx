@@ -9,11 +9,11 @@ import { getProfile } from "@/redux/profileSlice";
 export const Header = () => {
   const user = useAppSelector((state) => state.ProfileReducer.userInfo);
   const appDispath = useAppDispatch();
-  useEffect(()=>{
-    if(!user.username && localStorage.getItem("accessToken")){
+  useEffect(() => {
+    if (!user.username && localStorage.getItem("accessToken")) {
       appDispath(getProfile());
     }
-  })
+  });
   return (
     <div className="w-full flex justify-between p-8 sm:px-16 bg-cyan-900 text-white z-50">
       <Link href="/">
@@ -40,7 +40,7 @@ export const Header = () => {
                     <a>Profile</a>
                   </div>
                 </Link>
-                <Link href="/teams/myteams">
+                <Link href="/manage-teams">
                   <div className="p-1 border-l-2 border-cyan-700 hover:border-red-700 hover:bg-cyan-900 cursor-pointer">
                     <a>My Teams</a>
                   </div>
