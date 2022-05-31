@@ -13,13 +13,17 @@ export const updateProfile = createAsyncThunk(
   async (user: IProfile) => {
     const response = await axiosClient.put(`/profile/update/${user.id}`, {
       username: user.username,
+      company: user.company,
       emailAddress: user.emailAddress,
-      googleAddress: user.googleAddress,
       githubAddress: user.githubAddress,
-      // link: user.link
-      skills: user.skills,
-      avatarPath: user.avatarPath,
+      googleAddress: user.googleAddress,
       description: user.description,
+      avatarPath: user.avatarPath,
+      profileLink: user.profileLink,
+      status: user.status,
+      industry: user.industry,
+      headline: user.headline,
+      skills: user.skills,
     });
     return response.data;
   }

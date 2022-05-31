@@ -73,13 +73,11 @@ const Home: NextPage = () => {
                       } else setShow(true);
                     }}
                   >
-                    <Image
+                    <img
                       className={styles.image}
-                      src={(data.avatar as string) || "/user1.png"}
-                      width={40}
-                      height={40}
+                      src={(data.avatarPath as string) || "/user1.png"}
                       alt="Avarta"
-                    ></Image>
+                    />
 
                     <span className="ml-2">
                       {data.username}

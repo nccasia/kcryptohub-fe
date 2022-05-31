@@ -6,13 +6,12 @@ export interface IProfile {
   emailAddress: string;
   googleAddress: string;
   githubAddress: string;
-  link: string;
+  profileLink: string;
   id: number;
   provider: string;
   status: string;
-  skills: number[];
+  skills: number[] | ISkills[];
   company: string;
-  location: string;
   industry: string;
   headline: string;
 }

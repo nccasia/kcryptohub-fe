@@ -1,6 +1,7 @@
 import { IconMap } from "@/components/IconSVG/IconMap";
+import InputField from "@/components/profile/InputField";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getSkills, updateProfile } from "@/redux/profileSlice";
+import { getProfile, getSkills, updateProfile } from "@/redux/profileSlice";
 import { ELoginProvider } from "@/type/auth/login.type";
 import { IProfile, ISkills } from "@/type/profile/profile.type";
 import { Autocomplete, Box, Container, TextField } from "@mui/material";
@@ -36,20 +37,19 @@ const UpdateProfilePage = () => {
   const dispatch = useAppDispatch();
   const initialValues = {
     id: userInfo.id || undefined,
-    avatarPath: userInfo.avatarPath || "",
     username: userInfo.username || "",
     company: userInfo.company || "",
     emailAddress: userInfo.emailAddress || "",
-    link: userInfo.link || "",
     googleAddress: userInfo.googleAddress || "",
-    skills: userInfo.skills || [],
-    location: userInfo.location || "",
+    githubAddress: userInfo.githubAddress || "",
+    description: userInfo.description || "",
+    avatarPath: userInfo.avatarPath || "",
+    profileLink: userInfo.profileLink || "",
+    status: userInfo.status || "",
     industry: userInfo.industry || "",
     headline: userInfo.headline || "",
-    description: userInfo.description || "",
-    createdAt: userInfo.createdAt || "",
+    skills: userInfo.skills || [],
     provider: userInfo.provider || "",
-    status: userInfo.status || "",
   };
   const { register, handleSubmit, getValues } = useForm<IProfile>({
     defaultValues: initialValues,
@@ -72,24 +72,15 @@ const UpdateProfilePage = () => {
     }
   };
 
-  const handleDefaultSkills = () => {
-    console.log(skills);
-    console.log(userSkills);
-    const defaultSkills = skills.filter((skill) =>
-      userSkills.includes(skill.id)
-    );
-    console.log(defaultSkills);
-    return defaultSkills;
-  };
-
   const handleChangeSkills = (e: SyntheticEvent, value: ISkills[]) => {
     const skillIdList = value.map((skill) => skill.id);
     setUserSkills(skillIdList);
   };
 
   const handleUpdateProfile = () => {
-    handleSubmit((value) => {
-      dispatch(updateProfile({ ...value, skills: userSkills }));
+    handleSubmit(async (value) => {
+      await dispatch(updateProfile({ ...value, skills: userSkills }));
+      await dispatch(getProfile());
     })();
   };
 
@@ -123,7 +114,11 @@ const UpdateProfilePage = () => {
                 <div className="flex md:max-w-[400px] w-full items-center gap-x-3">
                   <div className="w-16 h-16 flex-none rounded-full overflow-hidden border border-[#cae0e7]">
                     {getValues("avatarPath") ? (
-                      <img src={getValues("avatarPath")} alt="avatar" />
+                      <img
+                        src={getValues("avatarPath")}
+                        alt="avatar"
+                        className="w-full h-full"
+                      />
                     ) : (
                       <Image
                         width="62"
@@ -142,66 +137,25 @@ const UpdateProfilePage = () => {
                   />
                 </div>
               </div>
-              <div className="md:flex items-center mx-5 my-8">
-                <label className="text-primary min-w-[130px] block py-2 md:py-0">
-                  Username:
-                </label>
-                <input
-                  type="text"
-                  {...register("username")}
-                  autoComplete="off"
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                />
-              </div>
-              <div className="md:flex items-center mx-5 my-8">
-                <label className="text-primary min-w-[130px] block py-2 md:py-0">
-                  Company:
-                </label>
-                <input
-                  type="text"
-                  {...register("company")}
-                  autoComplete="off"
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                />
-              </div>
-              <div className="md:flex items-center mx-5 my-8">
-                <label className="text-primary min-w-[130px] block py-2 md:py-0">
-                  Contact Email:
-                </label>
-                <input
-                  type="text"
-                  {...register("emailAddress")}
-                  autoComplete="off"
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                />
-              </div>
+              <InputField label="Username" register={register("username")} />
+              <InputField label="Company" register={register("company")} />
+              <InputField
+                label="Contact Email"
+                register={register("emailAddress")}
+              />
             </section>
             <section>
               <h2 className="text-3xl mt-20 text-primary">About</h2>
-              <div className="md:flex items-center mx-5 my-8">
-                <label className="text-primary min-w-[130px] block py-2 md:py-0">
-                  Github:
-                </label>
-                <input
-                  type="text"
-                  {...register("link")}
-                  autoComplete="off"
-                  placeholder="https://github.com/janedoe"
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
-                />
-              </div>
-              <div className="md:flex items-center mx-5 my-8">
-                <label className="text-primary min-w-[130px] block py-2 md:py-0">
-                  Google:
-                </label>
-                <input
-                  type="text"
-                  {...register("googleAddress")}
-                  autoComplete="off"
-                  placeholder="janedoe@gmail.com"
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
-                />
-              </div>
+              <InputField
+                label="Github"
+                placeholder="https://github.com/janedoe"
+                register={register("profileLink")}
+              />
+              <InputField
+                label="Google"
+                placeholder="janedoe@gmail.com"
+                register={register("googleAddress")}
+              />
               <div className="md:flex items-start mx-5 my-8">
                 <label className="text-primary min-w-[130px] block py-2 md:py-0">
                   Skills:
@@ -210,7 +164,7 @@ const UpdateProfilePage = () => {
                   multiple
                   options={skills}
                   getOptionLabel={(option) => option.skillName}
-                  defaultValue={handleDefaultSkills()}
+                  defaultValue={(userInfo.skills as ISkills[]) || []}
                   filterSelectedOptions
                   onChange={handleChangeSkills}
                   className="md:max-w-[400px] w-full"
@@ -219,39 +173,8 @@ const UpdateProfilePage = () => {
                   )}
                 />
               </div>
-              <div className="md:flex items-center mx-5 my-8">
-                <label className="text-primary min-w-[130px] block py-2 md:py-0">
-                  Location:
-                </label>
-                <input
-                  type="text"
-                  {...register("location")}
-                  autoComplete="off"
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                />
-              </div>
-              <div className="md:flex items-center mx-5 my-8">
-                <label className="text-primary min-w-[130px] block py-2 md:py-0">
-                  Industry:
-                </label>
-                <input
-                  type="text"
-                  {...register("industry")}
-                  autoComplete="off"
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                />
-              </div>
-              <div className="md:flex items-center mx-5 my-8">
-                <label className="text-primary min-w-[130px] block py-2 md:py-0">
-                  Headline:
-                </label>
-                <input
-                  type="text"
-                  {...register("headline")}
-                  autoComplete="off"
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                />
-              </div>
+              <InputField label="Industry" register={register("industry")} />
+              <InputField label="Headline" register={register("headline")} />
               <div className="md:flex items-start mx-5 my-8">
                 <label className="text-primary min-w-[130px] block py-2 md:py-0">
                   Description:

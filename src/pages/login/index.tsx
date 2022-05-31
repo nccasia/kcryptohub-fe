@@ -24,7 +24,6 @@ const schemaValidation = Yup.object({
 
 const Login = () => {
   const router = useRouter();
-  let renderNumber = 0;
 
   const {
     register,
@@ -42,8 +41,7 @@ const Login = () => {
     }
     async function getUserSession() {
       const data = await getSession();
-      renderNumber++;
-      if (data && renderNumber === 1) {
+      if (data) {
         switch (data.provider) {
           case ELoginProvider[ELoginProvider.GITHUB].toLowerCase(): {
             handleLoginGithub({
