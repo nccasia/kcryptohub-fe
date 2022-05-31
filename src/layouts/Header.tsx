@@ -30,16 +30,16 @@ export const Header = () => {
                 <span>{user?.username || "anonymous"}</span>
                 <ArrowDropDown />
               </label>
-              <div className="invisible flex flex-col absolute top-6 border min-w-[100px] w-full bg-cyan-700
-               peer-focus:visible  peer-focus:z-20 peer-focus:animate-slide-in-up">
+              <div className="invisible flex flex-col absolute top-6 border min-w-[130px] w-full bg-cyan-700
+               peer-focus:visible  peer-focus:z-20 peer-focus:animate-slide-in-up hover:visible">
                 <Link href="/profile">
                   <div className="p-1 border-l-2 border-cyan-700 hover:border-red-700 hover:bg-cyan-900 cursor-pointer">
                     <a>Profile</a>
                   </div>
                 </Link>
-                <Link href="/teams/myteams">
+                <Link href="/manage-teams">
                   <div className="p-1 border-l-2 border-cyan-700 hover:border-red-700 hover:bg-cyan-900 cursor-pointer">
-                    <a>My Teams</a>
+                    <a>Manage Teams</a>
                   </div>
                 </Link>
                 <div
