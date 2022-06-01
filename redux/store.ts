@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import ProfileReducer from "@/redux/profileSlice";
 import TeamReducer from "@/redux/teamSlice";
-
-import { listTeamsReducer } from "./listteamsSlice";
-const reducer = { ProfileReducer, listTeamsReducer, TeamReducer };
+import { SkillReducer } from "./skillSlice";
+const reducer = { ProfileReducer, TeamReducer, SkillReducer };
 
 const store = configureStore({ reducer });
 

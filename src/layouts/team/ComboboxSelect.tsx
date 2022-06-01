@@ -1,7 +1,14 @@
+import { Skill } from "@/type/Skill";
 import { KeyboardArrowDownOutlined, KeyboardArrowUpOutlined, Search } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
-import { FormEvent, useEffect, useRef, useState } from "react";
-
+import { useOutsideClick } from "hook/OuterClick";
+import { FormEvent, LegacyRef, Ref, useState } from "react";
+const getName = (item: any) => {
+  if(item.skillName){
+    return item.skillName;
+  }
+  return item
+}
 export const ComboboxSelect = ({
   label,
   items,
@@ -11,28 +18,31 @@ export const ComboboxSelect = ({
   isCollapsor,
 }: {
   label: string;
-  items: string[];
-  selected: string[];
-  setSelected: (selected: string[]) => void;
+  items: any[];
+  selected: number[];
+  setSelected: (selected: number[]) => void;
   className?: string;
   isCollapsor?: boolean;
 }) => {
   const [filteredItems, setFilteredItems] = useState(items);
-  const [isOpen, setIsOpen] = useState(false);
+  //const [isOpen, setIsOpen] = useState(false);
+
+  const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
+
   const handleItemsSelect = (
     event: FormEvent<HTMLInputElement>,
     value: string
   ) => {
     if (event.currentTarget.checked) {
-      setSelected([...selected, value]);
+      setSelected([...selected, parseInt(value)]);
     } else {
-      setSelected(selected.filter((item) => item !== value));
+      setSelected(selected.filter((item) => item !== parseInt(value)));
     }
   };
   const hanleSearchItems = (event: FormEvent<HTMLInputElement>) => {
     const search = event.currentTarget.value;
     const filtered = items.filter((item) =>
-      item.toLowerCase().includes(search.toLowerCase())
+      getName(item).toLowerCase().includes(search.toLowerCase())
     );
     setFilteredItems(filtered);
   };
@@ -42,28 +52,38 @@ export const ComboboxSelect = ({
         className={`cursor-pointer  py-1 
          flex items-center justify-center w-full`}
         onClick={() => {
-          setIsOpen(!isOpen);
+          setShow(!show);
         }}
       >
         <div
-          className={`${
-            isOpen ? "border-cyan-900" : ""
-          } ${isCollapsor? 'border-b-2' : 'border-2'} flex items-center justify-between px-1 w-full`}
+          className={`${show ? "border-cyan-900" : ""} ${
+            isCollapsor ? "" : "border-2"
+          } flex items-center justify-between px-1 w-full`}
+          ref={nodeRef as LegacyRef<HTMLDivElement>}
         >
-          <label className={`${isCollapsor? 'text-lg':''} pointer-events-none`}>{label}</label>
-          {isOpen ? <KeyboardArrowUpOutlined /> : <KeyboardArrowDownOutlined />}
+          <label
+            className={`${isCollapsor ? "text-lg" : ""} pointer-events-none`}
+          >
+            {label}
+          </label>
+          {show ? (
+            <KeyboardArrowUpOutlined className="pointer-events-none" />
+          ) : (
+            <KeyboardArrowDownOutlined className="pointer-events-none" />
+          )}
         </div>
       </div>
       <Collapse
-        in={isOpen}
+        in={show}
         className={`${
           isCollapsor
             ? ""
             : ` ${
-                isOpen ? "block border-cyan-900" : "hidden"
+                show ? "block border-cyan-900" : "hidden"
               } absolute bg-white border-2 z-10 
            max-h-[200px] `
         }`}
+        ref={subNodeRef as Ref<unknown>}
       >
         <div className="relative flex items-center justify-center p-1">
           <input
@@ -92,14 +112,14 @@ export const ComboboxSelect = ({
                     type="checkbox"
                     id={`${label}cb${index}`}
                     className="mr-2"
-                    onChange={(e) => handleItemsSelect(e, item)}
-                    checked={selected.includes(item)}
+                    onChange={(e) => handleItemsSelect(e, item.id)}
+                    checked={selected.includes(item.id)}
                   />
                   <label
                     htmlFor={`${label}cb${index}`}
                     className="w-full cursor-pointer"
                   >
-                    {item}
+                    {getName(item)}
                   </label>
                 </label>
               ))}

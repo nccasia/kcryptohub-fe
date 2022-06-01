@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from "react";
-import type { ReactNode } from "react";;
-import { ArrowForwardIosOutlined } from "@mui/icons-material";
-import { useRouter } from "next/router";
+import axiosClient from "@/api/axios-client";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getProfile } from "@/redux/profileSlice";
-import { signOut } from "next-auth/react";
-import { Header } from "./Header";
+import { getListSkill } from "@/redux/skillSlice";
 import { Modal } from "@mui/material";
+import { useRouter } from "next/router";
+import type { ReactNode } from "react";
+import React, { useEffect, useState } from "react";
 import { Footer } from "./Footer";
+import { Header } from "./Header";
+;
 
 type IHeaderProps = {
   children: ReactNode;
 };
 const Layout = (props: IHeaderProps) => {
-  const data = useAppSelector(state=> state.ProfileReducer.userInfo);
+  const data = useAppSelector(state=> state);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [openWarning, setOpenWarning] = useState<boolean>(false);
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken") && !data.username) {
+    if (localStorage.getItem("accessToken") && !data.ProfileReducer.userInfo.username) {
       dispatch(getProfile())
         .then((data) => {
           if (data.payload.status === "isNew") {
@@ -30,8 +31,12 @@ const Layout = (props: IHeaderProps) => {
           throw new Error(err);
         });
     }
-  }, [data.username, dispatch]);
-
+  }, [data.ProfileReducer.userInfo.username, dispatch]);
+  useEffect(()=>{
+    if(data.SkillReducer.value.length === 0){
+      dispatch(getListSkill())
+    }
+  },[])
   const handleCloseModal = () => {
     setOpenWarning(false);
     router.push("/profile");
@@ -70,3 +75,4 @@ const Layout = (props: IHeaderProps) => {
 };
 
 export { Layout };
+

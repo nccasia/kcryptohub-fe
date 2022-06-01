@@ -5,8 +5,9 @@ export type Team = {
   teamName: string;
   teamSize: string;
   timeZone: string;
+  slogan?: string;
   organization?: string;
-  skill: string[];
+  skill: number[];
   workingTime: string;
   hour?: string;
   week?: string;
@@ -14,4 +15,6 @@ export type Team = {
   avatar: string;
   user?: IProfile;
   userId?: number;
+  status: boolean;
+  projectSize: string;
 };
