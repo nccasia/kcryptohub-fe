@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { ReactNode } from "react";;
+import type { ReactNode } from "react";
 import { ArrowForwardIosOutlined } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -13,7 +13,7 @@ type IHeaderProps = {
   children: ReactNode;
 };
 const Layout = (props: IHeaderProps) => {
-  const data = useAppSelector(state=> state.ProfileReducer.userInfo);
+  const data = useAppSelector((state) => state.ProfileReducer.userInfo);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [openWarning, setOpenWarning] = useState<boolean>(false);
@@ -44,10 +44,8 @@ const Layout = (props: IHeaderProps) => {
           Welcome to KryptoHub <ArrowForwardIosOutlined className="text-sm" />
         </h1>
       </div>
-      
-      <div className="">
-        {props.children}
-      </div>
+
+      <div className="">{props.children}</div>
 
       <Footer />
 

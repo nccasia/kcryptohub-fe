@@ -93,7 +93,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       if (
         !errors.emailAddress &&
         watch("emailAddress") &&
@@ -111,8 +111,11 @@ const Register = () => {
           }
         });
       }
-    }, 3000);
-  });
+    }, 300);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [watch("emailAddress")]);
 
   return (
     <div className="min-h-screen flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-cyan-900">

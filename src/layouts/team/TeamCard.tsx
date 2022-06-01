@@ -32,7 +32,7 @@ const skillColor: { [id: string]: string } = {
 export const TeamCard = (props: Props) => {
   const team = props.team;
   return (
-    <div className="flex md:flex-row w-full border-y my-4 shadow-md flex-col">
+    <div className="flex md:flex-row w-full border-y my-4 shadow-md flex-col ">
       <div className="flex-1">
         <div className="flex xs:flex-row flex-col items-start border-b relative">
           <div className="flex items-center justify-center p-2"></div>
@@ -96,13 +96,7 @@ export const TeamCard = (props: Props) => {
           <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
             <div className="flex w-full">
               <ApiOutlined />
-              <p className="text-cyan-900 w-full break-normal">
-                {team.skill.map((skill, i) => (
-                  <span key={i}>
-                    <b>{skill}</b>{" "}
-                  </span>
-                ))}
-              </p>
+              <p className="text-cyan-900 w-full break-normal"></p>
             </div>
           </div>
           <div className="xs:w-1/4 p-4 text-sm text-cyan-900"></div>

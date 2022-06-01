@@ -25,7 +25,7 @@ const ManageTeam = () => {
   };
   return (
     <Layout>
-      <div className="min-h-screen">
+      <div className="">
         <div className="px-4 mb-5 mt-5 w-full justify-between flex items-center">
           <h1 className="text-xl font-bold">KryptoHub {">"} Manage Teams</h1>
           <div>
@@ -40,9 +40,9 @@ const ManageTeam = () => {
 
       <div className="px-4">
         {team.length > 0 &&
-          team.map((item, index) => {
-            return <TeamCard team={item as unknown as Team} key={index} />;
-          })}
+          team.map((item, index) => (
+            <TeamCard team={item as unknown as Team} key={index} />
+          ))}
       </div>
     </Layout>
   );
