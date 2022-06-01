@@ -42,7 +42,6 @@ const schema = yub.object().shape({
     .required("Organization is required")
     .trim("Organization is required"),
   founded: yub.string().required("This information is required"),
-  cost: yub.string().required("Project Cost is required"),
   workingTime: yub.string().required("Working Time is required"),
   linkWebsite: yub
     .string()
@@ -86,6 +85,7 @@ const CreateNewTeam = () => {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState("");
   const [message, setMessage] = useState("");
+  const [messageDistribute, setMessageDistribute] = useState("");
   const router = useRouter();
   const skills = [
     { id: 1, skillName: "Angular" },
@@ -94,11 +94,18 @@ const CreateNewTeam = () => {
     { id: 4, skillName: "Mobile Development" },
     { id: 5, skillName: "Design UX/UI" },
   ];
+  const skillDistribute = [
+    { id: 1, skillDistributeName: "Mobile UI/UX design" },
+    { id: 3, skillDistributeName: "Web Development" },
+    { id: 4, skillDistributeName: "Mobile Development" },
+    { id: 5, skillDistributeName: "Design UX/UI" },
+  ];
   const timezone = ["GMT +7", "GMT +8", "GMT +9"];
 
   const location = ["Việt Nam", " Dubai"];
 
   const [dataSkill, setData] = useState<number[]>([]);
+  const [dataSkillDistribute, setDataSkill] = useState<number[]>([]);
   const buttonRef = useRef(null);
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -119,12 +126,10 @@ const CreateNewTeam = () => {
       avatar: createObjectURL || data?.user?.image || "./user1.png",
       avatarUrl: "./user1.png",
       skills: dataSkill,
-      focus: [1, 2],
-      status: true,
+      skillDistribution: dataSkillDistribute,
     };
 
-    if (dataSkill.length > 0) {
-      console.log(formSave);
+    if (dataSkill.length > 0 && dataSkillDistribute.length > 0) {
       dispatch(createTeam(formSave as unknown as ICreateTeam));
       reset();
       setCreateObjectURL("");
@@ -133,6 +138,7 @@ const CreateNewTeam = () => {
       }, 3000);
     } else {
       setMessage("Skill must have at least 1 field");
+      setMessageDistribute("Skill distribute must have at least 1 field");
     }
   };
 
@@ -344,31 +350,6 @@ const CreateNewTeam = () => {
                   )}
                   <div className="md:flex items-center mx-5 my-5">
                     <label className="text-primary min-w-[130px] block py-2 md:py-0">
-                      Cost:
-                    </label>
-
-                    <TextField
-                      id="outlined-start-adornment"
-                      type="number"
-                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] outline-none focus:shadow-3xl focus:border-primary"
-                      {...register("cost")}
-                      autoComplete="off"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">$</InputAdornment>
-                        ),
-                      }}
-                    />
-                  </div>
-                  {errors?.cost && (
-                    <div className="flex justify-left ml-40 text-sm ">
-                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
-                        {errors?.cost?.message}
-                      </p>
-                    </div>
-                  )}
-                  <div className="md:flex items-center mx-5 my-5">
-                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
                       Founded:
                     </label>
                     <input
@@ -472,6 +453,38 @@ const CreateNewTeam = () => {
                     <div className="flex justify-left ml-40 text-sm ">
                       <p className={"w-[250px] block mt-[-10px] text-red-600"}>
                         {message}
+                      </p>
+                    </div>
+                  )}
+                  <div className="md:flex items-start mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Skill Distribution:
+                    </label>
+                    <Autocomplete
+                      multiple
+                      options={skillDistribute.filter(
+                        (skill) => !dataSkillDistribute.includes(skill.id)
+                      )}
+                      getOptionLabel={(option) => option.skillDistributeName}
+                      filterSelectedOptions
+                      className="md:max-w-[410px] w-full"
+                      onChange={(e, newValue) => {
+                        setDataSkill(newValue.map((skill) => skill.id));
+                        if (dataSkillDistribute.length >= 0) {
+                          setMessageDistribute("");
+                        } else {
+                          setMessageDistribute(
+                            "Skill Distribute must have at least 1 field"
+                          );
+                        }
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </div>
+                  {messageDistribute !== "" && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {messageDistribute}
                       </p>
                     </div>
                   )}
