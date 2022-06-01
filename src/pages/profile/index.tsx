@@ -138,7 +138,6 @@ const UpdateProfilePage = () => {
                 </div>
               </div>
               <InputField label="Username" register={register("username")} />
-              <InputField label="Company" register={register("company")} />
               <InputField
                 label="Contact Email"
                 register={register("emailAddress")}
@@ -171,19 +170,6 @@ const UpdateProfilePage = () => {
                   renderInput={(params) => (
                     <TextField {...params} {...register("skills")} />
                   )}
-                />
-              </div>
-              <InputField label="Industry" register={register("industry")} />
-              <InputField label="Headline" register={register("headline")} />
-              <div className="md:flex items-start mx-5 my-8">
-                <label className="text-primary min-w-[130px] block py-2 md:py-0">
-                  Description:
-                </label>
-                <textarea
-                  {...register("description")}
-                  autoComplete="off"
-                  rows={5}
-                  className="resize-none w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                 />
               </div>
             </section>
