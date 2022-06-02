@@ -5,12 +5,14 @@ import { getProfile, getSkills, updateProfile } from "@/redux/profileSlice";
 import { Layout } from "@/src/layouts/layout";
 import { ELoginProvider } from "@/type/auth/login.type";
 import { IProfile, ISkills } from "@/type/profile/profile.type";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Autocomplete, Box, Container, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Image from "next/image";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
+import * as Yup from "yup";
 
 const theme = createTheme({
   components: {
@@ -33,10 +35,24 @@ const theme = createTheme({
   },
 });
 
+const schemaValidation = Yup.object({
+  emailAddress: Yup.string().email("Please enter a valid email format!"),
+  googleAddress: Yup.string().email("Please enter a valid Google format!"),
+});
+
 const UpdateProfilePage = () => {
   const { userInfo, skills } = useAppSelector((state) => state.ProfileReducer);
   const dispatch = useAppDispatch();
-  const { register, handleSubmit, getValues, reset } = useForm<IProfile>();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    reset,
+    formState: { errors },
+  } = useForm<IProfile>({
+    resolver: yupResolver(schemaValidation),
+    mode: "all",
+  });
   const [userSkills, setUserSkills] = useState<ISkills[]>(
     userInfo.skills || []
   );
@@ -164,6 +180,7 @@ const UpdateProfilePage = () => {
                 <InputField
                   label="Contact Email"
                   register={register("emailAddress")}
+                  errors={errors.emailAddress}
                 />
               </section>
               <section>
@@ -177,6 +194,7 @@ const UpdateProfilePage = () => {
                   label="Google"
                   placeholder="janedoe@gmail.com"
                   register={register("googleAddress")}
+                  errors={errors.googleAddress}
                 />
                 <div className="md:flex items-start mx-5 my-8">
                   <label className="text-primary min-w-[130px] block py-2 md:py-0">
