@@ -31,10 +31,7 @@ const schema = yub.object().shape({
     .string()
     .required("Team Name is required")
     .trim("Team name is required"),
-  teamSize: yub
-    .string()
-    .required("Team Size is required")
-    .matches(/[1-9]/, "Team size require value number"),
+  teamSize: yub.string().required("Team Size is required"),
   timeZone: yub.string().required("Time Zone is required"),
   location: yub.string().required("Location is required"),
   organization: yub
@@ -136,6 +133,10 @@ const CreateNewTeam = () => {
       setTimeout(() => {
         router.push("/manage-teams");
       }, 3000);
+    } else if (dataSkill.length > 0 || dataSkillDistribute.length < 0) {
+      setMessageDistribute("Skill distribute must have at least 1 field");
+    } else if (dataSkill.length < 0 || dataSkillDistribute.length > 0) {
+      setMessage("Skill must have at least 1 field");
     } else {
       setMessage("Skill must have at least 1 field");
       setMessageDistribute("Skill distribute must have at least 1 field");
@@ -223,6 +224,10 @@ const CreateNewTeam = () => {
                       placeholder="Enter value here"
                       {...register("teamSize")}
                       autoComplete="off"
+                      onKeyDown={(e) =>
+                        ["e", "E", "+", "-"].includes(e.key) &&
+                        e.preventDefault()
+                      }
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary hidden-arrow-input-number"
                     />
                   </div>
@@ -359,6 +364,10 @@ const CreateNewTeam = () => {
                       {...register("founded")}
                       autoComplete="off"
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                      onKeyDown={(e) =>
+                        ["e", "E", "+", "-"].includes(e.key) &&
+                        e.preventDefault()
+                      }
                       placeholder="1900"
                     />
                   </div>
@@ -378,6 +387,10 @@ const CreateNewTeam = () => {
                       {...register("projectSize")}
                       autoComplete="off"
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                      onKeyDown={(e) =>
+                        ["e", "E", "+", "-"].includes(e.key) &&
+                        e.preventDefault()
+                      }
                       placeholder="Enter value here"
                     />
                   </div>
@@ -398,6 +411,10 @@ const CreateNewTeam = () => {
                       {...register("workingTime")}
                       autoComplete="off"
                       className="md:max-w-[200px] mr-2 w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary hidden-arrow-input-number"
+                      onKeyDown={(e) =>
+                        ["e", "E", "+", "-"].includes(e.key) &&
+                        e.preventDefault()
+                      }
                       placeholder="Enter value here"
                     />
 

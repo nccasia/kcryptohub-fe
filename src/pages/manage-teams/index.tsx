@@ -14,11 +14,7 @@ import { TeamCard } from "@/src/layouts/team/TeamCard";
 
 const ManageTeam = () => {
   const dispatch = useAppDispatch();
-  const team = useAppSelector((state) => state.TeamReducer.value);
-
-  useEffect(() => {
-    dispatch(getAllTeam());
-  }, [dispatch]);
+  const profile = useAppSelector((state) => state.ProfileReducer.userInfo);
 
   const handleDelete = (teams: ICreateTeam) => {
     dispatch(deleteTeam(teams.id));
@@ -39,8 +35,9 @@ const ManageTeam = () => {
       </div>
 
       <div className="px-4">
-        {team.length > 0 &&
-          team.map((item, index) => (
+        {profile.team &&
+          profile.team.length > 0 &&
+          profile.team.map((item, index) => (
             <TeamCard team={item as unknown as Team} key={index} />
           ))}
       </div>

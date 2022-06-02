@@ -1,3 +1,5 @@
+import { ICreateTeam } from "../createTeam/createTeam.type";
+
 export interface IProfile {
   description: string;
   username: string;
@@ -10,4 +12,5 @@ export interface IProfile {
   provider: string;
   status: string;
   skills: string[];
+  team: ICreateTeam[];
 }
