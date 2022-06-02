@@ -36,8 +36,17 @@ const theme = createTheme({
 });
 
 const schemaValidation = Yup.object({
-  emailAddress: Yup.string().email("Please enter a valid email format!"),
-  googleAddress: Yup.string().email("Please enter a valid Google format!"),
+  emailAddress: Yup.string().email("Please enter a valid email!"),
+  githubAddress: Yup.string().matches(
+    /^(https:\/\/)?(www\.)?github\.(com)+\/([A-Za-z0-9]{1,})+\/?$/i,
+    "Please enter a valid Github format!"
+  ),
+  googleAddress: Yup.string()
+    .email("Please enter a valid email!")
+    .matches(
+      /([a-zA-Z0-9_.-]+)@gmail\.com/,
+      "Please enter a valid Google format!"
+    ),
 });
 
 const UpdateProfilePage = () => {
@@ -189,6 +198,7 @@ const UpdateProfilePage = () => {
                   label="Github"
                   placeholder="https://github.com/janedoe"
                   register={register("githubAddress")}
+                  errors={errors.githubAddress}
                 />
                 <InputField
                   label="Google"
