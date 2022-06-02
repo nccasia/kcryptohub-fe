@@ -9,7 +9,6 @@ export enum ELoginProvider {
 }
 
 export interface IFormLoginGithub {
-  emailAddress: string | null | undefined;
   accessToken: string;
 }
 

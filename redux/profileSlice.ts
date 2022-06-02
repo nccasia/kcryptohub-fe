@@ -13,26 +13,26 @@ export const updateProfile = createAsyncThunk(
   async (user: IProfile) => {
     const response = await axiosClient.put(`/profile/update/${user.id}`, {
       username: user.username,
-      company: user.company,
       emailAddress: user.emailAddress,
       githubAddress: user.githubAddress,
       googleAddress: user.googleAddress,
-      description: user.description,
       avatarPath: user.avatarPath,
-      profileLink: user.profileLink,
       status: user.status,
-      industry: user.industry,
-      headline: user.headline,
       skills: user.skills,
     });
     return response.data;
   }
 );
 
-export const getSkills = createAsyncThunk("getSkills", async () => {
-  const response = await axiosClient.get("/skill");
-  return response.data;
-});
+export const getSkills = createAsyncThunk(
+  "getSkills",
+  async (keyword: string) => {
+    const response = await axiosClient.get(
+      `/skill/list?page=1&size=100000&&keyword=${keyword}`
+    );
+    return response.data.content;
+  }
+);
 const initialState = {
   userInfo: {} as IProfile,
   skills: [] as ISkills[],

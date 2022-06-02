@@ -45,7 +45,6 @@ const Login = () => {
         switch (data.provider) {
           case ELoginProvider[ELoginProvider.GITHUB].toLowerCase(): {
             handleLoginGithub({
-              emailAddress: data?.user?.email,
               accessToken: data!.accessToken as string,
             });
             break;
