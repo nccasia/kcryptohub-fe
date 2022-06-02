@@ -17,7 +17,6 @@ export const updateProfile = createAsyncThunk(
       githubAddress: user.githubAddress,
       googleAddress: user.googleAddress,
       avatarPath: user.avatarPath,
-      status: user.status,
       skills: user.skills,
     });
     return response.data;
