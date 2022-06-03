@@ -23,7 +23,7 @@ import {
   TextField,
   Modal,
 } from "@mui/material";
-import { ISkill, ISkillDistribution } from "@/type/skill/skill.types";
+import { ISkills, ISkillDistribution } from "@/type/skill/skill.types";
 
 const schema = yub.object().shape({
   teamName: yub
@@ -110,7 +110,7 @@ const CreateNewTeam = () => {
 
   const location = ["Việt Nam", " Dubai"];
 
-  const [dataSkill, setData] = useState<ISkill[]>([]);
+  const [dataSkill, setData] = useState<ISkills[]>([]);
   const [dataSkillDistribute, setDataSkillDistribute] = useState<
     ISkillDistribution[]
   >([]);

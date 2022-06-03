@@ -1,4 +1,4 @@
-import { ISkill } from "./../type/skill/skill.types";
+import { ISkills } from "./../type/skill/skill.types";
 import axiosClient from "@/api/axios-client";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -52,7 +52,7 @@ export const updateTeam = createAsyncThunk(
 
 const initialState = {
   value: [] as ICreateTeam[],
-  skillInfo: [] as ISkill[],
+  skillInfo: [] as ISkills[],
 };
 
 export const TeamSlice = createSlice({

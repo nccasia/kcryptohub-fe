@@ -1,4 +1,4 @@
-export interface ISkill {
+export interface ISkills {
   id: string | null;
   skillName: string;
 }

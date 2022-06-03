@@ -1,5 +1,6 @@
 import axiosClient from "@/api/axios-client";
 import { IProfile } from "@/type/profile/profile.type";
+import { ISkills } from "@/type/skill/skill.types";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
@@ -11,16 +12,30 @@ export const getProfile = createAsyncThunk("getProfile", async () => {
 export const updateProfile = createAsyncThunk(
   "updateProfile",
   async (user: IProfile) => {
-    const response = await axiosClient.put(`/profile/${user.id}`, {
+    const response = await axiosClient.put(`/profile/update`, {
       username: user.username,
       emailAddress: user.emailAddress,
+      githubAddress: user.githubAddress,
+      googleAddress: user.googleAddress,
+      avatarPath: user.avatarPath,
+      skills: user.skills,
     });
     return response.data;
   }
 );
 
+export const getSkills = createAsyncThunk(
+  "getSkills",
+  async (keyword: string) => {
+    const response = await axiosClient.get(
+      `/skill/list?page=1&size=100000&&keyword=${keyword}`
+    );
+    return response.data.content;
+  }
+);
 const initialState = {
   userInfo: {} as IProfile,
+  skills: [] as ISkills[],
 };
 
 export const profileSlice = createSlice({
@@ -29,6 +44,9 @@ export const profileSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(getSkills.fulfilled, (state, action) => {
+        state.skills = action.payload;
+      })
       .addCase(getProfile.fulfilled, (state, action) => {
         state.userInfo = action.payload;
       })

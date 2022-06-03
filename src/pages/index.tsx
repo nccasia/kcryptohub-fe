@@ -86,7 +86,6 @@ const Home: NextPage = () => {
             <h1 className="text-4xl font-700 mb-5">
               The only resource you need to find the right company.
             </h1>
-
             <h2 className="text-base text-gray-600 mb-5">
               Choose the best-fit company for your business using 98,000+ client
               reviews from real people.

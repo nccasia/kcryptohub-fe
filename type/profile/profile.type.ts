@@ -1,16 +1,16 @@
 import { ICreateTeam } from "../createTeam/createTeam.type";
+import { ISkills } from "../skill/skill.types";
 
 export interface IProfile {
-  description: string;
   username: string;
-  avatar: string;
+  avatarPath: string;
   createdAt: string;
   emailAddress: string;
-  github: string;
-  google: string;
+  googleAddress: string;
+  githubAddress: string;
   id: number;
   provider: string;
   status: string;
-  skills: string[];
+  skills: ISkills[];
   team: ICreateTeam[];
 }

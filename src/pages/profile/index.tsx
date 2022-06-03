@@ -1,353 +1,272 @@
-import avatar from "@/images/avatar.png";
+import { IconMap } from "@/components/IconSVG/IconMap";
+import InputField from "@/components/profile/InputField";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { updateProfile } from "@/redux/profileSlice";
+import { getProfile, getSkills, updateProfile } from "@/redux/profileSlice";
+import { Layout } from "@/src/layouts/layout";
+import { ELoginProvider } from "@/type/auth/login.type";
 import { IProfile } from "@/type/profile/profile.type";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import CloseIcon from "@mui/icons-material/Close";
-import {
-  Box,
-  Container,
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
-} from "@mui/material";
-import { signOut } from "next-auth/react";
+import { ISkills } from "@/type/skill/skill.types";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Autocomplete, Box, Container, TextField } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { KeyboardEvent, useEffect, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
+import * as Yup from "yup";
+
+const theme = createTheme({
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+          border: "2px solid #cae0e7",
+          "&.Mui-focused": {
+            borderColor: "#17313b",
+            boxShadow:
+              "inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%)",
+          },
+        },
+        notchedOutline: {
+          border: "none",
+        },
+      },
+    },
+  },
+});
+
+const schemaValidation = Yup.object({
+  emailAddress: Yup.string().email("Please enter a valid email!"),
+  githubAddress: Yup.string().matches(
+    /^(https:\/\/)?(www\.)?github\.(com)+\/([A-Za-z0-9]{1,})+\/?$/i,
+    "Please enter a valid Github format!"
+  ),
+  googleAddress: Yup.string()
+    .email("Please enter a valid email!")
+    .matches(
+      /([a-zA-Z0-9_.-]+)@gmail\.com/,
+      "Please enter a valid Google format!"
+    ),
+});
 
 const UpdateProfilePage = () => {
-  const userInfo = useAppSelector((state) => state.ProfileReducer.userInfo);
+  const { userInfo, skills } = useAppSelector((state) => state.ProfileReducer);
   const dispatch = useAppDispatch();
-  const initialValues = {
-    description: userInfo.description || "",
-    username: userInfo.username || "",
-    avatar: userInfo.avatar || "",
-    createdAt: userInfo.createdAt || "",
-    emailAddress: userInfo.emailAddress || "",
-    github: userInfo.github || "",
-    google: userInfo.google || "",
-    id: userInfo.id || undefined,
-    provider: userInfo.provider || "",
-    status: userInfo.status || "",
-    skills: userInfo.skills,
-  };
-  const router = useRouter();
-  const { register, handleSubmit, getValues } = useForm<IProfile>({
-    defaultValues: initialValues,
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    reset,
+    formState: { errors },
+  } = useForm<IProfile>({
+    resolver: yupResolver(schemaValidation),
+    mode: "all",
   });
+  const [userSkills, setUserSkills] = useState<ISkills[]>(
+    userInfo.skills || []
+  );
+  useEffect(() => {
+    dispatch(getSkills(""));
+  }, [dispatch]);
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [skills, setSkills] = useState<string[]>(userInfo.skills || []);
-  const [isEditting, setIsEditing] = useState<boolean>(false);
-  const handleAddSkills = (event: KeyboardEvent<HTMLInputElement>) => {
-    let value = (event.target as HTMLInputElement).value;
-    if (value !== "") {
-      setSkills([...skills, value]);
-      (event.target as HTMLInputElement).value = "";
+  useEffect(() => {
+    reset({
+      id: userInfo.id,
+      username: userInfo.username,
+      emailAddress: userInfo.emailAddress,
+      googleAddress: userInfo.googleAddress,
+      githubAddress: userInfo.githubAddress,
+      avatarPath: userInfo.avatarPath,
+      status: userInfo.status,
+      provider: userInfo.provider,
+    });
+    if (userInfo.skills) {
+      setUserSkills(userInfo.skills);
     }
-  };
+  }, [reset, userInfo]);
 
-  const handleRemoveSkill = (skill: string) => {
-    const newSkilss = skills.filter((item) => item !== skill);
-    setSkills([...newSkilss]);
+  const handleLogo = () => {
+    switch (userInfo.provider?.toUpperCase()) {
+      case ELoginProvider[ELoginProvider.GITHUB]: {
+        return IconMap.Github.src;
+      }
+      case ELoginProvider[ELoginProvider.GOOGLE]: {
+        return IconMap.Google.src;
+      }
+      default:
+        return IconMap.User.src;
+    }
   };
 
   const handleUpdateProfile = () => {
-    setIsEditing(!isEditting);
+    handleSubmit(async (value) => {
+      await dispatch(updateProfile({ ...value, skills: userSkills }));
+      await dispatch(getProfile());
+    })();
+  };
 
-    if (isEditting) {
-      handleSubmit((value) => {
-        dispatch(updateProfile({ ...userInfo, ...value, skills }));
-      })();
+  const handleSearchSkill = (e: SyntheticEvent) => {
+    let isExists = false;
+    if ((e.target as HTMLInputElement).value.trim() !== "") {
+      skills.map((skill) => {
+        if (skill.skillName === (e.target as HTMLInputElement).value) {
+          isExists = true;
+        }
+      });
+      if (!isExists) {
+        const newArrSkill = [
+          ...userSkills,
+          { id: null, skillName: (e.target as HTMLInputElement).value },
+        ];
+        setUserSkills(newArrSkill);
+      }
+      (e.target as HTMLInputElement).value = "";
     }
   };
 
-  const handleLogout = async () => {
-    setAnchorEl(null);
-    const data = await signOut({ redirect: false, callbackUrl: "/login" });
-    localStorage.removeItem("accessToken");
-    router.push(data.url);
+  const handleAutocompleteOption = () => {
+    const userSkillIdList = userSkills.map((skill) => skill.id);
+    const restArrSkill = skills.filter(
+      (skill) => !userSkillIdList.includes(skill.id)
+    );
+    return restArrSkill || [];
   };
-
   return (
-    <>
-      <Box my={5}>
-        <Container
-          fixed
-          maxWidth="md"
-          className="border border-solid border-slate-300"
-        >
-          <form id="profile-form">
-            <div className="flex items-center justify-between aligns-center py-2 border-b">
-              <Link href="/">
-                <h2 className="text-red-500 text-2xl font-semibold">
-                  Kryptohub
-                </h2>
-              </Link>
-              <div className="flex items-center gap-x-3">
-                <div className="flex gap-x-4">
-                  <h3>NCC Plus</h3>
-                  <IconButton
-                    className="p-0"
-                    onClick={(event) => setAnchorEl(event.currentTarget)}
-                  >
-                    <ArrowDropDownIcon />
-                  </IconButton>
-                  <Menu
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={() => setAnchorEl(null)}
-                  >
-                    <MenuItem onClick={handleLogout}>Log out</MenuItem>
-                  </Menu>
-                </div>
-                <div className="rounded-full w-16">
-                  <Image src={avatar} alt="avatar" layout="responsive" />
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-between items-center py-8">
-              <h3 className="text-3xl font-bold">Welcome NCC!</h3>
-              <button
-                type="button"
-                className="bg-teal-700 text-white px-8 py-2 rounded-lg"
-                onClick={() => handleUpdateProfile()}
-              >
-                {isEditting ? "Update" : "Editting"}
-              </button>
-            </div>
-            <Stack
-              justifyContent="space-between"
-              direction={{ xs: "column-reverse", md: "row" }}
-            >
-              <Box mt={{ xs: 4, md: 0 }}>
-                <div className="flex items-center gap-x-10 mb-3">
-                  <h3 className="text-xl text-right min-w-[150px]">Username</h3>
-                  {!isEditting && (
-                    <span className="italic py-2 px-4 ">
-                      {getValues("username") || "No Data"}
-                    </span>
-                  )}
-                  {isEditting && (
-                    <input
-                      autoComplete="off"
-                      type="text"
-                      className={
-                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
-                        (isEditting
-                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
-                          : "")
-                      }
-                      {...register("username")}
-                      disabled={!isEditting}
-                      placeholder="Add your username here"
+    <Layout>
+      <ThemeProvider theme={theme}>
+        <Box>
+          <Container
+            fixed
+            maxWidth="lg"
+            className="border border-[#cae0e7] py-6 md:!px-24 md:py-12"
+          >
+            <form>
+              <section>
+                <div className="flex gap-x-[8px] mb-8">
+                  <span className="text-primary">Logged In With:</span>
+                  <span className="flex gap-x-[6px] text-[#6A797D]">
+                    <Image
+                      width="24"
+                      height="24"
+                      src={handleLogo()}
+                      alt="google"
                     />
-                  )}
+                    {userInfo.username}
+                  </span>
                 </div>
-                <div className="flex items-center gap-x-10 mb-3">
-                  <h3 className="text-xl text-right min-w-[150px]">Email</h3>
-                  {!isEditting && (
-                    <span className="italic py-2 px-4 ">
-                      {getValues("emailAddress") || "No Data"}
-                    </span>
-                  )}
-                  {isEditting && (
-                    <input
-                      autoComplete="off"
-                      type="text"
-                      className={
-                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
-                        (isEditting
-                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
-                          : "")
-                      }
-                      {...register("emailAddress")}
-                      disabled={!isEditting}
-                      placeholder="Add your email address here"
-                    />
-                  )}
-                </div>
-                <div className="flex items-center gap-x-10 mb-3">
-                  <h3 className="text-xl text-right min-w-[150px]">Avatar</h3>
-                  {!isEditting && (
-                    <span className="italic py-2 px-4 ">
-                      {getValues("avatar") || "No Data"}
-                    </span>
-                  )}
-                  {isEditting && (
-                    <input
-                      autoComplete="off"
-                      type="text"
-                      className={
-                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
-                        (isEditting
-                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
-                          : "")
-                      }
-                      {...register("avatar")}
-                      disabled={!isEditting}
-                      placeholder="Add your avatar link here"
-                    />
-                  )}
-                </div>
-                <div className="flex items-center gap-x-10 mb-3">
-                  <h3 className="text-xl text-right min-w-[150px]">Skill</h3>
-                  <div
-                    className={
-                      "flex flex-wrap py-2 px-4 rounded-md border border-transparent w-full max-w-[300px]" +
-                      (isEditting
-                        ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
-                        : "")
-                    }
-                  >
-                    <ul id="tags" className="flex flex-wrap">
-                      {!skills.length && !isEditting && (
-                        <span className="italic">No Data</span>
+                <h2 className="text-3xl text-primary">Personal Information</h2>
+                <div className="md:flex items-center mx-5 my-8">
+                  <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                    Picture:
+                  </label>
+                  <div className="flex md:max-w-[400px] w-full items-center gap-x-3">
+                    <div className="w-16 h-16 flex-none rounded-full overflow-hidden border border-[#cae0e7]">
+                      {getValues("avatarPath") ? (
+                        <img
+                          src={getValues("avatarPath")}
+                          alt="avatar"
+                          className="w-full h-full"
+                        />
+                      ) : (
+                        <Image
+                          width="62"
+                          height="62"
+                          src={IconMap.AvatarDefault.src}
+                          alt="avatar"
+                          layout="responsive"
+                        />
                       )}
-                      {skills.map((skill, index) => (
-                        <li
-                          key={index}
-                          className="px-3 py-1 my-1 rounded-2xl flex items-center leading-normal bg-neutral-300 mr-2"
-                        >
-                          <span className="leading-normal">{skill}</span>
-                          {isEditting && (
-                            <IconButton
-                              className="p-0 bg-white text-black ml-2 hover:bg-white"
-                              onClick={() => handleRemoveSkill(skill)}
-                            >
-                              <CloseIcon className="text-base" />
-                            </IconButton>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                    {isEditting && (
-                      <input
-                        autoComplete="off"
-                        type="text"
-                        className="outline-none italic mt-1 bg-transparent"
-                        disabled={!isEditting}
-                        onKeyUp={(event) =>
-                          event.keyCode === 13 ? handleAddSkills(event) : null
-                        }
-                        placeholder="Add your skill here"
-                      />
-                    )}
+                    </div>
+                    <input
+                      type="text"
+                      {...register("avatarPath")}
+                      placeholder="Add your link avatar here"
+                      className="w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
+                    />
                   </div>
                 </div>
-                <div className="flex items-center gap-x-10 mb-3">
-                  <h3 className="text-xl text-right min-w-[150px]">
-                    Github account
-                  </h3>
-                  {!isEditting && (
-                    <span className="italic py-2 px-4 ">
-                      {getValues("github") || "No Data"}
-                    </span>
-                  )}
-                  {isEditting && (
-                    <input
-                      autoComplete="off"
-                      type="text"
-                      className={
-                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
-                        (isEditting
-                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
-                          : "")
-                      }
-                      {...register("github")}
-                      disabled={!isEditting}
-                      placeholder="Add your github account here"
-                    />
-                  )}
-                </div>
-                <div className="flex items-center gap-x-10 mb-3">
-                  <h3 className="text-xl text-right min-w-[150px]">
-                    Google account
-                  </h3>
-                  {!isEditting && (
-                    <span className="italic py-2 px-4 ">
-                      {getValues("google") || "No Data"}
-                    </span>
-                  )}
-                  {isEditting && (
-                    <input
-                      autoComplete="off"
-                      type="text"
-                      className={
-                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent" +
-                        (isEditting
-                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
-                          : "")
-                      }
-                      {...register("google")}
-                      disabled={!isEditting}
-                      placeholder="Add your google account here"
-                    />
-                  )}
-                </div>
-                <div className="flex items-center gap-x-10 mb-3">
-                  <h3 className="text-xl text-right min-w-[150px]">
-                    Description
-                  </h3>
-                  {!isEditting && (
-                    <span className="italic py-2 px-4 ">
-                      {getValues("description") || "No Data"}
-                    </span>
-                  )}
-                  {isEditting && (
-                    <textarea
-                      rows={isEditting ? 4 : 1}
-                      {...register("description")}
-                      className={
-                        "bg-transparent text-base italic outline-none py-2 px-4 w-full max-w-[300px] transition-all border border-transparent resize-none" +
-                        (isEditting
-                          ? " !border-neutral-300 hover:!border-neutral-800 focus:!border-neutral-800 rounded-md"
-                          : "")
-                      }
-                      disabled={!isEditting}
-                      placeholder="Add your description here"
-                    ></textarea>
-                  )}
-                </div>
-              </Box>
-              <Box mr={{ md: 10 }} className="flex flex-col items-center">
-                <div className="w-40 h-48 border border-slate-400">
-                  <img
-                    src={getValues("avatar") || "https://picsum.photos/160/192"}
-                    alt="avatar"
-                    className="w-full h-full"
+                <InputField label="Username" register={register("username")} />
+                <InputField
+                  label="Contact Email"
+                  register={register("emailAddress")}
+                  errors={errors.emailAddress}
+                />
+              </section>
+              <section>
+                <h2 className="text-3xl mt-20 text-primary">About</h2>
+                <InputField
+                  label="Github"
+                  placeholder="https://github.com/janedoe"
+                  register={register("githubAddress")}
+                  errors={errors.githubAddress}
+                />
+                <InputField
+                  label="Google"
+                  placeholder="janedoe@gmail.com"
+                  register={register("googleAddress")}
+                  errors={errors.googleAddress}
+                />
+                <div className="md:flex items-start mx-5 my-8">
+                  <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                    Skills:
+                  </label>
+                  <Autocomplete
+                    multiple
+                    options={handleAutocompleteOption()}
+                    getOptionLabel={(option) => option.skillName}
+                    value={userSkills}
+                    filterSelectedOptions
+                    onChange={(e, value) => setUserSkills(value)}
+                    className="md:max-w-[400px] w-full"
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        {...register("skills")}
+                        onKeyUp={(event) =>
+                          event.key === "Enter"
+                            ? handleSearchSkill(event)
+                            : null
+                        }
+                      />
+                    )}
                   />
                 </div>
-                {isEditting && (
+              </section>
+              <section>
+                <div className="flex justify-center md:justify-start gap-x-10">
                   <button
                     type="button"
-                    className="bg-teal-700 text-white px-6 py-2 mt-5 rounded-lg"
+                    className="px-5 py-2 transition duration-150 border-2 border-[#cae0e7] text-[#08537E] hover:bg-[#cae0e7]"
+                    onClick={handleUpdateProfile}
                   >
-                    Upload
+                    Save Changes
                   </button>
-                )}
-              </Box>
-            </Stack>
-          </form>
-        </Container>
-      </Box>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-    </>
+                  <button
+                    type="button"
+                    className="px-5 py-2 transition duration-150 text-[#08537E] hover:underline"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </section>
+            </form>
+          </Container>
+        </Box>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </ThemeProvider>
+    </Layout>
   );
 };
 
