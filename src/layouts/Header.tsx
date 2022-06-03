@@ -6,7 +6,10 @@ import Link from "next/link";
 
 export const Header = () => {
   const user = useAppSelector((state) => state.ProfileReducer.userInfo);
+<<<<<<< HEAD
 
+=======
+>>>>>>> a33d346310401aa1e00fa768718a2d6803d49e87
   return (
     <div className="w-full flex justify-between p-8 sm:px-16 bg-cyan-900 text-white z-20">
       <Link href="/">
@@ -48,12 +51,10 @@ export const Header = () => {
             </div>
             <Link href={"/profile"}>
               <a>
-                <Image
-                  src={user?.avatar || "/favicon.ico"}
-                  width={30}
-                  height={30}
+                <img
+                  src={user?.avatarPath || "/favicon.ico"}
                   alt="avatar"
-                  className="rounded-full"
+                  className="w-8 h-8 rounded-full"
                 />
               </a>
             </Link>

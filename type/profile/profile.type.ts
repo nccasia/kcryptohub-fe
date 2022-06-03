@@ -1,13 +1,17 @@
 export interface IProfile {
-  description: string;
   username: string;
-  avatar: string;
+  avatarPath: string;
   createdAt: string;
   emailAddress: string;
-  github: string;
-  google: string;
+  googleAddress: string;
+  githubAddress: string;
   id: number;
   provider: string;
   status: string;
-  skills: string[];
+  skills: ISkills[];
+}
+
+export interface ISkills {
+  id: number | null;
+  skillName: string;
 }

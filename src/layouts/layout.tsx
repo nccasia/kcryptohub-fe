@@ -1,11 +1,11 @@
-import axiosClient from "@/api/axios-client";
+import React, { useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getProfile } from "@/redux/profileSlice";
 import { getListSkill } from "@/redux/skillSlice";
+import { ArrowForwardIosOutlined } from "@mui/icons-material";
 import { Modal } from "@mui/material";
-import { useRouter } from "next/router";
-import type { ReactNode } from "react";
-import React, { useEffect, useState } from "react";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 ;
@@ -21,14 +21,14 @@ const Layout = (props: IHeaderProps) => {
   useEffect(() => {
     if (localStorage.getItem("accessToken") && !data.ProfileReducer.userInfo.username) {
       dispatch(getProfile())
-        // .then((data) => {
-        //   if (data.payload.status === "isNew") {
-        //     setOpenWarning(true);
-        //   }
-        // })
-        // .catch((err) => {
-        //   throw new Error(err);
-        // });
+        .then((data) => {
+          if (data.payload.status === "isNew") {
+            setOpenWarning(true);
+          }
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
     }
   }, [data.ProfileReducer.userInfo.username, dispatch]);
   useEffect(() => {
@@ -44,7 +44,11 @@ const Layout = (props: IHeaderProps) => {
   return (
     <div className="h-full flex flex-col">
       <Header />
-      
+      <div className="">
+        <h1 className="px-20 py-2 text-white bg-cyan-700 font-bold">
+          Welcome to KryptoHub <ArrowForwardIosOutlined className="text-sm" />
+        </h1>
+      </div>
       
       <div className="flex-1">
         {props.children}
