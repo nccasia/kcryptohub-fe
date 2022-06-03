@@ -494,6 +494,7 @@ const CreateNewTeam = () => {
                       type="number"
                       {...register("projectSize")}
                       autoComplete="off"
+                      min={0}
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
                       onKeyDown={(e) =>
                         ["e", "E", "+", "-"].includes(e.key) &&
