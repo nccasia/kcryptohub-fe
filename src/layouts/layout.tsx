@@ -8,6 +8,7 @@ import { signOut } from "next-auth/react";
 import { Header } from "./Header";
 import { Modal } from "@mui/material";
 import { Footer } from "./Footer";
+import { getAllSkill } from "@/redux/teamSlice";
 
 type IHeaderProps = {
   children: ReactNode;
@@ -17,9 +18,11 @@ const Layout = (props: IHeaderProps) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [openWarning, setOpenWarning] = useState<boolean>(false);
-
   useEffect(() => {
-    if (localStorage.getItem("accessToken") && !data.username) {
+    dispatch(getAllSkill());
+  }, [dispatch]);
+  useEffect(() => {
+    /*  if (localStorage.getItem("accessToken") && !data.username) {
       dispatch(getProfile())
         .then((data) => {
           if (data.payload.status === "isNew") {
@@ -29,7 +32,7 @@ const Layout = (props: IHeaderProps) => {
         .catch((err) => {
           throw new Error(err);
         });
-    }
+    } */
   }, [data.username, dispatch]);
 
   const handleCloseModal = () => {

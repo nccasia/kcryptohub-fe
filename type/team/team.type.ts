@@ -12,6 +12,7 @@ export type Team = {
   week?: string;
   description: string;
   avatar: string;
+  slogan: string;
   avatarUrl: string;
   user?: IProfile;
   userId?: number;

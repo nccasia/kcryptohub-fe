@@ -5,41 +5,49 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import Image from "next/image";
-
+import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
-import { createTeam } from "@/redux/teamSlice";
+import { toast, ToastContainer } from "react-toastify";
+import { createTeam, getAllSkill } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Layout } from "@/src/layouts/layout";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   Autocomplete,
   Box,
+  Button,
   Container,
+  IconButton,
   InputAdornment,
   TextField,
+  Modal,
 } from "@mui/material";
-
-interface ISkill {
-  id: number;
-  skillName: string;
-}
+import { ISkill, ISkillDistribution } from "@/type/skill/skill.types";
 
 const schema = yub.object().shape({
   teamName: yub
     .string()
     .required("Team Name is required")
     .trim("Team name is required"),
-  teamSize: yub.string().required("Team Size is required"),
+  teamSize: yub
+    .string()
+    .required("Team Size is required")
+    .max(10, "Invalid length!"),
   timeZone: yub.string().required("Time Zone is required"),
   location: yub.string().required("Location is required"),
   organization: yub
     .string()
     .required("Organization is required")
     .trim("Organization is required"),
-  founded: yub.string().required("This information is required"),
-  workingTime: yub.string().required("Working Time is required"),
+  founded: yub
+    .string()
+    .required("This information is required")
+    .max(10, "Invalid length!"),
+  workingTime: yub
+    .string()
+    .required("Working Time is required")
+    .max(10, "Invalid length!"),
   linkWebsite: yub
     .string()
     .required("Link Website is required")
@@ -48,7 +56,10 @@ const schema = yub.object().shape({
       /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/,
       "Please enter a valid website format!"
     ),
-  projectSize: yub.string().required("Project Size is required"),
+  projectSize: yub
+    .string()
+    .required("Project Size is required")
+    .max(10, "Invalid length!"),
   slogan: yub.string(),
   hour: yub.string(),
   week: yub.string(),
@@ -79,36 +90,44 @@ const theme = createTheme({
 const CreateNewTeam = () => {
   const { data } = useSession();
   const dispatch = useAppDispatch();
+  const skills = useAppSelector((state) => state.TeamReducer.skillInfo);
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState("");
   const [message, setMessage] = useState("");
   const [messageDistribute, setMessageDistribute] = useState("");
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const router = useRouter();
-  const skills = [
-    { id: 1, skillName: "Angular" },
-    { id: 2, skillName: "ReactJS" },
-    { id: 3, skillName: "Web Development" },
-    { id: 4, skillName: "Mobile Development" },
-    { id: 5, skillName: "Design UX/UI" },
-  ];
-  const skillDistribute = [
-    { id: 1, skillDistributeName: "Mobile UI/UX design" },
-    { id: 3, skillDistributeName: "Web Development" },
-    { id: 4, skillDistributeName: "Mobile Development" },
-    { id: 5, skillDistributeName: "Design UX/UI" },
-  ];
-  const timezone = ["GMT +7", "GMT +8", "GMT +9"];
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isDirty, isValid },
+  } = useForm({ resolver: yupResolver(schema), mode: "all" });
+
+  const skillDistribute: ISkillDistribution[] = [];
+  const timezone = ["UTC+7", "UTC+8", "UTC+9"];
 
   const location = ["Việt Nam", " Dubai"];
 
-  const [dataSkill, setData] = useState<number[]>([]);
-  const [dataSkillDistribute, setDataSkill] = useState<number[]>([]);
+  const [dataSkill, setData] = useState<ISkill[]>([]);
+  const [dataSkillDistribute, setDataSkillDistribute] = useState<
+    ISkillDistribution[]
+  >([]);
   const buttonRef = useRef(null);
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
+      if (Math.ceil(i.size / 1024) <= 15000 && i.type.includes("image")) {
+        setImage(i);
+        setCreateObjectURL(URL.createObjectURL(i));
+      } else if (!i.type.includes("image")) {
+        toast.error("File upload must have .jpg, .jpge, .png!");
+        setImage(null);
+      } else {
+        toast.error("File upload is over 15MB!");
+        setImage(null);
+      }
     }
   };
 
@@ -123,7 +142,7 @@ const CreateNewTeam = () => {
       avatar: createObjectURL || data?.user?.image || "./user1.png",
       avatarUrl: "./user1.png",
       skills: dataSkill,
-      skillDistribution: dataSkillDistribute,
+      skillDistribution: [],
     };
 
     if (dataSkill.length > 0 && dataSkillDistribute.length > 0) {
@@ -143,13 +162,78 @@ const CreateNewTeam = () => {
     }
   };
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors, isDirty, isValid },
-  } = useForm({ resolver: yupResolver(schema), mode: "all" });
+  const handleAutocompleteOption = () => {
+    const userSkillIdList = dataSkill.map((skill) => skill.id);
+    const restArrSkill = skills.filter(
+      (skill) => !userSkillIdList.includes(skill.id)
+    );
+    return restArrSkill || [];
+  };
+  const handleSearchSkill = (e: SyntheticEvent) => {
+    let isExists = false;
+    if ((e.target as HTMLInputElement).value.trim() !== "") {
+      skills.map((skill) => {
+        if (skill.skillName === (e.target as HTMLInputElement).value) {
+          isExists = true;
+        }
+      });
+      if (!isExists) {
+        const newArrSkill = [
+          ...dataSkill,
+          { id: null, skillName: (e.target as HTMLInputElement).value },
+        ];
+        setData(newArrSkill);
+      }
+      (e.target as HTMLInputElement).value = "";
+    }
+
+    if (dataSkill.length >= 0) {
+      setMessage("");
+    } else {
+      setMessage("Skill must have at least 1 field");
+    }
+  };
+  const handleAutocompleteDistribution = () => {
+    const userSkillIdList = dataSkillDistribute.map((skill) => skill.id);
+    const restArrSkill = skillDistribute.filter(
+      (skill) => !userSkillIdList.includes(skill.id)
+    );
+    return restArrSkill || [];
+  };
+  const handleSearchSkillDistribution = (e: SyntheticEvent) => {
+    let isExists = false;
+    if ((e.target as HTMLInputElement).value.trim() !== "") {
+      skillDistribute.map((skill) => {
+        if (
+          skill.skillDistributionName === (e.target as HTMLInputElement).value
+        ) {
+          isExists = true;
+        }
+      });
+      if (!isExists) {
+        const newArrSkill = [
+          ...dataSkillDistribute,
+          {
+            id: null,
+            skillDistributionName: (e.target as HTMLInputElement).value,
+            skillDistributionValue: [],
+          },
+        ];
+        setDataSkillDistribute(newArrSkill);
+      }
+      (e.target as HTMLInputElement).value = "";
+    }
+
+    if (dataSkillDistribute.length >= 0) {
+      setMessage("");
+    } else {
+      setMessage("Skill must have at least 1 field");
+    }
+  };
+
+  const handleCloseModal = () => {
+    setOpenDialog(false);
+  };
   return (
     <Layout>
       <ThemeProvider theme={theme}>
@@ -162,12 +246,12 @@ const CreateNewTeam = () => {
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="py-5 flex w-full"
-              onChange={() => {
+              /*   onChange={() => {
                 if (buttonRef.current) {
                   (buttonRef.current as unknown as HTMLButtonElement).disabled =
                     false;
                 }
-              }}
+              }} */
             >
               <div className="">
                 <div className="mb-20">
@@ -187,6 +271,7 @@ const CreateNewTeam = () => {
                       </div>
                       <input
                         type="file"
+                        accept="image/*"
                         {...register("avatar")}
                         placeholder="Add your link avatar here"
                         className="w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
@@ -201,6 +286,7 @@ const CreateNewTeam = () => {
                     <input
                       type="text"
                       {...register("teamName")}
+                      maxLength={30}
                       autoComplete="off"
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                       placeholder="Enter text here"
@@ -290,6 +376,7 @@ const CreateNewTeam = () => {
                       type="text"
                       {...register("organization")}
                       autoComplete="off"
+                      maxLength={30}
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                       placeholder="Enter text here"
                     />
@@ -307,6 +394,7 @@ const CreateNewTeam = () => {
                     </label>
                     <textarea
                       autoComplete="off"
+                      maxLength={200}
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
                       {...register("description")}
                     />
@@ -319,6 +407,7 @@ const CreateNewTeam = () => {
                       type="text"
                       {...register("slogan")}
                       autoComplete="off"
+                      maxLength={30}
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                       placeholder="Enter text here"
                     />
@@ -342,6 +431,7 @@ const CreateNewTeam = () => {
                       type="text"
                       {...register("linkWebsite")}
                       autoComplete="off"
+                      maxLength={100}
                       placeholder="https://company-name.com/"
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
                     />
@@ -449,21 +539,30 @@ const CreateNewTeam = () => {
                     </label>
                     <Autocomplete
                       multiple
-                      options={skills.filter(
-                        (skill) => !dataSkill.includes(skill.id)
-                      )}
+                      options={handleAutocompleteOption()}
                       getOptionLabel={(option) => option.skillName}
+                      value={dataSkill}
                       filterSelectedOptions
-                      className="md:max-w-[410px] w-full"
-                      onChange={(e, newValue) => {
-                        setData(newValue.map((skill) => skill.id));
+                      onChange={(e, value) => {
+                        setData(value);
                         if (dataSkill.length >= 0) {
                           setMessage("");
                         } else {
                           setMessage("Skill must have at least 1 field");
                         }
                       }}
-                      renderInput={(params) => <TextField {...params} />}
+                      className="md:max-w-[410px] w-full"
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          {...register("skills")}
+                          onKeyUp={(event) =>
+                            event.key === "Enter"
+                              ? handleSearchSkill(event)
+                              : null
+                          }
+                        />
+                      )}
                     />
                   </div>
                   {message !== "" && (
@@ -477,26 +576,41 @@ const CreateNewTeam = () => {
                     <label className="text-primary min-w-[130px] block py-2 md:py-0">
                       Skill Distribution:
                     </label>
+
                     <Autocomplete
                       multiple
-                      options={skillDistribute.filter(
-                        (skill) => !dataSkillDistribute.includes(skill.id)
-                      )}
-                      getOptionLabel={(option) => option.skillDistributeName}
+                      options={handleAutocompleteDistribution()}
+                      getOptionLabel={(option) => option.skillDistributionName}
+                      value={dataSkillDistribute}
                       filterSelectedOptions
-                      className="md:max-w-[410px] w-full"
-                      onChange={(e, newValue) => {
-                        setDataSkill(newValue.map((skill) => skill.id));
+                      onChange={(e, value) => {
+                        setDataSkillDistribute(value);
                         if (dataSkillDistribute.length >= 0) {
-                          setMessageDistribute("");
+                          setMessage("");
                         } else {
-                          setMessageDistribute(
-                            "Skill Distribute must have at least 1 field"
-                          );
+                          setMessage("Skill must have at least 1 field");
                         }
                       }}
-                      renderInput={(params) => <TextField {...params} />}
+                      className="md:max-w-[360px] w-full"
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          onKeyUp={(event) =>
+                            event.key === "Enter"
+                              ? handleSearchSkillDistribution(event)
+                              : null
+                          }
+                        />
+                      )}
                     />
+
+                    <Button
+                      onClick={() => {
+                        setOpenDialog(true);
+                      }}
+                    >
+                      New Skill
+                    </Button>
                   </div>
                   {messageDistribute !== "" && (
                     <div className="flex justify-left ml-40 text-sm ">
@@ -517,9 +631,11 @@ const CreateNewTeam = () => {
                   </button>
                   <button
                     type="submit"
-                    disabled={!isValid}
+                    disabled={!isValid || !image}
                     className={`px-8 py-2 shadow text-white rounded ${
-                      !isValid ? "bg-[gray] cursor-not-allowed" : "bg-red-600"
+                      !isValid || !image
+                        ? "bg-[gray] cursor-not-allowed"
+                        : "bg-red-600"
                     }`}
                     ref={buttonRef}
                   >
@@ -532,7 +648,63 @@ const CreateNewTeam = () => {
         </Box>
       </ThemeProvider>
 
-      <ToastContainer autoClose={2000} />
+      <ToastContainer autoClose={2000} position="bottom-right" />
+      <Modal open={openDialog}>
+        <div className="absolute top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 outline-none shadow-2xl bg-white rounded-lg border border-gray-400">
+          <h3 className="text-2xl font-bold px-5 py-4 border-b border-gray-400">
+            New skill distribution
+          </h3>
+          <div className="md:flex items-center mx-5 my-5">
+            <label className="text-primary min-w-[200px] block py-2 md:py-0">
+              Skill distribution name:
+            </label>
+            <input
+              type="text"
+              maxLength={30}
+              autoComplete="off"
+              className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+              placeholder="Enter text here"
+            />
+          </div>
+          <div className="md:flex items-center mx-5 my-5">
+            <label className="text-primary min-w-[200px] block py-2 md:py-0">
+              Field:
+            </label>
+            <input
+              type="text"
+              maxLength={30}
+              autoComplete="off"
+              className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+              placeholder="Enter text here"
+            />
+          </div>
+          <div className="md:flex items-center mx-5 mt-5">
+            <label className="text-primary min-w-[200px] block py-2 md:py-0">
+              Quantity:
+            </label>
+            <input
+              type="text"
+              maxLength={30}
+              autoComplete="off"
+              className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+              placeholder="Enter text here"
+            />
+          </div>
+          <div className="px-5 py-4 flex justify-end">
+            <button
+              className="px-4 py-2 text-white mr-2 bg-blue-500 rounded-lg mt-10"
+              onClick={handleCloseModal}
+            >
+              Cancel
+            </button>
+            <div className="text-right">
+              <button className="px-4 py-2 text-white bg-red-500 rounded-lg mt-10">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </Layout>
   );
 };

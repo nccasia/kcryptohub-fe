@@ -1,3 +1,4 @@
+import { ISkill } from "./../type/skill/skill.types";
 import axiosClient from "@/api/axios-client";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -5,6 +6,10 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
+export const getAllSkill = createAsyncThunk("getAllSkill", async () => {
+  const response = await axiosClient.get("/skill/list?size=100");
+  return response.data.content;
+});
 export const getAllTeam = createAsyncThunk("getAllTeam", async () => {
   const response = await axiosClient({
     method: "get",
@@ -47,6 +52,7 @@ export const updateTeam = createAsyncThunk(
 
 const initialState = {
   value: [] as ICreateTeam[],
+  skillInfo: [] as ISkill[],
 };
 
 export const TeamSlice = createSlice({
@@ -114,6 +120,9 @@ export const TeamSlice = createSlice({
           draggable: true,
           progress: undefined,
         });
+      })
+      .addCase(getAllSkill.fulfilled, (state, action) => {
+        state.skillInfo = action.payload;
       });
   },
 });

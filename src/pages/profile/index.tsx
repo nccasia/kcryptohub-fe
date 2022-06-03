@@ -40,10 +40,10 @@ const UpdateProfilePage = () => {
   const { register, handleSubmit, getValues } = useForm<IProfile>({
     defaultValues: initialValues,
   });
-  const [isEditting, setIsEditing] = useState<boolean>(false);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [skills, setSkills] = useState<string[]>(userInfo.skills || []);
-
+  const [isEditting, setIsEditing] = useState<boolean>(false);
   const handleAddSkills = (event: KeyboardEvent<HTMLInputElement>) => {
     let value = (event.target as HTMLInputElement).value;
     if (value !== "") {

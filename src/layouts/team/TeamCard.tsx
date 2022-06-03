@@ -40,7 +40,7 @@ export const TeamCard = (props: Props) => {
             <div className="flex flex-row ">
               <div className="flex items-end">
                 <h1 className="text-3xl">{team.teamName}</h1>
-                <span className="text-cyan-700 ml-2">{team.description}</span>
+                <span className="text-cyan-700 ml-2">{team.slogan}</span>
               </div>
               <div className="absolute top-0 right-0 flex-1 text-right">
                 <span className="uppercase  text-xs font-semibold tracking-widest text-gray-400 mr-8 mt-[-1rem]">
