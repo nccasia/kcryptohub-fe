@@ -13,10 +13,7 @@ import { Header } from "./Header";
 type IHeaderProps = {
   children: ReactNode;
 };
-const privateRoute = [
-  "manage-teams",
-  "profile",
-]
+
 const Layout = (props: IHeaderProps) => {
   const data = useAppSelector(state=> state);
   const router = useRouter();
