@@ -22,7 +22,7 @@ const Layout = (props: IHeaderProps) => {
     dispatch(getAllSkill());
   }, [dispatch]);
   useEffect(() => {
-    /*  if (localStorage.getItem("accessToken") && !data.username) {
+    if (localStorage.getItem("accessToken") && !data.username) {
       dispatch(getProfile())
         .then((data) => {
           if (data.payload.status === "isNew") {
@@ -32,7 +32,7 @@ const Layout = (props: IHeaderProps) => {
         .catch((err) => {
           throw new Error(err);
         });
-    } */
+    }
   }, [data.username, dispatch]);
 
   const handleCloseModal = () => {

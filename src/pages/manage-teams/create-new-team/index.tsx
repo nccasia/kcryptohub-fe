@@ -114,6 +114,12 @@ const CreateNewTeam = () => {
   const [dataSkillDistribute, setDataSkillDistribute] = useState<
     ISkillDistribution[]
   >([]);
+  const [distributionValueForm, setDistributionValueForm] = useState({
+    skillDistributionName: "",
+    quantity: 0,
+    field: "",
+  });
+  const { skillDistributionName, quantity, field } = distributionValueForm;
   const buttonRef = useRef(null);
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -142,7 +148,7 @@ const CreateNewTeam = () => {
       avatar: createObjectURL || data?.user?.image || "./user1.png",
       avatarUrl: "./user1.png",
       skills: dataSkill,
-      skillDistribution: [],
+      skillDistribution: dataSkillDistribute,
     };
 
     if (dataSkill.length > 0 && dataSkillDistribute.length > 0) {
@@ -216,7 +222,12 @@ const CreateNewTeam = () => {
           {
             id: null,
             skillDistributionName: (e.target as HTMLInputElement).value,
-            skillDistributionValue: [],
+            skillDistributionValue: [
+              {
+                quantity: 1,
+                field: "Name",
+              },
+            ],
           },
         ];
         setDataSkillDistribute(newArrSkill);
@@ -229,6 +240,14 @@ const CreateNewTeam = () => {
     } else {
       setMessage("Skill must have at least 1 field");
     }
+  };
+
+  const handleOnchange = (e: any) => {
+    const formData = e.target as HTMLFormElement;
+    setDistributionValueForm({
+      ...distributionValueForm,
+      [formData.name]: formData.value,
+    });
   };
 
   const handleCloseModal = () => {
@@ -244,7 +263,6 @@ const CreateNewTeam = () => {
             className="border border-[#cae0e7] py-6 md:!px-24 md:py-12"
           >
             <form
-              onSubmit={handleSubmit(onSubmit)}
               className="py-5 flex w-full"
               /*   onChange={() => {
                 if (buttonRef.current) {
@@ -407,7 +425,7 @@ const CreateNewTeam = () => {
                       type="text"
                       {...register("slogan")}
                       autoComplete="off"
-                      maxLength={30}
+                      maxLength={200}
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                       placeholder="Enter text here"
                     />
@@ -588,10 +606,12 @@ const CreateNewTeam = () => {
                         if (dataSkillDistribute.length >= 0) {
                           setMessage("");
                         } else {
-                          setMessage("Skill must have at least 1 field");
+                          setMessage(
+                            "Skill distribute must have at least 1 field"
+                          );
                         }
                       }}
-                      className="md:max-w-[360px] w-full"
+                      className="md:max-w-[410px] w-full"
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -603,14 +623,6 @@ const CreateNewTeam = () => {
                         />
                       )}
                     />
-
-                    <Button
-                      onClick={() => {
-                        setOpenDialog(true);
-                      }}
-                    >
-                      New Skill
-                    </Button>
                   </div>
                   {messageDistribute !== "" && (
                     <div className="flex justify-left ml-40 text-sm ">
@@ -630,14 +642,14 @@ const CreateNewTeam = () => {
                     Cancel
                   </button>
                   <button
-                    type="submit"
+                    type="button"
                     disabled={!isValid || !image}
                     className={`px-8 py-2 shadow text-white rounded ${
                       !isValid || !image
                         ? "bg-[gray] cursor-not-allowed"
                         : "bg-red-600"
                     }`}
-                    ref={buttonRef}
+                    onClick={handleSubmit(onSubmit)}
                   >
                     Save
                   </button>
@@ -661,7 +673,10 @@ const CreateNewTeam = () => {
             <input
               type="text"
               maxLength={30}
+              name="skillDistributionName"
               autoComplete="off"
+              value={skillDistributionName}
+              onChange={handleOnchange}
               className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
               placeholder="Enter text here"
             />
@@ -673,7 +688,10 @@ const CreateNewTeam = () => {
             <input
               type="text"
               maxLength={30}
+              name="field"
               autoComplete="off"
+              value={field}
+              onChange={handleOnchange}
               className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
               placeholder="Enter text here"
             />
@@ -686,6 +704,9 @@ const CreateNewTeam = () => {
               type="text"
               maxLength={30}
               autoComplete="off"
+              name="quantity"
+              value={quantity}
+              onChange={handleOnchange}
               className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
               placeholder="Enter text here"
             />
@@ -698,7 +719,12 @@ const CreateNewTeam = () => {
               Cancel
             </button>
             <div className="text-right">
-              <button className="px-4 py-2 text-white bg-red-500 rounded-lg mt-10">
+              <button
+                onClick={(e) => {
+                  handleSearchSkillDistribution(e);
+                }}
+                className="px-4 py-2 text-white bg-red-500 rounded-lg mt-10"
+              >
                 Save
               </button>
             </div>

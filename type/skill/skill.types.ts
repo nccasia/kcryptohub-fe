@@ -5,7 +5,7 @@ export interface ISkills {
 
 export interface ISkillDistributionValue {
   field: string;
-  quantity: string;
+  quantity: number;
 }
 
 export interface ISkillDistribution {
