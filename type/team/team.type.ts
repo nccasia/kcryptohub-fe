@@ -1,5 +1,5 @@
 import { IProfile } from "../profile/profile.type";
-
+import { Skill } from "../Skill";
 export type Team = {
   id: number;
   teamName: string;
@@ -7,7 +7,7 @@ export type Team = {
   timeZone: string;
   slogan?: string;
   organization?: string;
-  skill: number[];
+  skills: Skill[];
   workingTime: string;
   hour?: string;
   week?: string;
@@ -17,4 +17,6 @@ export type Team = {
   userId?: number;
   status: boolean;
   projectSize: string;
+  linkWebsite: string;
+  founded: string;
 };

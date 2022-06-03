@@ -1,14 +1,9 @@
-import { Skill } from "@/type/Skill";
+import { useAppSelector } from "@/redux/hooks";
 import { KeyboardArrowDownOutlined, KeyboardArrowUpOutlined, Search } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 import { useOutsideClick } from "hook/OuterClick";
-import { FormEvent, LegacyRef, Ref, useState } from "react";
-const getName = (item: any) => {
-  if(item.skillName){
-    return item.skillName;
-  }
-  return item
-}
+import { FormEvent, LegacyRef, Ref, useEffect, useState } from "react";
+
 export const ComboboxSelect = ({
   label,
   items,
@@ -18,36 +13,37 @@ export const ComboboxSelect = ({
   isCollapsor,
 }: {
   label: string;
-  items: any[];
-  selected: number[];
-  setSelected: (selected: number[]) => void;
+  items: string[];
+  selected: string[];
+  setSelected: (selected: string[]) => void;
   className?: string;
   isCollapsor?: boolean;
 }) => {
   const [filteredItems, setFilteredItems] = useState(items);
-  //const [isOpen, setIsOpen] = useState(false);
-
   const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
-
+  useEffect(() => {
+    setFilteredItems(items);
+  }, [items]);
   const handleItemsSelect = (
     event: FormEvent<HTMLInputElement>,
-    value: string
+    value: any
   ) => {
     if (event.currentTarget.checked) {
-      setSelected([...selected, parseInt(value)]);
+      setSelected([...selected, value]);
     } else {
-      setSelected(selected.filter((item) => item !== parseInt(value)));
+      setSelected(selected.filter((item) => item !== value));
     }
+    
   };
   const hanleSearchItems = (event: FormEvent<HTMLInputElement>) => {
     const search = event.currentTarget.value;
     const filtered = items.filter((item) =>
-      getName(item).toLowerCase().includes(search.toLowerCase())
+      item.toLowerCase().includes(search.toLowerCase())
     );
     setFilteredItems(filtered);
   };
   return (
-    <div className={`${className} bg-white`}>
+    <div className={`${className} bg-white`} key={items[0]}>
       <div
         className={`cursor-pointer  py-1 
          flex items-center justify-center w-full`}
@@ -101,7 +97,7 @@ export const ComboboxSelect = ({
           }`}
         >
           {filteredItems.length === 0
-            ? "No items found"
+            ? "No items"
             : filteredItems.map((item, index) => (
                 <label
                   htmlFor={`${label}cb${index}`}
@@ -112,14 +108,14 @@ export const ComboboxSelect = ({
                     type="checkbox"
                     id={`${label}cb${index}`}
                     className="mr-2"
-                    onChange={(e) => handleItemsSelect(e, item.id)}
-                    checked={selected.includes(item.id)}
+                    onChange={(e) => handleItemsSelect(e, item)}
+                    checked={selected.includes(item)}
                   />
                   <label
                     htmlFor={`${label}cb${index}`}
                     className="w-full cursor-pointer"
                   >
-                    {getName(item)}
+                    {item}
                   </label>
                 </label>
               ))}

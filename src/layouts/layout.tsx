@@ -18,35 +18,35 @@ const Layout = (props: IHeaderProps) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [openWarning, setOpenWarning] = useState<boolean>(false);
-
   useEffect(() => {
     if (localStorage.getItem("accessToken") && !data.ProfileReducer.userInfo.username) {
       dispatch(getProfile())
-        .then((data) => {
-          if (data.payload.status === "isNew") {
-            setOpenWarning(true);
-          }
-        })
-        .catch((err) => {
-          throw new Error(err);
-        });
+        // .then((data) => {
+        //   if (data.payload.status === "isNew") {
+        //     setOpenWarning(true);
+        //   }
+        // })
+        // .catch((err) => {
+        //   throw new Error(err);
+        // });
     }
   }, [data.ProfileReducer.userInfo.username, dispatch]);
-  useEffect(()=>{
-    if(data.SkillReducer.value.length === 0){
-      dispatch(getListSkill())
+  useEffect(() => {
+    if (data.SkillReducer.value.length === 0) {
+      dispatch(getListSkill());
     }
-  },[])
+  }, []);
+
   const handleCloseModal = () => {
     setOpenWarning(false);
     router.push("/profile");
   };
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <Header />
       
       
-      <div className="">
+      <div className="flex-1">
         {props.children}
       </div>
 

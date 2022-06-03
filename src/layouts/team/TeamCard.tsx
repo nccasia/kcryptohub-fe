@@ -7,17 +7,13 @@ import {
   ArrowForwardIosOutlined,
   AvTimerOutlined,
   BookmarkBorderOutlined,
-  BookmarkOutlined,
-  ContactlessOutlined,
+  BookmarkOutlined, CheckCircleOutlined, ContactlessOutlined,
   GroupsOutlined,
-  InfoOutlined,
-  LanguageOutlined,
-  CheckCircleOutlined,
-  LabelOutlined,
+  InfoOutlined, LabelOutlined, LanguageOutlined
 } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useState } from "react";
 import { IconHover } from "./IconHover";
 interface Props {
   team: Team;
@@ -30,23 +26,40 @@ const skillColor = [
   "bg-blue-500",
   "bg-indigo-500",
   "bg-purple-500",
+  "bg-pink-500",
+  "bg-gray-500",
+  "bg-teal-500",
+  "bg-cyan-500",
+  "bg-lime-500",
+  "bg-indigo-500",
+  "bg-pink-500",
+  "bg-gray-500",
+  "bg-teal-500",
 ];
 
 export const TeamCard = (props: Props) => {
-  const SkillSelect = useAppSelector((state) => state.SkillReducer.value);
   const team = props.team;
+  const [teamImgSrc, setTeamImgSrc] = useState(team.avatar);
   return (
     <div className="flex md:flex-row w-full border-y my-4 shadow-md flex-col">
       <div className="flex-1">
         <div className="flex xs:flex-row flex-col items-start border-b relative">
           <div className="flex items-center justify-center p-2">
-            <Image width={50} height={50} src={"/user1.png"} alt="logo" />
+            <Image
+              width={50}
+              height={50}
+              src={teamImgSrc}
+              placeholder="blur"
+              blurDataURL="/user1.png"
+              onError={() => setTeamImgSrc("/user1.png")}
+              alt="logo"
+            />
           </div>
           <div className="flex flex-col w-full px-2">
             <div className="flex flex-row ">
               <div className="flex items-end">
                 <h1 className="text-3xl">{team.teamName}</h1>
-                <span className="text-cyan-700 ml-2">{team.description}</span>
+                <span className="text-cyan-700 ml-2">{team.slogan}</span>
               </div>
               <div className="absolute top-0 right-0 flex-1 text-right">
                 <span className="uppercase  text-xs font-semibold tracking-widest text-gray-400 mr-8 mt-[-1rem]">
@@ -73,21 +86,6 @@ export const TeamCard = (props: Props) => {
                 </div>
               </div>
             </div>
-            {/* <div className="flex items-end">
-                <h1 className="text-xl mr-2">
-                  {team.rating ? team.rating : 0}
-                </h1>
-                <Rating
-                  value={team.rating}
-                  readOnly
-                  precision={0.1}
-                  emptyIcon={<StarBorderOutlined />}
-                />
-                <a href="" className="ml-2">
-                  {team.reviewsCount} reviews{" "}
-                  <ArrowForwardIosOutlined className="text-sm" />
-                </a>
-              </div> */}
           </div>
         </div>
         <div className="flex xs:flex-row flex-col">
@@ -100,7 +98,7 @@ export const TeamCard = (props: Props) => {
             {
               <span className="text-cyan-900">
                 <IconHover icon={<LabelOutlined />} hoverText="Project Size" />
-                {team.projectSize}
+                <span className="text-left ml-1">${team.projectSize}</span>
               </span>
             }
             <span className="text-cyan-900">
@@ -108,46 +106,66 @@ export const TeamCard = (props: Props) => {
                 icon={<AccessAlarmOutlined />}
                 hoverText="Working hours"
               />
-              {team.workingTime} hours/week
+              <span className="text-left ml-1">
+                {team.workingTime} hours/week
+              </span>
             </span>
             <span className="text-cyan-900">
-              <IconHover icon={<GroupsOutlined />} hoverText="Team size" />{" "}
-              {team.teamSize}
+              <IconHover icon={<GroupsOutlined />} hoverText="Team size" />
+              <span className="text-left ml-1">{team.teamSize}</span> members
             </span>
             <span className="text-cyan-900">
               <IconHover icon={<AvTimerOutlined />} hoverText="Timezone" />
-              {team.timeZone}
+              <span className="text-left ml-1">{team.timeZone}</span>
             </span>
             <span className="text-cyan-900">
               <IconHover
                 icon={<ApartmentOutlined />}
                 hoverText="Organization"
               />
-              {team.organization}
+              <span className="text-left ml-1">{team.organization}</span>
             </span>
           </div>
           <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
             <div className="flex w-full">
-              <ApiOutlined />
-              <p className="text-cyan-900 w-full break-normal">
-                {team.skill &&
-                  team.skill.map((skill, i) => (
-                    <span key={i}>
-                      <b
-                        className={`px-2 rounded-2xl ${skillColor[skill]} text-white ml-2`}
+              <IconHover icon={<ApiOutlined />} hoverText="Skillset" />
+              <div className="text-cyan-900 w-full break-normal">
+                {team.skills &&
+                  team.skills.map((skill, i) => (
+                    <div key={i} className="inline-block p-1">
+                      <span
+                        className={`px-2 py-1  rounded-2xl ${
+                          skillColor[skill.id]
+                        } text-white ml-2 mt-2 font-medium`}
                       >
-                        {SkillSelect.find((sk) => sk.id === parseInt(skill.toString()))?.skillName}
-                      </b>{" "}
-                    </span>
+                        {skill.skillName}
+                      </span>
+                    </div>
                   ))}
+              </div>
+            </div>
+          </div>
+          <div className="xs:w-1/4 p-4 text-sm text-cyan-900">
+            <div className="">
+              <span className="font-medium ">Founded: </span>
+              {team.founded}
+            </div>
+
+            <div className="">
+              <span className="font-medium ">Description: </span>
+              <p className="max-h-[8rem] overflow-hidden text-ellipsis">
+                {team.description.length> 100? team.description.slice(0,100)+"...":team.description}
+                {team.description.length> 100? <span className="text-cyan-400 cursor-pointer" onClick={()=>{}}>See more</span> : null}
               </p>
             </div>
           </div>
-          <div className="xs:w-1/4 p-4 text-sm text-cyan-900"></div>
         </div>
       </div>
       <div className="flex flex-row md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-sm xs:text-md">
-        <a className="sm:px-2 flex items-center justify-start h-1/3 flex-1 border">
+        <a
+          className="sm:px-2 flex items-center justify-start h-1/3 flex-1 border"
+          href={team.linkWebsite.includes("https") ? team.linkWebsite : `https://${team.linkWebsite}`}
+        >
           <span className="xs:p-4 w-full bg-red-500 font-semibold text-white flex justify-between cursor-pointer border-2 border-red-500 hover:bg-transparent hover:text-red-500">
             Visit Website <LanguageOutlined fontSize="small" />
           </span>

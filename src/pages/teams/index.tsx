@@ -1,6 +1,9 @@
-import SearchIcon from "@mui/icons-material/Search";
-import { FormEvent, LegacyRef, useEffect, useState } from "react";
+import axiosClient from "@/api/axios-client";
+import { useAppSelector } from "@/redux/hooks";
+import { Layout } from "@/src/layouts/layout";
+import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
+import { TimeZone } from "@/type/enum/TimeZone";
 import { Team } from "@/type/team/team.type";
 import {
   ArrowDropDown,
@@ -10,91 +13,138 @@ import {
   JoinFullOutlined,
   JoinInnerOutlined,
 } from "@mui/icons-material";
-import { toast } from "react-toastify";
-import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
+import SearchIcon from "@mui/icons-material/Search";
 import { Pagination } from "@mui/material";
-import { Layout } from "@/src/layouts/layout";
-import axiosClient from "@/api/axios-client";
-import { useRouter } from "next/router";
 import { useOutsideClick } from "hook/OuterClick";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useRouter } from "next/router";
+import { FormEvent, LegacyRef, useEffect, useState } from "react";
 
 const SortBy = ["none", "rating", "size", "working time"];
 interface PageResponse {
   content: Team[];
   pagable: {
-    total: number,
-    page: number,
-    size: number,
-  }
+    total: number;
+    page: number;
+    size: number;
+  };
 }
 const initFilter = {
+  search: "",
+  matchAll: false,
+  sortBy: 0,
+  sortDsc: true,
+  skill: [] as string[],
+  timezone: [] as string[],
+};
+export const Teams = () => {
+  const router = useRouter();
+  const [teams, setTeams] = useState([] as Team[]);
+  const SkillSelect = useAppSelector((state) => state.SkillReducer.value);
+  const [filter, setFilter] = useState({
     search: "",
     matchAll: false,
     sortBy: 0,
     sortDsc: true,
-    skill: [] as number[],
-}
-export const Teams = () => {
-  const router = useRouter();
-  const [teams, setTeams] = useState([] as Team[]);
-  const [filter, setFilter] = useState(initFilter);
+    skill: [] as string[],
+    timezone: [] as string[],
+  });
 
-  const SkillSelect = useAppSelector(state=>state.SkillReducer.value)
-  
-  const [page, setPage] = useState(parseInt(router.query.page as string) || 1);
+  const [currentPage, setcurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const [totalTeam, setTotalTeam] = useState(0); 
-  const { show, setShow, nodeRef, subNodeRef} = useOutsideClick();
-  useEffect(() => {
-    const pageQuery = router.query.page as string;
-    if (pageQuery && parseInt(pageQuery) !== page) {
-      setPage(parseInt(pageQuery));
-    }
-  }, [page, router.query.page, SkillSelect]);
+  const [totalTeam, setTotalTeam] = useState(0);
+  const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
+  const [isReady, setIsReady] = useState(false);
   useEffect(()=>{
-    axiosClient.get(`/team/getAllPaging`,{
-      params: {
-        page: page,
-        skillId: filter.skill,
-        search: filter.search,
-        matchAll: filter.matchAll,
-        sortBy: SortBy[filter.sortBy],
-        sortDsc: filter.sortDsc,
+    if(!router.isReady) return;
+    
+    if(router.query.page && parseInt(router.query.page as string)!== currentPage){
+      let page = parseInt(router.query.page as string);
+      console.log(page);
+      if(page < 1) page = 1;
+      setcurrentPage(page);
+    }
+    let skillQuery = [] as string[];
+    let timezoneQuery = [] as string[];
+    let searchQuery = "";
+    if (router.query.timezone) {
+      if (typeof router.query.timezone === "string") {
+        timezoneQuery = [router.query.timezone.replace(' ', '+')];
+      } else {
+        timezoneQuery = (router.query.timezone as string[]).map((item) => item.replace(' ', '+'));
+      };
+    }
+    if(router.query.skill){
+      if(typeof router.query.skill === "string"){
+        skillQuery= [router.query.skill];
+      }else{
+        skillQuery= router.query.skill as string[];
       }
-    }).then((res)=>{
-      const r = res.data as PageResponse;
-      if(window){
+    }
+    if(router.query.search){
+      searchQuery = router.query.search as string;
+    }
+    setFilter({
+      ...filter,
+      skill: skillQuery,
+      timezone: timezoneQuery,
+      search: searchQuery,
+    })
+    setIsReady(true);
+  },[router.isReady])
+  useEffect(() => {
+    if(isReady && SkillSelect.length > 0){
+      axiosClient.get("/team/list", { 
+        params: {
+          page: currentPage,
+          size: 5,
+          skill_IN: filter.skill.map((item) =>SkillSelect.find((skill) => skill.skillName === item)?.id),
+          timeZone: filter.timezone,
+          keyword: filter.search,
+        }
+      }).then((response) => {
+        const res = response.data as PageResponse;
         window.scrollTo({
-          top: 0,
+          top:0,
           behavior: "smooth",
-        });
-        let url = `/teams?page=${page}`;
-        filter.skill.forEach(sk=>{
-          const skill = SkillSelect.find(s=>s.id === sk);
-          url += `&skill=${skill?.skillName}`;
         })
-        window.history.replaceState({}, "", url);
+        const maxPage = Math.ceil(res.pagable.total / res.pagable.size);
+        if(currentPage > maxPage && maxPage > 0){
+          setcurrentPage(maxPage);
+        } else if(currentPage < 1){
+          setcurrentPage(1);
+        }else{
+          setTeams(res.content);
+          setTotalPage(maxPage);
+          setTotalTeam(res.pagable.total);
+        }
+      });
+      let url = `/teams?page=${currentPage}`;
+      if(filter.search.length>0){
+        url += `&search=${filter.search}`;
       }
-      setTeams(r.content);
-      setTotalPage(Math.ceil(r.pagable.total / r.pagable.size));
-      setTotalTeam(r.pagable.total);
-    }).catch((err)=>{
-      console.log(err);
-      toast.error(err.message);
-    });
-  },[SkillSelect, filter, filter.search, filter.sortBy, filter.sortDsc, page, router])
+      filter.skill.forEach((sk) => {
+        url += `&skill=${sk}`;
+      });
+
+      filter.timezone.forEach((tz) => {
+        url += `&timezone=${tz}`;
+      });
+      window.history.replaceState({},"", url);
+      setIsReady(true)
+    }
+  }, [filter, currentPage, SkillSelect]);
+
 
   const handleSearch = (event: any) => {
     setFilter({ ...filter, search: event.target.value });
   };
 
-  const handleSkillSelect = (selected: number[]) => {
+  const handleSkillSelect = (selected: string[]) => {
     setFilter({ ...filter, skill: selected });
   };
 
-  const handleTimezoneSelect = (selected: number[]) => {
-    //setMultiSelectFilter({ ...multiSelectFilter, timezone: selected });
+  const handleTimezoneSelect = (selected: string[]) => {
+    setFilter({ ...filter, timezone: selected });
   };
 
   const handleSortBySelect = (event: FormEvent<HTMLElement>) => {
@@ -102,21 +152,21 @@ export const Teams = () => {
     setFilter({ ...filter, sortBy: parseInt(target.value) });
   };
 
-  const cusHook :{[id:string]:(event:any)=>void} = {
-    skill: handleSkillSelect,
-    timezone: handleTimezoneSelect,
-  }
-  const cusHookValue :{[id:string]:any[]} = {
-    skill: SkillSelect,
-    //timezone: TimezoneSelect,
-  }
+  const handleClearAll = () => {
+    setFilter(initFilter);
+  };
+
+  const handlePageChange = (value: number) => {
+    setcurrentPage(value);
+  };
+
   return (
     <Layout>
       <div className="flex items-center justify-center relative bg-cyan-900 border-t border-cyan-500  ">
         <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
           <div
             className="px-4 py-2 w-fit border-2 border-red-500 xxs:flex hidden items-center justify-center text-xl
-           before:bg-cyan-300 before:h-[6px] before:w-[6px] before:rounded before:absolute before:top-[-4px] 
+           before:bg-cyan-300 before:h-[6px] before:w-[6px] before:rounded before:absolute before:top-[-4px] before:z-50
            after:bg-cyan-700 after:h-4 after:w-[1px] after:absolute after:top-[2px]"
           >
             <span>2022 Kryptohub</span>
@@ -173,19 +223,19 @@ export const Teams = () => {
                         <div className="cursor-pointer flex items-center justify-center mr-2">
                           <ComboboxSelect
                             label="Skills"
-                            items={SkillSelect}
+                            items={SkillSelect.map((sk)=>sk.skillName)}
                             selected={filter.skill}
                             setSelected={handleSkillSelect}
                           />
                         </div>
-                        {/* <div className="cursor-pointer flex items-center justify-center mr-2">
+                        <div className="cursor-pointer flex items-center justify-center mr-2">
                           <ComboboxSelect
                             label="Timezone"
-                            items={TimezoneSelect}
-                            selected={multiSelectFilter.timezone}
+                            items={Object.values(TimeZone)}
+                            selected={filter.timezone}
                             setSelected={handleTimezoneSelect}
                           />
-                        </div> */}
+                        </div>
                       </div>
                       <div className="cursor-pointer flex items-center justify-center mr-2">
                         <div
@@ -230,13 +280,13 @@ export const Teams = () => {
                   </div>
                 </div>
               </div>
-              {filter.skill.length > 0 ? (
-                <div className="p-2 border-b ">
+              {filter.skill.length || filter.timezone.length > 0 ? (
+                <div className="p-2 border-b">
                   {filter.skill.map((skill, index) => {
                     return (
                       <div
                         key={index}
-                        className="p-1 border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
+                        className="p-1 inline-block border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
                         onClick={() => {
                           setFilter({
                             ...filter,
@@ -245,16 +295,35 @@ export const Teams = () => {
                         }}
                       >
                         <span className="text-gray-400">Skills:</span>
-                        <span>{SkillSelect.find(sk=>sk.id===skill)?.skillName}</span>
+                        <span>
+                          {skill}
+                        </span>
                         <Close className="text-sm cursor-pointer" />
                       </div>
                     );
                   })}
+                  {filter.timezone &&
+                    filter.timezone.map((tz, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="p-1 inline-block border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
+                          onClick={() => {
+                            setFilter({
+                              ...filter,
+                              timezone: filter.timezone.filter((i) => i !== tz),
+                            });
+                          }}
+                        >
+                          <span className="text-gray-400">Timezones:</span>
+                          <span>{tz}</span>
+                          <Close className="text-sm cursor-pointer" />
+                        </div>
+                      );
+                    })}
                   <div
-                    className="p-1 border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
-                    onClick={() => {
-                      setFilter(initFilter);
-                    }}
+                    className="p-1 inline-block border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
+                    onClick={handleClearAll}
                   >
                     <span>Clear All</span>
                   </div>
@@ -269,9 +338,9 @@ export const Teams = () => {
             <div className="flex items-center justify-center pb-2">
               <Pagination
                 count={totalPage}
-                page={page}
+                page={currentPage}
                 onChange={(e, value) => {
-                  setPage(value);
+                  handlePageChange(value);
                 }}
               />
             </div>
@@ -279,7 +348,7 @@ export const Teams = () => {
         </div>
 
         <div
-          className={`fixed right-0 top-0 bg-white overflow-y-scroll h-full custom-scrollbar z-20 p-2 min-w-[300px] w-full xs:w-fit shadow-xl text-cyan-900 animate-slide-in-left ${
+          className={`fixed right-0 top-0 bg-white overflow-y-scroll h-full custom-scrollbar z-50 p-2 min-w-[300px] w-full xs:w-fit shadow-xl text-cyan-900 animate-slide-in-left ${
             show ? "" : "hidden"
           }`}
           ref={subNodeRef as LegacyRef<HTMLDivElement>}
@@ -321,9 +390,17 @@ export const Teams = () => {
             <div className="w-full">
               <ComboboxSelect
                 label={"Skills"}
-                items={SkillSelect}
+                items={SkillSelect.map(sk=>sk.skillName)}
                 selected={filter.skill}
                 setSelected={handleSkillSelect}
+                isCollapsor={true}
+                className="py-2 w-full border-b"
+              />
+              <ComboboxSelect
+                label={"Timezones"}
+                items={Object.values(TimeZone)}
+                selected={filter.timezone}
+                setSelected={handleTimezoneSelect}
                 isCollapsor={true}
                 className="py-2 w-full border-b"
               />

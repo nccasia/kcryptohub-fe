@@ -4,17 +4,17 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 export const getListSkill = createAsyncThunk("getListSkill", async () => {
-  const response = await axiosClient.get("/skill");
+  const response = await axiosClient.get("/skill/list?size=100");
   return response.data;
 });
 
-const initialState = [] as Skill[];
+const initialState = {
+  value: [] as Skill[],
+};
 
 export const skillSlice = createSlice({
   name: "listTeams",
-  initialState: {
-    value: [] as Skill[],
-  },
+  initialState,
   reducers: {
   },
   extraReducers: (builder) => {
@@ -30,7 +30,7 @@ export const skillSlice = createSlice({
       });
     });
     builder.addCase(getListSkill.fulfilled, (state, action) => {
-      state.value = action.payload;
+      state.value = action.payload.content;
     });
   },
 });

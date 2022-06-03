@@ -8,7 +8,7 @@ export const Header = () => {
   const user = useAppSelector((state) => state.ProfileReducer.userInfo);
 
   return (
-    <div className="w-full flex justify-between p-8 sm:px-16 bg-cyan-900 text-white z-50">
+    <div className="w-full flex justify-between p-8 sm:px-16 bg-cyan-900 text-white z-20">
       <Link href="/">
         <a className="text-2xl font-semibold text-white cursor-pointer flex items-center">
           KryptoHub
