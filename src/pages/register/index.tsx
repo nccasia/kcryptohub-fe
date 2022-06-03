@@ -161,7 +161,6 @@ const Register = () => {
                     id="email-address"
                     type="email"
                     autoComplete="off"
-                    maxLength={50}
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     {...register("emailAddress")}
                   />
@@ -212,7 +211,6 @@ const Register = () => {
                     id="username"
                     type="text"
                     autoComplete="off"
-                    maxLength={30}
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     {...register("username")}
                   />
@@ -247,7 +245,6 @@ const Register = () => {
                     id="password"
                     type="password"
                     autoComplete="off"
-                    maxLength={30}
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     {...register("password")}
                   />
@@ -270,7 +267,6 @@ const Register = () => {
                   <input
                     id="confirmPassword"
                     type="password"
-                    maxLength={30}
                     className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     {...register("confirmPassword", { required: true })}
                   />
