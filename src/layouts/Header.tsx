@@ -3,9 +3,13 @@ import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 export const Header = () => {
   const user = useAppSelector((state) => state.ProfileReducer.userInfo);
+  const [userImage, setUserImage] = useState(user.avatarPath);
+  const router = useRouter();
   return (
     <div className="w-full flex justify-between p-8 sm:px-16 bg-cyan-900 text-white z-20">
       <Link href="/">
@@ -22,8 +26,10 @@ export const Header = () => {
                 <span>{user?.username || "anonymous"}</span>
                 <ArrowDropDown />
               </label>
-              <div className="invisible flex flex-col absolute z-10 top-6 border min-w-[130px] w-full bg-cyan-700
-               peer-focus:visible  peer-focus:z-20 peer-focus:animate-slide-in-up hover:visible">
+              <div
+                className="invisible flex flex-col absolute z-10 top-6 border min-w-[130px] w-full bg-cyan-700
+               peer-focus:visible  peer-focus:z-20 peer-focus:animate-slide-in-up hover:visible"
+              >
                 <Link href="/profile">
                   <div className="p-1 border-l-2 border-cyan-700 hover:border-red-700 hover:bg-cyan-900 cursor-pointer">
                     <a>Profile</a>
@@ -38,6 +44,7 @@ export const Header = () => {
                   className="p-1 border-l-2 border-cyan-700 hover:border-red-700 hover:bg-cyan-900 cursor-pointer"
                   onClick={() => {
                     localStorage.removeItem("accessToken");
+                    router.push('/');
                     signOut();
                   }}
                 >
@@ -48,9 +55,12 @@ export const Header = () => {
             <Link href={"/profile"}>
               <a>
                 <Image
-                  src={user?.avatarPath || "/favicon.ico"}
+                  src={userImage || "/favicon.ico"}
                   alt="avatar"
                   className="w-8 h-8 rounded-full"
+                  width={32}
+                  height={32}
+                  onError={(e) => {setUserImage("/favicon.ico")}}
                 />
               </a>
             </Link>

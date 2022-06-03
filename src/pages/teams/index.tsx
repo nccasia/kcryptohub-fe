@@ -92,34 +92,39 @@ export const Teams = () => {
     setIsReady(true);
   },[router.isReady])
   useEffect(() => {
-    if(isReady && SkillSelect.length > 0){
-      axiosClient.get("/team/list", { 
-        params: {
-          page: currentPage,
-          size: 5,
-          skill_IN: filter.skill.map((item) =>SkillSelect.find((skill) => skill.skillName === item)?.id),
-          timeZone: filter.timezone,
-          keyword: filter.search,
-        }
-      }).then((response) => {
-        const res = response.data as PageResponse;
-        window.scrollTo({
-          top:0,
-          behavior: "smooth",
+    if (isReady && SkillSelect.length > 0) {
+      axiosClient
+        .get("/team/list", {
+          params: {
+            page: currentPage,
+            size: 5,
+            skill_IN: filter.skill.map(
+              (item) =>
+                SkillSelect.find((skill) => skill.skillName === item)?.id
+            ),
+            timeZone: filter.timezone,
+            keyword: filter.search,
+          },
         })
-        const maxPage = Math.ceil(res.pagable.total / res.pagable.size);
-        if(currentPage > maxPage && maxPage > 0){
-          setcurrentPage(maxPage);
-        } else if(currentPage < 1){
-          setcurrentPage(1);
-        }else{
-          setTeams(res.content);
-          setTotalPage(maxPage);
-          setTotalTeam(res.pagable.total);
-        }
-      });
+        .then((response) => {
+          const res = response.data as PageResponse;
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+          const maxPage = Math.ceil(res.pagable.total / res.pagable.size);
+          if (currentPage > maxPage && maxPage > 0) {
+            setcurrentPage(maxPage);
+          } else if (currentPage < 1) {
+            setcurrentPage(1);
+          } else {
+            setTeams(res.content);
+            setTotalPage(maxPage);
+            setTotalTeam(res.pagable.total);
+          }
+        });
       let url = `/teams?page=${currentPage}`;
-      if(filter.search.length>0){
+      if (filter.search.length > 0) {
         url += `&search=${filter.search}`;
       }
       filter.skill.forEach((sk) => {
@@ -129,8 +134,8 @@ export const Teams = () => {
       filter.timezone.forEach((tz) => {
         url += `&timezone=${tz}`;
       });
-      window.history.replaceState({},"", url);
-      setIsReady(true)
+      window.history.replaceState({}, "", url);
+      setIsReady(true);
     }
   }, [filter, currentPage, SkillSelect]);
 
