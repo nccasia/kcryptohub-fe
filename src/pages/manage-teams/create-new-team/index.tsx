@@ -417,6 +417,13 @@ const CreateNewTeam = () => {
                       {...register("description")}
                     />
                   </div>
+                  {errors?.description && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.description?.message}
+                      </p>
+                    </div>
+                  )}
                   <div className="md:flex items-center mx-5 my-5">
                     <label className="text-primary min-w-[130px] block py-2 md:py-0">
                       Slogan:

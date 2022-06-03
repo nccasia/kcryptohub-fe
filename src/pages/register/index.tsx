@@ -14,7 +14,8 @@ const schema = yub.object().shape({
   username: yub
     .string()
     .required("Username is required")
-    .trim("Username is required"),
+    .trim("Username is required")
+    .max(30, "Max length is 30 characters!"),
   password: yub
     .string()
     .required("Password is required")
@@ -22,7 +23,8 @@ const schema = yub.object().shape({
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
       "Password must includes lowercase, uppercase, number and special character"
-    ),
+    )
+    .max(30, "Max length is 30 characters!"),
 
   emailAddress: yub
     .string()
@@ -31,11 +33,13 @@ const schema = yub.object().shape({
     .matches(
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Invalid email"
-    ),
+    )
+    .max(100, "Max length is 100 characters!"),
   confirmPassword: yub
     .string()
     .oneOf([yub.ref("password")], "Password does not match")
-    .required("This field is required"),
+    .required("This field is required")
+    .max(30, "Max length is 30 characters!"),
 });
 
 const Register = () => {
