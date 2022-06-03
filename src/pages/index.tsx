@@ -19,7 +19,7 @@ import { Collapsor } from "../layouts/Collapsor";
 import { Header } from "../layouts/Header";
 import { Layout } from "../layouts/layout";
 
-const categoty:{[id:string]: string[]} = {
+const categoty: { [id: string]: string[] } = {
   Development: [
     "Mobile App Development",
     "Software Development",
@@ -76,9 +76,8 @@ const color = [
   "border-blue-500",
   "border-cyan-900",
   "border-cyan-500",
-]
+];
 const Home: NextPage = () => {
-
   return (
     <Layout>
       <div>
@@ -87,7 +86,6 @@ const Home: NextPage = () => {
             <h1 className="text-4xl font-700 mb-5">
               The only resource you need to find the right company.
             </h1>
-
             <h2 className="text-base text-gray-600 mb-5">
               Choose the best-fit company for your business using 98,000+ client
               reviews from real people.
