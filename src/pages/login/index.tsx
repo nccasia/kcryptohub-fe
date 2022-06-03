@@ -6,7 +6,6 @@ import {
   IFormLoginGoogle,
 } from "@/type/auth/login.type";
 import { yupResolver } from "@hookform/resolvers/yup";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 import { getSession, signIn } from "next-auth/react";
@@ -18,8 +17,12 @@ import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
 
 const schemaValidation = Yup.object({
-  usernameOrEmail: Yup.string().required("Email or username is required!"),
-  password: Yup.string().required("Password is required!"),
+  usernameOrEmail: Yup.string()
+    .required("Email or username is required!")
+    .max(30, "Email or username dose not exceed 30 character!"),
+  password: Yup.string()
+    .required("Password is required!")
+    .max(30, "Password dose not exceed 30 character!"),
 });
 
 const Login = () => {
