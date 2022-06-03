@@ -29,7 +29,8 @@ const schema = yub.object().shape({
   teamName: yub
     .string()
     .required("Team Name is required")
-    .trim("Team name is required"),
+    .trim("Team name is required")
+    .max(30, "Max length is 30 characters!"),
   teamSize: yub
     .string()
     .required("Team Size is required")
@@ -39,7 +40,8 @@ const schema = yub.object().shape({
   organization: yub
     .string()
     .required("Organization is required")
-    .trim("Organization is required"),
+    .trim("Organization is required")
+    .max(30, "Max length is 30 characters!"),
   founded: yub
     .string()
     .required("This information is required")
@@ -55,15 +57,16 @@ const schema = yub.object().shape({
     .matches(
       /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/,
       "Please enter a valid website format!"
-    ),
+    )
+    .max(100, "Max length is 100 characters!"),
   projectSize: yub
     .string()
     .required("Project Size is required")
     .max(10, "Invalid length!"),
-  slogan: yub.string(),
+  slogan: yub.string().max(200, "Max length is 200 characters!"),
   hour: yub.string(),
   week: yub.string(),
-  description: yub.string(),
+  description: yub.string().max(200, "Max length is 200 characters!"),
 });
 
 const theme = createTheme({
@@ -304,7 +307,6 @@ const CreateNewTeam = () => {
                     <input
                       type="text"
                       {...register("teamName")}
-                      maxLength={30}
                       autoComplete="off"
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                       placeholder="Enter text here"
@@ -394,7 +396,6 @@ const CreateNewTeam = () => {
                       type="text"
                       {...register("organization")}
                       autoComplete="off"
-                      maxLength={30}
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                       placeholder="Enter text here"
                     />
@@ -412,7 +413,6 @@ const CreateNewTeam = () => {
                     </label>
                     <textarea
                       autoComplete="off"
-                      maxLength={200}
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
                       {...register("description")}
                     />
@@ -425,7 +425,6 @@ const CreateNewTeam = () => {
                       type="text"
                       {...register("slogan")}
                       autoComplete="off"
-                      maxLength={200}
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                       placeholder="Enter text here"
                     />
@@ -449,7 +448,6 @@ const CreateNewTeam = () => {
                       type="text"
                       {...register("linkWebsite")}
                       autoComplete="off"
-                      maxLength={100}
                       placeholder="https://company-name.com/"
                       className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
                     />
