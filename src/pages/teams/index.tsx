@@ -102,7 +102,7 @@ export const Teams = () => {
               (item) =>
                 SkillSelect.find((skill) => skill.skillName === item)?.id
             ),
-            timeZone: filter.timezone,
+            timeZone_IN: filter.timezone,
             keyword: filter.search,
           },
         })
