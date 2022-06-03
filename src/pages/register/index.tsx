@@ -34,7 +34,7 @@ const schema = yub.object().shape({
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Invalid email"
     )
-    .max(100, "Max length is 100 characters!"),
+    .max(30, "Max length is 30 characters!"),
   confirmPassword: yub
     .string()
     .oneOf([yub.ref("password")], "Password does not match")
