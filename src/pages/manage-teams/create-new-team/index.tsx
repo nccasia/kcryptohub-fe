@@ -117,12 +117,19 @@ const CreateNewTeam = () => {
   const [dataSkillDistribute, setDataSkillDistribute] = useState<
     ISkillDistribution[]
   >([]);
+  const [distributionValue, setDistributionValue] = useState<any[]>([
+    {
+      quantity: 0,
+      field: "",
+    },
+  ]);
   const [distributionValueForm, setDistributionValueForm] = useState({
     skillDistributionName: "",
-    quantity: 0,
-    field: "",
+    skillDistributionValue: distributionValue,
   });
-  const { skillDistributionName, quantity, field } = distributionValueForm;
+
+  const { skillDistributionName } = distributionValueForm;
+
   const buttonRef = useRef(null);
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -256,6 +263,28 @@ const CreateNewTeam = () => {
   const handleCloseModal = () => {
     setOpenDialog(false);
   };
+
+  const handleAddField = () => {
+    setDistributionValue([...distributionValue, { quantity: 0, field: "" }]);
+  };
+
+  const handleRemoveField = (index: number) => {
+    const list = [...distributionValue];
+    list.splice(index, 1);
+    setDistributionValue(list);
+  };
+
+  const handleChangeField = (e: any, index: number) => {
+    const list = [...distributionValue];
+    list[index][e.target.name] = e.target.value;
+    setDistributionValue(list);
+  };
+
+  const handleSaveField = () => {
+    console.log(distributionValue, distributionValueForm);
+    setOpenDialog(false);
+  };
+
   return (
     <Layout>
       <ThemeProvider theme={theme}>
@@ -629,6 +658,14 @@ const CreateNewTeam = () => {
                         />
                       )}
                     />
+
+                    <Button
+                      onClick={() => {
+                        setOpenDialog(true);
+                      }}
+                    >
+                      New skill
+                    </Button>
                   </div>
                   {messageDistribute !== "" && (
                     <div className="flex justify-left ml-40 text-sm ">
@@ -668,73 +705,104 @@ const CreateNewTeam = () => {
 
       <ToastContainer autoClose={2000} position="bottom-right" />
       <Modal open={openDialog}>
-        <div className="absolute top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 outline-none shadow-2xl bg-white rounded-lg border border-gray-400">
-          <h3 className="text-2xl font-bold px-5 py-4 border-b border-gray-400">
-            New skill distribution
-          </h3>
-          <div className="md:flex items-center mx-5 my-5">
-            <label className="text-primary min-w-[200px] block py-2 md:py-0">
-              Skill distribution name:
-            </label>
-            <input
-              type="text"
-              maxLength={30}
-              name="skillDistributionName"
-              autoComplete="off"
-              value={skillDistributionName}
-              onChange={handleOnchange}
-              className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-              placeholder="Enter text here"
-            />
-          </div>
-          <div className="md:flex items-center mx-5 my-5">
-            <label className="text-primary min-w-[200px] block py-2 md:py-0">
-              Field:
-            </label>
-            <input
-              type="text"
-              maxLength={30}
-              name="field"
-              autoComplete="off"
-              value={field}
-              onChange={handleOnchange}
-              className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-              placeholder="Enter text here"
-            />
-          </div>
-          <div className="md:flex items-center mx-5 mt-5">
-            <label className="text-primary min-w-[200px] block py-2 md:py-0">
-              Quantity:
-            </label>
-            <input
-              type="text"
-              maxLength={30}
-              autoComplete="off"
-              name="quantity"
-              value={quantity}
-              onChange={handleOnchange}
-              className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-              placeholder="Enter text here"
-            />
-          </div>
-          <div className="px-5 py-4 flex justify-end">
-            <button
-              className="px-4 py-2 text-white mr-2 bg-blue-500 rounded-lg mt-10"
-              onClick={handleCloseModal}
-            >
-              Cancel
-            </button>
-            <div className="text-right">
+        <div>
+          <form className="absolute top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 outline-none shadow-2xl bg-white rounded-lg border border-gray-400 max-h-[700px] ">
+            <h3 className="text-2xl font-bold px-5 py-4 border-b border-gray-400">
+              New skill distribution
+            </h3>
+            <div className="md:flex items-center mx-5 my-5">
+              <label className="text-primary min-w-[200px] block py-2 md:py-0">
+                Skill distribution name:
+              </label>
+              <input
+                type="text"
+                maxLength={30}
+                name="skillDistributionName"
+                autoComplete="off"
+                value={skillDistributionName}
+                onChange={handleOnchange}
+                className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                placeholder="Enter text here"
+              />
+            </div>
+            <div className="overflow-auto max-h-[400px]">
+              {distributionValue.map((singleValue, index) => {
+                return (
+                  <div key={index}>
+                    <div>
+                      <div className="md:flex items-center mx-5 my-5">
+                        <label className="text-primary min-w-[200px] block py-2 md:py-0">
+                          Field:
+                        </label>
+                        <input
+                          type="text"
+                          maxLength={30}
+                          name="field"
+                          required
+                          autoComplete="off"
+                          value={singleValue.field}
+                          onChange={(e) => {
+                            handleChangeField(e, index);
+                          }}
+                          className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                          placeholder="Enter text here"
+                        />
+                      </div>
+                      <div className="md:flex items-center mx-5 mt-5">
+                        <label className="text-primary min-w-[200px] block py-2 md:py-0">
+                          Quantity:
+                        </label>
+                        <input
+                          type="number"
+                          min={0}
+                          required
+                          autoComplete="off"
+                          name="quantity"
+                          value={singleValue.quantity}
+                          onChange={(e) => {
+                            handleChangeField(e, index);
+                          }}
+                          className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                          placeholder="Enter value here"
+                        />
+                      </div>
+                    </div>
+                    {distributionValue.length - 1 === index && (
+                      <div className="flex justify-end px-3 py-1">
+                        <Button onClick={handleAddField}>+</Button>
+
+                        {distributionValue.length > 1 && (
+                          <Button
+                            onClick={() => {
+                              handleRemoveField(distributionValue.length - 1);
+                            }}
+                          >
+                            -
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="px-5 py-3 flex justify-end">
               <button
-                onClick={(e) => {
-                  handleSearchSkillDistribution(e);
-                }}
+                className="px-4 py-2 text-white mr-2 bg-blue-500 rounded-lg mt-10"
+                onClick={handleCloseModal}
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleSaveField}
                 className="px-4 py-2 text-white bg-red-500 rounded-lg mt-10"
               >
                 Save
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </Modal>
     </Layout>
