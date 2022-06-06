@@ -21,9 +21,13 @@ export const ComboboxSelect = ({
 }) => {
   const [filteredItems, setFilteredItems] = useState(items);
   const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
+  const [searchText, setSearchText] = useState("");
   useEffect(() => {
     setFilteredItems(items);
   }, [items]);
+  useEffect(() => {
+    setFilteredItems(items.filter((item) => item.toLowerCase().includes(searchText.toLowerCase())));
+  }, [searchText, items]);
   const handleItemsSelect = (
     event: FormEvent<HTMLInputElement>,
     value: any
@@ -36,12 +40,9 @@ export const ComboboxSelect = ({
     
   };
   const hanleSearchItems = (event: FormEvent<HTMLInputElement>) => {
-    const search = event.currentTarget.value;
-    const filtered = items.filter((item) =>
-      item.toLowerCase().includes(search.toLowerCase())
-    );
-    setFilteredItems(filtered);
+    setSearchText(event.currentTarget.value);
   };
+
   return (
     <div className={`${className} bg-white`} key={items[0]}>
       <div
@@ -50,12 +51,12 @@ export const ComboboxSelect = ({
         onClick={() => {
           setShow(!show);
         }}
+        ref={nodeRef as LegacyRef<HTMLDivElement>}
       >
         <div
           className={`${show ? "border-cyan-900" : ""} ${
             isCollapsor ? "" : "border-2"
           } flex items-center justify-between px-1 w-full`}
-          ref={nodeRef as LegacyRef<HTMLDivElement>}
         >
           <label
             className={`${isCollapsor ? "text-lg" : ""} pointer-events-none`}
@@ -100,19 +101,19 @@ export const ComboboxSelect = ({
             ? "No items"
             : filteredItems.map((item, index) => (
                 <label
-                  htmlFor={`${label}cb${index}`}
+                  htmlFor={`${label}cb${index}${isCollapsor ? 0 : 1}`}
                   key={index}
                   className="block cursor-pointer border-l-2 pl-1 border-transparent hover:border-cyan-900 hover:bg-cyan-100 "
                 >
                   <input
                     type="checkbox"
-                    id={`${label}cb${index}`}
+                    id={`${label}cb${index}${isCollapsor ? 0 : 1}`}
                     className="mr-2"
                     onChange={(e) => handleItemsSelect(e, item)}
                     checked={selected.includes(item)}
                   />
                   <label
-                    htmlFor={`${label}cb${index}`}
+                    htmlFor={`${label}cb${index}${isCollapsor ? 0 : 1}`}
                     className="w-full cursor-pointer"
                   >
                     {item}
