@@ -1,4 +1,5 @@
 import axiosClient from "@/api/axios-client";
+import { teamApi } from "@/api/team-api";
 import { useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { Layout } from "@/src/layouts/layout";
@@ -20,7 +21,7 @@ import { useOutsideClick } from "hook/OuterClick";
 import { useRouter } from "next/router";
 import { FormEvent, LegacyRef, useEffect, useState } from "react";
 
-const SortBy = ["none", "rating", "size", "working time"];
+const SortBy = ["none"];
 interface PageResponse {
   content: Team[];
   pagable: {
@@ -99,21 +100,19 @@ export const Teams = () => {
   }, [router.isReady]);
   useEffect(() => {
     if (isReady && SkillSelect.length > 0) {
-      axiosClient
-        .get("/team/list", {
-          params: {
-            page: currentPage,
-            size: 5,
-            skill_IN: filter.skill.map(
-              (item) =>
-                SkillSelect.find((skill) => skill.skillName === item)?.id
-            ),
-            timeZone_IN: filter.timezone,
-            keyword: filter.search,
-          },
-        })
-        .then((response) => {
-          const res = response.data as PageResponse;
+      teamApi
+        .getListTeamsQuery(
+          filter.search,
+          currentPage,
+          5,
+          filter.sortBy.toString(),
+          filter.skill.map(
+            (item) => SkillSelect.find((skill) => skill.skillName === item)?.id
+          ).filter((item) => item),
+          filter.timezone
+        )
+        .then((data) => {
+          const res = data as PageResponse;
           window.scrollTo({
             top: 0,
             behavior: "smooth",

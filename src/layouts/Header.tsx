@@ -44,8 +44,7 @@ export const Header = () => {
                   className="p-1 border-l-2 border-cyan-700 hover:border-red-700 hover:bg-cyan-900 cursor-pointer"
                   onClick={() => {
                     localStorage.removeItem("accessToken");
-                    router.push('/');
-                    signOut();
+                    signOut({callbackUrl: '/'});
                   }}
                 >
                   <span>Logout</span>
