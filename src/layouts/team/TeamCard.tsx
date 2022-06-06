@@ -1,4 +1,5 @@
 import { useAppSelector } from "@/redux/hooks";
+import { skillColor } from "@/type/enum/SkillColor";
 import { Team } from "@/type/team/team.type";
 import {
   AccessAlarmOutlined,
@@ -15,27 +16,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { IconHover } from "./IconHover";
+
 interface Props {
   team: Team;
 }
-const skillColor = [
-  "bg-red-500",
-  "bg-orange-500",
-  "bg-yellow-500",
-  "bg-green-500",
-  "bg-blue-500",
-  "bg-indigo-500",
-  "bg-purple-500",
-  "bg-pink-500",
-  "bg-gray-500",
-  "bg-teal-500",
-  "bg-cyan-500",
-  "bg-lime-500",
-  "bg-indigo-500",
-  "bg-pink-500",
-  "bg-gray-500",
-  "bg-teal-500",
-];
+
 
 export const TeamCard = (props: Props) => {
   const team = props.team;
@@ -66,9 +51,9 @@ export const TeamCard = (props: Props) => {
                   Sponsor
                 </span>
                 <div className="absolute top-[-6px] right-2 group">
-                  <BookmarkBorderOutlined className="absolute group-hover:hidden" />
-                  <BookmarkOutlined className=" invisible text-white group-hover:visible group-hover:bg-cyan-900" />
-                  <div className="absolute right-0 w-48 h-16 hidden bg-white border border-cyan-900 group-hover:block">
+                  <BookmarkBorderOutlined className="absolute " />
+                  <BookmarkOutlined className=" invisible text-white  group-hover:bg-cyan-900" />
+                  <div className="absolute right-0 w-48 h-16 hidden bg-white border border-cyan-900 ">
                     <div className="w-full h-full flex flex-col items-start justify-center p-2">
                       <span className="text-lg pb-2 cursor-pointer text-cyan-900 font-medium">
                         Add to Shortlist
@@ -154,8 +139,17 @@ export const TeamCard = (props: Props) => {
             <div className="">
               <span className="font-medium ">Description: </span>
               <p className="max-h-[8rem] overflow-hidden text-ellipsis">
-                {team.description.length> 100? team.description.slice(0,100)+"...":team.description}
-                {team.description.length> 100? <span className="text-cyan-400 cursor-pointer" onClick={()=>{}}>See more</span> : null}
+                {team.description.length > 100
+                  ? team.description.slice(0, 100) + "..."
+                  : team.description}
+                {team.description.length > 100 ? (
+                  <span
+                    className="text-cyan-400 cursor-pointer"
+                    onClick={() => {}}
+                  >
+                    More
+                  </span>
+                ) : null}
               </p>
             </div>
           </div>
@@ -164,7 +158,13 @@ export const TeamCard = (props: Props) => {
       <div className="flex flex-row md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-sm xs:text-md">
         <a
           className="sm:px-2 flex items-center justify-start h-1/3 flex-1 border"
-          href={team.linkWebsite.includes("https") ? team.linkWebsite : `https://${team.linkWebsite}`}
+          href={
+            team.linkWebsite
+              ? team.linkWebsite.includes("https")
+                ? team.linkWebsite
+                : `https://${team.linkWebsite} `
+              : '#'
+          }
         >
           <span className="xs:p-4 w-full bg-red-500 font-semibold text-white flex justify-between cursor-pointer border-2 border-red-500 hover:bg-transparent hover:text-red-500">
             Visit Website <LanguageOutlined fontSize="small" />
