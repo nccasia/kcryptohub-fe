@@ -204,8 +204,9 @@ export const Teams = () => {
                         name="search"
                         defaultValue={filter.search}
                         onChange={handleSearch}
+                        maxLength={30}
                       />
-                      <div className="absolute right-2">
+                      <div className="absolute right-1 bg-white flex items-center h-[95%]">
                         <SearchIcon />
                       </div>
                     </div>
@@ -229,7 +230,7 @@ export const Teams = () => {
                         <div className="cursor-pointer flex items-center justify-center mr-2">
                           <ComboboxSelect
                             label="Skills"
-                            items={SkillSelect.map((sk)=>sk.skillName)}
+                            items={SkillSelect.map((sk) => sk.skillName)}
                             selected={filter.skill}
                             setSelected={handleSkillSelect}
                           />
@@ -301,9 +302,7 @@ export const Teams = () => {
                         }}
                       >
                         <span className="text-gray-400">Skills:</span>
-                        <span>
-                          {skill}
-                        </span>
+                        <span>{skill}</span>
                         <Close className="text-sm cursor-pointer" />
                       </div>
                     );
@@ -388,15 +387,16 @@ export const Teams = () => {
                 name="search"
                 onChange={handleSearch}
                 defaultValue={filter.search}
+                maxLength={30}
               />
-              <div className="absolute right-2">
+              <div className="absolute right-1 bg-white flex items-center h-[95%]">
                 <SearchIcon />
               </div>
             </div>
             <div className="w-full">
               <ComboboxSelect
                 label={"Skills"}
-                items={SkillSelect.map(sk=>sk.skillName)}
+                items={SkillSelect.map((sk) => sk.skillName)}
                 selected={filter.skill}
                 setSelected={handleSkillSelect}
                 isCollapsor={true}

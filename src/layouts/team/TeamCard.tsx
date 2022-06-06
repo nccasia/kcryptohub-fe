@@ -1,4 +1,5 @@
 import { useAppSelector } from "@/redux/hooks";
+
 import { Team } from "@/type/team/team.type";
 import {
   AccessAlarmOutlined,
@@ -19,9 +20,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { IconHover } from "./IconHover";
-interface Props {
-  team: Team;
-}
 const skillColor = [
   "bg-red-500",
   "bg-orange-500",
@@ -35,11 +33,27 @@ const skillColor = [
   "bg-teal-500",
   "bg-cyan-500",
   "bg-lime-500",
-  "bg-indigo-500",
-  "bg-pink-500",
-  "bg-gray-500",
-  "bg-teal-500",
+  "bg-indigo-700",
+  "bg-pink-700",
+  "bg-gray-700",
+  "bg-teal-700",
+  "bg-cyan-700",
+  "bg-lime-700",
+  "bg-red-700",
+  "bg-orange-700",
+  "bg-yellow-700",
+  "bg-green-700",
+  "bg-blue-700",
+  "bg-lime-300",
+  "bg-indigo-300",
+  "bg-pink-300",
+  "bg-gray-300",
+  "bg-teal-300",
+  "bg-cyan-300",
 ];
+interface Props {
+  team: Team;
+}
 
 export const TeamCard = (props: Props) => {
   const team = props.team;
@@ -70,9 +84,9 @@ export const TeamCard = (props: Props) => {
                   Sponsor
                 </span>
                 <div className="absolute top-[-6px] right-2 group">
-                  <BookmarkBorderOutlined className="absolute group-hover:hidden" />
-                  <BookmarkOutlined className=" invisible text-white group-hover:visible group-hover:bg-cyan-900" />
-                  <div className="absolute right-0 w-48 h-16 hidden bg-white border border-cyan-900 group-hover:block">
+                  <BookmarkBorderOutlined className="absolute " />
+                  <BookmarkOutlined className=" invisible text-white  group-hover:bg-cyan-900" />
+                  <div className="absolute right-0 w-48 h-16 hidden bg-white border border-cyan-900 ">
                     <div className="w-full h-full flex flex-col items-start justify-center p-2">
                       <span className="text-lg pb-2 cursor-pointer text-cyan-900 font-medium">
                         Add to Shortlist
@@ -166,7 +180,7 @@ export const TeamCard = (props: Props) => {
                     className="text-cyan-400 cursor-pointer"
                     onClick={() => {}}
                   >
-                    See more
+                    More
                   </span>
                 ) : null}
               </p>
@@ -178,9 +192,11 @@ export const TeamCard = (props: Props) => {
         <a
           className="sm:px-2 flex items-center justify-start h-1/3 flex-1 border"
           href={
-            team.linkWebsite.includes("https")
-              ? team.linkWebsite
-              : `https://${team.linkWebsite}`
+            team.linkWebsite
+              ? team.linkWebsite.includes("https")
+                ? team.linkWebsite
+                : `https://${team.linkWebsite} `
+              : "#"
           }
         >
           <span className="xs:p-4 w-full bg-red-500 font-semibold text-white flex justify-between cursor-pointer border-2 border-red-500 hover:bg-transparent hover:text-red-500">
