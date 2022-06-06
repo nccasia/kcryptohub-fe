@@ -131,27 +131,30 @@ export const TeamCard = (props: Props) => {
             </div>
           </div>
           <div className="xs:w-1/4 p-4 text-sm text-cyan-900">
-            <div className="">
-              <span className="font-medium ">Founded: </span>
-              {team.founded}
-            </div>
-
+            {team.founded ? (
+              <div className="">
+                <span className="font-medium ">Founded: </span>
+                {team.founded}
+              </div>
+            ) : null}
+            {team.description?
             <div className="">
               <span className="font-medium ">Description: </span>
-              <p className="max-h-[8rem] overflow-hidden text-ellipsis">
+              <p className="max-h-[12rem] overflow-hidden text-ellipsis">
                 {team.description.length > 100
                   ? team.description.slice(0, 100) + "..."
                   : team.description}
                 {team.description.length > 100 ? (
                   <span
-                    className="text-cyan-400 cursor-pointer"
+                    className="text-cyan-400"
                     onClick={() => {}}
                   >
                     More
                   </span>
                 ) : null}
               </p>
-            </div>
+            </div>:null
+            }
           </div>
         </div>
       </div>
@@ -163,7 +166,7 @@ export const TeamCard = (props: Props) => {
               ? team.linkWebsite.includes("https")
                 ? team.linkWebsite
                 : `https://${team.linkWebsite} `
-              : '#'
+              : "#"
           }
         >
           <span className="xs:p-4 w-full bg-red-500 font-semibold text-white flex justify-between cursor-pointer border-2 border-red-500 hover:bg-transparent hover:text-red-500">

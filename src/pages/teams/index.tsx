@@ -60,7 +60,6 @@ export const Teams = () => {
     
     if(router.query.page && parseInt(router.query.page as string)!== currentPage){
       let page = parseInt(router.query.page as string);
-      console.log(page);
       if(page < 1) page = 1;
       setcurrentPage(page);
     }
@@ -237,7 +236,7 @@ export const Teams = () => {
                         </div>
                         <div className="cursor-pointer flex items-center justify-center mr-2">
                           <ComboboxSelect
-                            label="Timezone"
+                            label="Timezones"
                             items={Object.values(TimeZone)}
                             selected={filter.timezone}
                             setSelected={handleTimezoneSelect}
