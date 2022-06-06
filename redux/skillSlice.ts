@@ -13,7 +13,7 @@ const initialState = {
 };
 
 export const skillSlice = createSlice({
-  name: "listTeams",
+  name: "listSkills",
   initialState,
   reducers: {
   },

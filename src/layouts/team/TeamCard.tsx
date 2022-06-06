@@ -128,7 +128,7 @@ export const TeamCard = (props: Props) => {
           </div>
           <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
             <div className="flex w-full">
-              <IconHover icon={<ApiOutlined />} hoverText="Skillset" />
+              <IconHover icon={<ApiOutlined />} hoverText="Skills" />
               <div className="text-cyan-900 w-full break-normal">
                 {team.skills &&
                   team.skills.map((skill, i) => (

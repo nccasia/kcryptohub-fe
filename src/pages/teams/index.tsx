@@ -1,5 +1,6 @@
 import axiosClient from "@/api/axios-client";
 import { useAppSelector } from "@/redux/hooks";
+import { getSkillsSelector } from "@/redux/selector";
 import { Layout } from "@/src/layouts/layout";
 import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
@@ -39,7 +40,7 @@ const initFilter = {
 export const Teams = () => {
   const router = useRouter();
   const [teams, setTeams] = useState([] as Team[]);
-  const SkillSelect = useAppSelector((state) => state.SkillReducer.value);
+  const SkillSelect = useAppSelector(getSkillsSelector);
   const [filter, setFilter] = useState({
     search: "",
     matchAll: false,

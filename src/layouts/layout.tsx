@@ -8,6 +8,7 @@ import { ArrowForwardIosOutlined } from "@mui/icons-material";
 import { Modal } from "@mui/material";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import { getUserInfoSelector, getSkillsSelector } from "@/redux/selector";
 ;
 
 type IHeaderProps = {
@@ -15,12 +16,14 @@ type IHeaderProps = {
 };
 
 const Layout = (props: IHeaderProps) => {
-  const data = useAppSelector(state=> state);
+  const userInfo = useAppSelector(getUserInfoSelector);
+  const skills = useAppSelector(getSkillsSelector);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [openWarning, setOpenWarning] = useState<boolean>(false);
   useEffect(() => {
-    if (localStorage.getItem("accessToken") && !data.ProfileReducer.userInfo.username) {
+    if(userInfo.emailAddress || userInfo.githubAddress || userInfo.googleAddress) return
+    if (localStorage.getItem("accessToken")) {
       dispatch(getProfile())
         .then((data) => {
           if (data.payload.status === "isNew") {
@@ -31,9 +34,9 @@ const Layout = (props: IHeaderProps) => {
           throw new Error(err);
         });
     }
-  }, [data.ProfileReducer.userInfo.username, dispatch]);
+  }, [userInfo, dispatch]);
   useEffect(() => {
-    if (data.SkillReducer.value.length === 0) {
+    if (skills.length === 0) {
       dispatch(getListSkill());
     }
   }, [dispatch]);
