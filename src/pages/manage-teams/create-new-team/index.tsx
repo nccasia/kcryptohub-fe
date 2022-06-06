@@ -296,6 +296,10 @@ const CreateNewTeam = () => {
 
   const handleSaveField = () => {
     setDataSkillDistribute([...dataSkillDistribute, distributionValueForm]);
+    setDistributionValueForm({
+      skillDistributionName: "",
+      skillDistributionValue: [],
+    } as unknown as ISkillDistribution);
     setDistributionValue([
       {
         quantity: 0,
@@ -719,7 +723,10 @@ const CreateNewTeam = () => {
       <ToastContainer autoClose={2000} position="bottom-right" />
       <Modal open={openDialog}>
         <div>
-          <form className="absolute top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 outline-none shadow-2xl bg-white rounded-lg border border-gray-400 max-h-[700px] ">
+          <form
+            onSubmit={handleSaveField}
+            className="absolute top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 outline-none shadow-2xl bg-white rounded-lg border border-gray-400 max-h-[700px] "
+          >
             <h3 className="text-2xl font-bold px-5 py-4 border-b border-gray-400">
               New skill distribution
             </h3>
@@ -729,7 +736,7 @@ const CreateNewTeam = () => {
               </label>
               <input
                 type="text"
-                maxLength={30}
+                required
                 name="skillDistributionName"
                 autoComplete="off"
                 onChange={handleOnchange}
@@ -737,7 +744,7 @@ const CreateNewTeam = () => {
                 placeholder="Enter text here"
               />
             </div>
-            <div className="overflow-auto max-h-[400px]">
+            <div className="overflow-auto max-h-[400px] custom-scrollbar">
               {distributionValue.map((singleValue, index) => {
                 return (
                   <div key={index}>
@@ -801,6 +808,7 @@ const CreateNewTeam = () => {
 
             <div className="px-5 py-3 flex justify-end">
               <button
+                type="button"
                 className="px-4 py-2 text-white mr-2 bg-blue-500 rounded-lg mt-10"
                 onClick={handleCloseModal}
               >
@@ -808,7 +816,7 @@ const CreateNewTeam = () => {
               </button>
 
               <button
-                onClick={handleSaveField}
+                type="submit"
                 className="px-4 py-2 text-white bg-red-500 rounded-lg mt-10"
               >
                 Save

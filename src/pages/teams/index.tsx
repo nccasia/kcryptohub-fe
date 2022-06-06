@@ -55,13 +55,16 @@ export const Teams = () => {
   const [totalTeam, setTotalTeam] = useState(0);
   const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
   const [isReady, setIsReady] = useState(false);
-  useEffect(()=>{
-    if(!router.isReady) return;
-    
-    if(router.query.page && parseInt(router.query.page as string)!== currentPage){
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    if (
+      router.query.page &&
+      parseInt(router.query.page as string) !== currentPage
+    ) {
       let page = parseInt(router.query.page as string);
       console.log(page);
-      if(page < 1) page = 1;
+      if (page < 1) page = 1;
       setcurrentPage(page);
     }
     let skillQuery = [] as string[];
@@ -69,19 +72,21 @@ export const Teams = () => {
     let searchQuery = "";
     if (router.query.timezone) {
       if (typeof router.query.timezone === "string") {
-        timezoneQuery = [router.query.timezone.replace(' ', '+')];
+        timezoneQuery = [router.query.timezone.replace(" ", "+")];
       } else {
-        timezoneQuery = (router.query.timezone as string[]).map((item) => item.replace(' ', '+'));
-      };
-    }
-    if(router.query.skill){
-      if(typeof router.query.skill === "string"){
-        skillQuery= [router.query.skill];
-      }else{
-        skillQuery= router.query.skill as string[];
+        timezoneQuery = (router.query.timezone as string[]).map((item) =>
+          item.replace(" ", "+")
+        );
       }
     }
-    if(router.query.search){
+    if (router.query.skill) {
+      if (typeof router.query.skill === "string") {
+        skillQuery = [router.query.skill];
+      } else {
+        skillQuery = router.query.skill as string[];
+      }
+    }
+    if (router.query.search) {
       searchQuery = router.query.search as string;
     }
     setFilter({
@@ -89,9 +94,9 @@ export const Teams = () => {
       skill: skillQuery,
       timezone: timezoneQuery,
       search: searchQuery,
-    })
+    });
     setIsReady(true);
-  },[router.isReady])
+  }, [router.isReady]);
   useEffect(() => {
     if (isReady && SkillSelect.length > 0) {
       axiosClient
@@ -139,7 +144,6 @@ export const Teams = () => {
       setIsReady(true);
     }
   }, [filter, currentPage, SkillSelect]);
-
 
   const handleSearch = (event: any) => {
     setFilter({ ...filter, search: event.target.value });
@@ -204,9 +208,8 @@ export const Teams = () => {
                         name="search"
                         defaultValue={filter.search}
                         onChange={handleSearch}
-                        maxLength={30}
                       />
-                      <div className="absolute right-1 bg-white flex items-center h-[95%]">
+                      <div className="absolute right-2">
                         <SearchIcon />
                       </div>
                     </div>
@@ -387,9 +390,8 @@ export const Teams = () => {
                 name="search"
                 onChange={handleSearch}
                 defaultValue={filter.search}
-                maxLength={30}
               />
-              <div className="absolute right-1 bg-white flex items-center h-[95%]">
+              <div className="absolute right-2">
                 <SearchIcon />
               </div>
             </div>
