@@ -9,8 +9,6 @@ import { Modal } from "@mui/material";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { getUserInfoSelector, getSkillsSelector } from "@/redux/selector";
-;
-
 type IHeaderProps = {
   children: ReactNode;
 };
@@ -21,8 +19,14 @@ const Layout = (props: IHeaderProps) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [openWarning, setOpenWarning] = useState<boolean>(false);
+
   useEffect(() => {
-    if(userInfo.emailAddress || userInfo.githubAddress || userInfo.googleAddress) return
+    if (
+      userInfo.emailAddress ||
+      userInfo.githubAddress ||
+      userInfo.googleAddress
+    )
+      return;
     if (localStorage.getItem("accessToken")) {
       dispatch(getProfile())
         .then((data) => {
@@ -48,10 +52,8 @@ const Layout = (props: IHeaderProps) => {
   return (
     <div className="h-full flex flex-col">
       <Header />
-      
-      <div className="flex-1">
-        {props.children}
-      </div>
+
+      <div className="flex-1">{props.children}</div>
 
       <Footer />
 
@@ -78,4 +80,3 @@ const Layout = (props: IHeaderProps) => {
 };
 
 export { Layout };
-

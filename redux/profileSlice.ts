@@ -1,5 +1,6 @@
 import axiosClient from "@/api/axios-client";
-import { IProfile, ISkills } from "@/type/profile/profile.type";
+import { IProfile } from "@/type/profile/profile.type";
+import { ISkills } from "@/type/skill/skill.types";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 

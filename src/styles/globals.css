@@ -26,6 +26,10 @@ a {
   font-size: 13px;
 }
 
+.hidden-arrow-input-number::-webkit-inner-spin-button,
+.hidden-arrow-input-number::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
 .custom-scrollbar::-webkit-scrollbar {
   width: 2px;
 }

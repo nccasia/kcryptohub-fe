@@ -4,7 +4,9 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getProfile, getSkills, updateProfile } from "@/redux/profileSlice";
 import { Layout } from "@/src/layouts/layout";
 import { ELoginProvider } from "@/type/auth/login.type";
-import { IProfile, ISkills } from "@/type/profile/profile.type";
+import { IProfile } from "@/type/profile/profile.type";
+import { ISkills } from "@/type/skill/skill.types";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Autocomplete, Box, Container, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
