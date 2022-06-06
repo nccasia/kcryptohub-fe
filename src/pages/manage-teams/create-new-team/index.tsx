@@ -23,7 +23,13 @@ import {
   TextField,
   Modal,
 } from "@mui/material";
-import { ISkills, ISkillDistribution } from "@/type/skill/skill.types";
+import {
+  ISkills,
+  ISkillDistribution,
+  ISkillDistributionValue,
+} from "@/type/skill/skill.types";
+import { getSkillsSelector } from "@/redux/selector";
+import { Skill } from "@/type/Skill";
 
 const schema = yub.object().shape({
   teamName: yub
@@ -93,7 +99,8 @@ const theme = createTheme({
 const CreateNewTeam = () => {
   const { data } = useSession();
   const dispatch = useAppDispatch();
-  const skills = useAppSelector((state) => state.TeamReducer.skillInfo);
+
+  const skills = useAppSelector(getSkillsSelector);
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState("");
   const [message, setMessage] = useState("");
@@ -113,22 +120,16 @@ const CreateNewTeam = () => {
 
   const location = ["Việt Nam", " Dubai"];
 
-  const [dataSkill, setData] = useState<ISkills[]>([]);
+  const [dataSkill, setData] = useState<Skill[]>([]);
   const [dataSkillDistribute, setDataSkillDistribute] = useState<
     ISkillDistribution[]
   >([]);
-  const [distributionValue, setDistributionValue] = useState<any[]>([
-    {
-      quantity: 0,
-      field: "",
-    },
-  ]);
-  const [distributionValueForm, setDistributionValueForm] = useState({
-    skillDistributionName: "",
-    skillDistributionValue: distributionValue,
-  });
-
-  const { skillDistributionName } = distributionValueForm;
+  const [distributionValue, setDistributionValue] = useState<
+    ISkillDistributionValue[]
+  >([{ field: "", quantity: 0 } as ISkillDistributionValue]);
+  const [distributionValueForm, setDistributionValueForm] = useState(
+    {} as ISkillDistribution
+  );
 
   const buttonRef = useRef(null);
   const uploadToClient = (event: any) => {
@@ -261,6 +262,12 @@ const CreateNewTeam = () => {
   };
 
   const handleCloseModal = () => {
+    setDistributionValue([
+      {
+        quantity: 0,
+        field: "",
+      },
+    ] as ISkillDistributionValue[]);
     setOpenDialog(false);
   };
 
@@ -276,12 +283,26 @@ const CreateNewTeam = () => {
 
   const handleChangeField = (e: any, index: number) => {
     const list = [...distributionValue];
-    list[index][e.target.name] = e.target.value;
+    list[index] = {
+      ...list[index],
+      [e.target.name]: e.target.value,
+    };
     setDistributionValue(list);
+    setDistributionValueForm({
+      ...distributionValueForm,
+      skillDistributionValue: list,
+    });
   };
 
   const handleSaveField = () => {
-    console.log(distributionValue, distributionValueForm);
+    setDataSkillDistribute([...dataSkillDistribute, distributionValueForm]);
+    setDistributionValue([
+      {
+        quantity: 0,
+        field: "",
+      },
+    ] as ISkillDistributionValue[]);
+
     setOpenDialog(false);
   };
 
@@ -294,15 +315,7 @@ const CreateNewTeam = () => {
             maxWidth="md"
             className="border border-[#cae0e7] py-6 md:!px-24 md:py-12"
           >
-            <form
-              className="py-5 flex w-full"
-              /*   onChange={() => {
-                if (buttonRef.current) {
-                  (buttonRef.current as unknown as HTMLButtonElement).disabled =
-                    false;
-                }
-              }} */
-            >
+            <form className="py-5 flex w-full">
               <div className="">
                 <div className="mb-20">
                   <h2 className="text-primary text-3xl">Basic Information</h2>
@@ -719,7 +732,6 @@ const CreateNewTeam = () => {
                 maxLength={30}
                 name="skillDistributionName"
                 autoComplete="off"
-                value={skillDistributionName}
                 onChange={handleOnchange}
                 className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                 placeholder="Enter text here"

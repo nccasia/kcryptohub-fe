@@ -1,19 +1,22 @@
 import { IProfile } from "../profile/profile.type";
-
+import { Skill } from "../Skill";
 export type Team = {
   id: number;
   teamName: string;
   teamSize: string;
   timeZone: string;
+  slogan?: string;
   organization?: string;
-  skill: string[];
+  skills: Skill[];
   workingTime: string;
   hour?: string;
   week?: string;
   description: string;
   avatar: string;
-  slogan: string;
-  avatarUrl: string;
   user?: IProfile;
   userId?: number;
+  status: boolean;
+  projectSize: string;
+  linkWebsite: string;
+  founded: string;
 };
