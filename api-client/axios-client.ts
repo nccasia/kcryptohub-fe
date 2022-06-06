@@ -20,14 +20,14 @@ axiosClient.interceptors.request.use((request) => {
   
 axiosClient.interceptors.response.use(
   (response) => {
-    return response;
+    return Promise.resolve(response);
   },
   (error) => {
     const code = error.response.data.statusCode;
     switch (code) {
       case 401:
         //window.location.href = '/login';
-    }
+    } 
     return Promise.reject(error);
   }
   

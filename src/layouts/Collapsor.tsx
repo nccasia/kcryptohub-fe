@@ -1,5 +1,5 @@
 import { Collapse } from "@mui/material";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 
 export const Collapsor = ({ children, isOpen, label, preIcon, color }: {children: ReactNode, isOpen?: boolean, label: string, preIcon?: ReactNode, color?: string}) => {
     const [isOpenState, setIsOpen] = useState(isOpen||false);

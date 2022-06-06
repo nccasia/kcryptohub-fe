@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { ArrowForwardIosOutlined } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getProfile } from "@/redux/profileSlice";
-import { signOut } from "next-auth/react";
-import { Header } from "./Header";
+import { getListSkill } from "@/redux/skillSlice";
+import { ArrowForwardIosOutlined } from "@mui/icons-material";
 import { Modal } from "@mui/material";
 import { Footer } from "./Footer";
+import { Header } from "./Header";
+import { getUserInfoSelector, getSkillsSelector } from "@/redux/selector";
+;
 
 type IHeaderProps = {
   children: ReactNode;
 };
+
 const Layout = (props: IHeaderProps) => {
-  const data = useAppSelector((state) => state.ProfileReducer.userInfo);
+  const userInfo = useAppSelector(getUserInfoSelector);
+  const skills = useAppSelector(getSkillsSelector);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [openWarning, setOpenWarning] = useState<boolean>(false);
-
   useEffect(() => {
-    if (localStorage.getItem("accessToken") && !data.username) {
+    if(userInfo.emailAddress || userInfo.githubAddress || userInfo.googleAddress) return
+    if (localStorage.getItem("accessToken")) {
       dispatch(getProfile())
         .then((data) => {
           if (data.payload.status === "isNew") {
@@ -30,22 +34,24 @@ const Layout = (props: IHeaderProps) => {
           throw new Error(err);
         });
     }
-  }, [data.username, dispatch]);
+  }, [userInfo, dispatch]);
+  useEffect(() => {
+    if (skills.length === 0) {
+      dispatch(getListSkill());
+    }
+  }, [dispatch]);
 
   const handleCloseModal = () => {
     setOpenWarning(false);
     router.push("/profile");
   };
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <Header />
-      <div className="">
-        <h1 className="px-20 py-2 text-white bg-cyan-700 font-bold">
-          Welcome to KryptoHub <ArrowForwardIosOutlined className="text-sm" />
-        </h1>
+      
+      <div className="flex-1">
+        {props.children}
       </div>
-
-      <div className="">{props.children}</div>
 
       <Footer />
 
@@ -72,3 +78,4 @@ const Layout = (props: IHeaderProps) => {
 };
 
 export { Layout };
+

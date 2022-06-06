@@ -1,372 +1,420 @@
-import SearchIcon from "@mui/icons-material/Search";
-import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
-import { Header } from "@/src/layouts/Header";
+import axiosClient from "@/api/axios-client";
+import { useAppSelector } from "@/redux/hooks";
+import { getSkillsSelector } from "@/redux/selector";
+import { Layout } from "@/src/layouts/layout";
+import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
+import { TimeZone } from "@/type/enum/TimeZone";
 import { Team } from "@/type/team/team.type";
 import {
   ArrowDropDown,
   ArrowDropUp,
+  CancelOutlined,
+  Close,
   JoinFullOutlined,
   JoinInnerOutlined,
 } from "@mui/icons-material";
-import { IconHover } from "@/src/layouts/team/IconHover";
-const data = [
-  {
-    name: "Algoworks",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/200-x-200.png",
-    description: "Go Mobile. Go Cloud. Go Digital",
-    rating: 4.7,
-    reviewsCount: 67,
-    size: 500,
-    timezone: "UTC/GMT + 5",
-    organization: "Algoworks",
-    workingTime: "10h/day",
-    skills: ["Mobile", "Cloud", "Digital", "Crypto"],
-  },
-  {
-    name: "Hyperlink InfoSystem",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/logo_new.jpg",
-    description: "Best Android & iPhone App Development Services",
-    rating: 4.6,
-    reviewsCount: 110,
-    size: 99,
-    timezone: "UTC/GMT + 6",
-    organization: "Hyperlink",
-    workingTime: "10h/day",
-    skills: ["Web", "Blockchain", "AI", "Cloud"],
-  },
-  {
-    name: "Algoworks",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/200-x-200.png",
-    description: "Go Mobile. Go Cloud. Go Digital",
-    rating: 4.9,
-    reviewsCount: 67,
-    size: 500,
-    timezone: "UTC/GMT + 7",
-    organization: "Algoworks",
-    workingTime: "10h/day",
-    skills: ["Mobile", "Cloud", "Digital", "Crypto"],
-  },
-  {
-    name: "Hyperlink InfoSystem",
-    logo: "https://img.shgstatic.com/clutchco-static/image/scale/65x65/s3fs-public/logos/logo_new.jpg",
-    description: "Best Android & iPhone App Development Services",
-    rating: 4.8,
-    reviewsCount: 110,
-    size: 99,
-    timezone: "UTC/GMT + 8",
-    organization: "Hyperlink",
-    workingTime: "10h/day",
-    skills: ["Web", "Blockchain", "Digital", "Crypto"],
-  },
-] as Team[];
-const SkillSelect = [
-  "All Skill",
-  "Mobile",
-  "Web",
-  "Blockchain",
-  "Crypto",
-  "Digital",
-  "Cloud",
-  "AI",
-];
-const TimezoneSelect = [
-  "All Timezone",
-  "UTC/GMT - 7",
-  "UTC/GMT - 6",
-  "UTC/GMT - 5",
-  "UTC/GMT - 4",
-  "UTC/GMT - 3",
-  "UTC/GMT - 2",
-  "UTC/GMT - 1",
-  "UTC/GMT + 0",
-  "UTC/GMT + 1",
-  "UTC/GMT + 2",
-  "UTC/GMT + 3",
-  "UTC/GMT + 4",
-  "UTC/GMT + 5",
-  "UTC/GMT + 6",
-  "UTC/GMT + 7",
-  "UTC/GMT + 8",
-];
+import SearchIcon from "@mui/icons-material/Search";
+import { Pagination } from "@mui/material";
+import { useOutsideClick } from "hook/OuterClick";
+import { useRouter } from "next/router";
+import { FormEvent, LegacyRef, useEffect, useState } from "react";
+
 const SortBy = ["none", "rating", "size", "working time"];
+interface PageResponse {
+  content: Team[];
+  pagable: {
+    total: number;
+    page: number;
+    size: number;
+  };
+}
+const initFilter = {
+  search: "",
+  matchAll: false,
+  sortBy: 0,
+  sortDsc: true,
+  skill: [] as string[],
+  timezone: [] as string[],
+};
 export const Teams = () => {
-  const [teams, setTeams] = useState(data);
+  const router = useRouter();
+  const [teams, setTeams] = useState([] as Team[]);
+  const SkillSelect = useAppSelector(getSkillsSelector);
   const [filter, setFilter] = useState({
     search: "",
-    skill: [] as number[],
-    timezone: [] as number[],
     matchAll: false,
     sortBy: 0,
     sortDsc: true,
+    skill: [] as string[],
+    timezone: [] as string[],
   });
 
-  useEffect(() => {
-    let filtered = data.filter((team) =>
-      team.name.toLowerCase().includes(filter.search.toLowerCase())
-    );
-    if (filter.skill.length !== 0) {
-      filtered = filtered.filter((team) => {
-        if (filter.matchAll) {
-          return filter.skill.every((skill) =>
-            team.skills.includes(SkillSelect[skill])
-          );
-        } else {
-          for (let i = 0; i < team.skills.length; i++) {
-            if (filter.skill.includes(SkillSelect.indexOf(team.skills[i]))) {
-              return true;
-            }
-          }
-        }
-      });
+  const [currentPage, setcurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const [totalTeam, setTotalTeam] = useState(0);
+  const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
+  const [isReady, setIsReady] = useState(false);
+  useEffect(()=>{
+    if(!router.isReady) return;
+    
+    if(router.query.page && parseInt(router.query.page as string)!== currentPage){
+      let page = parseInt(router.query.page as string);
+      console.log(page);
+      if(page < 1) page = 1;
+      setcurrentPage(page);
     }
-    if (filter.timezone.length !== 0) {
-      filtered = filtered.filter((team) => {
-        if (filter.timezone.includes(TimezoneSelect.indexOf(team.timezone))) {
-          return true;
-        }
-      });
+    let skillQuery = [] as string[];
+    let timezoneQuery = [] as string[];
+    let searchQuery = "";
+    if (router.query.timezone) {
+      if (typeof router.query.timezone === "string") {
+        timezoneQuery = [router.query.timezone.replace(' ', '+')];
+      } else {
+        timezoneQuery = (router.query.timezone as string[]).map((item) => item.replace(' ', '+'));
+      };
     }
-    if (filter.sortBy !== 0) {
-      switch (filter.sortBy) {
-        case 1:
-          filtered.sort((a, b) => {
-            return (a.rating - b.rating) * (filter.sortDsc ? -1 : 1);
-          });
-          break;
-        case 2:
-          filtered.sort((a, b) => {
-            return (a.size - b.size) * (filter.sortDsc ? -1 : 1);
-          });
-          break;
-        case 3:
-          filtered.sort((a, b) => {
-            return (
-              (parseInt(a.workingTime.split("h")[0]) -
-                parseInt(b.workingTime.split("h")[0])) *
-              (filter.sortDsc ? -1 : 1)
-            );
-          });
-          break;
+    if(router.query.skill){
+      if(typeof router.query.skill === "string"){
+        skillQuery= [router.query.skill];
+      }else{
+        skillQuery= router.query.skill as string[];
       }
     }
-    setTeams(filtered);
-  }, [filter]);
+    if(router.query.search){
+      searchQuery = router.query.search as string;
+    }
+    setFilter({
+      ...filter,
+      skill: skillQuery,
+      timezone: timezoneQuery,
+      search: searchQuery,
+    })
+    setIsReady(true);
+  },[router.isReady])
+  useEffect(() => {
+    if (isReady && SkillSelect.length > 0) {
+      axiosClient
+        .get("/team/list", {
+          params: {
+            page: currentPage,
+            size: 5,
+            skill_IN: filter.skill.map(
+              (item) =>
+                SkillSelect.find((skill) => skill.skillName === item)?.id
+            ),
+            timeZone_IN: filter.timezone,
+            keyword: filter.search,
+          },
+        })
+        .then((response) => {
+          const res = response.data as PageResponse;
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+          const maxPage = Math.ceil(res.pagable.total / res.pagable.size);
+          if (currentPage > maxPage && maxPage > 0) {
+            setcurrentPage(maxPage);
+          } else if (currentPage < 1) {
+            setcurrentPage(1);
+          } else {
+            setTeams(res.content);
+            setTotalPage(maxPage);
+            setTotalTeam(res.pagable.total);
+          }
+        });
+      let url = `/teams?page=${currentPage}`;
+      if (filter.search.length > 0) {
+        url += `&search=${filter.search}`;
+      }
+      filter.skill.forEach((sk) => {
+        url += `&skill=${sk}`;
+      });
+
+      filter.timezone.forEach((tz) => {
+        url += `&timezone=${tz}`;
+      });
+      window.history.replaceState({}, "", url);
+      setIsReady(true);
+    }
+  }, [filter, currentPage, SkillSelect]);
+
 
   const handleSearch = (event: any) => {
     setFilter({ ...filter, search: event.target.value });
   };
 
-  const handleSkillSelect = (event: FormEvent<HTMLElement>) => {
-    const target = event.target as HTMLInputElement;
-    const value = parseInt(target.value);
-    if (value === 0) {
-      setFilter({ ...filter, skill: [] });
-    } else if (filter.skill.includes(value)) {
-      setFilter({
-        ...filter,
-        skill: filter.skill.filter((skill) => skill !== value),
-      });
-    } else {
-      setFilter({ ...filter, skill: [...filter.skill, value] });
-    }
+  const handleSkillSelect = (selected: string[]) => {
+    setFilter({ ...filter, skill: selected });
   };
 
-  const handleTimezoneSelect = (event: FormEvent<HTMLElement>) => {
-    const target = event.target as HTMLInputElement;
-    if (parseInt(target.value) === 0) {
-      setFilter({ ...filter, timezone: [] });
-    } else if (filter.timezone.includes(parseInt(target.value))) {
-      setFilter({
-        ...filter,
-        timezone: filter.timezone.filter(
-          (timezone) => timezone !== parseInt(target.value)
-        ),
-      });
-    } else {
-      setFilter({
-        ...filter,
-        timezone: [...filter.timezone, parseInt(target.value)],
-      });
-    }
+  const handleTimezoneSelect = (selected: string[]) => {
+    setFilter({ ...filter, timezone: selected });
   };
 
   const handleSortBySelect = (event: FormEvent<HTMLElement>) => {
     const target = event.target as HTMLInputElement;
     setFilter({ ...filter, sortBy: parseInt(target.value) });
   };
+
+  const handleClearAll = () => {
+    setFilter(initFilter);
+  };
+
+  const handlePageChange = (value: number) => {
+    setcurrentPage(value);
+  };
+
   return (
-    <>
-      <Header />
-      <div className="flex flex-col items-center justify-center px-1">
-        <div className="container-lg relative border-x-2  xl:w-3/4 md:w-11/12 lg:w-5/6 w-full  shadow-xl">
-          <div className="sticky top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
-            <div className="flex flex-col sm:flex-row border-b ">
-              <div className="flex flex-row items-center justify-between">
-                <div className="flex ">
-                  <div className="p-1 xs:p-4 bg-cyan-900 text-white font-semibold border-2 border-cyan-900 mr-2 max-w-[10rem] hidden sm:block">
-                    <span>{teams.length} Teams</span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 bg-white">
-                <div className="flex flex-col sm:flex-row p-2 items-end sm:items-center  justify-center text-sm md:text-md w-full h-full">
-                  <div className="flex flex-row items-center justify-center flex-1 w-full">
-                    <input
-                      type="text"
-                      placeholder="Search here..."
-                      className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-2"
-                      onChange={handleSearch}
-                    />
-                    <div className="ml-[-2rem] flex items-center justify-center">
-                      <SearchIcon />
-                    </div>
-                    <div className="sm:hidden flex flex-row items-center justify-center xs:p-2 sm:p-4 ml-2 border-l">
-                      <select
-                        name="sort"
-                        id=""
-                        value={filter.sortBy === 0 ? " " : filter.sortBy}
-                        className="bg-transparent border-2 border-cyan-900 xs:py-2 p-1"
-                        onChange={handleSortBySelect}
-                      >
-                        <option hidden value="">
-                          Sort by
-                        </option>
-                        {SortBy.map((key, index) => (
-                          <option key={index} value={index}>
-                            {key}
-                          </option>
-                        ))}
-                      </select>
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => {
-                          setFilter({ ...filter, sortDsc: !filter.sortDsc });
-                        }}
-                      >
-                        {filter.sortDsc ? (
-                          <IconHover
-                            icon={<ArrowDropDown />}
-                            hoverText="DESC"
-                          />
-                        ) : (
-                          <IconHover icon={<ArrowDropUp />} hoverText="ASC" />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-1 justify-end">
-                    <div
-                      className="cursor-pointer flex items-center justify-center"
-                      onClick={() => {
-                        setFilter({ ...filter, matchAll: !filter.matchAll });
-                      }}
-                    >
-                      {filter.matchAll ? (
-                        <JoinFullOutlined />
-                      ) : (
-                        <JoinInnerOutlined />
-                      )}
-                    </div>
-                    <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2 flex ">
-                      <select
-                        className="bg-transparent max-w-[14rem]"
-                        name="skill[]"
-                        id=""
-                        value={filter.skill.length > 0 ? " " : 0}
-                        onChange={handleSkillSelect}
-                      >
-                        {SkillSelect.map((key, index) => {
-                          return (
-                            <option
-                              key={index}
-                              value={index}
-                              className={`${
-                                filter.skill.includes(index)
-                                  ? "bg-cyan-300"
-                                  : ""
-                              }`}
-                            >
-                              {key}
-                            </option>
-                          );
-                        })}
-                        <option value=" " className="hidden">
-                          {filter.skill.map((sk) => SkillSelect[sk] + ",")}
-                        </option>
-                      </select>
-                    </div>
-                    <div className="items-center justify-center h-fit border-2 border-cyan-800 p-1 xs:p-2 ml-2  flex">
-                      <select
-                        className="bg-transparent max-w-[7rem]"
-                        name="timezone"
-                        id=""
-                        value={filter.timezone.length > 0 ? " " : 0}
-                        onChange={handleTimezoneSelect}
-                      >
-                        {TimezoneSelect.map((key, index) => (
-                          <option
-                            key={index}
-                            value={index}
-                            className={`${
-                              filter.timezone.includes(index)
-                                ? "bg-cyan-300"
-                                : ""
-                            }`}
-                          >
-                            {key}
-                          </option>
-                        ))}
-                        <option value=" " className="hidden">
-                          {filter.timezone.map(
-                            (sk) =>
-                              TimezoneSelect[sk].slice(
-                                TimezoneSelect[sk].length - 3,
-                                TimezoneSelect[sk].length
-                              ) + ","
-                          )}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="sm:flex hidden flex-row items-center justify-center xs:p-2 sm:p-4 border-l">
-                <select
-                  name="sort"
-                  id=""
-                  value={filter.sortBy === 0 ? " " : filter.sortBy}
-                  className="bg-transparent border-2 border-cyan-900 py-2"
-                  onChange={handleSortBySelect}
-                >
-                  <option hidden value="">
-                    Sort by
-                  </option>
-                  {SortBy.map((key, index) => (
-                    <option key={index} value={index}>
-                      {key}
-                    </option>
-                  ))}
-                </select>
-                <div
-                  className=""
-                  onClick={() => {
-                    setFilter({ ...filter, sortDsc: !filter.sortDsc });
-                  }}
-                >
-                  {filter.sortDsc ? <ArrowDropDown /> : <ArrowDropUp />}
-                </div>
-              </div>
-            </div>
+    <Layout>
+      <div className="flex items-center justify-center relative bg-cyan-900 border-t border-cyan-500  ">
+        <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
+          <div
+            className="px-4 py-2 w-fit border-2 border-red-500 xxs:flex hidden items-center justify-center text-xl
+           before:bg-cyan-300 before:h-[6px] before:w-[6px] before:rounded before:absolute before:top-[-4px] before:z-50
+           after:bg-cyan-700 after:h-4 after:w-[1px] after:absolute after:top-[2px]"
+          >
+            <span>2022 Kryptohub</span>
           </div>
-          <div className="flex flex-col items-center justify-center w-full">
-            {teams.map((item, index) => (
-              <TeamCard team={item as Team} key={index} />
-            ))}
+          <div className="ml-4 text-3xl">
+            <h1>List Teams</h1>
           </div>
         </div>
       </div>
-    </>
+      <div className="relative">
+        <div className="flex flex-col items-center justify-center px-1 ">
+          <div className="container-lg relative border-x-2  xl:w-3/4 md:w-11/12 lg:w-5/6 w-full  shadow-xl">
+            <div className="sticky top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
+              <div className="flex flex-col sm:flex-row border-b ">
+                <div className="flex flex-row items-center justify-between">
+                  <div className="flex ">
+                    <div className="p-1 xs:p-4 bg-cyan-900 text-white font-semibold border-2 border-cyan-900 mr-2 max-w-[10rem] hidden sm:block">
+                      <span>{totalTeam} Teams</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-1 bg-white">
+                  <div className="flex flex-col sm:flex-row p-2 items-end sm:items-center  justify-center text-sm md:text-md w-full h-full">
+                    <div className="flex flex-row items-center justify-center flex-1 w-full relative">
+                      <input
+                        type="text"
+                        placeholder="Search here..."
+                        className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
+                        name="search"
+                        defaultValue={filter.search}
+                        onChange={handleSearch}
+                      />
+                      <div className="absolute right-2">
+                        <SearchIcon />
+                      </div>
+                    </div>
+                    <div className="flex flex-1 justify-end items-center">
+                      <div className="xxs:flex hidden">
+                        <div
+                          className="cursor-pointer flex items-center justify-center mr-2"
+                          onClick={() => {
+                            setFilter({
+                              ...filter,
+                              matchAll: !filter.matchAll,
+                            });
+                          }}
+                        >
+                          {filter.matchAll ? (
+                            <JoinInnerOutlined />
+                          ) : (
+                            <JoinFullOutlined />
+                          )}
+                        </div>
+                        <div className="cursor-pointer flex items-center justify-center mr-2">
+                          <ComboboxSelect
+                            label="Skills"
+                            items={SkillSelect.map((sk)=>sk.skillName)}
+                            selected={filter.skill}
+                            setSelected={handleSkillSelect}
+                          />
+                        </div>
+                        <div className="cursor-pointer flex items-center justify-center mr-2">
+                          <ComboboxSelect
+                            label="Timezone"
+                            items={Object.values(TimeZone)}
+                            selected={filter.timezone}
+                            setSelected={handleTimezoneSelect}
+                          />
+                        </div>
+                      </div>
+                      <div className="cursor-pointer flex items-center justify-center mr-2">
+                        <div
+                          className={`border-2 flex items-center justify-between w-full px-1 py-[0.125rem] `}
+                          onClick={() => {
+                            setShow(!show);
+                          }}
+                          ref={nodeRef as LegacyRef<HTMLDivElement>}
+                        >
+                          <label className={`pointer-events-none min-w-[50px]`}>
+                            All filter
+                          </label>
+                        </div>
+                      </div>
+                      <div className="flex flex-row items-center justify-center border-l pl-2">
+                        <select
+                          name="sort"
+                          id=""
+                          value={filter.sortBy === 0 ? " " : filter.sortBy}
+                          className="bg-transparent border-2 "
+                          onChange={handleSortBySelect}
+                        >
+                          <option hidden value="">
+                            Sort by
+                          </option>
+                          {SortBy.map((key, index) => (
+                            <option key={index} value={index}>
+                              {key}
+                            </option>
+                          ))}
+                        </select>
+                        <div
+                          className=""
+                          onClick={() => {
+                            setFilter({ ...filter, sortDsc: !filter.sortDsc });
+                          }}
+                        >
+                          {filter.sortDsc ? <ArrowDropDown /> : <ArrowDropUp />}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {filter.skill.length || filter.timezone.length > 0 ? (
+                <div className="p-2 border-b">
+                  {filter.skill.map((skill, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="p-1 inline-block border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
+                        onClick={() => {
+                          setFilter({
+                            ...filter,
+                            skill: filter.skill.filter((i) => i !== skill),
+                          });
+                        }}
+                      >
+                        <span className="text-gray-400">Skills:</span>
+                        <span>
+                          {skill}
+                        </span>
+                        <Close className="text-sm cursor-pointer" />
+                      </div>
+                    );
+                  })}
+                  {filter.timezone &&
+                    filter.timezone.map((tz, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="p-1 inline-block border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
+                          onClick={() => {
+                            setFilter({
+                              ...filter,
+                              timezone: filter.timezone.filter((i) => i !== tz),
+                            });
+                          }}
+                        >
+                          <span className="text-gray-400">Timezones:</span>
+                          <span>{tz}</span>
+                          <Close className="text-sm cursor-pointer" />
+                        </div>
+                      );
+                    })}
+                  <div
+                    className="p-1 inline-block border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
+                    onClick={handleClearAll}
+                  >
+                    <span>Clear All</span>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+            <div className="flex flex-col items-center justify-center w-full">
+              {teams.map((item, index) => (
+                <TeamCard team={item as Team} key={index} />
+              ))}
+            </div>
+            <div className="flex items-center justify-center pb-2">
+              <Pagination
+                count={totalPage}
+                page={currentPage}
+                onChange={(e, value) => {
+                  handlePageChange(value);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          className={`fixed right-0 top-0 bg-white overflow-y-scroll h-full custom-scrollbar z-50 p-2 min-w-[300px] w-full xs:w-fit shadow-xl text-cyan-900 animate-slide-in-left ${
+            show ? "" : "hidden"
+          }`}
+          ref={subNodeRef as LegacyRef<HTMLDivElement>}
+        >
+          <div className="flex items-center justify-center relative p-2">
+            <div
+              className="absolute left-2 cursor-pointer"
+              onClick={() => {
+                setShow(false);
+              }}
+            >
+              <CancelOutlined />
+            </div>
+            <span className="text-xl">All filter</span>
+          </div>
+
+          <div className="flex flex-col items-end">
+            <div
+              className="cursor-pointer flex items-center justify-center mr-2"
+              onClick={() => {
+                setFilter({ ...filter, matchAll: !filter.matchAll });
+              }}
+            >
+              {filter.matchAll ? <JoinFullOutlined /> : <JoinInnerOutlined />}
+            </div>
+            <div className="flex flex-row items-center justify-center flex-1 w-full relative">
+              <input
+                type="text"
+                placeholder="Search here..."
+                className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
+                name="search"
+                onChange={handleSearch}
+                defaultValue={filter.search}
+              />
+              <div className="absolute right-2">
+                <SearchIcon />
+              </div>
+            </div>
+            <div className="w-full">
+              <ComboboxSelect
+                label={"Skills"}
+                items={SkillSelect.map(sk=>sk.skillName)}
+                selected={filter.skill}
+                setSelected={handleSkillSelect}
+                isCollapsor={true}
+                className="py-2 w-full border-b"
+              />
+              <ComboboxSelect
+                label={"Timezones"}
+                items={Object.values(TimeZone)}
+                selected={filter.timezone}
+                setSelected={handleTimezoneSelect}
+                isCollapsor={true}
+                className="py-2 w-full border-b"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </Layout>
   );
 };
 
