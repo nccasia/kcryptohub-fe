@@ -30,7 +30,7 @@ const Layout = (props: IHeaderProps) => {
           }
         })
         .catch((err) => {
-          throw new Error(err);
+          
         });
     }
   }, [userInfo, dispatch]);
