@@ -1,4 +1,5 @@
 import axiosClient from "@/api/axios-client";
+import { teamApi } from "@/api/team-api";
 import { useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { Layout } from "@/src/layouts/layout";
@@ -20,7 +21,7 @@ import { useOutsideClick } from "hook/OuterClick";
 import { useRouter } from "next/router";
 import { FormEvent, LegacyRef, useEffect, useState } from "react";
 
-const SortBy = ["none", "rating", "size", "working time"];
+const SortBy = ["none"];
 interface PageResponse {
   content: Team[];
   pagable: {
@@ -31,9 +32,7 @@ interface PageResponse {
 }
 const initFilter = {
   search: "",
-  matchAll: false,
   sortBy: 0,
-  sortDsc: true,
   skill: [] as string[],
   timezone: [] as string[],
 };
@@ -43,9 +42,7 @@ export const Teams = () => {
   const SkillSelect = useAppSelector(getSkillsSelector);
   const [filter, setFilter] = useState({
     search: "",
-    matchAll: false,
     sortBy: 0,
-    sortDsc: true,
     skill: [] as string[],
     timezone: [] as string[],
   });
@@ -99,21 +96,19 @@ export const Teams = () => {
   }, [router.isReady]);
   useEffect(() => {
     if (isReady && SkillSelect.length > 0) {
-      axiosClient
-        .get("/team/list", {
-          params: {
-            page: currentPage,
-            size: 5,
-            skill_IN: filter.skill.map(
-              (item) =>
-                SkillSelect.find((skill) => skill.skillName === item)?.id
-            ),
-            timeZone_IN: filter.timezone,
-            keyword: filter.search,
-          },
-        })
-        .then((response) => {
-          const res = response.data as PageResponse;
+      teamApi
+        .getListTeamsQuery(
+          filter.search,
+          currentPage,
+          5,
+          filter.sortBy.toString(),
+          filter.skill.map(
+            (item) => SkillSelect.find((skill) => skill.skillName === item)?.id
+          ).filter((item) => item),
+          filter.timezone
+        )
+        .then((data) => {
+          const res = data as PageResponse;
           window.scrollTo({
             top: 0,
             behavior: "smooth",
@@ -206,30 +201,22 @@ export const Teams = () => {
                         placeholder="Search here..."
                         className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
                         name="search"
-                        defaultValue={filter.search}
+                        value={filter.search}
                         onChange={handleSearch}
                       />
                       <div className="absolute right-2">
-                        <SearchIcon />
+                        {filter.search.length > 0 ? (
+                          <Close
+                            onClick={() => setFilter({ ...filter, search: "" })}
+                          />
+                        ) : (
+                          <SearchIcon />
+                        )}
                       </div>
                     </div>
                     <div className="flex flex-1 justify-end items-center">
                       <div className="xxs:flex hidden">
-                        <div
-                          className="cursor-pointer flex items-center justify-center mr-2"
-                          onClick={() => {
-                            setFilter({
-                              ...filter,
-                              matchAll: !filter.matchAll,
-                            });
-                          }}
-                        >
-                          {filter.matchAll ? (
-                            <JoinInnerOutlined />
-                          ) : (
-                            <JoinFullOutlined />
-                          )}
-                        </div>
+                        
                         <div className="cursor-pointer flex items-center justify-center mr-2">
                           <ComboboxSelect
                             label="Skills"
@@ -277,14 +264,6 @@ export const Teams = () => {
                             </option>
                           ))}
                         </select>
-                        <div
-                          className=""
-                          onClick={() => {
-                            setFilter({ ...filter, sortDsc: !filter.sortDsc });
-                          }}
-                        >
-                          {filter.sortDsc ? <ArrowDropDown /> : <ArrowDropUp />}
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -374,14 +353,6 @@ export const Teams = () => {
           </div>
 
           <div className="flex flex-col items-end">
-            <div
-              className="cursor-pointer flex items-center justify-center mr-2"
-              onClick={() => {
-                setFilter({ ...filter, matchAll: !filter.matchAll });
-              }}
-            >
-              {filter.matchAll ? <JoinFullOutlined /> : <JoinInnerOutlined />}
-            </div>
             <div className="flex flex-row items-center justify-center flex-1 w-full relative">
               <input
                 type="text"
@@ -389,10 +360,15 @@ export const Teams = () => {
                 className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
                 name="search"
                 onChange={handleSearch}
-                defaultValue={filter.search}
+                value={filter.search}
               />
+
               <div className="absolute right-2">
-                <SearchIcon />
+                {filter.search.length > 0 ? (
+                  <Close onClick={() => setFilter({ ...filter, search: "" })}  className="cursor-pointer"/>
+                ) : (
+                  <SearchIcon />
+                )}
               </div>
             </div>
             <div className="w-full">

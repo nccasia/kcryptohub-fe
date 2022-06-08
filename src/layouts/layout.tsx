@@ -21,12 +21,7 @@ const Layout = (props: IHeaderProps) => {
   const [openWarning, setOpenWarning] = useState<boolean>(false);
 
   useEffect(() => {
-    if (
-      userInfo.emailAddress ||
-      userInfo.githubAddress ||
-      userInfo.googleAddress
-    )
-      return;
+    if (userInfo.status) return;
     if (localStorage.getItem("accessToken")) {
       dispatch(getProfile())
         .then((data) => {
@@ -35,7 +30,7 @@ const Layout = (props: IHeaderProps) => {
           }
         })
         .catch((err) => {
-          throw new Error(err);
+          
         });
     }
   }, [userInfo, dispatch]);

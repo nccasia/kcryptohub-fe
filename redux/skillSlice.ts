@@ -1,11 +1,12 @@
 import axiosClient from "@/api/axios-client";
+import { skillApi } from "@/api/skill-api";
 import { Skill } from "@/type/Skill";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 export const getListSkill = createAsyncThunk("getListSkill", async () => {
-  const response = await axiosClient.get("/skill/list?size=100");
-  return response.data;
+  const data = await skillApi.getAllSkills();
+  return data;
 });
 
 const initialState = {
