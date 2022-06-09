@@ -1,3 +1,5 @@
+import { Skill } from "../Skill";
+
 export interface ICreateTeam {
   teamName: string;
   teamSize: number;
@@ -10,7 +12,7 @@ export interface ICreateTeam {
   founded: string;
   description: string;
   slogan: string;
-  skills: string[];
+  skills: Skill[];
   id: string;
 }
 

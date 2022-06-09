@@ -99,6 +99,12 @@ export const CreateForm = (props: IProps) => {
     }
   };
 
+  useEffect(() => {
+    if (team.skills) {
+      setData(team.skills);
+    }
+  }, [team.skills]);
+
   const handleAutocompleteOption = () => {
     const userSkillIdList = dataSkill.map((skill) => skill.id);
     const restArrSkill =

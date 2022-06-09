@@ -95,6 +95,7 @@ export const TeamSlice = createSlice({
         });
       })
       .addCase(updateTeam.fulfilled, (state, action) => {
+        state.value = action.payload;
         toast.success("Update Team successfull!", {
           position: "bottom-right",
           autoClose: 1000,
