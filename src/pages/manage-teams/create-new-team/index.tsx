@@ -45,7 +45,7 @@ const CreateNewTeam = () => {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState("");
 
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [count, setCount] = useState(0);
   const [value, setValue] = useState(0);
   const [open, setOpen] = React.useState(false);

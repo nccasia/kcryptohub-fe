@@ -99,9 +99,6 @@ export const CreateForm = (props: IProps) => {
     }
   };
 
-  const countOnChange = (e: any) => {
-    setCount(e.target.value.trim().length || 0);
-  };
   const handleAutocompleteOption = () => {
     const userSkillIdList = dataSkill.map((skill) => skill.id);
     const restArrSkill =
@@ -151,6 +148,9 @@ export const CreateForm = (props: IProps) => {
     props.nextStep();
   };
 
+  useEffect(() => {
+    setCount(watch("description").length);
+  }, [watch("description")]);
   return (
     <div>
       {" "}
@@ -300,9 +300,6 @@ export const CreateForm = (props: IProps) => {
                   maxLength={200}
                   defaultValue={team.description || ""}
                   {...register("description")}
-                  onChange={(e) => {
-                    countOnChange(e);
-                  }}
                 />
                 <div
                   className={
