@@ -3,7 +3,7 @@ import {
   ELoginProvider,
   IFormLogin,
   IFormLoginGithub,
-  IFormLoginGoogle
+  IFormLoginGoogle,
 } from "@/type/auth/login.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { KeyboardArrowDown } from "@mui/icons-material";
@@ -21,9 +21,11 @@ import * as Yup from "yup";
 const schemaValidation = Yup.object({
   usernameOrEmail: Yup.string()
     .required("Email or username is required!")
+    .trim("Username or email is required!")
     .max(30, "Email or username dose not exceed 30 character!"),
   password: Yup.string()
     .required("Password is required!")
+    .trim("Password is required!")
     .max(30, "Password dose not exceed 30 character!"),
 });
 
@@ -73,7 +75,6 @@ const Login = () => {
     getUserSession();
   }, []);
 
-
   const handleLogin = async (payload: IFormLogin) => {
     try {
       await authApi.logIn(payload, handleRedirectHomePage);
@@ -87,8 +88,8 @@ const Login = () => {
   const handleLoginGoogle = async (payload: IFormLoginGoogle) => {
     await authApi.logInGoogle(payload, handleRedirectHomePage);
   };
-  const handleRedirectHomePage  = () => {
-    router.push('/');
+  const handleRedirectHomePage = () => {
+    router.push("/");
   };
 
   const onSubmit: SubmitHandler<IFormLogin> = (values) => {
@@ -105,7 +106,8 @@ const Login = () => {
           <div className="w-full h-full bg-white p-8">
             <div className="">
               <h3 className="text-cyan-900 text-sm">
-                <b className="text-4xl font-normal">Sign In </b> <br/>to continue to Kryptohub
+                <b className="text-4xl font-normal">Sign In </b> <br />
+                to continue to Kryptohub
               </h3>
             </div>
             <div className="auth-social text-center">
