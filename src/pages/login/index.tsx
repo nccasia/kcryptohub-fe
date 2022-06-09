@@ -110,7 +110,7 @@ const Login = () => {
             </div>
             <div className="auth-social text-center">
               <div className="flex flex-col justify-center items-center gap-x-4 mt-6">
-                <div
+                <button
                   className="bg-indigo-800 w-fit  text-white mb-8 cursor-pointer min-w-[240px] flex items-center justify-center group"
                   onClick={() => signIn("github")}
                 >
@@ -118,8 +118,8 @@ const Login = () => {
                   <span className="w-full p-2 group-hover:bg-indigo-900">
                     Sign in with GitHub
                   </span>
-                </div>
-                <div
+                </button>
+                <button
                   className="bg-blue-600 w-fit text-white mb-8 cursor-pointer min-w-[240px] flex items-center justify-center group pl-[1px]"
                   onClick={() => signIn("google")}
                 >
@@ -134,7 +134,7 @@ const Login = () => {
                   <span className="w-full p-2 group-hover:bg-blue-700 ">
                     Sign in with Google
                   </span>
-                </div>
+                </button>
               </div>
             </div>
 

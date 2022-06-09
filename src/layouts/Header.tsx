@@ -39,7 +39,7 @@ export const Header = () => {
                 showMenu ? "flex" : "hidden"
               } md:flex flex-col flex-1 w-full`}
             >
-              <div className="flex flex-row items-center justify-end text-cyan-600">
+              <div className="flex flex-row items-center justify-end text-white">
                 <div className="flex">
                   <input
                     type="text"
@@ -111,7 +111,7 @@ export const Header = () => {
                       </Link>
                     </div>
                   ) : (
-                    <div className="text-cyan-700 font-semibold hover:text-cyan-400 text-right">
+                    <div className="text-white font-semibold hover:text-cyan-400 text-right">
                       <Link href={"/login"}>
                         <a>
                           <span>Sign in</span>
