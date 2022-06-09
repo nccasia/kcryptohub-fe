@@ -1,19 +1,16 @@
-import InputField from "@/components/profile/InputField";
 import { useAppSelector } from "@/redux/hooks";
 import { getUserInfoSelector } from "@/redux/selector";
 import { Layout } from "@/src/layouts/layout";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   LocalPhoneOutlined,
-  MessageOutlined,
-  Phone,
-  PhoneOutlined,
+  MessageOutlined
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
@@ -82,14 +79,12 @@ export const Contact = () => {
     
   }, [router]);
 
-  const handleSubmitForm = () => {};
-
   const onSubmit = () => {
     console.log(getValues());
   };
   return (
     <Layout>
-      <div className="md:mx-32 mx-4 flex justify-between">
+      <div className="md:mx-32 lg:mx-64 mx-4 flex justify-between">
         <div className="max-w-[500px] w-full py-16">
           <div className="">
             <h1 className="text-5xl text-cy an-900 relative mb-8 after:w-full after:h-[1px] after:absolute after:bottom-[-10px] after:bg-cyan-900 after:left-0">
@@ -278,7 +273,7 @@ export const Contact = () => {
             </div>
           </form>
         </div>
-        <div className="max-w-[250px] md:flex hidden p-6 flex-col items-center justify-center h-fit mt-32 border shadow-xl shadow-cyan-100 rounded-xl">
+        <div className="max-w-[250px] md:flex hidden p-6 ml-4 flex-col items-center justify-center h-fit mt-32 border shadow-xl shadow-cyan-100 rounded-xl">
           <h1 className="text-3xl w-full">Message</h1>
           <Typography className="w-full font-medium">
             Start a conversation today!
