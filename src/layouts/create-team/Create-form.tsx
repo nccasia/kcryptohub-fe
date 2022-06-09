@@ -121,6 +121,8 @@ export const CreateForm = (props: IProps) => {
           ...dataSkill,
           { id: null, skillName: (e.target as HTMLInputElement).value },
         ];
+
+        setData(newArrSkill);
       }
       (e.target as HTMLInputElement).value = "";
     }
