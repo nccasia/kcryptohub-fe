@@ -1,5 +1,7 @@
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
+import { createTeam, updateTeam } from "@/redux/teamSlice";
+import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { TimeZone } from "@/type/enum/TimeZone";
 import { Skill } from "@/type/Skill";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,7 +11,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Autocomplete, TextField } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as yub from "yup";
@@ -22,7 +24,7 @@ const schema = yub.object().shape({
     .max(30, "Max length is 30 characters!"),
   teamSize: yub.string().required("Total Employees is required"),
   timeZone: yub.string().required("Timezone is required"),
-  salesEmail: yub
+  saleEmail: yub
     .string()
     .required("Sales Email is required")
     .trim("Sales Email is required")
@@ -72,6 +74,8 @@ export const CreateForm = (props: IProps) => {
     reset,
     formState: { errors, isDirty, isValid },
   } = useForm({ resolver: yupResolver(schema), mode: "all" });
+  const dispatch = useAppDispatch();
+  const team = useAppSelector((state) => state.TeamReducer.value);
   const [createObjectURL, setCreateObjectURL] = useState("");
   const [image, setImage] = useState(null);
   const [count, setCount] = useState(0);
@@ -127,12 +131,24 @@ export const CreateForm = (props: IProps) => {
       ...watch(),
       skills: dataSkill,
     };
-    /* dispatch(createTeam(formSave as unknown as ICreateTeam)); */
+    dispatch(createTeam(formSave as unknown as ICreateTeam));
 
     props.nextStep();
 
     console.log(formSave);
   };
+
+  const handleUpdate = () => {
+    const formUpdate = {
+      id: team.id,
+      ...watch(),
+      skills: dataSkill,
+    };
+
+    dispatch(updateTeam(formUpdate as unknown as ICreateTeam));
+    props.nextStep();
+  };
+
   return (
     <div>
       {" "}
@@ -144,11 +160,13 @@ export const CreateForm = (props: IProps) => {
                 <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                   Team Name
                 </label>
+
                 <input
                   {...register("teamName")}
                   autoComplete="off"
                   className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                   placeholder="Team Name"
+                  defaultValue={team.teamName || ""}
                 />
                 {errors?.teamName && (
                   <div className="flex justify-left mt-1 text-sm ">
@@ -168,6 +186,7 @@ export const CreateForm = (props: IProps) => {
                   autoComplete="off"
                   placeholder="https://Team-name.com/"
                   className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
+                  defaultValue={team.linkWebsite || ""}
                 />
                 {errors?.linkWebsite && (
                   <div className="flex justify-left mt-1 text-sm ">
@@ -184,6 +203,7 @@ export const CreateForm = (props: IProps) => {
                 <select
                   {...register("timeZone")}
                   className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                  defaultValue={team.timeZone || ""}
                 >
                   <option value="">- Select a value -</option>
                   {timeZone &&
@@ -209,6 +229,7 @@ export const CreateForm = (props: IProps) => {
                 <select
                   {...register("teamSize")}
                   className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary hidden-arrow-input-number"
+                  defaultValue={team.teamSize || ""}
                 >
                   <option value="">- Select a value -</option>
                   <option value="Freelancer">Freelancer</option>
@@ -230,6 +251,7 @@ export const CreateForm = (props: IProps) => {
                 <select
                   {...register("founded")}
                   className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                  defaultValue={team.founded || ""}
                 >
                   <option value="">- Select a value -</option>
                   <option value="2022">2022</option>
@@ -254,6 +276,7 @@ export const CreateForm = (props: IProps) => {
                   autoComplete="off"
                   className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                   placeholder="Enter Tagline"
+                  defaultValue={team.slogan || ""}
                 />
                 {errors?.slogan && (
                   <div className="flex justify-left mt-1 text-sm ">
@@ -273,6 +296,7 @@ export const CreateForm = (props: IProps) => {
                   placeholder="Short description about your Team"
                   className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 md:min-h-[100px] outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
                   maxLength={200}
+                  defaultValue={team.description || ""}
                   {...register("description")}
                   onChange={(e) => {
                     countOnChange(e);
@@ -377,14 +401,15 @@ export const CreateForm = (props: IProps) => {
               </label>
               <input
                 autoComplete="off"
-                {...register("salesEmail")}
+                {...register("saleEmail")}
                 className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                 placeholder="email@email.com"
+                defaultValue={team.saleEmail || ""}
               />
-              {errors?.salesEmail && (
+              {errors?.saleEmail && (
                 <div className="flex justify-left mt-1 text-sm ">
                   <p className={" block  text-red-500 font-medium"}>
-                    {errors?.salesEmail?.message}
+                    {errors?.saleEmail?.message}
                   </p>
                 </div>
               )}
@@ -425,6 +450,7 @@ export const CreateForm = (props: IProps) => {
               <select
                 {...register("projectSize")}
                 className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                defaultValue={team.projectSize || ""}
               >
                 <option value="">- Select a value -</option>
                 <option value="$1,000+">$1,000+</option>
@@ -447,6 +473,7 @@ export const CreateForm = (props: IProps) => {
                 <select
                   {...register("workingTime")}
                   className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                  defaultValue={team.workingTime || ""}
                 >
                   <option value="">- Select a value -</option>
                   <option value="<25$">{"<"} 25$</option>
@@ -469,6 +496,7 @@ export const CreateForm = (props: IProps) => {
             </div>
           </div>
         </div>
+
         <hr className="w-full h-[1px] border border-[#cae0e7]"></hr>
         <div className="flex items-center justify-between md:min-h-[80px] my-5">
           <Link href="/manage-teams">
@@ -479,17 +507,29 @@ export const CreateForm = (props: IProps) => {
               Back
             </a>
           </Link>
-
-          <button
-            type="button"
-            onClick={handleSubmit(handleSave)}
-            className={"py-3 text-white px-3 flex items center bg-[red]"}
-          >
-            Add Services line
-            <span className=" font-medium">
-              <ChevronRightIcon />
-            </span>
-          </button>
+          {team.id ? (
+            <button
+              type="button"
+              onClick={handleSubmit(handleUpdate)}
+              className={"py-3 text-white px-3 flex items center bg-[red]"}
+            >
+              Add Services line
+              <span className=" font-medium">
+                <ChevronRightIcon />
+              </span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleSubmit(handleSave)}
+              className={"py-3 text-white px-3 flex items center bg-[red]"}
+            >
+              Add Services line
+              <span className=" font-medium">
+                <ChevronRightIcon />
+              </span>
+            </button>
+          )}
         </div>
       </form>
     </div>
