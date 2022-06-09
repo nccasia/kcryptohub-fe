@@ -24,7 +24,7 @@ import { FormEvent, LegacyRef, useEffect, useState } from "react";
 const SortBy = ["none"];
 interface PageResponse {
   content: Team[];
-  pagable: {
+  pageable: {
     total: number;
     page: number;
     size: number;
@@ -117,7 +117,7 @@ export const Teams = () => {
             top: 0,
             behavior: "smooth",
           });
-          const maxPage = Math.ceil(res.pagable.total / res.pagable.size);
+          const maxPage = Math.ceil(res.pageable.total / res.pageable.size);
           if (currentPage > maxPage && maxPage > 0) {
             setcurrentPage(maxPage);
           } else if (currentPage < 1) {
@@ -125,7 +125,7 @@ export const Teams = () => {
           } else {
             setTeams(res.content);
             setTotalPage(maxPage);
-            setTotalTeam(res.pagable.total);
+            setTotalTeam(res.pageable.total);
           }
         });
       let url = `/teams?page=${currentPage}`;

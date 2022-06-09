@@ -35,7 +35,7 @@ const Layout = (props: IHeaderProps) => {
     }
   }, [userInfo, dispatch]);
   useEffect(() => {
-    if (skills.length === 0) {
+    if (!skills || skills.length === 0) {
       dispatch(getListSkill());
     }
   }, [dispatch]);
