@@ -327,7 +327,7 @@ export const CreateForm = (props: IProps) => {
           </div>
           <div className="md:flex-[50%] max-w-[1/2]">
             <div className="my-5">
-              <label className="text-primary flex block mb-2 py-2 md:py-0">
+              <label className="text-primary justify-between flex block mb-2 py-2 md:py-0">
                 Team Logo
               </label>
               <div className="flex items-center justify-between">
@@ -336,22 +336,20 @@ export const CreateForm = (props: IProps) => {
                     id="image"
                     type="file"
                     autoComplete="off"
-                    hidden={true}
                     accept="image/*"
-                    className="md:max-w-[290px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                    className="h-0 w-0 peer"
                     onChange={uploadToClient}
                   />
-                  <div className="min-h-[202px] max-w-[267px] w-full h-[202px] mr-3 relative border border-[#cae0e7] border-dashed border-2">
+                  <div className="min-h-[202px] mt-[-30px] max-w-[267px] w-full h-[202px] mr-3 relative border border-[#cae0e7] border-dashed border-2 peer-focus:border-cyan-600">
                     {createObjectURL ? (
-                      <>
+                      <div>
                         <Image
                           src={createObjectURL}
-                          width={267}
-                          height={202}
+                          layout="fill"
                           alt=""
                           draggable={true}
                         />
-                      </>
+                      </div>
                     ) : (
                       <div>
                         <div className="md:text-xs lg:text-base  absolute top-0 left-0 w-full h-1/2 flex items-center justify-center">
@@ -518,7 +516,7 @@ export const CreateForm = (props: IProps) => {
               onClick={handleSubmit(handleUpdate)}
               className={"py-3 text-white px-3 flex items center bg-[red]"}
             >
-              Add Services line
+              Add Skill Distribution
               <span className=" font-medium">
                 <ChevronRightIcon />
               </span>
@@ -529,7 +527,7 @@ export const CreateForm = (props: IProps) => {
               onClick={handleSubmit(handleSave)}
               className={"py-3 text-white px-3 flex items center bg-[red]"}
             >
-              Add Services line
+              Add Skill Distribution
               <span className=" font-medium">
                 <ChevronRightIcon />
               </span>

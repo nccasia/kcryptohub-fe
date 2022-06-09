@@ -1,8 +1,5 @@
 import { Skill } from "@/type/Skill";
-import {
-  ISkillDistribution,
-  ISkillDistributionValue,
-} from "@/type/skill/skill.types";
+import { ISkillDistributionValue } from "@/type/skill/skill.types";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
@@ -11,10 +8,10 @@ import React from "react";
 import { Pie } from "react-chartjs-2";
 
 export interface IProps {
-  listSkill: ISkillDistribution[];
-  setListSkill: (listSkill: ISkillDistribution[]) => void;
+  listSkill: Skill[];
+  setListSkill: (listSkill: Skill[]) => void;
   handleChange: () => void;
-  skills: ISkillDistribution[];
+  skills: Skill[];
   dataChart: any;
   options: any;
   value: number;
@@ -62,6 +59,7 @@ export const ServicesLine = (props: IProps) => {
                   key={index}
                 >
                   <div className="flex justify-between items-center">
+                    {cur.skillName}
                     <button
                       onClick={() => {
                         props.setListSkill(
@@ -69,6 +67,7 @@ export const ServicesLine = (props: IProps) => {
                             return cur.id !== item.id;
                           })
                         );
+                        props.setValue(0);
                       }}
                       className="text-xs text-cyan-600"
                     >
@@ -84,81 +83,87 @@ export const ServicesLine = (props: IProps) => {
           </h2>
 
           <div className="border relative w-full border-2 border-[#cae0e7] text-indigo-800 px-3 py-2 cursor-pointer">
-            {props.skills &&
-              props.skills.map((data, index) => (
-                <div key={index}>
-                  <div className="w-full" onClick={props.handleChange}>
-                    {data.skillDistributionName}
-                  </div>
-                  <Collapse in={props.open}>
-                    {data.skillDistributionValue.map((value, i) => (
-                      <div key={i} className="pt-3 inline-block">
-                        <div>
-                          {props.listSkill.find((cur) => {
-                            return cur.id === data.id;
-                          }) ? (
-                            <div className="mb-3 px-3 mr-2 text-indigo-800 border border-2 rounded-md border-cyan-600">
-                              <div
-                                className="flex justify-between items-center"
-                                onClick={() => {
-                                  if (
-                                    props.listSkill.find((cur) => {
-                                      return cur.id === data.id;
-                                    })
-                                  ) {
-                                    props.setListSkill(
-                                      props.listSkill.filter((cur) => {
-                                        return cur.id !== data.id;
-                                      })
-                                    );
-                                  }
-                                }}
-                              >
-                                {value.field}
-                                <button
-                                  onClick={() => {
-                                    props.setListSkill(
-                                      props.listSkill.filter((item) => {
-                                        return data.id !== item.id;
-                                      })
-                                    );
-                                  }}
-                                  className=" text-cyan-600"
-                                >
-                                  <CloseIcon className="text-base" />
-                                </button>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="mb-3 px-3 mr-2 text-indigo-800 border rounded-md border-cyan-600">
-                              <span
-                                onClick={() => {
-                                  if (
-                                    props.listSkill.find((cur) => {
-                                      return cur.id === data.id;
-                                    })
-                                  ) {
-                                    props.setListSkill(
-                                      props.listSkill.filter((cur) => {
-                                        return cur.id !== data.id;
-                                      })
-                                    );
-                                  }
-                                }}
-                              >
-                                {value.field}
-                              </span>
-                            </div>
-                          )}
+            <div className="w-full" onClick={props.handleChange}>
+              Skill Distribution
+            </div>
+            <Collapse in={props.open}>
+              <div className="pt-3">
+                {props.skills &&
+                  props.skills.map((data, index) => (
+                    <div key={index} className="inline-block ">
+                      {props.listSkill.find((cur) => {
+                        return cur.id === data.id;
+                      }) ? (
+                        <div className="mb-3 px-3 mr-2 text-indigo-800 border border-2 rounded-md border-cyan-600">
+                          <div
+                            className="flex justify-between items-center"
+                            onClick={() => {
+                              if (
+                                props.listSkill.find((cur) => {
+                                  return cur.id === data.id;
+                                })
+                              ) {
+                                props.setListSkill(
+                                  props.listSkill.filter((cur) => {
+                                    return cur.id !== data.id;
+                                  })
+                                );
+                              } else {
+                                props.setListSkill([
+                                  ...props.listSkill,
+                                  data as Skill,
+                                ]);
+                              }
+                            }}
+                          >
+                            {data.skillName}
+                            <button
+                              onClick={() => {
+                                props.setListSkill(
+                                  props.listSkill.filter((item) => {
+                                    return data.id !== item.id;
+                                  })
+                                );
+                                props.setValue(0);
+                              }}
+                              className=" text-cyan-600"
+                            >
+                              <CloseIcon className="text-base" />
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </Collapse>
-                </div>
-              ))}
+                      ) : (
+                        <div className="mb-3 px-3 mr-2 text-indigo-800 border rounded-md border-cyan-600">
+                          <span
+                            onClick={() => {
+                              if (
+                                props.listSkill.find((cur) => {
+                                  return cur.id === data.id;
+                                })
+                              ) {
+                                props.setListSkill(
+                                  props.listSkill.filter((cur) => {
+                                    return cur.id !== data.id;
+                                  })
+                                );
+                              } else {
+                                props.setListSkill([
+                                  ...props.listSkill,
+                                  data as Skill,
+                                ]);
+                              }
+                            }}
+                          >
+                            {data.skillName}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+              </div>
+            </Collapse>
           </div>
         </div>
-
         <div className="md:flex-[50%] md:mr-5">
           <p className="xl:text-3xl text-xl lg:text-2xl">
             Selected Skill Distribution
@@ -186,7 +191,9 @@ export const ServicesLine = (props: IProps) => {
                     ></div>
 
                     <div className="px-3">
-                      <Typography className="text-indigo-700 border rounded-md border-indigo-600 px-3"></Typography>
+                      <Typography className="text-indigo-700 border rounded-md border-indigo-600 px-3">
+                        {cur.skillName}
+                      </Typography>
                     </div>
                   </div>
                   <div className="flex items-center">

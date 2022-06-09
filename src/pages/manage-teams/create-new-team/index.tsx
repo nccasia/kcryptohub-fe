@@ -45,11 +45,11 @@ const CreateNewTeam = () => {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState("");
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [count, setCount] = useState(0);
   const [value, setValue] = useState(0);
   const [open, setOpen] = React.useState(false);
-  const [listSkill, setListSkill] = useState<ISkillDistribution[]>([]);
+  const [listSkill, setListSkill] = useState<Skill[]>([]);
 
   const router = useRouter();
 
@@ -63,23 +63,6 @@ const CreateNewTeam = () => {
   const [distributionValueForm, setDistributionValueForm] = useState(
     {} as ISkillDistribution
   );
-
-  const skillDistribution: ISkillDistribution[] = [
-    {
-      id: "1",
-      skillDistributionName: "team",
-      skillDistributionValue: [
-        {
-          field: "Devops",
-          quantity: 0,
-        },
-        {
-          field: "Design UI/UX",
-          quantity: 0,
-        },
-      ],
-    },
-  ];
 
   const dataChart = {
     labels: [],
@@ -282,7 +265,7 @@ const CreateNewTeam = () => {
             <ServicesLine
               setListSkill={setListSkill}
               setStep={setStep}
-              skills={skillDistribution}
+              skills={skills}
               step={step}
               distributionValue={distributionValue}
               listSkill={listSkill}
