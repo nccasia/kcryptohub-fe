@@ -37,7 +37,7 @@ export const Header = () => {
             <div
               className={`${
                 showMenu ? "flex" : "hidden"
-              } md:flex flex-col flex-1`}
+              } md:flex flex-col flex-1 w-full`}
             >
               <div className="flex flex-row items-center justify-end text-cyan-600">
                 <div className="flex">

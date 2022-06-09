@@ -3,12 +3,11 @@ import {
   ELoginProvider,
   IFormLogin,
   IFormLoginGithub,
-  IFormLoginGoogle,
+  IFormLoginGoogle
 } from "@/type/auth/login.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import GoogleIcon from "@mui/icons-material/Google";
 import { Collapse } from "@mui/material";
 import { getSession, signIn } from "next-auth/react";
 import Image from "next/image";
@@ -74,9 +73,7 @@ const Login = () => {
     getUserSession();
   }, []);
 
-  const handleRedirectToHome = () => {
-    router.push("/");
-  };
+
   const handleLogin = async (payload: IFormLogin) => {
     try {
       await authApi.logIn(payload, handleRedirectHomePage);
@@ -100,7 +97,7 @@ const Login = () => {
   };
   return (
     <>
-      <div className="h-full bg-cyan-900 flex justify-center xs:items-center p-2 xxs:p-0">
+      <div className="h-full bg-cyan-900 flex justify-center xs:items-center px-2 xxs:px-0 overflow-y-scroll py-4">
         <div className="max-w-[420px] h-fit w-full overflow-hidden">
           <div className="header text-center mb-8">
             <h3 className="text-5xl font-bold text-white">Kryptohub</h3>
