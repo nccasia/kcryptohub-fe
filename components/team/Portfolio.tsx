@@ -10,6 +10,12 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const [isShowAll, setIsShowAll] = useState<boolean>(false);
   const [portfolio, setPortfolio] = useState<IPortfolio | null>(null);
+
+  const handleRenderClientKey = () => {
+    if (teamProfile.portfolio) {
+      return teamProfile.portfolio.map((item) => item.companyName).join(", ");
+    }
+  };
   return (
     <section
       ref={portfolioRef}
@@ -17,9 +23,7 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
     >
       <h2 className="text-xl text-[#154369] mb-1">Portfolio</h2>
       <p className="text-sm text-[#6b7a7e] w-4/5 mb-5">
-        Key client: Coca-Cola, ebay, Vodafone, JLL, Brightcove, Vice Media,
-        Tata, SpiceJet, Southwestern, Bahwan Cybertek, Byton, Grey Orange,
-        RateGain, Nearbuy
+        Key client: {handleRenderClientKey()}
       </p>
       {portfolio && (
         <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-3 mb-5">
