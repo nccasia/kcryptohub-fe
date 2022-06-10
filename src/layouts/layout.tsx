@@ -29,9 +29,7 @@ const Layout = (props: IHeaderProps) => {
             setOpenWarning(true);
           }
         })
-        .catch((err) => {
-          
-        });
+        .catch((err) => {});
     }
   }, [userInfo, dispatch]);
   useEffect(() => {
@@ -45,7 +43,7 @@ const Layout = (props: IHeaderProps) => {
     router.push("/profile");
   };
   return (
-    <div className="h-full flex flex-col">
+    <>
       <Header />
 
       <div className="flex-1">{props.children}</div>
@@ -70,7 +68,7 @@ const Layout = (props: IHeaderProps) => {
           </div>
         </div>
       </Modal>
-    </div>
+    </>
   );
 };
 
