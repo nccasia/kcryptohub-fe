@@ -39,7 +39,7 @@ export const Header = () => {
                 showMenu ? "flex" : "hidden"
               } md:flex flex-col flex-1 w-full`}
             >
-              <div className="flex flex-row items-center justify-end text-white">
+              <div className="flex flex-row items-center xs:justify-end justify-between  text-white">
                 <div className="flex">
                   <input
                     type="text"
@@ -63,11 +63,12 @@ export const Header = () => {
                           htmlFor="showDropdown"
                           className="cursor-pointer"
                         >
-                          <span>{user?.username || "anonymous"}</span>
-                          <ArrowDropDown />
+                          <span className="block">
+                            {user?.username || "anonymous"} <ArrowDropDown />
+                          </span>
                         </label>
                         <div
-                          className="invisible flex flex-col absolute z-10 top-6 border min-w-[130px] w-full bg-white text-cyan-800
+                          className="invisible flex flex-col absolute z-10 top-6 border md:min-w-[130px] w-full bg-white text-cyan-800
                peer-focus:visible  peer-focus:z-20 peer-focus:animate-slide-in-up hover:visible"
                         >
                           <Link href="/profile">
