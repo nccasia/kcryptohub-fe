@@ -24,7 +24,7 @@ import { FormEvent, LegacyRef, useEffect, useState } from "react";
 const SortBy = ["none"];
 interface PageResponse {
   content: Team[];
-  pagable: {
+  pageable: {
     total: number;
     page: number;
     size: number;
@@ -32,9 +32,7 @@ interface PageResponse {
 }
 const initFilter = {
   search: "",
-  matchAll: false,
   sortBy: 0,
-  sortDsc: true,
   skill: [] as string[],
   timezone: [] as string[],
 };
@@ -44,9 +42,7 @@ export const Teams = () => {
   const SkillSelect = useAppSelector(getSkillsSelector);
   const [filter, setFilter] = useState({
     search: "",
-    matchAll: false,
     sortBy: 0,
-    sortDsc: true,
     skill: [] as string[],
     timezone: [] as string[],
   });
@@ -117,7 +113,7 @@ export const Teams = () => {
             top: 0,
             behavior: "smooth",
           });
-          const maxPage = Math.ceil(res.pagable.total / res.pagable.size);
+          const maxPage = Math.ceil(res.pageable.total / res.pageable.size);
           if (currentPage > maxPage && maxPage > 0) {
             setcurrentPage(maxPage);
           } else if (currentPage < 1) {
@@ -125,7 +121,7 @@ export const Teams = () => {
           } else {
             setTeams(res.content);
             setTotalPage(maxPage);
-            setTotalTeam(res.pagable.total);
+            setTotalTeam(res.pageable.total);
           }
         });
       let url = `/teams?page=${currentPage}`;
@@ -205,30 +201,22 @@ export const Teams = () => {
                         placeholder="Search here..."
                         className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
                         name="search"
-                        defaultValue={filter.search}
+                        value={filter.search}
                         onChange={handleSearch}
                       />
                       <div className="absolute right-2">
-                        <SearchIcon />
+                        {filter.search.length > 0 ? (
+                          <Close
+                            onClick={() => setFilter({ ...filter, search: "" })}
+                          />
+                        ) : (
+                          <SearchIcon />
+                        )}
                       </div>
                     </div>
                     <div className="flex flex-1 justify-end items-center">
                       <div className="xxs:flex hidden">
-                        <div
-                          className="cursor-pointer flex items-center justify-center mr-2"
-                          onClick={() => {
-                            setFilter({
-                              ...filter,
-                              matchAll: !filter.matchAll,
-                            });
-                          }}
-                        >
-                          {filter.matchAll ? (
-                            <JoinInnerOutlined />
-                          ) : (
-                            <JoinFullOutlined />
-                          )}
-                        </div>
+                        
                         <div className="cursor-pointer flex items-center justify-center mr-2">
                           <ComboboxSelect
                             label="Skills"
@@ -276,14 +264,6 @@ export const Teams = () => {
                             </option>
                           ))}
                         </select>
-                        <div
-                          className=""
-                          onClick={() => {
-                            setFilter({ ...filter, sortDsc: !filter.sortDsc });
-                          }}
-                        >
-                          {filter.sortDsc ? <ArrowDropDown /> : <ArrowDropUp />}
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -373,14 +353,6 @@ export const Teams = () => {
           </div>
 
           <div className="flex flex-col items-end">
-            <div
-              className="cursor-pointer flex items-center justify-center mr-2"
-              onClick={() => {
-                setFilter({ ...filter, matchAll: !filter.matchAll });
-              }}
-            >
-              {filter.matchAll ? <JoinFullOutlined /> : <JoinInnerOutlined />}
-            </div>
             <div className="flex flex-row items-center justify-center flex-1 w-full relative">
               <input
                 type="text"
@@ -388,10 +360,15 @@ export const Teams = () => {
                 className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
                 name="search"
                 onChange={handleSearch}
-                defaultValue={filter.search}
+                value={filter.search}
               />
+
               <div className="absolute right-2">
-                <SearchIcon />
+                {filter.search.length > 0 ? (
+                  <Close onClick={() => setFilter({ ...filter, search: "" })}  className="cursor-pointer"/>
+                ) : (
+                  <SearchIcon />
+                )}
               </div>
             </div>
             <div className="w-full">
