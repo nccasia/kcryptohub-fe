@@ -11,7 +11,7 @@ export const getProfile = createAsyncThunk("getProfile", async () => {
 export const updateProfile = createAsyncThunk(
   "updateProfile",
   async (user: IProfile) => {
-    const response = await axiosClient.put(`/profile/update/${user.id}`, {
+    const response = await axiosClient.put(`/profile/update`, {
       username: user.username,
       emailAddress: user.emailAddress,
       githubAddress: user.githubAddress,

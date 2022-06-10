@@ -9,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Autocomplete, Box, Container, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
@@ -50,6 +51,7 @@ const schemaValidation = Yup.object({
 });
 
 const UpdateProfilePage = () => {
+  const router = useRouter();
   const { userInfo, skills } = useAppSelector((state) => state.ProfileReducer);
   const dispatch = useAppDispatch();
   const {
@@ -102,6 +104,7 @@ const UpdateProfilePage = () => {
     handleSubmit(async (value) => {
       await dispatch(updateProfile({ ...value, skills: userSkills }));
       await dispatch(getProfile());
+      router.push("/");
     })();
   };
 
@@ -244,6 +247,7 @@ const UpdateProfilePage = () => {
                   <button
                     type="button"
                     className="px-5 py-2 transition duration-150 text-[#08537E] hover:underline"
+                    onClick={() => router.push("/")}
                   >
                     Cancel
                   </button>

@@ -37,7 +37,7 @@ const Layout = (props: IHeaderProps) => {
     router.push("/profile");
   };
   return (
-    <div>
+    <>
       <Header />
       <div className="">
         <h1 className="px-20 py-2 text-white bg-cyan-700 font-bold">
@@ -67,7 +67,7 @@ const Layout = (props: IHeaderProps) => {
           </div>
         </div>
       </Modal>
-    </div>
+    </>
   );
 };
 
