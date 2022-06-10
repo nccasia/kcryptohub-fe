@@ -82,27 +82,8 @@ export const TeamCard = (props: Props) => {
                 <span className="text-cyan-700 ml-2">{team.slogan}</span>
               </div>
               <div className="absolute top-0 right-0 flex-1 text-right">
-                <span className="uppercase  text-xs font-semibold tracking-widest text-gray-400 mr-8 mt-[-1rem]">
-                  Sponsor
-                </span>
-                <div className="absolute top-[-6px] right-2 group">
+                <div className="absolute top-[-6px] right-6 group">
                   <BookmarkBorderOutlined className="absolute " />
-                  <BookmarkOutlined className=" invisible text-white  group-hover:bg-cyan-900" />
-                  <div className="absolute right-0 w-48 h-16 hidden bg-white border border-cyan-900 ">
-                    <div className="w-full h-full flex flex-col items-start justify-center p-2">
-                      <span className="text-lg pb-2 cursor-pointer text-cyan-900 font-medium">
-                        Add to Shortlist
-                      </span>
-                      <div className="border-t w-full flex justify-start">
-                        <Link href="/">
-                          <a className="text-orange-400 text-sm hover:underline">
-                            Vew Shortlist{" "}
-                            <ArrowForwardIosOutlined className="text-sm" />
-                          </a>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
