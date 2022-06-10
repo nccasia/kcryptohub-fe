@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Header = () => {
   const user = useAppSelector((state) => state.ProfileReducer.userInfo);
@@ -113,7 +113,7 @@ export const Header = () => {
                     </div>
                   ) : (
                     <div className="text-white font-semibold hover:text-cyan-400 text-right">
-                      <Link href={`/login?redirectUrl=${router.asPath}`}>
+                      <Link href={`/login`}>
                         <a>
                           <span>Sign in</span>
                           <PersonOutline className="text-sm" />

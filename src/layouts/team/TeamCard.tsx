@@ -76,7 +76,9 @@ export const TeamCard = (props: Props) => {
           <div className="flex flex-col w-full px-2">
             <div className="flex flex-row ">
               <div className="flex items-end">
-                <h1 className="text-3xl">{team.teamName}</h1>
+                <Link href={`/team/${team.id}`}>
+                  <a className="text-3xl">{team.teamName}</a>
+                </Link>
                 <span className="text-cyan-700 ml-2">{team.slogan}</span>
               </div>
               <div className="absolute top-0 right-0 flex-1 text-right">
@@ -155,7 +157,13 @@ export const TeamCard = (props: Props) => {
                     <div key={i} className="inline-block p-1">
                       <span
                         className={`px-2 py-1  rounded-2xl ${
-                          skillColor[skill.id || 0]
+                          skillColor[
+                            skill.id
+                              ? skill.id % skillColor.length
+                              : Math.round(
+                                  Math.random() * (skillColor.length - 1)
+                                )
+                          ]
                         } text-white ml-2 mt-2 font-medium`}
                       >
                         {skill.skillName}
@@ -205,18 +213,20 @@ export const TeamCard = (props: Props) => {
             Visit Website <LanguageOutlined fontSize="small" />
           </span>
         </a>
-        <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
-          <span className="xs:p-4  w-full flex justify-between">
-            View Profile <InfoOutlined fontSize="small" />
-          </span>
-        </a>
-        <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
-          <Link href={`/teams/${team.teamName}/contact`}>
+        <Link href={`/team/${team.id}`}>
+          <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
+            <span className="xs:p-4  w-full flex justify-between">
+              View Profile <InfoOutlined fontSize="small" />
+            </span>
+          </a>
+        </Link>
+        <Link href={`/teams/${team.teamName}/contact`}>
+          <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
             <span className="xs:p-4 w-full flex justify-between">
               Contact <ContactlessOutlined fontSize="small" />
             </span>
-          </Link>
-        </a>
+          </a>
+        </Link>
       </div>
     </div>
   );
