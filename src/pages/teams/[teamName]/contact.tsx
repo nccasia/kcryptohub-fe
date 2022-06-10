@@ -40,7 +40,8 @@ const conatctSchemaValidation = Yup.object({
   phone: Yup.string().matches(
     /^(\s*|\d+)$/,
     "Please enter valid phone number!"
-  ),
+  )
+  .max(15, "Phone number does not exceed 15 number!"),
   subject: Yup.string()
     .required("Please choose one subject!")
     .max(subjectExample.length, "Subject is invalid!")
@@ -115,8 +116,9 @@ export const Contact = () => {
                   id="fullname"
                   type="text"
                   {...register("fullname")}
-                  autoComplete="off"  
+                  autoComplete="off"
                   defaultValue={userInfo.username}
+                  maxLength={30}
                   className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                 />
                 {errors.fullname && (
@@ -139,6 +141,7 @@ export const Contact = () => {
                   type="text"
                   {...register("companyname")}
                   autoComplete="off"
+                  maxLength={30}
                   className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                 />
                 {errors.companyname && (
@@ -189,6 +192,7 @@ export const Contact = () => {
                   {...register("phone")}
                   autoComplete="off"
                   placeholder="+1 (555) 555-5555"
+                  maxLength={15}
                   onKeyDown={(e) => {
                     if (e.key === "Backspace" || e.key === "Tab") return;
                     if (isNaN(parseInt(e.key))) e.preventDefault();
@@ -251,6 +255,7 @@ export const Contact = () => {
                 <textarea
                   id="message"
                   placeholder="Add message you would like to send"
+                  maxLength={200}
                   {...register("message", { required: true })}
                   autoComplete="off"
                   className="w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
