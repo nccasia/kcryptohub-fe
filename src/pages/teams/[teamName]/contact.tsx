@@ -31,11 +31,11 @@ const subjectExample = [
 ];
 const conatctSchemaValidation = Yup.object({
   fullname: Yup.string()
-    .max(30, "Full name dose not exceed 30 character!")
+    .max(30, "Full name does not exceed 30 character!")
     .required("Please enter your full name!"),
   companyname: Yup.string()
-    .max(30, "Company name dose not exceed 30 character!")
-    .required(`Please enter your company name!`),
+    .max(30, "Team name does not exceed 30 character!")
+    .required(`Please enter your team name!`),
   contactemail: Yup.string(),
   phone: Yup.string().matches(
     /^(\s*|\d+)$/,
@@ -47,8 +47,8 @@ const conatctSchemaValidation = Yup.object({
     .nullable(),
   message: Yup.string()
     .required("Please enter your message!")
-    .max(300, "Message dose not exceed 300 character!")
-    .min(10, "Message dose not less than 10 character!"),
+    .max(200, "Message does not exceed 300 character!")
+    .min(10, "Message does not less than 10 character!"),
 });
 export const Contact = () => {
   const router = useRouter();
@@ -72,7 +72,10 @@ export const Contact = () => {
 
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
-      router.push("/login");
+      router.push(
+        `/login?redirectUrl=${encodeURIComponent(router.asPath)}`,
+        "/login"
+      );
     }
     if (router.query.teamName) {
       setTeamName(router.query.teamName.toString());
@@ -128,7 +131,7 @@ export const Contact = () => {
                 htmlFor="companyname"
                 className="text-primary min-w-[130px] block py-2 md:py-0"
               >
-                Company Name
+                Team Name
               </label>
               <div className="w-full flex flex-col">
                 <input
@@ -187,8 +190,7 @@ export const Contact = () => {
                   autoComplete="off"
                   placeholder="+1 (555) 555-5555"
                   onKeyDown={(e) => {
-                    
-                    if (e.key === "Backspace" || e.keyCode === 9) return;
+                    if (e.key === "Backspace" || e.key === "Tab") return;
                     if (isNaN(parseInt(e.key))) e.preventDefault();
                   }}
                   className="md:max-w-[400px] w-full border-2 border-[#cae0e7] pl-8 px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
@@ -293,7 +295,7 @@ export const Contact = () => {
           <div className="flex items-center justify-center">
             <p className="text-sm">
               With each new reply we’ll send you an email and update your
-              Message Notification on Clutch.
+              Message Notification on Kryptohub.
             </p>
             <div className="text-red-500 ">
               <MessageOutlined fontSize="large" />

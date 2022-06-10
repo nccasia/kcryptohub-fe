@@ -112,7 +112,7 @@ export const Header = () => {
                     </div>
                   ) : (
                     <div className="text-white font-semibold hover:text-cyan-400 text-right">
-                      <Link href={"/login"}>
+                      <Link href={`/login?redirectUrl=${router.asPath}`}>
                         <a>
                           <span>Sign in</span>
                           <PersonOutline className="text-sm" />

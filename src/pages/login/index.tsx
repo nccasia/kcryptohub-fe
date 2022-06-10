@@ -43,6 +43,7 @@ const Login = () => {
   });
 
   const [isOpen, setIsOpen] = useState(false);
+  const [redirectUrl, setRedirectUrl] = useState('/');
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -75,6 +76,14 @@ const Login = () => {
     getUserSession();
   }, []);
 
+  useEffect(() => {
+    if(router.isReady){
+      if(router.query.redirectUrl){
+        setRedirectUrl(router.query.redirectUrl as string);
+      }
+    }
+  },[router.isReady]);
+
   const handleLogin = async (payload: IFormLogin) => {
     try {
       await authApi.logIn(payload, handleRedirectHomePage);
@@ -89,7 +98,7 @@ const Login = () => {
     await authApi.logInGoogle(payload, handleRedirectHomePage);
   };
   const handleRedirectHomePage = () => {
-    router.push("/");
+    router.push(redirectUrl);
   };
 
   const onSubmit: SubmitHandler<IFormLogin> = (values) => {
