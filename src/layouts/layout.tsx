@@ -13,12 +13,6 @@ type IHeaderProps = {
   children: ReactNode;
 };
 
-const privateRoute = [
-  '/profile',
-  '/contact',
-  '/manage-teams'
-]
-
 const Layout = (props: IHeaderProps) => {
   const userInfo = useAppSelector(getUserInfoSelector);
   const skills = useAppSelector(getSkillsSelector);
@@ -43,14 +37,6 @@ const Layout = (props: IHeaderProps) => {
       dispatch(getListSkill());
     }
   }, [dispatch]);
-
-  useEffect(() => {
-    const currentUrl = router.asPath;
-    const isPrivate = privateRoute.some(url => currentUrl.includes(url));
-    if(isPrivate && !localStorage.getItem("accessToken")) {
-      router.push(`/login?redirectUrl=${currentUrl}`,'/login');
-    }
-  },[router]);
 
   const handleCloseModal = () => {
     setOpenWarning(false);
