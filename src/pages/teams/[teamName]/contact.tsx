@@ -56,12 +56,13 @@ export const Contact = () => {
   const [teamName, setTeamName] = useState<string>(
     router.query.teamName?.toString() || ""
   );
-  const subjectRef = useRef<HTMLInputElement>(null);
+
   conatctSchemaValidation.fields.fullname.default(userInfo.username);
   const {
     register,
     handleSubmit,
     getValues,
+    setValue,
     reset,
     formState: { errors },
   } = useForm<IFromData>({
@@ -78,9 +79,13 @@ export const Contact = () => {
     }
     
   }, [router]);
+  useEffect(() => {
+    setValue("contactemail", userInfo.emailAddress, {shouldValidate: true});
+    if(userInfo.username)setValue("fullname", userInfo.username, { shouldValidate: true });
+  },[getValues, setValue, userInfo.emailAddress, userInfo.username])
 
   const onSubmit = () => {
-    console.log(getValues());
+    alert(`A message have send to ${teamName} \nYour name: ${getValues().fullname} \nContact Email: ${getValues().contactemail} \nSubject: ${subjectExample[getValues().subject]} \nMessage: ${getValues().message} \n${`Phone: ${getValues().phone}`}`);
   };
   return (
     <Layout>
@@ -107,7 +112,7 @@ export const Contact = () => {
                   id="fullname"
                   type="text"
                   {...register("fullname")}
-                  autoComplete="off"
+                  autoComplete="off"  
                   defaultValue={userInfo.username}
                   className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                 />
