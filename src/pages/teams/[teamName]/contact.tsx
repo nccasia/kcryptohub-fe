@@ -72,16 +72,9 @@ export const Contact = () => {
   });
 
   useEffect(() => {
-    if (!localStorage.getItem("accessToken")) {
-      router.push(
-        `/login?redirectUrl=${encodeURIComponent(router.asPath)}`,
-        "/login"
-      );
-    }
     if (router.query.teamName) {
       setTeamName(router.query.teamName.toString());
     }
-    
   }, [router]);
   useEffect(() => {
     setValue("contactemail", userInfo.emailAddress, {shouldValidate: true});
