@@ -116,7 +116,7 @@ export const TeamCard = (props: Props) => {
             {
               <span className="text-cyan-900">
                 <IconHover icon={<LabelOutlined />} hoverText="Project Size" />
-                <span className="text-left ml-1">${team.projectSize}</span>
+                <span className="text-left ml-1">{team.projectSize}</span>
               </span>
             }
             <span className="text-cyan-900">

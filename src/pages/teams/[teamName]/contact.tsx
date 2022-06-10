@@ -182,7 +182,8 @@ export const Contact = () => {
                   autoComplete="off"
                   placeholder="+1 (555) 555-5555"
                   onKeyDown={(e) => {
-                    if (e.key === "Backspace") return;
+                    
+                    if (e.key === "Backspace" || e.keyCode === 9) return;
                     if (isNaN(parseInt(e.key))) e.preventDefault();
                   }}
                   className="md:max-w-[400px] w-full border-2 border-[#cae0e7] pl-8 px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
@@ -206,7 +207,7 @@ export const Contact = () => {
                   {subjectExample.map((item, index) => (
                     <label
                       htmlFor={`radio${index}`}
-                      className="px-2 py-1 block border-l-2 border-transparent hover:border-cyan-900 hover:bg-gray-200"
+                      className="px-2 py-1 block border-l-2 border-transparent hover:border-cyan-900 hover:bg-gray-200 cursor-pointer"
                       key={index}
                     >
                       <input
@@ -218,7 +219,7 @@ export const Contact = () => {
                       />
                       <label
                         htmlFor={`radio${index}`}
-                        className="text-cyan-900 font-normal ml-4 peer-checked:font-semibold "
+                        className="text-cyan-900 font-normal ml-4 peer-checked:font-semibold cursor-pointer"
                       >
                         {item}
                       </label>
