@@ -4,13 +4,16 @@
 @import "react-toastify/dist/ReactToastify.css";
 html,
 body {
+  height: 100%;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   scroll-behavior: smooth;
 }
-
+#__next {
+  height: 100%;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -22,4 +25,18 @@ a {
 
 .Toastify__toast--error {
   font-size: 13px;
+}
+
+.hidden-arrow-input-number::-webkit-inner-spin-button,
+.hidden-arrow-input-number::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 2px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
 }

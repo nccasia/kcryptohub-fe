@@ -3,11 +3,13 @@ export interface ICreateTeam {
   teamSize: number;
   timeZone: string;
   organization: string;
+  location: string;
   workingTime: string;
-  avarta: string;
+  avatar: string;
   description: string;
   hour: string;
   week: string;
+  slogan: string;
   skills: string[];
   id: string;
 }

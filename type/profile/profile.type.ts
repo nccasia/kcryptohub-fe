@@ -1,3 +1,6 @@
+import { ICreateTeam } from "../createTeam/createTeam.type";
+import { ISkills } from "../skill/skill.types";
+
 export interface IProfile {
   username: string;
   avatarPath: string;
@@ -9,9 +12,5 @@ export interface IProfile {
   provider: string;
   status: string;
   skills: ISkills[];
-}
-
-export interface ISkills {
-  id: number | null;
-  skillName: string;
+  team: ICreateTeam[];
 }

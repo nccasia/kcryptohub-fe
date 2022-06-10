@@ -4,7 +4,9 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getProfile, getSkills, updateProfile } from "@/redux/profileSlice";
 import { Layout } from "@/src/layouts/layout";
 import { ELoginProvider } from "@/type/auth/login.type";
-import { IProfile, ISkills } from "@/type/profile/profile.type";
+import { IProfile } from "@/type/profile/profile.type";
+import { ISkills } from "@/type/skill/skill.types";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Autocomplete, Box, Container, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -37,17 +39,23 @@ const theme = createTheme({
 });
 
 const schemaValidation = Yup.object({
-  emailAddress: Yup.string().email("Please enter a valid email!"),
-  githubAddress: Yup.string().matches(
-    /^(https:\/\/)?(www\.)?github\.(com)+\/([A-Za-z0-9]{1,})+\/?$/i,
-    "Please enter a valid Github format!"
-  ),
+  username: Yup.string().max(30, "Username dose not exceed 30 character!"),
+  emailAddress: Yup.string()
+    .email("Please enter a valid email!")
+    .max(30, "Email dose not exceed 30 character!"),
+  githubAddress: Yup.string()
+    .matches(
+      /^(https:\/\/)?(www\.)?github\.(com)+\/([A-Za-z0-9]{1,})+\/?$/i,
+      "Please enter a valid Github format!"
+    )
+    .max(50, "Github dose not exceed 50 character!"),
   googleAddress: Yup.string()
     .email("Please enter a valid email!")
     .matches(
       /([a-zA-Z0-9_.-]+)@gmail\.com/,
       "Please enter a valid Google format!"
-    ),
+    )
+    .max(30, "Google dose not exceed 30 character!"),
 });
 
 const UpdateProfilePage = () => {
@@ -188,7 +196,11 @@ const UpdateProfilePage = () => {
                     />
                   </div>
                 </div>
-                <InputField label="Username" register={register("username")} />
+                <InputField
+                  label="Username"
+                  register={register("username")}
+                  errors={errors.username}
+                />
                 <InputField
                   label="Contact Email"
                   register={register("emailAddress")}

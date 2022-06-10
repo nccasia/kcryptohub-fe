@@ -1,299 +1,830 @@
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
-import styles from "../../../styles/Home.module.css";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
 import * as yub from "yup";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { Layout } from "@/src/layouts/layout";
-import { Multiselect } from "multiselect-react-dropdown";
+import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
-import { createTeam } from "@/redux/teamSlice";
+import { toast, ToastContainer } from "react-toastify";
+import { createTeam, getAllSkill } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { Layout } from "@/src/layouts/layout";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Modal,
+} from "@mui/material";
+import {
+  ISkills,
+  ISkillDistribution,
+  ISkillDistributionValue,
+} from "@/type/skill/skill.types";
+import { getSkillsSelector } from "@/redux/selector";
+import { Skill } from "@/type/Skill";
 
 const schema = yub.object().shape({
   teamName: yub
     .string()
     .required("Team Name is required")
-    .trim("Team name is required"),
+    .trim("Team name is required")
+    .max(30, "Max length is 30 characters!"),
   teamSize: yub
     .string()
     .required("Team Size is required")
-    .matches(/[1-9]/, "Team size require value number"),
+    .max(10, "Invalid length!"),
   timeZone: yub.string().required("Time Zone is required"),
+  location: yub.string().required("Location is required"),
   organization: yub
     .string()
     .required("Organization is required")
-    .trim("Organization is required"),
-  workingTime: yub.string(),
+    .trim("Organization is required")
+    .max(30, "Max length is 30 characters!"),
+  founded: yub
+    .string()
+    .required("This information is required")
+    .max(10, "Invalid length!"),
+  workingTime: yub
+    .string()
+    .required("Working Time is required")
+    .max(10, "Invalid length!"),
+  linkWebsite: yub
+    .string()
+    .required("Link Website is required")
+    .trim("Link Website is required")
+    .matches(
+      /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/,
+      "Please enter a valid website format!"
+    )
+    .max(100, "Max length is 100 characters!"),
+  projectSize: yub
+    .string()
+    .required("Project Size is required")
+    .max(10, "Invalid length!"),
+  slogan: yub.string().max(200, "Max length is 200 characters!"),
   hour: yub.string(),
   week: yub.string(),
-  description: yub.string(),
+  description: yub.string().max(200, "Max length is 200 characters!"),
 });
+
+const theme = createTheme({
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+          border: "2px solid #cae0e7",
+          "&.Mui-focused": {
+            borderColor: "#17313b",
+            boxShadow:
+              "inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%)",
+          },
+        },
+        notchedOutline: {
+          border: "none",
+        },
+      },
+    },
+  },
+});
+
 const CreateNewTeam = () => {
   const { data } = useSession();
   const dispatch = useAppDispatch();
+
+  const skills = useAppSelector(getSkillsSelector);
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState("");
-  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messageDistribute, setMessageDistribute] = useState("");
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const router = useRouter();
-  const skills = ["IT", " BA", " IT mobile dev", " IT web dev"];
-  const timeZone = [
-    "UTC -12",
-    "UTC -11",
-    "UTC -10",
-    "UTC -9",
-    "UTC -8",
-    "UTC -7",
-    "UTC -6",
-    "UTC -5",
-    "UTC -4",
-    "UTC -3",
-    "UTC -2",
-    "UTC -1",
-    "UTC +-0",
-    "UTC +1",
-    "UTC +2",
-    "UTC +3",
-    "UTC +4",
-    "UTC +5",
-    "UTC +6",
-    "UTC +7",
-    "UTC +8",
-    "UTC +9",
-    "UTC +10",
-    "UTC +11",
-    "UTC +12",
-  ];
-
-  const [dataSkill, setData] = useState([]);
-  const uploadToClient = (event: any) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
-  };
-
-  const handleSave = (event: React.FormEvent<HTMLElement>) => {
-    event.preventDefault();
-    const formSave = {
-      ...watch(),
-      avatar: createObjectURL || data?.user?.image,
-      skill: dataSkill,
-    };
-    dispatch(createTeam(formSave as unknown as ICreateTeam));
-    reset();
-    setTimeout(() => {
-      router.push("/manage-teams");
-    }, 3000);
-  };
-
-  const onSelect = (select: any) => {
-    setData(select);
-  };
   const {
     register,
     handleSubmit,
     watch,
     reset,
     formState: { errors, isDirty, isValid },
-  } = useForm({ mode: "all", resolver: yupResolver(schema) });
+  } = useForm({ resolver: yupResolver(schema), mode: "all" });
+
+  const skillDistribute: ISkillDistribution[] = [];
+  const timezone = ["UTC+7", "UTC+8", "UTC+9"];
+
+  const location = ["Việt Nam", " Dubai"];
+
+  const [dataSkill, setData] = useState<Skill[]>([]);
+  const [dataSkillDistribute, setDataSkillDistribute] = useState<
+    ISkillDistribution[]
+  >([]);
+  const [distributionValue, setDistributionValue] = useState<
+    ISkillDistributionValue[]
+  >([{ field: "", quantity: 0 } as ISkillDistributionValue]);
+  const [distributionValueForm, setDistributionValueForm] = useState(
+    {} as ISkillDistribution
+  );
+
+  const buttonRef = useRef(null);
+  const uploadToClient = (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
+      if (Math.ceil(i.size / 1024) <= 15000 && i.type.includes("image")) {
+        setImage(i);
+        setCreateObjectURL(URL.createObjectURL(i));
+      } else if (!i.type.includes("image")) {
+        toast.error("File upload must have .jpg, .jpge, .png!");
+        setImage(null);
+      } else {
+        toast.error("File upload is over 15MB!");
+        setImage(null);
+      }
+    }
+  };
+
+  const onSubmit: SubmitHandler<any> = () => {
+    handleSave();
+  };
+
+  const handleSave = () => {
+    const formSave = {
+      ...watch(),
+      hour: "Hours",
+      avatar: createObjectURL || data?.user?.image || "./user1.png",
+      avatarUrl: "./user1.png",
+      skills: dataSkill,
+      skillDistribution: dataSkillDistribute,
+    };
+
+    if (dataSkill.length > 0 && dataSkillDistribute.length > 0) {
+      dispatch(createTeam(formSave as unknown as ICreateTeam));
+      reset();
+      setCreateObjectURL("");
+      setTimeout(() => {
+        router.push("/manage-teams");
+      }, 3000);
+    } else if (dataSkill.length > 0 || dataSkillDistribute.length < 0) {
+      setMessageDistribute("Skill distribute must have at least 1 field");
+    } else if (dataSkill.length < 0 || dataSkillDistribute.length > 0) {
+      setMessage("Skill must have at least 1 field");
+    } else {
+      setMessage("Skill must have at least 1 field");
+      setMessageDistribute("Skill distribute must have at least 1 field");
+    }
+  };
+
+  const handleAutocompleteOption = () => {
+    const userSkillIdList = dataSkill.map((skill) => skill.id);
+    const restArrSkill = skills.filter(
+      (skill) => !userSkillIdList.includes(skill.id)
+    );
+    return restArrSkill || [];
+  };
+  const handleSearchSkill = (e: SyntheticEvent) => {
+    let isExists = false;
+    if ((e.target as HTMLInputElement).value.trim() !== "") {
+      skills.map((skill) => {
+        if (skill.skillName === (e.target as HTMLInputElement).value) {
+          isExists = true;
+        }
+      });
+      if (!isExists) {
+        const newArrSkill = [
+          ...dataSkill,
+          { id: null, skillName: (e.target as HTMLInputElement).value },
+        ];
+        setData(newArrSkill);
+      }
+      (e.target as HTMLInputElement).value = "";
+    }
+
+    if (dataSkill.length >= 0) {
+      setMessage("");
+    } else {
+      setMessage("Skill must have at least 1 field");
+    }
+  };
+  const handleAutocompleteDistribution = () => {
+    const userSkillIdList = dataSkillDistribute.map((skill) => skill.id);
+    const restArrSkill = skillDistribute.filter(
+      (skill) => !userSkillIdList.includes(skill.id)
+    );
+    return restArrSkill || [];
+  };
+  const handleSearchSkillDistribution = (e: SyntheticEvent) => {
+    let isExists = false;
+    if ((e.target as HTMLInputElement).value.trim() !== "") {
+      skillDistribute.map((skill) => {
+        if (
+          skill.skillDistributionName === (e.target as HTMLInputElement).value
+        ) {
+          isExists = true;
+        }
+      });
+      if (!isExists) {
+        const newArrSkill = [
+          ...dataSkillDistribute,
+          {
+            id: null,
+            skillDistributionName: (e.target as HTMLInputElement).value,
+            skillDistributionValue: [
+              {
+                quantity: 1,
+                field: "Name",
+              },
+            ],
+          },
+        ];
+        setDataSkillDistribute(newArrSkill);
+      }
+      (e.target as HTMLInputElement).value = "";
+    }
+
+    if (dataSkillDistribute.length >= 0) {
+      setMessage("");
+    } else {
+      setMessage("Skill must have at least 1 field");
+    }
+  };
+
+  const handleOnchange = (e: any) => {
+    const formData = e.target as HTMLFormElement;
+    setDistributionValueForm({
+      ...distributionValueForm,
+      [formData.name]: formData.value,
+    });
+  };
+
+  const handleCloseModal = () => {
+    setDistributionValue([
+      {
+        quantity: 0,
+        field: "",
+      },
+    ] as ISkillDistributionValue[]);
+    setOpenDialog(false);
+  };
+
+  const handleAddField = () => {
+    setDistributionValue([...distributionValue, { quantity: 0, field: "" }]);
+  };
+
+  const handleRemoveField = (index: number) => {
+    const list = [...distributionValue];
+    list.splice(index, 1);
+    setDistributionValue(list);
+  };
+
+  const handleChangeField = (e: any, index: number) => {
+    const list = [...distributionValue];
+    list[index] = {
+      ...list[index],
+      [e.target.name]: e.target.value,
+    };
+    setDistributionValue(list);
+    setDistributionValueForm({
+      ...distributionValueForm,
+      skillDistributionValue: list,
+    });
+  };
+
+  const handleSaveField = () => {
+    setDataSkillDistribute([...dataSkillDistribute, distributionValueForm]);
+    setDistributionValueForm({
+      skillDistributionName: "",
+      skillDistributionValue: [],
+    } as unknown as ISkillDistribution);
+    setDistributionValue([
+      {
+        quantity: 0,
+        field: "",
+      },
+    ] as ISkillDistributionValue[]);
+
+    setOpenDialog(false);
+  };
+
   return (
     <Layout>
-      <div>
-        <h1 className="px-4 py-4 text-2xl font-bold">
-          Profile {">"} My Teams {">"} Create new team
-        </h1>
-      </div>
-      <div className="flex ">
-        <form className="py-5 flex-auto">
-          <div className="flex items-center mb-5">
-            <span className="text-right mr-4 font-500 w-[150px]">
-              Team Name
-            </span>
-            <input
-              className="appearance-none relative block w-9/12 px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Enter text here"
-              {...register("teamName")}
-            />
-          </div>
-          {errors?.teamName && (
-            <div className="flex justify-left ml-44 mb-2 text-sm ">
-              <p className={"w-[250px] block mt-[-10px] text-red-600"}>
-                {errors?.teamName?.message}
-              </p>
-            </div>
-          )}
+      <ThemeProvider theme={theme}>
+        <Box my={5}>
+          <Container
+            fixed
+            maxWidth="md"
+            className="border border-[#cae0e7] py-6 md:!px-24 md:py-12"
+          >
+            <form className="py-5 flex w-full">
+              <div className="">
+                <div className="mb-20">
+                  <h2 className="text-primary text-3xl">Basic Information</h2>
+                  <div className="md:flex items-center mx-5 my-8">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Avatar:
+                    </label>
+                    <div className="flex md:max-w-[500px] w-full items-center gap-x-3">
+                      <div className="w-16 h-16 flex-none rounded-full overflow-hidden border border-[#cae0e7]">
+                        <Image
+                          width="62"
+                          height="62"
+                          src={createObjectURL || "/user1.png"}
+                          alt="avatar"
+                        />
+                      </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        {...register("avatar")}
+                        placeholder="Add your link avatar here"
+                        className="w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
+                        onChange={uploadToClient}
+                      />
+                    </div>
+                  </div>
+                  <div className="md:flex items-center mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Team Name:
+                    </label>
+                    <input
+                      type="text"
+                      {...register("teamName")}
+                      autoComplete="off"
+                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                      placeholder="Enter text here"
+                    />
+                  </div>
+                  {errors?.teamName && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.teamName?.message}
+                      </p>
+                    </div>
+                  )}
 
-          <div className="flex items-center mb-5">
-            <span className="text-right mr-4 font-500 w-[150px]">
-              Team Size
-            </span>
-            <input
-              type="text"
-              className="relative block w-9/12 px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              {...register("teamSize")}
-              placeholder="Enter value"
-            ></input>
-          </div>
-          {errors?.teamSize && (
-            <div className="flex justify-left ml-44 mb-2 text-sm ">
-              <p className={"w-[250px] block mt-[-10px] text-red-600"}>
-                {errors?.teamSize?.message}
-              </p>
-            </div>
-          )}
-          <div className="flex items-center mb-5">
-            <span className="text-right mr-4 font-500 w-[150px]">Timezone</span>
-            <select
-              className="relative block w-9/12 px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              {...register("timeZone")}
-            >
-              <option>Please select</option>
-              {timeZone.map((resp) => {
-                return <option key={resp}>{resp}</option>;
-              })}
-            </select>
-          </div>
-          {errors?.timeZone && (
-            <div className="flex justify-left ml-44 mb-2 text-sm ">
-              <p className={"w-[250px] block mt-[-10px] text-red-600"}>
-                {errors?.timeZone?.message}
-              </p>
-            </div>
-          )}
-          <div className="flex items-center mb-5">
-            <span className="text-right mr-4 font-500 w-[150px]">
-              Organization
-            </span>
-            <input
-              className="appearance-none relative block w-9/12 px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Enter text here"
-              {...register("organization")}
-            />
-          </div>
-          {errors?.organization && (
-            <div className="flex justify-left ml-44 mb-2 text-sm ">
-              <p className={"w-[250px] block mt-[-10px] text-red-600"}>
-                {errors?.organization?.message}
-              </p>
-            </div>
-          )}
-          <div className="flex items-center mb-5">
-            <span className="text-right mr-4 font-500 w-[150px]">Skills</span>
-            <div className="relative block w-9/12 px py-2 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-              <Multiselect
-                placeholder="Please select"
-                options={skills}
-                onSelect={onSelect}
-                showArrow={true}
-                isObject={false}
+                  <div className="md:flex items-center mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Team Size:
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      placeholder="Enter value here"
+                      {...register("teamSize")}
+                      autoComplete="off"
+                      onKeyDown={(e) =>
+                        ["e", "E", "+", "-"].includes(e.key) &&
+                        e.preventDefault()
+                      }
+                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary hidden-arrow-input-number"
+                    />
+                  </div>
+                  {errors?.teamSize && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[200px] block mt-[-10px] text-red-600"}>
+                        {errors?.teamSize?.message}
+                      </p>
+                    </div>
+                  )}
+                  <div className="md:flex items-center mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Time Zone:
+                    </label>
+                    <select
+                      autoComplete="off"
+                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                      {...register("timeZone")}
+                    >
+                      <option value="">Please select</option>
+                      {timezone.map((resp) => {
+                        return <option key={resp}>{resp}</option>;
+                      })}
+                    </select>
+                  </div>
+                  {errors?.timeZone && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.timeZone?.message}
+                      </p>
+                    </div>
+                  )}
+                  <div className="md:flex items-center mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Location:
+                    </label>
+                    <select
+                      autoComplete="off"
+                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                      {...register("location")}
+                    >
+                      <option value="">Please select</option>
+                      {location.map((resp) => {
+                        return <option key={resp}>{resp}</option>;
+                      })}
+                    </select>
+                  </div>
+                  {errors?.location && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.location?.message}
+                      </p>
+                    </div>
+                  )}
+                  <div className="md:flex items-center mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Organization:
+                    </label>
+                    <input
+                      type="text"
+                      {...register("organization")}
+                      autoComplete="off"
+                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                      placeholder="Enter text here"
+                    />
+                  </div>
+                  {errors?.organization && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.organization?.message}
+                      </p>
+                    </div>
+                  )}
+                  <div className="md:flex items-center mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Description:
+                    </label>
+                    <textarea
+                      autoComplete="off"
+                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
+                      {...register("description")}
+                    />
+                  </div>
+                  {errors?.description && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.description?.message}
+                      </p>
+                    </div>
+                  )}
+                  <div className="md:flex items-center mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Slogan:
+                    </label>
+                    <input
+                      type="text"
+                      {...register("slogan")}
+                      autoComplete="off"
+                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                      placeholder="Enter text here"
+                    />
+                  </div>
+                  {errors?.slogan && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.slogan?.message}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-20">
+                  <h2 className="text-primary text-3xl">Detail Information</h2>
+                  <div className="md:flex items-center mx-5 mt-8 mb-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Link:
+                    </label>
+                    <input
+                      type="text"
+                      {...register("linkWebsite")}
+                      autoComplete="off"
+                      placeholder="https://company-name.com/"
+                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
+                    />
+                  </div>
+                  {errors?.linkWebsite && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.linkWebsite?.message}
+                      </p>
+                    </div>
+                  )}
+                  <div className="md:flex items-center mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Founded:
+                    </label>
+                    <input
+                      type="number"
+                      min={1900}
+                      max={new Date().getFullYear()}
+                      {...register("founded")}
+                      autoComplete="off"
+                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                      onKeyDown={(e) =>
+                        ["e", "E", "+", "-"].includes(e.key) &&
+                        e.preventDefault()
+                      }
+                      placeholder="1900"
+                    />
+                  </div>
+                  {errors?.founded && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.founded?.message}
+                      </p>
+                    </div>
+                  )}
+                  <div className="md:flex items-center mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Project Size:
+                    </label>
+                    <input
+                      type="number"
+                      {...register("projectSize")}
+                      autoComplete="off"
+                      min={0}
+                      className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                      onKeyDown={(e) =>
+                        ["e", "E", "+", "-"].includes(e.key) &&
+                        e.preventDefault()
+                      }
+                      placeholder="Enter value here"
+                    />
+                  </div>
+                  {errors?.projectSize && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.projectSize?.message}
+                      </p>
+                    </div>
+                  )}
+                  <div className="md:flex items-center mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Working Time:
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      {...register("workingTime")}
+                      autoComplete="off"
+                      className="md:max-w-[200px] mr-2 w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary hidden-arrow-input-number"
+                      onKeyDown={(e) =>
+                        ["e", "E", "+", "-"].includes(e.key) &&
+                        e.preventDefault()
+                      }
+                      placeholder="Enter value here"
+                    />
+
+                    <input
+                      className="md:min-w-[70px] w-[80px] mr-2 w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                      placeholder="Hours"
+                      disabled={true}
+                      {...register("hour")}
+                    />
+                    <span className="text-xl mr-2">{"/"}</span>
+                    <select
+                      className="md:max-w-[100px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                      {...register("week")}
+                    >
+                      <option value="Week">Week</option>
+                      <option value="Days">Days</option>
+                      <option value="Month">Month</option>
+                      <option value="Year">Year</option>
+                    </select>
+                  </div>
+                  {errors?.workingTime && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {errors?.workingTime?.message}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="md:flex items-start mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Skills:
+                    </label>
+                    <Autocomplete
+                      multiple
+                      options={handleAutocompleteOption()}
+                      getOptionLabel={(option) => option.skillName}
+                      value={dataSkill}
+                      filterSelectedOptions
+                      onChange={(e, value) => {
+                        setData(value);
+                        if (dataSkill.length >= 0) {
+                          setMessage("");
+                        } else {
+                          setMessage("Skill must have at least 1 field");
+                        }
+                      }}
+                      className="md:max-w-[410px] w-full"
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          {...register("skills")}
+                          onKeyUp={(event) =>
+                            event.key === "Enter"
+                              ? handleSearchSkill(event)
+                              : null
+                          }
+                        />
+                      )}
+                    />
+                  </div>
+                  {message !== "" && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {message}
+                      </p>
+                    </div>
+                  )}
+                  <div className="md:flex items-start mx-5 my-5">
+                    <label className="text-primary min-w-[130px] block py-2 md:py-0">
+                      Skill Distribution:
+                    </label>
+
+                    <Autocomplete
+                      multiple
+                      options={handleAutocompleteDistribution()}
+                      getOptionLabel={(option) => option.skillDistributionName}
+                      value={dataSkillDistribute}
+                      filterSelectedOptions
+                      onChange={(e, value) => {
+                        setDataSkillDistribute(value);
+                        if (dataSkillDistribute.length >= 0) {
+                          setMessage("");
+                        } else {
+                          setMessage(
+                            "Skill distribute must have at least 1 field"
+                          );
+                        }
+                      }}
+                      className="md:max-w-[410px] w-full"
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          onKeyUp={(event) =>
+                            event.key === "Enter"
+                              ? handleSearchSkillDistribution(event)
+                              : null
+                          }
+                        />
+                      )}
+                    />
+
+                    <Button
+                      onClick={() => {
+                        setOpenDialog(true);
+                      }}
+                    >
+                      New skill
+                    </Button>
+                  </div>
+                  {messageDistribute !== "" && (
+                    <div className="flex justify-left ml-40 text-sm ">
+                      <p className={"w-[250px] block mt-[-10px] text-red-600"}>
+                        {messageDistribute}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    className="px-6 py-2 bg-transparent border mr-2 border-black text-black rounded"
+                    onClick={() => router.push("/manage-teams")}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!isValid || !image}
+                    className={`px-8 py-2 shadow text-white rounded ${
+                      !isValid || !image
+                        ? "bg-[gray] cursor-not-allowed"
+                        : "bg-red-600"
+                    }`}
+                    onClick={handleSubmit(onSubmit)}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </form>
+          </Container>
+        </Box>
+      </ThemeProvider>
+
+      <ToastContainer autoClose={2000} position="bottom-right" />
+      <Modal open={openDialog}>
+        <div>
+          <form
+            onSubmit={handleSaveField}
+            className="absolute top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 outline-none shadow-2xl bg-white rounded-lg border border-gray-400 max-h-[700px] "
+          >
+            <h3 className="text-2xl font-bold px-5 py-4 border-b border-gray-400">
+              New skill distribution
+            </h3>
+            <div className="md:flex items-center mx-5 my-5">
+              <label className="text-primary min-w-[200px] block py-2 md:py-0">
+                Skill distribution name:
+              </label>
+              <input
+                type="text"
+                required
+                name="skillDistributionName"
+                autoComplete="off"
+                onChange={handleOnchange}
+                className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                placeholder="Enter text here"
               />
             </div>
-          </div>
-          <div className="flex items-center mb-5">
-            <span className="text-right mr-4 font-500 w-[150px]">
-              Working Time
-            </span>
-            <input
-              className="appearance-none relative block w-6/12 px-3 py-2 border border-gray-700 border-solid mr-3 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Enter text here"
-              {...register("workingTime")}
-            />
-            <input
-              className="appearance-none relative block min-w-[80px] w-1/12 px-3 py-2 border border-gray-700 border-solid mr-2 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Hours"
-              {...register("hour")}
-            />
-            <span className="text-xl mr-2">{"/"}</span>
-            <select
-              className="relative block min-w-[100px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              {...register("week")}
-            >
-              <option>Week</option>
-              <option>Days</option>
-              <option>Month</option>
-              <option>Year</option>
-            </select>
-          </div>
-          <div className="flex mb-5">
-            <span className="text-right mr-4 font-500 w-[150px]">
-              Description
-            </span>
-            <textarea
-              className="appearance-none relative block w-9/12 h-[80px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              {...register("description")}
-            />
-          </div>
-        </form>
+            <div className="overflow-auto max-h-[400px] custom-scrollbar">
+              {distributionValue.map((singleValue, index) => {
+                return (
+                  <div key={index}>
+                    <div>
+                      <div className="md:flex items-center mx-5 my-5">
+                        <label className="text-primary min-w-[200px] block py-2 md:py-0">
+                          Field:
+                        </label>
+                        <input
+                          type="text"
+                          maxLength={30}
+                          name="field"
+                          required
+                          autoComplete="off"
+                          value={singleValue.field}
+                          onChange={(e) => {
+                            handleChangeField(e, index);
+                          }}
+                          className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                          placeholder="Enter text here"
+                        />
+                      </div>
+                      <div className="md:flex items-center mx-5 mt-5">
+                        <label className="text-primary min-w-[200px] block py-2 md:py-0">
+                          Quantity:
+                        </label>
+                        <input
+                          type="number"
+                          min={0}
+                          required
+                          autoComplete="off"
+                          name="quantity"
+                          value={singleValue.quantity}
+                          onChange={(e) => {
+                            handleChangeField(e, index);
+                          }}
+                          className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                          placeholder="Enter value here"
+                        />
+                      </div>
+                    </div>
+                    {distributionValue.length - 1 === index && (
+                      <div className="flex justify-end px-3 py-1">
+                        <Button onClick={handleAddField}>+</Button>
 
-        <div className="py-5 flex-col flex w-[300px] justify-between">
-          <input
-            className="hidden"
-            id="img"
-            type="file"
-            onChange={uploadToClient}
-          />{" "}
-          <label
-            className="w-fit relative hover:cursor-pointer"
-            htmlFor="img"
-            onMouseEnter={() => setShow(true)}
-            onMouseLeave={() => setShow(false)}
-          >
-            <a>
-              <Image
-                className={` object-cover rounded ${
-                  show ? "opacity-80" : "opacity-100"
-                } `}
-                alt="Avarta"
-                src={
-                  createObjectURL ||
-                  (data?.user?.image as string) ||
-                  "/user1.png"
-                }
-                width={200}
-                height={210}
-              ></Image>
-              {show && (
-                <span className="absolute w-2/3 top-1/2 left-1/2 text-center translate-x-[-50%] translate-y-[-50%] text-gray-800 font-bold text-l">
-                  Choose image
-                </span>
-              )}
-              <label
-                className="absolute bottom-2 right-0 text-white hover:cursor-pointer"
-                htmlFor="img"
+                        {distributionValue.length > 1 && (
+                          <Button
+                            onClick={() => {
+                              handleRemoveField(distributionValue.length - 1);
+                            }}
+                          >
+                            -
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="px-5 py-3 flex justify-end">
+              <button
+                type="button"
+                className="px-4 py-2 text-white mr-2 bg-blue-500 rounded-lg mt-10"
+                onClick={handleCloseModal}
               >
-                <AddPhotoAlternateIcon />
-              </label>
-            </a>
-          </label>
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                className="px-4 py-2 text-white bg-red-500 rounded-lg mt-10"
+              >
+                Save
+              </button>
+            </div>
+          </form>
         </div>
-      </div>
-      <div className="flex justify-end px-4 mr-20 mb-3">
-        <button
-          type="button"
-          className="px-6 py-2 bg-transparent border mr-2 border-black text-black rounded"
-          onClick={() => router.push("/manage-teams")}
-        >
-          Cancel
-        </button>
-        <button
-          disabled={!isValid}
-          className={`px-8 py-2 shadow text-white rounded ${
-            !isValid ? "bg-[gray] cursor-not-allowed" : "bg-red-600"
-          }`}
-          type="submit"
-          onClick={handleSave}
-        >
-          Save
-        </button>
-      </div>
-      <ToastContainer autoClose={2000} />
+      </Modal>
     </Layout>
   );
 };
