@@ -107,7 +107,7 @@ export const TeamCard = (props: Props) => {
           </div>
         </div>
         <div className="flex xs:flex-row flex-col">
-          <div className="flex flex-col text-sm p-4 xs:w-1/4">
+          <div className="xs:flex grid grid-cols-2 flex-col text-sm p-4 xs:w-1/4">
             {team.status ? (
               <span className="text-red-500">
                 <CheckCircleOutlined /> Verified
@@ -136,13 +136,15 @@ export const TeamCard = (props: Props) => {
               <IconHover icon={<AvTimerOutlined />} hoverText="Timezone" />
               <span className="text-left ml-1">{team.timeZone}</span>
             </span>
-            <span className="text-cyan-900">
-              <IconHover
-                icon={<ApartmentOutlined />}
-                hoverText="Organization"
-              />
-              <span className="text-left ml-1">{team.organization}</span>
-            </span>
+            {team.organization ? (
+              <span className="text-cyan-900">
+                <IconHover
+                  icon={<ApartmentOutlined />}
+                  hoverText="Organization"
+                />
+                <span className="text-left ml-1">{team.organization}</span>
+              </span>
+            ) : null}
           </div>
           <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
             <div className="flex w-full">

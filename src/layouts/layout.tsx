@@ -52,8 +52,8 @@ const Layout = (props: IHeaderProps) => {
 
       <Footer />
 
-      <Modal open={openWarning}>
-        <div className="absolute top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 outline-none shadow-2xl bg-white rounded-lg border border-gray-400">
+      <Modal open={openWarning} className="flex items-center justify-center">
+        <div className=" max-w-[500px] md:min-w-[500px] outline-none shadow-2xl bg-white rounded-lg border border-gray-400">
           <h3 className="text-2xl font-bold px-5 py-4 border-b border-gray-400">
             Warning
           </h3>
