@@ -36,7 +36,7 @@ const conatctSchemaValidation = Yup.object({
   companyname: Yup.string()
     .max(30, "Team name does not exceed 30 character!")
     .required(`Please enter your team name!`),
-  contactemail: Yup.string(),
+  contactemail: Yup.string().required('You not yet have a contact email, please update your profile!'),
   phone: Yup.string().matches(
     /^(\s*|\d+)$/,
     "Please enter valid phone number!"
@@ -77,7 +77,7 @@ export const Contact = () => {
     }
   }, [router]);
   useEffect(() => {
-    setValue("contactemail", userInfo.emailAddress, {shouldValidate: true});
+    setValue("contactemail", userInfo.emailAddress || '', {shouldValidate: true});
     if(userInfo.username)setValue("fullname", userInfo.username, { shouldValidate: true });
   },[getValues, setValue, userInfo.emailAddress, userInfo.username])
 
