@@ -198,7 +198,7 @@ export const getStaticProps: GetStaticProps = async (
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetch(`${process.env.API_URL}/api/team/getAll`);
-  const teamList = await res.json();
+  const teamList = (await res.json()) || [];
 
   return {
     paths: teamList.map((team: ITeamProfile) => ({
