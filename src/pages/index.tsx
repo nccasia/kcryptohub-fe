@@ -80,8 +80,8 @@ const color = [
 const Home: NextPage = () => {
   return (
     <Layout>
-      <div className="">
-        <h1 className="px-20 py-2 text-white bg-cyan-700 font-bold">
+      <div className="bg-cyan-700 flex items-center justify-center">
+        <h1 className=" p-2 md:w-4/5 text-white  font-bold">
           Welcome to KryptoHub <ArrowForwardIosOutlined className="text-sm" />
         </h1>
       </div>

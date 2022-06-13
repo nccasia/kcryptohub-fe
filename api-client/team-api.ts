@@ -38,12 +38,16 @@ export const teamApi = {
       return [];
     }
   },
-  async getAllTeams() {
+
+  async getTeam(id: number) {
+    if (isNaN(id)) {
+      return null;
+    }
     try {
-      const response = await axiosClient.get("/team/getAll");
+      const response = await axiosClient.get(`/team/get/${id}`);
       return response.data;
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      return null;
     }
   },
 };

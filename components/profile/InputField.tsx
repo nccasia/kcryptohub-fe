@@ -6,6 +6,7 @@ export interface InputFieldProps {
   placeholder?: string;
   register: UseFormRegisterReturn;
   errors?: FieldError;
+  defaultValue?: string;
 }
 
 const InputField = ({
@@ -13,6 +14,7 @@ const InputField = ({
   placeholder,
   register,
   errors,
+  defaultValue,
 }: InputFieldProps) => {
   return (
     <div className="md:flex items-center mx-5 my-8">
@@ -25,6 +27,7 @@ const InputField = ({
           {...register}
           autoComplete="off"
           placeholder={placeholder}
+          defaultValue={defaultValue}
           className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
         />
         {errors && (
