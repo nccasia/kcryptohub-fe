@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import Link from "next/link";
 import React, { MutableRefObject, useState } from "react";
-import { IconMap } from "../IconSVG/IconMap";
+import { IconMap } from "@/components/IconSVG/IconMap";
 export interface PortfolioProps {
   portfolioRef: MutableRefObject<null | HTMLElement>;
   handleScrollToSection: Function;
