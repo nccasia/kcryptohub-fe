@@ -1,6 +1,9 @@
 import { useAppSelector } from "@/redux/hooks";
 import { IColors } from "@/type/team/team.type";
+import Image from "next/image";
+import Link from "next/link";
 import React, { MutableRefObject } from "react";
+import { IconMap } from "../IconSVG/IconMap";
 import BadgeHover from "./BadgeHover";
 
 export interface SkillDistributionProps {
@@ -17,6 +20,25 @@ const SkillDistribution = ({
       className="px-8 py-3 border-x border-[#cae0e7]"
     >
       <h2 className="text-xl text-[#154369] mb-5">Skill Distribution</h2>
+
+      {!teamProfile.skillDistribution?.length && (
+        <div className="flex items-center gap-x-2">
+          <Link href="#">
+            <a className="text-sm text-[#3e839e] hover:underline">
+              Add Skill Distribution
+            </a>
+          </Link>
+          <div className="w-[16px] h-[16px] flex-none relative">
+            <Image
+              width="16"
+              height="16"
+              src={IconMap.Pen.src}
+              alt="avatar"
+              layout="responsive"
+            />
+          </div>
+        </div>
+      )}
 
       {teamProfile.skillDistribution?.length > 0 &&
         teamProfile.skillDistribution.map((item) => (

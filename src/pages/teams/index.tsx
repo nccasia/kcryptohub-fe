@@ -1,4 +1,3 @@
-import axiosClient from "@/api/axios-client";
 import { teamApi } from "@/api/team-api";
 import { useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
@@ -7,14 +6,7 @@ import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
 import { TimeZone } from "@/type/enum/TimeZone";
 import { Team } from "@/type/team/team.type";
-import {
-  ArrowDropDown,
-  ArrowDropUp,
-  CancelOutlined,
-  Close,
-  JoinFullOutlined,
-  JoinInnerOutlined,
-} from "@mui/icons-material";
+import { CancelOutlined, Close } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Pagination } from "@mui/material";
 import { useOutsideClick } from "hook/OuterClick";
@@ -52,6 +44,7 @@ export const Teams = () => {
   const [totalTeam, setTotalTeam] = useState(0);
   const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
   const [isReady, setIsReady] = useState(false);
+
   useEffect(() => {
     if (!router.isReady) return;
 
@@ -102,9 +95,12 @@ export const Teams = () => {
           currentPage,
           5,
           filter.sortBy.toString(),
-          filter.skill.map(
-            (item) => SkillSelect.find((skill) => skill.skillName === item)?.id
-          ).filter((item) => item),
+          filter.skill
+            .map(
+              (item) =>
+                SkillSelect.find((skill) => skill.skillName === item)?.id
+            )
+            .filter((item) => item),
           filter.timezone
         )
         .then((data) => {
@@ -216,7 +212,6 @@ export const Teams = () => {
                     </div>
                     <div className="flex flex-1 justify-end items-center">
                       <div className="xxs:flex hidden">
-                        
                         <div className="cursor-pointer flex items-center justify-center mr-2">
                           <ComboboxSelect
                             label="Skills"
@@ -365,7 +360,10 @@ export const Teams = () => {
 
               <div className="absolute right-2">
                 {filter.search.length > 0 ? (
-                  <Close onClick={() => setFilter({ ...filter, search: "" })}  className="cursor-pointer"/>
+                  <Close
+                    onClick={() => setFilter({ ...filter, search: "" })}
+                    className="cursor-pointer"
+                  />
                 ) : (
                   <SearchIcon />
                 )}

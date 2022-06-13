@@ -10,6 +10,7 @@ import Flag from "@/src/assets/image/Flag.svg";
 import Website from "@/src/assets/image/Website.svg";
 import Bookmark from "@/src/assets/image/Bookmark.svg";
 import Message from "@/src/assets/image/Message.svg";
+import Pen from "@/src/assets/image/Pen.svg";
 
 export const IconMap = {
   User,
@@ -24,4 +25,5 @@ export const IconMap = {
   Website,
   Bookmark,
   Message,
+  Pen,
 };

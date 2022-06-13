@@ -205,11 +205,14 @@ export const TeamCard = (props: Props) => {
             Visit Website <LanguageOutlined fontSize="small" />
           </span>
         </a>
-        <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
-          <span className="xs:p-4  w-full flex justify-between">
+        <Link
+          href={`/team/${team.id}`}
+          className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1"
+        >
+          <a className="xs:p-4  w-full flex justify-between">
             View Profile <InfoOutlined fontSize="small" />
-          </span>
-        </a>
+          </a>
+        </Link>
         <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
           <span className="xs:p-4 w-full flex justify-between">
             Contact <ContactlessOutlined fontSize="small" />
