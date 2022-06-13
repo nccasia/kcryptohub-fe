@@ -201,7 +201,7 @@ export const TeamCard = (props: Props) => {
             </span>
           </a>
         </Link>
-        <Link href={`/teams/${team.teamName}/contact`}>
+        <Link href={`/team/${team.id}/contact`}>
           <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
             <span className="xs:p-4 w-full flex justify-between">
               Contact <ContactlessOutlined fontSize="small" />

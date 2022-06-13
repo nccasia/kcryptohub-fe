@@ -1,3 +1,4 @@
+import { teamApi } from "@/api/team-api";
 import { useAppSelector } from "@/redux/hooks";
 import { getUserInfoSelector } from "@/redux/selector";
 import { Layout } from "@/src/layouts/layout";
@@ -54,9 +55,7 @@ const conatctSchemaValidation = Yup.object({
 export const Contact = () => {
   const router = useRouter();
   const userInfo = useAppSelector(getUserInfoSelector);
-  const [teamName, setTeamName] = useState<string>(
-    router.query.teamName?.toString() || ""
-  );
+  const [teamName, setTeamName] = useState<string>("");
 
   conatctSchemaValidation.fields.fullname.default(userInfo.username);
   const {
@@ -72,8 +71,12 @@ export const Contact = () => {
   });
 
   useEffect(() => {
-    if (router.query.teamName) {
-      setTeamName(router.query.teamName.toString());
+    if (router.query.teamId) {
+      teamApi.getTeam(parseInt(router.query.teamId as string)||NaN).then((data) => {
+        setTeamName(data.teamName);
+      }).catch((err) => {
+
+      });
     }
   }, [router]);
   useEffect(() => {
