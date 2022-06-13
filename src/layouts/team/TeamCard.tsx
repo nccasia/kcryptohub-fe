@@ -76,31 +76,14 @@ export const TeamCard = (props: Props) => {
           <div className="flex flex-col w-full px-2">
             <div className="flex flex-row ">
               <div className="flex items-end">
-                <h1 className="text-3xl">{team.teamName}</h1>
+                <Link href={`/team/${team.id}`}>
+                  <a className="text-3xl">{team.teamName}</a>
+                </Link>
                 <span className="text-cyan-700 ml-2">{team.slogan}</span>
               </div>
               <div className="absolute top-0 right-0 flex-1 text-right">
-                <span className="uppercase  text-xs font-semibold tracking-widest text-gray-400 mr-8 mt-[-1rem]">
-                  Sponsor
-                </span>
-                <div className="absolute top-[-6px] right-2 group">
+                <div className="absolute top-[-6px] right-6 group">
                   <BookmarkBorderOutlined className="absolute " />
-                  <BookmarkOutlined className=" invisible text-white  group-hover:bg-cyan-900" />
-                  <div className="absolute right-0 w-48 h-16 hidden bg-white border border-cyan-900 ">
-                    <div className="w-full h-full flex flex-col items-start justify-center p-2">
-                      <span className="text-lg pb-2 cursor-pointer text-cyan-900 font-medium">
-                        Add to Shortlist
-                      </span>
-                      <div className="border-t w-full flex justify-start">
-                        <Link href="/">
-                          <a className="text-orange-400 text-sm hover:underline">
-                            Vew Shortlist{" "}
-                            <ArrowForwardIosOutlined className="text-sm" />
-                          </a>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -116,7 +99,7 @@ export const TeamCard = (props: Props) => {
             {
               <span className="text-cyan-900">
                 <IconHover icon={<LabelOutlined />} hoverText="Project Size" />
-                <span className="text-left ml-1">${team.projectSize}</span>
+                <span className="text-left ml-1">{team.projectSize}</span>
               </span>
             }
             <span className="text-cyan-900">
@@ -155,7 +138,13 @@ export const TeamCard = (props: Props) => {
                     <div key={i} className="inline-block p-1">
                       <span
                         className={`px-2 py-1  rounded-2xl ${
-                          skillColor[skill.id || 0]
+                          skillColor[
+                            skill.id
+                              ? skill.id % skillColor.length
+                              : Math.round(
+                                  Math.random() * (skillColor.length - 1)
+                                )
+                          ]
                         } text-white ml-2 mt-2 font-medium`}
                       >
                         {skill.skillName}
@@ -205,16 +194,20 @@ export const TeamCard = (props: Props) => {
             Visit Website <LanguageOutlined fontSize="small" />
           </span>
         </a>
-        <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
-          <span className="xs:p-4  w-full flex justify-between">
-            View Profile <InfoOutlined fontSize="small" />
-          </span>
-        </a>
-        <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
-          <span className="xs:p-4 w-full flex justify-between">
-            Contact <ContactlessOutlined fontSize="small" />
-          </span>
-        </a>
+        <Link href={`/team/${team.id}`}>
+          <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
+            <span className="xs:p-4  w-full flex justify-between">
+              View Profile <InfoOutlined fontSize="small" />
+            </span>
+          </a>
+        </Link>
+        <Link href={`/team/${team.id}/contact`}>
+          <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
+            <span className="xs:p-4 w-full flex justify-between">
+              Contact <ContactlessOutlined fontSize="small" />
+            </span>
+          </a>
+        </Link>
       </div>
     </div>
   );

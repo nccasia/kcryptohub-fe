@@ -4,12 +4,15 @@ import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import { ToastContainer } from "react-toastify";
+import { LayoutGuard } from "../layouts/LayoutGuard";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider session={pageProps.session}>
       <Provider store={store}>
-        <Component {...pageProps} />
+        <LayoutGuard>
+          <Component {...pageProps} />
+        </LayoutGuard>
         <ToastContainer
           position="top-center"
           autoClose={3000}

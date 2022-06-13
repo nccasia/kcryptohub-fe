@@ -26,5 +26,17 @@ export const teamApi = {
         } catch (error) {
             return [];
         }
+    },
+
+    async getTeam(id: number) {
+        if(isNaN(id)){
+            return null;
+        };
+        try {
+            const response = await axiosClient.get(`/team/get/${id}`);
+            return response.data;
+        } catch (error) {
+            return null;
+        }
     }
 }
