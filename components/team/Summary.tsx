@@ -18,22 +18,23 @@ const Summary = ({ summaryRef }: SummaryProps) => {
       className="px-8 py-3 border-x border-[#cae0e7]"
     >
       <h2 className="text-xl text-primary">{teamProfile.slogan}</h2>
-      <div className="flex items-center gap-x-2 my-2">
-        <div className="w-[10px] h-[10px] flex-none">
-          <Image
-            width="10"
-            height="10"
-            src={IconMap.Checked.src}
-            alt="avatar"
-            layout="responsive"
-          />
-        </div>
-        {teamProfile.status && (
+      {teamProfile.status && (
+        <div className="flex items-center gap-x-2 my-2">
+          <div className="w-[10px] h-[10px] flex-none">
+            <Image
+              width="10"
+              height="10"
+              src={IconMap.Checked.src}
+              alt="avatar"
+              layout="responsive"
+            />
+          </div>
+
           <span className="text-xs text-secondary tracking-widest">
             GOLD VERIFIED
           </span>
-        )}
-      </div>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-2">
         <div>
           <p className="text-sm text-[#6b7a7e] whitespace-pre-line">
