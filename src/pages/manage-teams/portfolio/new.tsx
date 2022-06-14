@@ -13,23 +13,8 @@ import {
 import { Typography } from "@mui/material";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as yup from "yup";
-
-yup.addMethod(yup.string, "maxStartDate", function (errorMessage) {
-  return this.test(`check-max-date`, errorMessage, function (value) {
-    const { path, createError } = this;
-    if(!value) return true;
-    const date = new Date(value);
-    if(date.getTime() - new Date().getTime() > 0) {
-      return createError({ path, message: errorMessage });
-    }
-    else{
-      return true;
-    }
-    
-  });
-});
-
 
 const schemaValidation = yup.object().shape({
   companyName: yup.string().required("Company name is required"),
@@ -42,27 +27,63 @@ const schemaValidation = yup.object().shape({
     ),
   title: yup.string().required("Title is required"),
   category: yup.string().required("Category is required"),
-  projectSize: yup.string().required("Project size is required"),
+  estimate: yup.string().required("Project size is required"),
   startDate: yup
-    .string(),
-  endDate: yup.string(),
+    .string()
+    .test(
+      "maxDate",
+      "Project Start date cannot be in the future.",
+      function (value, ctx) {
+        const { path, createError } = ctx;
+        if (!value) return true;
+        const date = new Date(value);
+        if (date.getTime() - new Date().getTime() > 0) {
+          return createError({
+            path,
+            message: "Project Start date cannot be in the future.",
+          });
+        } else {
+          return true;
+        }
+      }
+    ),
+  endDate: yup
+    .string()
+    .test("minDate", "Please choose a date after start date", (value, ctx) => {
+      const { path, createError } = ctx;
+      if (!value) return true;
+      const date = new Date(value);
+      if (date.getTime() - new Date(ctx.parent.startDate).getTime() < 0) {
+        return createError({
+          path,
+          message: "Please choose a date after start date",
+        });
+      } else {  
+        return true;
+      }
+    }),
   description: yup.string().required("Description is required"),
   imageUrl: yup.string(),
-  videoLink: yup.string().matches(
+  videoLink: yup
+    .string()
+    .matches(
       /(^$)|(^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$)/,
       "Please enter a valid website format! URL must contain http:// or https:// prefix."
     ),
-  privacy: yup.string().required("Privacy is required"),
+  privacy: yup
+    .number()
+    .nullable()
+    .required("Please choose one privacy setting."),
 });
 
 const costEstimate = [
-    "Less than $10,000",
-    "$10,000 to $49,999",
-    "$50,000 to $199,999",
-    "$200,000 to $999,999",
-    "$1,000,000 to $9,999,999",
-    "$10,000,000+",
-]
+  "Less than $10,000",
+  "$10,000 to $49,999",
+  "$50,000 to $199,999",
+  "$200,000 to $999,999",
+  "$1,000,000 to $9,999,999",
+  "$10,000,000+",
+];
 
 const NewPortfolio = () => {
   const skills = useAppSelector(getSkillsSelector);
@@ -77,6 +98,11 @@ const NewPortfolio = () => {
     mode: "all",
   });
 
+  const onSubmit = () => {
+    reset();
+    toast.success("Portfolio added successfully!");
+  };
+
   return (
     <ManagePortfolio>
       <div>
@@ -86,7 +112,7 @@ const NewPortfolio = () => {
             Share your latest exciting work.
           </Typography>
         </div>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="">
             <div className="">
               <div className="border-b flex items-center font-medium text-lg">
@@ -133,13 +159,13 @@ const NewPortfolio = () => {
                 />
                 <SelectField
                   label={"Estimated Project Size"}
-                  register={register("projectSize")}
+                  register={register("estimate")}
                   valueList={costEstimate}
                   placeholder=" Select the estimated cost of this project "
-                  errors={errors.projectSize}
+                  errors={errors.estimate}
                 />
-                <div className="flex lg:w-[600px] lg:flex-row flex-col w-full lg:items-center items-start justify-between ">
-                  <div className="items-center my-4 font-medium">
+                <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
+                  <div className="font-medium">
                     <label
                       htmlFor="startDate"
                       className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
@@ -151,23 +177,19 @@ const NewPortfolio = () => {
                       <input
                         id="startDate"
                         type="month"
-                        max={`${new Date().getFullYear}-${
-                          new Date().getMonth() > 10
-                            ? new Date().getMonth()
-                            : "0" + new Date().getMonth()
-                        }`}
                         {...register("startDate")}
-                        autoComplete="off"
-                        className={` border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary `}
+                        className={` border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
+                          errors.startDate && "bg-red-200"
+                        }`}
                       />
                     </div>
-                    {errors && (
+                    {errors.startDate && (
                       <span className="text-red-500 text-left text-sm font-normal mt-1">
-                        {errors?.message}
+                        {errors.startDate?.message}
                       </span>
                     )}
                   </div>
-                  <div className="items-center my-4 font-medium">
+                  <div className="font-medium">
                     <label
                       htmlFor="endDate"
                       className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
@@ -182,12 +204,14 @@ const NewPortfolio = () => {
                         {...register("endDate")}
                         autoComplete="off"
                         placeholder={"MM/YYYY"}
-                        className={` border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary `}
+                        className={` border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
+                          errors.endDate && "bg-red-200"
+                        }`}
                       />
                     </div>
-                    {errors && (
+                    {errors.endDate && (
                       <span className="text-red-500 text-left text-sm font-normal mt-1">
-                        {errors?.message}
+                        {errors.endDate?.message}
                       </span>
                     )}
                   </div>
@@ -336,23 +360,24 @@ const NewPortfolio = () => {
                 </div>
               </div>
             </div>
-            <div className="">
+            <div className="border-b pb-4">
               <div className="border-b flex items-center font-medium text-lg">
                 <LockOutlined className="font-sm" />
                 <span>Privacy Settings</span>
               </div>
-              <div className="p-4">
+              <div className="px-4 py-2">
                 <div className="">
                   <input
                     type="radio"
-                    name="privacy"
-                    value="showall"
+                    value={0}
                     id="showall"
+                    className="cursor-pointer"
+                    {...register("privacy")}
                   />
-                  <label htmlFor="showall" className="pl-1">
+                  <label htmlFor="showall" className="pl-1 cursor-pointer">
                     Show All
                   </label>
-                  <p className="pl-4">
+                  <p className="pl-4 text-sm text-gray-500">
                     All of the above content will be displayed on your profile.
                     <br></br>
                     <em>
@@ -361,46 +386,73 @@ const NewPortfolio = () => {
                   </p>
                 </div>
               </div>
-              <div className="p-4">
+              <div className="px-4 py-2">
                 <div className="">
                   <input
                     type="radio"
-                    name="privacy"
-                    value="confidential"
+                    value={1}
                     id="confidential"
+                    className="cursor-pointer"
+                    {...register("privacy")}
                   />
-                  <label htmlFor="confidential" className="pl-1">
+                  <label htmlFor="confidential" className="pl-1 cursor-pointer">
                     Confidential
                   </label>
-                  <p className="pl-4">
-                    All of the above content will be displayed on your profile.
-                    <br></br>
-                    <em>
-                      Currently, we will only show portfolio items with images
-                    </em>
-                  </p>
+                  <div className="pl-4 text-sm text-gray-500">
+                    <span>
+                      Only the following details for this Portfolio Item will be
+                      displayed on your Profile:
+                    </span>
+                    <ul className="list-disc pl-8 pb-4">
+                      <li>Title</li>
+                      <li>Description</li>
+                      <li>Category</li>
+                      <li>Image or Video Link</li>
+                    </ul>
+                    <span>
+                      This is ideal for projects where you are not able to
+                      showcase client details.
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="p-4">
+              <div className="px-4 py-2">
                 <div className="">
                   <input
                     type="radio"
-                    name="privacy"
-                    value="showall"
-                    id="showall"
+                    value={2}
+                    id="hidden"
+                    className="cursor-pointer"
+                    {...register("privacy")}
                   />
-                  <label htmlFor="showall" className="pl-1">
-                    Show All
+                  <label htmlFor="hidden" className="pl-1 cursor-pointer">
+                    Hidden
                   </label>
-                  <p className="pl-4">
-                    All of the above content will be displayed on your profile.
-                    <br></br>
-                    <em>
-                      Currently, we will only show portfolio items with images
-                    </em>
+                  <p className="pl-4 text-sm text-gray-500">
+                    This Portfolio Item will be kept safe and hidden from prying
+                    eyes until you’re ready to share it.
                   </p>
                 </div>
               </div>
+              <div className="px-4">
+                {errors.privacy && (
+                  <span className="text-red-500 text-left text-sm font-normal mt-1">
+                    {errors.privacy?.message}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center justify-end p-4">
+              <button className="bg-white px-16 py-3 hover:text-cyan-600 ">
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 w-fit bg-secondary text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
+               hover:bg-transparent hover:text-secondary"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Add Portfolio Item
+              </button>
             </div>
           </div>
         </form>

@@ -13,10 +13,10 @@ export const Footer = () => {
             <ul className="text-xs flex flex-col justify-around h-1/3">
               <li>&copy; 2022 Kryptohub</li>
               <li>
-                <a href="https://clutch.co/terms">Terms of Service</a>
+                <a href="https://kryptohub.co/terms">Terms of Service</a>
               </li>
               <li>
-                <a href="https://clutch.co/privacy">Privacy</a>
+                <a href="https://kryptohub.co/privacy">Privacy</a>
               </li>
               <li>
                 We updated our Terms of Service
@@ -31,18 +31,18 @@ export const Footer = () => {
             </div>
             <ul className="flex flex-col justify-around h-1/2 lg:text-md xl:text-lg font-semibold">
               <li>
-                <a href="https://clutch.co/about-us" title="Our Story">
+                <a href="https://kryptohub.co/about-us" title="Our Story">
                   Our Story
                 </a>
               </li>
               <li>
-                <a href="https://clutch.co/careers" title="Careers">
+                <a href="https://kryptohub.co/careers" title="Careers">
                   Careers
                 </a>
               </li>
               <li>
                 <a
-                  href="https://clutch.co/press-releases"
+                  href="https://kryptohub.co/press-releases"
                   title="News & Press Releases"
                 >
                   News & Press Releases
@@ -50,7 +50,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://clutch.co/methodology"
+                  href="https://kryptohub.co/methodology"
                   title="Research Methodology"
                 >
                   Research Methodology
@@ -65,7 +65,7 @@ export const Footer = () => {
             <ul className="flex flex-col justify-around h-3/4 lg:text-md xl:text-lg font-semibold">
               <li>
                 <a
-                  href="https://clutch.co/sitemap"
+                  href="https://kryptohub.co/sitemap"
                   title="Browse All Directories"
                 >
                   Browse All Directories
@@ -73,7 +73,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://clutch.co/review"
+                  href="https://kryptohub.co/review"
                   title="Review Service Providers"
                 >
                   Review Service Providers
@@ -81,7 +81,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://clutch.co/review/review-to-donate"
+                  href="https://kryptohub.co/review/review-to-donate"
                   title="Review to Donate"
                 >
                   Review to Donate
@@ -89,7 +89,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://clutch.co/resources"
+                  href="https://kryptohub.co/resources"
                   title="Blog & Industry Surveys"
                 >
                   Blog & Industry Surveys
@@ -97,7 +97,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://clutch.co/your-project"
+                  href="https://kryptohub.co/your-project"
                   title="Concierge Service"
                 >
                   Concierge Service
@@ -105,7 +105,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://help.clutch.co/knowledge/for-buyers"
+                  href="https://help.kryptohub.co/knowledge/for-buyers"
                   title="Buyer FAQs"
                 >
                   Buyer FAQs
@@ -120,25 +120,25 @@ export const Footer = () => {
             <ul className="flex flex-col justify-around h-3/4 lg:text-md xl:text-lg font-semibold">
               <li>
                 <a
-                  href="https://clutch.co/service-providers"
+                  href="https://kryptohub.co/service-providers"
                   title="Service Provider Guide"
                 >
                   Service Provider Guide
                 </a>
               </li>
               <li>
-                <a href="https://clutch.co/get-listed" title="Get Listed">
+                <a href="https://kryptohub.co/get-listed" title="Get Listed">
                   Get Listed
                 </a>
               </li>
               <li>
-                <a href="https://clutch.co/sponsorship" title="Sponsorship">
+                <a href="https://kryptohub.co/sponsorship" title="Sponsorship">
                   Sponsorship
                 </a>
               </li>
               <li>
                 <a
-                  href="https://clutch.co/service-providers/marketing"
+                  href="https://kryptohub.co/service-providers/marketing"
                   title="Marketing Opportunities"
                 >
                   Marketing Opportunities
@@ -146,7 +146,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://help.clutch.co/knowledge/for-service-providers"
+                  href="https://help.kryptohub.co/knowledge/for-service-providers"
                   title="Service Provider FAQs"
                 >
                   Service Provider FAQs
@@ -160,7 +160,7 @@ export const Footer = () => {
             </div>
             <ul className="flex flex-col justify-around h-1/3 text-xs">
               <li>
-                <a href="https://help.clutch.co/contact-us" title="Contact Us">
+                <a href="https://help.kryptohub.co/contact-us" title="Contact Us">
                   Contact Us
                 </a>
               </li>

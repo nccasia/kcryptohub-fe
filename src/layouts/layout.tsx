@@ -43,7 +43,7 @@ const Layout = (props: IHeaderProps) => {
     router.push("/profile");
   };
   return (
-    <>
+    <div className="flex flex-col h-full">
       <Header />
 
       <div className="flex-1">{props.children}</div>
@@ -68,7 +68,7 @@ const Layout = (props: IHeaderProps) => {
           </div>
         </div>
       </Modal>
-    </>
+    </div>
   );
 };
 

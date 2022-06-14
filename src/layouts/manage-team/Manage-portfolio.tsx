@@ -1,5 +1,12 @@
+import { IPortfolio } from "@/type/team/team.type";
+import { PlaylistAddOutlined } from "@mui/icons-material";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 import Link from "next/link";
+import {
+  useContext, useState
+} from "react";
+import { Provider, useSelector } from "react-redux";
 import { Layout } from "../layout";
 
 const theme = createTheme({
@@ -24,10 +31,12 @@ const theme = createTheme({
 });
 
 interface Props {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
-export const ManagePortfolio = (props:Props) => {
-    return (
+
+export const ManagePortfolio = (props: Props) => {
+  const [portfolios, setPortfolios] = useState<IPortfolio[]>([]);
+  return (
       <Layout>
         <ThemeProvider theme={theme}>
           <div className="w-full h-full bg-gray-200 p-4">
@@ -42,7 +51,7 @@ export const ManagePortfolio = (props:Props) => {
                     </p>
                     <div className="w-full text-right text-cyan-800 hover:underline">
                       <Link href={"/manage-teams/portfolio/new"}>
-                        <a className="">Add A New Portfolio Item</a>
+                        <a className="">Add A New Portfolio Item <PlaylistAddOutlined className="text-secondary " /></a>
                       </Link>
                     </div>
                   </div>
@@ -53,7 +62,20 @@ export const ManagePortfolio = (props:Props) => {
                     </Link>
                   </div>
                   <hr />
-                  <div className=""></div>
+                  <div className="">
+                    {portfolios.map((portfolio, i) => (
+                      <div
+                        key={i}
+                        className="py-2 text-cyan-800 hover:underline"
+                      >
+                        <Link
+                          href={`/manage-teams/portfolio/${portfolio.title}`}
+                        >
+                          <a>{portfolio.title}</a>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 <div className="bg-white h-full w-full p-4">
                   {props.children}
@@ -63,5 +85,5 @@ export const ManagePortfolio = (props:Props) => {
           </div>
         </ThemeProvider>
       </Layout>
-    );
-}
+  );
+};

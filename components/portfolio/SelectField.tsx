@@ -32,7 +32,7 @@ export const SelectField = ({
           {...register}
           autoComplete="off"
           defaultValue={defaultValue}
-          className={`xs:min-w-[300px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
+          className={`xs:min-w-[350px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
             errors && "bg-red-200"
           }`}
         >

@@ -54,15 +54,15 @@ export interface ISkillDistribution {
 
 export interface IPortfolio {
   companyName: string;
-  imageUrl: string | null;
-  videoLink: string | null;
-  content: string;
-  clientWebsite: string;
+  imageUrl?: string | null;
+  videoLink?: string | null;
+  content?: string;
+  clientWebsite?: string;
   title: string;
   category: string;
   estimate: string;
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
   description: string;
   privacy: number;
 }
