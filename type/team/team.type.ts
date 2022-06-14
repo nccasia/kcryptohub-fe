@@ -76,8 +76,7 @@ export interface ITeamProfile {
   workingTime: string;
   saleEmail: string;
   description: string;
-  avatar: string;
-  avatarUrl: string;
+  imageUrl: string;
   slogan: string;
   founded: string;
   linkWebsite: string;

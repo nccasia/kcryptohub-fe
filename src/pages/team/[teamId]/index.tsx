@@ -103,7 +103,7 @@ const TeamDetail = ({ teamProfileInfo }: ITeamDetailProps) => {
           className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
         >
           <div className="md:max-w-[500px] w-full flex">
-            <img src={teamProfile.avatar} alt="avatar" />
+            <img src={teamProfile.imageUrl} alt="avatar" />
             <h1 className="w-full bg-primary pl-4 flex items-center">
               <Link href="#">
                 <a className="text-3xl text-white">{teamProfile.teamName}</a>
@@ -187,7 +187,12 @@ export const getStaticProps: GetStaticProps = async (
   context: GetStaticPropsContext
 ) => {
   const teamId = context.params?.teamId;
-  const res = await fetch(`${process.env.API_URL}/api/team/get/${teamId}`);
+  const res =
+    process.env.NODE_ENV === "development"
+      ? await fetch(`${process.env.API_URL}/api/team/get/${teamId}`)
+      : await fetch(
+          `https://kryptohub-be.herokuapp.com/api/team/get/${teamId}`
+        );
   const teamProfile = await res.json();
   return {
     props: {
@@ -197,7 +202,10 @@ export const getStaticProps: GetStaticProps = async (
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch(`${process.env.API_URL}/api/team/getAll`);
+  const res =
+    process.env.NODE_ENV === "development"
+      ? await fetch(`${process.env.API_URL}/api/team/getAll`)
+      : await fetch(`https://kryptohub-be.herokuapp.com/api/team/getAll`);
   const teamList = (await res.json()) || [];
 
   return {
