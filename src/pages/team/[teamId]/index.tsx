@@ -188,11 +188,9 @@ export const getStaticProps: GetStaticProps = async (
 ) => {
   const teamId = context.params?.teamId;
   const res =
-    process.env.NODE_ENV === "development"
-      ? await fetch(`${process.env.API_URL}/api/team/get/${teamId}`)
-      : await fetch(
-          `https://kryptohub-be.herokuapp.com/api/team/get/${teamId}`
-        );
+    process.env.NODE_ENV === "production"
+      ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/get/${teamId}`)
+      : await fetch(`${process.env.API_URL}/api/team/get/${teamId}`);
   const teamProfile = await res.json();
   return {
     props: {
@@ -203,9 +201,9 @@ export const getStaticProps: GetStaticProps = async (
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res =
-    process.env.NODE_ENV === "development"
-      ? await fetch(`${process.env.API_URL}/api/team/getAll`)
-      : await fetch(`https://kryptohub-be.herokuapp.com/api/team/getAll`);
+    process.env.NODE_ENV === "production"
+      ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/getAll`)
+      : await fetch(`${process.env.API_URL}/api/team/getAll`);
   const teamList = (await res.json()) || [];
 
   return {
