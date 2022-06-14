@@ -1,10 +1,11 @@
 module.exports = {
   important: true,
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./src/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
         primary: "#17313b",
+        secondary: "#FF3D2D",
       },
       boxShadow: {
         "3xl":
@@ -21,21 +22,21 @@ module.exports = {
             opacity: 1,
           },
         },
-        'slide-in-left': {
-          'from': {
-            transform: 'translateX(50%)',
+        "slide-in-left": {
+          from: {
+            transform: "translateX(50%)",
             opacity: 0,
           },
-          'to': {
-            transform: 'translateX(0)',
+          to: {
+            transform: "translateX(0)",
             opacity: 1,
           },
         },
       },
-      animation : {
-        'slide-in-up' : 'slide-in-up 0.5s ease-in-out both',
-        'slide-in-left' : 'slide-in-left 0.5s ease-in-out both',
-      }
+      animation: {
+        "slide-in-up": "slide-in-up 0.5s ease-in-out both",
+        "slide-in-left": "slide-in-left 0.5s ease-in-out both",
+      },
     },
     screens: {
       xxs: "424px",

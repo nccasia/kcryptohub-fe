@@ -1,19 +1,30 @@
 import { Skill } from "@/type/Skill";
-import { ISkillDistributionValue } from "@/type/skill/skill.types";
+import {
+  ISkillDistribution,
+  ISkillDistributionValue,
+} from "@/type/skill/skill.types";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
-import { Collapse, Slider, Typography } from "@mui/material";
-import React from "react";
+import { Slider, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Chart as ChartJS, Title, Tooltip, Legend } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Pie } from "react-chartjs-2";
+import { SkillCollapse } from "./SkillCollapse";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
+ChartJS.register(ChartDataLabels, Title, Tooltip, Legend);
 
+export interface IValue {
+  field: string;
+  quantity: number | 0;
+}
 export interface IProps {
   listSkill: Skill[];
   setListSkill: (listSkill: Skill[]) => void;
   handleChange: () => void;
   skills: Skill[];
-  dataChart: any;
-  options: any;
   value: number;
   setValue: (value: number) => void;
   step: number;
@@ -23,17 +34,140 @@ export interface IProps {
 }
 
 const skillColor = [
-  "bg-[#1B85CE]",
-  "bg-[#08537E]",
-  "bg-[#267C87]",
-  "bg-[#62BA56]",
-  "bg-[#5D997E]",
-  "bg-[#4BA98B]",
-  "bg-[#3ACC60]",
-  "bg-[#6A957D]",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC6",
+  "#6A957D",
 ];
 
 export const ServicesLine = (props: IProps) => {
+  const dataSkillDis: ISkillDistribution[] = [
+    {
+      id: null,
+      skillDistributionName: "Marketing",
+      skillDistributionValue: [
+        {
+          field: "Advertising",
+          quantity: 0,
+        },
+        {
+          field: "Branding",
+          quantity: 0,
+        },
+        {
+          field: "Content",
+          quantity: 0,
+        },
+        {
+          field: "Copywriting",
+          quantity: 0,
+        },
+      ],
+    },
+    {
+      id: null,
+      skillDistributionName: "Digital Marketing",
+      skillDistributionValue: [
+        {
+          field: "Digital Strategy",
+          quantity: 0,
+        },
+        {
+          field: "Social Media Marketing",
+          quantity: 0,
+        },
+        {
+          field: "Content Marketing",
+          quantity: 0,
+        },
+        {
+          field: "Pay Per Click",
+          quantity: 0,
+        },
+      ],
+    },
+  ];
+
+  const [skillDistribute, setDataSkillDistribute] = useState<IValue[]>([]);
+  const [total, setTotal] = useState(0);
+  const [show, setShow] = useState(false);
+  const [change, setChange] = useState(false);
+  const getLabel = () => {
+    const labels = skillDistribute.map((data) => data.field);
+    const data = getData();
+    if (data[0] > 100) {
+      return ["Over 100%", ...labels];
+    }
+    return [...labels, "Allocate a percentage"];
+  };
+  const getData = () => {
+    const data = skillDistribute.map((data) => data.quantity);
+    const sum = skillDistribute.reduce((acc, cur) => acc + cur.quantity, 0);
+    const extra = 100 - sum;
+    if (extra < 0) {
+      return [sum];
+    } else {
+      return [...data, extra];
+    }
+  };
+  const getColor = () => {
+    const data = getData();
+    const colors = skillColor.slice(0, data.length);
+    const labels = getLabel();
+    const sum = skillDistribute.reduce((acc, cur) => acc + cur.quantity, 0);
+    const extra = 100 - sum;
+    if (labels[labels.length - 1] === "Allocate a percentage") {
+      colors[colors.length - 1] = "#F5F5F5";
+      return colors;
+    } else if (extra < 0) {
+      colors[colors.length - 1] = "#ffb1ab";
+      return colors;
+    } else {
+      return colors;
+    }
+  };
+
+  const dataChart = {
+    labels: getLabel(),
+    datasets: [
+      {
+        data: getData(),
+        backgroundColor: getColor(),
+        hoverBackgroundColor: getColor(),
+        hoverOffset: 4,
+        datalabels: {
+          color: getData()[0] < 100 ? "white" : "black",
+          font: {
+            size: 20,
+          },
+        },
+      },
+    ],
+  };
+  const options = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+      datalabels: {
+        display: function (context: any) {
+          return context.dataset.data[context.dataIndex] !== 0; // or >= 1 or ...
+        },
+      },
+    },
+  };
+
+  useEffect(() => {
+    setTotal(
+      skillDistribute.reduce((acc, cur) => {
+        return acc + cur.quantity;
+      }, 0)
+    );
+  }, [skillDistribute]);
   return (
     <div>
       <div className="md:flex w-full">
@@ -52,27 +186,22 @@ export const ServicesLine = (props: IProps) => {
               className="md:max-w-[500px] w-full py-2 outline-none"
             />
 
-            {props.listSkill &&
-              props.listSkill.map((cur, index) => (
+            {skillDistribute &&
+              skillDistribute.map((cur, index) => (
                 <div
-                  className="inline-block border-2 mb-3 px-3 mr-2 text-indigo-800 border rounded-md border-cyan-600"
+                  className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-cyan-600 cursor-pointer"
                   key={index}
+                  onClick={() => {
+                    setDataSkillDistribute(
+                      skillDistribute.filter((item) => item.field !== cur.field)
+                    );
+                  }}
                 >
                   <div className="flex justify-between items-center">
-                    {cur.skillName}
-                    <button
-                      onClick={() => {
-                        props.setListSkill(
-                          props.listSkill.filter((item) => {
-                            return cur.id !== item.id;
-                          })
-                        );
-                        props.setValue(0);
-                      }}
-                      className="text-xs text-cyan-600"
-                    >
+                    {cur.field}
+                    <span className="text-xs text-cyan-600">
                       <CloseIcon className="text-base" />
-                    </button>
+                    </span>
                   </div>
                 </div>
               ))}
@@ -82,86 +211,16 @@ export const ServicesLine = (props: IProps) => {
             Below is a full list of all the Service Lines available on Clutch.
           </h2>
 
-          <div className="border relative w-full border-2 border-[#cae0e7] text-indigo-800 px-3 py-2 cursor-pointer">
-            <div className="w-full" onClick={props.handleChange}>
-              Skill Distribution
-            </div>
-            <Collapse in={props.open}>
-              <div className="pt-3">
-                {props.skills &&
-                  props.skills.map((data, index) => (
-                    <div key={index} className="inline-block ">
-                      {props.listSkill.find((cur) => {
-                        return cur.id === data.id;
-                      }) ? (
-                        <div className="mb-3 px-3 mr-2 text-indigo-800 border border-2 rounded-md border-cyan-600">
-                          <div
-                            className="flex justify-between items-center"
-                            onClick={() => {
-                              if (
-                                props.listSkill.find((cur) => {
-                                  return cur.id === data.id;
-                                })
-                              ) {
-                                props.setListSkill(
-                                  props.listSkill.filter((cur) => {
-                                    return cur.id !== data.id;
-                                  })
-                                );
-                              } else {
-                                props.setListSkill([
-                                  ...props.listSkill,
-                                  data as Skill,
-                                ]);
-                              }
-                            }}
-                          >
-                            {data.skillName}
-                            <button
-                              onClick={() => {
-                                props.setListSkill(
-                                  props.listSkill.filter((item) => {
-                                    return data.id !== item.id;
-                                  })
-                                );
-                                props.setValue(0);
-                              }}
-                              className=" text-cyan-600"
-                            >
-                              <CloseIcon className="text-base" />
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="mb-3 px-3 mr-2 text-indigo-800 border rounded-md border-cyan-600">
-                          <span
-                            onClick={() => {
-                              if (
-                                props.listSkill.find((cur) => {
-                                  return cur.id === data.id;
-                                })
-                              ) {
-                                props.setListSkill(
-                                  props.listSkill.filter((cur) => {
-                                    return cur.id !== data.id;
-                                  })
-                                );
-                              } else {
-                                props.setListSkill([
-                                  ...props.listSkill,
-                                  data as Skill,
-                                ]);
-                              }
-                            }}
-                          >
-                            {data.skillName}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-              </div>
-            </Collapse>
+          <div>
+            {dataSkillDis &&
+              dataSkillDis.map((cur, index) => (
+                <SkillCollapse
+                  key={index}
+                  item={cur}
+                  skillDistribute={skillDistribute}
+                  setDataSkillDistribute={setDataSkillDistribute}
+                />
+              ))}
           </div>
         </div>
         <div className="md:flex-[50%] md:mr-5">
@@ -169,30 +228,30 @@ export const ServicesLine = (props: IProps) => {
             Selected Skill Distribution
           </p>
           <div className="flex justify-center items-center w-full">
-            <div className="py-5 w-[310px] h-[310px]">
+            <div className="py-5 w-[280px] h-[280px]">
               <Pie
-                data={props.dataChart}
-                options={props.options}
+                data={dataChart}
+                options={options}
                 width={400}
                 height={400}
               />
             </div>
           </div>
 
-          <div className="w-full py-16 px-3">
-            {props.listSkill &&
-              props.listSkill.map((cur, index) => (
+          <div className="w-full py-12 px-3">
+            {skillDistribute &&
+              skillDistribute.map((cur, index) => (
                 <div key={index}>
                   <div className="flex items-center py-3">
                     <div
-                      className={` rounded-full border w-[20px] h-[20px] ${
+                      className={` rounded-full border w-[20px] h-[20px] bg-[${
                         skillColor[index % skillColor.length || 0]
-                      }`}
+                      }]`}
                     ></div>
 
                     <div className="px-3">
                       <Typography className="text-indigo-700 border rounded-md border-indigo-600 px-3">
-                        {cur.skillName}
+                        {cur.field}
                       </Typography>
                     </div>
                   </div>
@@ -200,16 +259,26 @@ export const ServicesLine = (props: IProps) => {
                     <div className="px-3 w-full">
                       <Slider
                         aria-label="Temperature"
-                        value={props.value}
+                        value={cur.quantity}
                         valueLabelDisplay="auto"
                         step={5}
                         marks
                         min={0}
                         max={100}
-                        onChange={(e, number) => {
-                          props.setValue(number as number);
+                        onChange={(event, value) => {
+                          const newSkillDistribute = [...skillDistribute];
+                          newSkillDistribute[index] = {
+                            ...newSkillDistribute[index],
+                            quantity: value as IValue["quantity"] | 0,
+                          };
+                          setDataSkillDistribute(newSkillDistribute);
+                          setShow(true);
                         }}
                         sx={{
+                          color: skillColor[index % skillColor.length || 0],
+                          "& .MuiSlider-rail": {
+                            backgroundColor: "gray",
+                          },
                           "& .MuiSlider-thumb": {
                             width: 16,
                             height: 16,
@@ -228,16 +297,48 @@ export const ServicesLine = (props: IProps) => {
                     <input
                       maxLength={3}
                       className="w-[65px] px-3 py-1 border"
-                      onChange={(e) => {
-                        if (parseInt(e.target.value) > 100) return;
-                        props.setValue(parseInt(e.target.value) || 0);
+                      value={cur.quantity}
+                      onChange={(event) => {
+                        if (parseInt(event.target.value) > 100) return;
+                        const newSkillDistribute = [...skillDistribute];
+                        newSkillDistribute[index] = {
+                          ...newSkillDistribute[index],
+                          quantity: parseInt(event.target.value) | 0,
+                        };
+                        setDataSkillDistribute(newSkillDistribute);
+                        setShow(true);
                       }}
-                      value={props.value}
                     />
                     <span className="px-3">%</span>
                   </div>
                 </div>
               ))}
+          </div>
+          <hr className="bg-[#cae0e7]" />
+          <div
+            className={
+              "w-full py-4 flex items-center " +
+              (total > 100 ? "" : "justify-end")
+            }
+          >
+            <p className="text-red-600" hidden={total <= 100}>
+              You cannot exceed 100% for your service allocations; reduce a
+              different percentage to increase this service.
+            </p>
+            <div
+              className={
+                "text-2xl flex items-center " +
+                (total > 100 ? "text-red-600" : "text-black")
+              }
+            >
+              {total === 100 && (
+                <CheckCircleIcon className="mt-1 text-green-500 h-[25px] w-[25px]" />
+              )}
+              {total > 100 && (
+                <ErrorOutlineOutlinedIcon className="mt-1 text-red-500 h-[25px] w-[25px]" />
+              )}
+              {show && <div>{total}%</div>}
+            </div>
           </div>
         </div>
       </div>

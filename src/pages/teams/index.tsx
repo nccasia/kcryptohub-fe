@@ -1,4 +1,3 @@
-import axiosClient from "@/api/axios-client";
 import { teamApi } from "@/api/team-api";
 import { useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
@@ -7,14 +6,7 @@ import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
 import { TimeZone } from "@/type/enum/TimeZone";
 import { Team } from "@/type/team/team.type";
-import {
-  ArrowDropDown,
-  ArrowDropUp,
-  CancelOutlined,
-  Close,
-  JoinFullOutlined,
-  JoinInnerOutlined,
-} from "@mui/icons-material";
+import { CancelOutlined, Close } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Pagination } from "@mui/material";
 import { useOutsideClick } from "hook/OuterClick";
@@ -24,7 +16,7 @@ import { FormEvent, LegacyRef, useEffect, useState } from "react";
 const SortBy = ["none"];
 interface PageResponse {
   content: Team[];
-  pagable: {
+  pageable: {
     total: number;
     page: number;
     size: number;
@@ -52,6 +44,7 @@ export const Teams = () => {
   const [totalTeam, setTotalTeam] = useState(0);
   const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
   const [isReady, setIsReady] = useState(false);
+
   useEffect(() => {
     if (!router.isReady) return;
 
@@ -116,7 +109,7 @@ export const Teams = () => {
             top: 0,
             behavior: "smooth",
           });
-          const maxPage = Math.ceil(res.pagable.total / res.pagable.size);
+          const maxPage = Math.ceil(res.pageable.total / res.pageable.size);
           if (currentPage > maxPage && maxPage > 0) {
             setcurrentPage(maxPage);
           } else if (currentPage < 1) {
@@ -124,7 +117,7 @@ export const Teams = () => {
           } else {
             setTeams(res.content);
             setTotalPage(maxPage);
-            setTotalTeam(res.pagable.total);
+            setTotalTeam(res.pageable.total);
           }
         });
       let url = `/teams?page=${currentPage}`;

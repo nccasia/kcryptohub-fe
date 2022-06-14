@@ -45,8 +45,7 @@ const CreateNewTeam = () => {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState("");
 
-  const [step, setStep] = useState(0);
-  const [count, setCount] = useState(0);
+  const [step, setStep] = useState(1);
   const [value, setValue] = useState(0);
   const [open, setOpen] = React.useState(false);
   const [listSkill, setListSkill] = useState<Skill[]>([]);
@@ -64,43 +63,6 @@ const CreateNewTeam = () => {
     {} as ISkillDistribution
   );
 
-  const dataChart = {
-    labels: [],
-    datasets: [
-      {
-        data: [],
-        backgroundColor: [
-          "rgb(27, 133, 206)",
-          "rgb(8, 83, 126)",
-          "rgb(38, 124, 135)",
-          "rgb(98, 186, 86)",
-          "rgb(93, 153, 126)",
-          "rgb(75, 169, 139)",
-          "rgb(58, 204, 96)",
-          "rgb(106, 149, 125)",
-        ],
-        hoverBackgroundColor: [
-          "rgb(27, 133, 206)",
-          "rgb(8, 83, 126)",
-          "rgb(38, 124, 135)",
-          "rgb(98, 186, 86)",
-          "rgb(93, 153, 126)",
-          "rgb(75, 169, 139)",
-          "rgb(58, 204, 96)",
-          "rgb(106, 149, 125)",
-        ],
-        hoverOffset: 4,
-      },
-    ],
-  };
-  const options = {
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-  };
-
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
@@ -115,48 +77,6 @@ const CreateNewTeam = () => {
         setImage(null);
       }
     }
-  };
-
-  const handleAutocompleteOption = () => {
-    const userSkillIdList = dataSkill.map((skill) => skill.id);
-    const restArrSkill = skills.filter(
-      (skill) => !userSkillIdList.includes(skill.id)
-    );
-    return restArrSkill || [];
-  };
-  const handleSearchSkill = (e: SyntheticEvent) => {
-    let isExists = false;
-    if ((e.target as HTMLInputElement).value.trim() !== "") {
-      skills.map((skill) => {
-        if (skill.skillName === (e.target as HTMLInputElement).value) {
-          isExists = true;
-        }
-      });
-      if (!isExists) {
-        const newArrSkill = [
-          ...dataSkill,
-          { id: null, skillName: (e.target as HTMLInputElement).value },
-        ];
-      }
-      (e.target as HTMLInputElement).value = "";
-    }
-  };
-
-  const handleOnchange = (e: any) => {
-    const formData = e.target as HTMLFormElement;
-    setDistributionValueForm({
-      ...distributionValueForm,
-      [formData.name]: formData.value,
-    });
-  };
-
-  const handleCloseModal = () => {
-    setDistributionValue([
-      {
-        quantity: 0,
-        field: "",
-      },
-    ] as ISkillDistributionValue[]);
   };
 
   const handleAddField = () => {
@@ -271,16 +191,12 @@ const CreateNewTeam = () => {
               listSkill={listSkill}
               value={value}
               setValue={setValue}
-              options={options}
-              dataChart={dataChart}
               handleChange={handleChange}
               open={open}
             />
           )}
         </Container>
       </ThemeProvider>
-
-      <ToastContainer autoClose={2000} position="bottom-right" />
     </Layout>
   );
 };

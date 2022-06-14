@@ -38,4 +38,19 @@ export const teamApi = {
       return [];
     }
   },
+<<<<<<< HEAD
+=======
+
+  async getTeam(id: number) {
+    if (isNaN(id)) {
+      return null;
+    }
+    try {
+      const response = await axiosClient.get(`/team/get/${id}`);
+      return response.data;
+    } catch (error) {
+      return null;
+    }
+  },
+>>>>>>> 104c3d2f5c17648fc2c65d2c99105bf5c65d87ef
 };
