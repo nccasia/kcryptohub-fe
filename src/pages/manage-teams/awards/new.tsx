@@ -1,3 +1,4 @@
+import { awardsApi } from "@/api/awards";
 import AwardList from "@/components/awards/AwardList";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import { Layout } from "@/src/layouts/layout";
@@ -5,15 +6,17 @@ import { IAwardDetail } from "@/type/awards/awards.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
 const schemaValidation = Yup.object({
-  awardTitle: Yup.string().required("Award title is required!"),
-  awardWebsite: Yup.string().required("Award website is required!"),
+  awardsTitle: Yup.string().required("Award title is required!"),
+  awardsWebsite: Yup.string().required("Award website is required!"),
 });
 
 const NewAward = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -23,10 +26,15 @@ const NewAward = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
+  const handleRedirectToAwardDetail = (id: number) => {
+    if (id) {
+      router.push(`/manage-teams/awards/${id}`);
+    }
+  };
 
-  const handleUpdateProfile = () => {
+  const handleUpdateAward = () => {
     handleSubmit(async (value) => {
-      console.log(value);
+      awardsApi.createAward(value, handleRedirectToAwardDetail);
     })();
   };
 
@@ -65,17 +73,17 @@ const NewAward = () => {
                       autoComplete="off"
                       placeholder="e.g. #7 on Time's Top 100 Digital Agencies"
                       maxLength={50}
-                      {...register("awardTitle")}
+                      {...register("awardsTitle")}
                       className="md:max-w-[400px] w-full border-2 border-[#cae0e7] pl-3 pr-14 py-2 outline-none focus:shadow-3xl focus:border-primary placeholder:text-sm"
                     />
-                    {errors?.awardTitle && (
+                    {errors?.awardsTitle && (
                       <span className="text-red-500 text-left text-sm mt-1 w-full absolute left-0 top-full">
-                        {errors?.awardTitle?.message}
+                        {errors?.awardsTitle?.message}
                       </span>
                     )}
                   </div>
                   <span className="absolute top-1/2 right-[10px] -translate-y-1/2 text-sm text-[#9CA3AF]">
-                    {watch("awardTitle")?.length || 0}/50
+                    {watch("awardsTitle")?.length || 0}/50
                   </span>
                 </div>
               </div>
@@ -90,17 +98,17 @@ const NewAward = () => {
                       autoComplete="off"
                       placeholder="e.g. https://www.time.com/top-100-digital-agencies-2021"
                       maxLength={200}
-                      {...register("awardWebsite")}
+                      {...register("awardsWebsite")}
                       className="md:max-w-[600px] w-full border-2 border-[#cae0e7] pl-3 pr-16 py-2 outline-none focus:shadow-3xl focus:border-primary placeholder:text-sm"
                     />
-                    {errors?.awardWebsite && (
+                    {errors?.awardsWebsite && (
                       <span className="text-red-500 text-left text-sm mt-1 w-full absolute left-0 top-full">
-                        {errors?.awardWebsite?.message}
+                        {errors?.awardsWebsite?.message}
                       </span>
                     )}
                   </div>
                   <span className="absolute top-1/2 right-[10px] -translate-y-1/2 text-sm text-[#9CA3AF]">
-                    {watch("awardWebsite")?.length || 0}/200
+                    {watch("awardsWebsite")?.length || 0}/200
                   </span>
                 </div>
               </div>
@@ -116,7 +124,7 @@ const NewAward = () => {
               </Link>
               <button
                 type="submit"
-                onClick={handleUpdateProfile}
+                onClick={handleUpdateAward}
                 className="bg-secondary text-white px-10 py-4 border-2 border-transparent transition duration-300 hover:border-secondary hover:bg-white hover:text-secondary"
               >
                 Add Award

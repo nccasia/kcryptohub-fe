@@ -1,4 +1,5 @@
 export interface IAwardDetail {
-  awardTitle: string;
-  awardWebsite: string;
+  id?: number;
+  awardsTitle: string;
+  awardsWebsite: string;
 }
