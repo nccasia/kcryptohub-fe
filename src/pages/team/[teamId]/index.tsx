@@ -207,9 +207,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const teamList = (await res.json()) || [];
 
   return {
-    paths: teamList.map((team: ITeamProfile) => ({
-      params: { teamId: team.id.toString() },
-    })),
+    paths:
+      teamList?.map((team: ITeamProfile) => ({
+        params: { teamId: team.id.toString() },
+      })) || [],
     fallback: false,
   };
 };
