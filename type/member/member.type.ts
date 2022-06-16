@@ -3,16 +3,12 @@ import { IProfile } from "../profile/profile.type";
 export interface IMember {
   id: number;
   emailAddress: string;
-  inviteStatus: string;
-  role: string;
+  inviteStatus: MemberInviteStatus.PENDING | MemberInviteStatus;
+  role: MemberRole.MEMBER | MemberRole;
   createAt: string;
   updateAt: string;
   teamId: number;
   userId: IProfile | null
-}
-
-export interface IMemberResponse {
-  content: IMember[];
 }
 
 export enum MemberInviteStatus {
@@ -23,4 +19,9 @@ export enum MemberInviteStatus {
 export enum MemberRole {
   LEADER = 'leader',
   MEMBER = 'member'
+}
+
+export interface IMemberAddRequest {
+  teamId: number;
+  member: IMember[];
 }
