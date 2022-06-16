@@ -102,9 +102,12 @@ export const Teams = () => {
           currentPage,
           5,
           filter.sortBy.toString(),
-          filter.skill.map(
-            (item) => SkillSelect.find((skill) => skill.skillName === item)?.id
-          ).filter((item) => item),
+          filter.skill
+            .map(
+              (item) =>
+                SkillSelect.find((skill) => skill.skillName === item)?.id
+            )
+            .filter((item) => item),
           filter.timezone
         )
         .then((data) => {
@@ -216,7 +219,6 @@ export const Teams = () => {
                     </div>
                     <div className="flex flex-1 justify-end items-center">
                       <div className="xxs:flex hidden">
-                        
                         <div className="cursor-pointer flex items-center justify-center mr-2">
                           <ComboboxSelect
                             label="Skills"
@@ -365,7 +367,10 @@ export const Teams = () => {
 
               <div className="absolute right-2">
                 {filter.search.length > 0 ? (
-                  <Close onClick={() => setFilter({ ...filter, search: "" })}  className="cursor-pointer"/>
+                  <Close
+                    onClick={() => setFilter({ ...filter, search: "" })}
+                    className="cursor-pointer"
+                  />
                 ) : (
                   <SearchIcon />
                 )}

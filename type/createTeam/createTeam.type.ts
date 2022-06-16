@@ -1,16 +1,18 @@
+import { Skill } from "../Skill";
+
 export interface ICreateTeam {
   teamName: string;
   teamSize: number;
   timeZone: string;
-  organization: string;
-  location: string;
+  projectSize: string;
+  linkWebsite: string;
   workingTime: string;
+  saleEmail: string;
   avatar: string;
+  founded: string;
   description: string;
-  hour: string;
-  week: string;
   slogan: string;
-  skills: string[];
+  skills: Skill[];
   id: string;
 }
 

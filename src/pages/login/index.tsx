@@ -6,14 +6,12 @@ import {
   IFormLoginGoogle,
 } from "@/type/auth/login.type";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { Collapse } from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google";
 import { getSession, signIn } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
@@ -21,11 +19,9 @@ import * as Yup from "yup";
 const schemaValidation = Yup.object({
   usernameOrEmail: Yup.string()
     .required("Email or username is required!")
-    .trim("Username or email is required!")
     .max(30, "Email or username dose not exceed 30 character!"),
   password: Yup.string()
     .required("Password is required!")
-    .trim("Password is required!")
     .max(30, "Password dose not exceed 30 character!"),
 });
 
@@ -41,8 +37,6 @@ const Login = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
-
-  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -75,6 +69,9 @@ const Login = () => {
     getUserSession();
   }, []);
 
+  const handleRedirectToHome = () => {
+    router.push("/");
+  };
   const handleLogin = async (payload: IFormLogin) => {
     try {
       await authApi.logIn(payload, handleRedirectHomePage);
@@ -97,135 +94,114 @@ const Login = () => {
     reset();
   };
   return (
-    <div className="h-auto min-h-full bg-cyan-900 flex justify-center xs:items-center px-2 xxs:px-0  py-4">
-      <div className="max-w-[420px] h-fit w-full">
-        <div className="text-center ">
-          <h3 className="text-5xl font-bold text-white">Kryptohub</h3>
-        </div>
-        <div className="w-full h-fit max-h-3/4 bg-white p-8 mt-8">
-          <div className="">
-            <h3 className="text-cyan-900 text-sm">
-              <b className="text-4xl font-normal">Sign In </b> <br />
-              to continue to Kryptohub
-            </h3>
-          </div>
-          <div className="auth-social text-center">
-            <div className="flex flex-col justify-center items-center gap-x-4 mt-6">
-              <button
-                className="bg-indigo-800 w-fit  text-white mb-8 cursor-pointer min-w-[240px] flex items-center justify-center group"
-                onClick={() => signIn("github")}
-              >
-                <GitHubIcon className="text-white cursor-pointer mx-2" />
-                <span className="w-full p-2 group-hover:bg-indigo-900">
-                  Sign in with GitHub
-                </span>
-              </button>
-              <button
-                className="bg-blue-600 w-fit text-white mb-8 cursor-pointer min-w-[240px] flex items-center justify-center group pl-[1px]"
-                onClick={() => signIn("google")}
-              >
-                <div className="h-[38px] w-[47px] flex items-center justify-center bg-white ">
-                  <Image
-                    src={"/google.svg"}
-                    width={22}
-                    height={22}
-                    alt="google"
+    <>
+      <div className="h-screen bg-cyan-900 flex justify-center items-center">
+        <div className="max-w-[500px] w-full rounded-md shadow-xl overflow-hidden">
+          <div className="w-full h-full bg-white p-6">
+            <div className="header text-center">
+              <h3 className="text-4xl font-bold">Log in to Kryptohub</h3>
+            </div>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="mt-10 mb-5 mx-auto max-w-[400px] text-center"
+            >
+              <div className="flex flex-col py-2">
+                <div className="flex justify-between items-center ">
+                  <label className="text-[#944C00] font-bold">
+                    Email or username
+                  </label>
+                  <input
+                    type="text"
+                    className="border border-solid border-black outline-none py-2 px-4 rounded-lg"
+                    {...register("usernameOrEmail")}
+                    autoComplete="off"
                   />
                 </div>
-                <span className="w-full p-2 group-hover:bg-blue-700 ">
-                  Sign in with Google
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-center mb-4">
-            <div className="h-[1px] w-full bg-black block"></div>
-            <div className="inline-block border border-solid border-black rounded-full leading-none p-3 ">
-              or
-            </div>
-            <div className="h-[1px] w-full bg-black inline-block"></div>
-          </div>
-          <div className="">
-            <span
-              className="text-xs text-cyan-800 cursor-pointer hover:underline"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              Alternative log in{" "}
-              {isOpen ? (
-                <KeyboardArrowUp className="text-xs" />
-              ) : (
-                <KeyboardArrowDown className="text-xs" />
-              )}{" "}
-            </span>
-            <Collapse in={isOpen} className="">
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className=" mb-5 mx-auto max-w-[400px] text-center "
+                {errors?.usernameOrEmail && (
+                  <span className="text-red-500 text-left text-sm mt-2">
+                    {errors?.usernameOrEmail?.message}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col py-2">
+                <div className="flex justify-between items-center ">
+                  <label className="text-[#944C00] font-bold">Password</label>
+                  <input
+                    type="password"
+                    className="border border-solid border-black outline-none py-2 px-4 rounded-lg"
+                    {...register("password")}
+                    autoComplete="off"
+                  />
+                </div>
+                {errors?.password && (
+                  <span className="text-red-500 text-left text-sm mt-2">
+                    {errors?.password?.message}
+                  </span>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="bg-[#944C00] text-white block text-center py-2 px-5 rounded-md shadow-lg mt-8 mx-auto"
               >
-                <div className="flex flex-col py-2">
-                  <div className="flex flex-col justify-start items-start ">
-                    <label className="font-medium">Email or username</label>
-                    <input
-                      type="text"
-                      className="border-solid  w-full  border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                      {...register("usernameOrEmail")}
-                      autoComplete="off"
+                Log In
+              </button>
+              <Link href="">
+                <a className="inline-block text-cyan-500 text-sm mt-3 cursor-pointer">
+                  Forgot your password?
+                </a>
+              </Link>
+            </form>
+            <div className="flex items-center mb-4">
+              <div className="h-[1px] w-full bg-black block"></div>
+              <div className="inline-block border border-solid border-black rounded-full leading-none p-3">
+                or
+              </div>
+              <div className="h-[1px] w-full bg-black inline-block"></div>
+            </div>
+            <div className="auth-social text-center">
+              <h3>Sign in with your social account media</h3>
+              <div className="flex justify-center gap-x-4 mt-6">
+                <Link href="">
+                  <a>
+                    <GitHubIcon
+                      onClick={() => signIn("github")}
+                      className="text-white bg-teal-600 rounded-full text-base p-1.5 w-[30px] h-[30px] cursor-pointer"
                     />
-                  </div>
-                  {errors?.usernameOrEmail && (
-                    <span className="text-red-500 text-left text-sm mt-2">
-                      {errors?.usernameOrEmail?.message}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-col py-2">
-                  <div className="flex flex-col justify-start items-start ">
-                    <label className="font-medium">Password</label>
-                    <input
-                      type="password"
-                      className="border-solid  w-full  border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                      {...register("password")}
-                      autoComplete="off"
-                    />
-                  </div>
-                  {errors?.password && (
-                    <span className="text-red-500 text-left text-sm mt-2">
-                      {errors?.password?.message}
-                    </span>
-                  )}
-                </div>
-                <button
-                  type="submit"
-                  className="bg-red-500 text-white block text-center py-2 px-5 w-full shadow-lg mt-4 mx-auto"
-                >
-                  Log In
-                </button>
-                <Link href="/login">
-                  <a className="inline-block text-cyan-500 text-sm mt-3 cursor-pointer">
-                    Forgot your password?
                   </a>
                 </Link>
-              </form>
-              <div className="block text-black text-center text-sm mt-3">
-                {"Don't have an account? "}
-                <Link href="/register">
-                  <a className="text-cyan-500 underline cursor-pointer">
-                    Register
+                <Link href="">
+                  <a>
+                    <GoogleIcon
+                      onClick={() => signIn("google")}
+                      className="text-white bg-teal-600 rounded-full text-base p-1.5 w-[30px] h-[30px] cursor-pointer"
+                    />
                   </a>
                 </Link>
               </div>
-            </Collapse>
-            <div className="text-xs mt-8">
-              <span>
-                By signing in you agree to our User Agreement and Privacy
-                Policy.
-              </span>
+            </div>
+            <div className="block text-black text-center text-sm mt-3">
+              {"Don't have an account? "}
+              <Link href="/register">
+                <a className="text-cyan-500 underline cursor-pointer">
+                  Register
+                </a>
+              </Link>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
   );
 };
 
