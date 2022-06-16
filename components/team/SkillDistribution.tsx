@@ -1,6 +1,9 @@
 import { useAppSelector } from "@/redux/hooks";
 import { IColors } from "@/type/team/team.type";
-import React, { MutableRefObject } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { MutableRefObject } from "react";
+import { IconMap } from "../IconSVG/IconMap";
 import BadgeHover from "./BadgeHover";
 
 export interface SkillDistributionProps {
@@ -11,12 +14,41 @@ const SkillDistribution = ({
 }: SkillDistributionProps) => {
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
 
+  const handleCalculatePercentage = (
+    skillDistributionValue: { field: string; quantity: number }[],
+    quantity: number
+  ) => {
+    const totalPercent = skillDistributionValue.reduce(
+      (total, value) => value.quantity + total,
+      0
+    );
+    return Math.round((100 * quantity) / totalPercent);
+  };
   return (
     <section
       ref={skillDistributionRef}
       className="px-8 py-3 border-x border-[#cae0e7]"
     >
       <h2 className="text-xl text-[#154369] mb-5">Skill Distribution</h2>
+
+      {!teamProfile.skillDistribution?.length && (
+        <div className="flex items-center gap-x-2">
+          <Link href="#">
+            <a className="text-sm text-[#3e839e] hover:underline">
+              Add Skill Distribution
+            </a>
+          </Link>
+          <div className="w-[16px] h-[16px] flex-none relative">
+            <Image
+              width="16"
+              height="16"
+              src={IconMap.Pen.src}
+              alt="avatar"
+              layout="responsive"
+            />
+          </div>
+        </div>
+      )}
 
       {teamProfile.skillDistribution?.length > 0 &&
         teamProfile.skillDistribution.map((item) => (
@@ -32,13 +64,19 @@ const SkillDistribution = ({
                       key={skillDistributionValue.field}
                       className="relative flex justify-center items-center group h-full"
                       style={{
-                        width: `${skillDistributionValue.quantity}%`,
+                        width: `${handleCalculatePercentage(
+                          item.skillDistributionValue,
+                          skillDistributionValue.quantity
+                        )}%`,
                         backgroundColor:
                           IColors[index % (Object.keys(IColors).length / 2)],
                       }}
                     >
                       <span className="hidden md:block text-sm text-white font-medium">
-                        {`${skillDistributionValue.quantity}%`}
+                        {`${handleCalculatePercentage(
+                          item.skillDistributionValue,
+                          skillDistributionValue.quantity
+                        )}%`}
                       </span>
                       <BadgeHover label={skillDistributionValue.field} />
                     </div>
@@ -64,7 +102,12 @@ const SkillDistribution = ({
                     <h3 className="text-sm text-[#6d6e71]">
                       {skillDistributionValue.field}{" "}
                       <span className="md:hidden">
-                        ({`${skillDistributionValue.quantity}%`})
+                        (
+                        {`${handleCalculatePercentage(
+                          item.skillDistributionValue,
+                          skillDistributionValue.quantity
+                        )}%`}
+                        )
                       </span>
                     </h3>
                   </li>

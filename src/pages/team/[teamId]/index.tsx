@@ -4,14 +4,17 @@ import Separate from "@/components/team/Separate";
 import SkillDistribution from "@/components/team/SkillDistribution";
 import Summary from "@/components/team/Summary";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getTeamProfile } from "@/redux/teamProfileSlice";
+import { setTeamProfile } from "@/redux/teamProfileSlice";
 import { Layout } from "@/src/layouts/layout";
-import { ESection } from "@/type/team/team.type";
+import { ESection, ITeamProfile } from "@/type/team/team.type";
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-
-const TeamDetail = () => {
+import { MutableRefObject, useEffect, useRef, useState } from "react";
+interface ITeamDetailProps {
+  teamProfileInfo: ITeamProfile;
+}
+const TeamDetail = ({ teamProfileInfo }: ITeamDetailProps) => {
   const router = useRouter();
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const dispatch = useAppDispatch();
@@ -51,10 +54,8 @@ const TeamDetail = () => {
   }, []);
 
   useEffect(() => {
-    if (teamId) {
-      dispatch(getTeamProfile(teamId as string));
-    }
-  }, [dispatch, teamId]);
+    dispatch(setTeamProfile(teamProfileInfo));
+  }, [dispatch, teamId, teamProfileInfo]);
 
   const isInViewport = (
     offsetHeight: number,
@@ -102,7 +103,7 @@ const TeamDetail = () => {
           className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
         >
           <div className="md:max-w-[500px] w-full flex">
-            <img src={teamProfile.avatar} alt="avatar" />
+            <img src={teamProfile.imageUrl} alt="avatar" />
             <h1 className="w-full bg-primary pl-4 flex items-center">
               <Link href="#">
                 <a className="text-3xl text-white">{teamProfile.teamName}</a>
@@ -181,3 +182,35 @@ const TeamDetail = () => {
 };
 
 export default TeamDetail;
+
+export const getStaticProps: GetStaticProps = async (
+  context: GetStaticPropsContext
+) => {
+  const teamId = context.params?.teamId;
+  const res =
+    process.env.NODE_ENV === "production"
+      ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/get/${teamId}`)
+      : await fetch(`${process.env.API_URL}/api/team/get/${teamId}`);
+  const teamProfile = await res.json();
+  return {
+    props: {
+      teamProfileInfo: teamProfile,
+    },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const res =
+    process.env.NODE_ENV === "production"
+      ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/getAll`)
+      : await fetch(`${process.env.API_URL}/api/team/getAll`);
+  const teamList = (await res.json()) || [];
+
+  return {
+    paths:
+      teamList?.map((team: ITeamProfile) => ({
+        params: { teamId: team.id.toString() },
+      })) || [],
+    fallback: false,
+  };
+};
