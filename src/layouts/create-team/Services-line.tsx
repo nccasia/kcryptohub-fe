@@ -22,6 +22,7 @@ import { SkillCollapse } from "./SkillCollapse";
 import * as yub from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "react-toastify";
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend);
 ChartJS.defaults.plugins.tooltip;
 
@@ -252,12 +253,14 @@ export const ServicesLine = (props: IProps) => {
         },
       ],
     };
-    if (total === 100 && isValid) {
+    if (total === 100) {
       dispatch(createTeam(formData as unknown as ICreateTeam)).then((res) => {
         dispatch(resetTeam());
       });
 
       router.push("/manage-teams");
+    } else {
+      toast.error("Total percentage is not 100%");
     }
   };
 
