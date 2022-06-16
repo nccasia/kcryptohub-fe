@@ -238,7 +238,7 @@ export const ServicesLine = (props: IProps) => {
 
             <input
               placeholder="Enter name here"
-              className="md:max-w-[500px] mb-4 w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+              className="md:max-w-[500px] mb-5 w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
               onChange={(e) => {
                 setTextName(e.target.value);
               }}
