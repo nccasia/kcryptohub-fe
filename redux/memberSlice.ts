@@ -2,6 +2,8 @@ import axiosClient from "@/api/axios-client";
 import { memberApi } from "@/api/member-api";
 import { IMember } from "@/type/member/member.type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+
 
 export const getMemberList = createAsyncThunk(
   "getMemberList",
@@ -16,13 +18,38 @@ export const getMemberList = createAsyncThunk(
   }
 )
 
+export const joinTeam = createAsyncThunk(
+  "joinTeam",
+  async (teamId: number) => {
+    try {
+      const data = await memberApi.joinTeam(teamId);
+      return data;
+    }
+    catch (error) {
+      return [];
+    }
+  }
+)
 
-interface initialState {
-  member: IMember[];
-}
+export const addMember = createAsyncThunk(
+  "addMember",
+  async (members: IMember[]) => {
+    try {
+      const data = await memberApi.addMember(1, members);
+      return data;
+    }
+    catch (error) {
+      return [];
+    }
+  }
+)
 
-const initialState: initialState = {
-  member: [],
+
+
+
+
+const initialState = {
+  member: [] as IMember[],
 }
 
 export const memberSlice = createSlice({
@@ -33,12 +60,23 @@ export const memberSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(getMemberList.rejected, (state, action) => {
-        console.log(action.error.message);
+        toast.error(action.error.message, {
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .addCase(getMemberList.fulfilled, (state, action) => {
-        console.log(action.payload);
+        state.member = action.payload.content;
+
       })
   },
 })
+
+
 
 export const MemberReducer = memberSlice.reducer;
