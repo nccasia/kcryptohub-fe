@@ -33,7 +33,7 @@ const Layout = (props: IHeaderProps) => {
     }
   }, [userInfo, dispatch]);
   useEffect(() => {
-    if (!skills || skills.length === 0) {
+    if (skills.length === 0) {
       dispatch(getListSkill());
     }
   }, [dispatch]);
@@ -43,15 +43,15 @@ const Layout = (props: IHeaderProps) => {
     router.push("/profile");
   };
   return (
-    <>
+    <div className="h-full flex flex-col">
       <Header />
 
       <div className="flex-1">{props.children}</div>
 
       <Footer />
 
-      <Modal open={openWarning} className="flex items-center justify-center">
-        <div className=" max-w-[500px] md:min-w-[500px] outline-none shadow-2xl bg-white rounded-lg border border-gray-400">
+      <Modal open={openWarning}>
+        <div className="absolute top-1/2 left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 outline-none shadow-2xl bg-white rounded-lg border border-gray-400">
           <h3 className="text-2xl font-bold px-5 py-4 border-b border-gray-400">
             Warning
           </h3>
@@ -68,7 +68,7 @@ const Layout = (props: IHeaderProps) => {
           </div>
         </div>
       </Modal>
-    </>
+    </div>
   );
 };
 
