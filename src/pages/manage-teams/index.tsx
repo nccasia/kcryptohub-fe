@@ -1,16 +1,11 @@
 import { Layout } from "@/src/layouts/layout";
-import { deleteTeam, getAllTeam } from "redux/teamSlice";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { deleteTeam } from "redux/teamSlice";
 
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { toast } from "react-toastify";
-import { Team } from "@/type/team/team.type";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
+import { ICreateTeam } from "@/type/createTeam/createTeam.type";
+import { Team } from "@/type/team/team.type";
 
 const ManageTeam = () => {
   const dispatch = useAppDispatch();

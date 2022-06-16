@@ -1,26 +1,37 @@
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { createTeam, resetTeam } from "@/redux/teamSlice";
+import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { Skill } from "@/type/Skill";
 import {
   ISkillDistribution,
   ISkillDistributionValue,
 } from "@/type/skill/skill.types";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import CloseIcon from "@mui/icons-material/Close";
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { Slider, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Chart as ChartJS, Title, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, Legend, Title, Tooltip } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { Pie } from "react-chartjs-2";
-import { SkillCollapse } from "./SkillCollapse";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
-import { createTeam, saveTeam, updateTeam } from "@/redux/teamSlice";
 import { useRouter } from "next/router";
-import { connect } from "cookies";
+import { useEffect, useState } from "react";
+import { Pie } from "react-chartjs-2";
+import { Dialog } from "../Dialog";
+import { SkillCollapse } from "./SkillCollapse";
+import * as yub from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend);
 ChartJS.defaults.plugins.tooltip;
+
+const schema = yub.object().shape({
+  skillDistributionName: yub
+    .string()
+    .required("Skill name is required")
+    .trim("Skill name is required")
+    .max(30, "Skill name dose not exceed 30 character"),
+});
 export interface IValue {
   field: string;
   quantity: number | 0;
@@ -63,6 +74,15 @@ const skillColorBG = [
 export const ServicesLine = (props: IProps) => {
   const router = useRouter();
   const team = useAppSelector((state) => state.TeamReducer.value);
+  const {
+    watch,
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    resolver: yupResolver(schema),
+    mode: "all",
+  });
   const dataSkillDis: ISkillDistribution[] = [
     {
       id: null,
@@ -124,6 +144,7 @@ export const ServicesLine = (props: IProps) => {
   const [change, setChange] = useState(false);
   const dispatch = useAppDispatch();
   const [textName, setTextName] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
 
   const getLabel = () => {
     const labels = skillDistribute.map((data) => data.field);
@@ -208,6 +229,38 @@ export const ServicesLine = (props: IProps) => {
     },
   };
 
+  const handleSaveCreateTeam = () => {
+    const formData = {
+      teamName: team.teamName,
+      description: team.description,
+      skills: team.skills,
+      linkWebsite: team.linkWebsite,
+      founded: team.founded,
+      timeZone: team.timeZone,
+      projectSize: team.projectSize,
+      slogan: team.slogan,
+      teamSize: team.teamSize,
+      saleEmail: team.saleEmail,
+      awards: team.awards,
+      keyClients: team.keyClients,
+      portfolios: team.portfolios,
+      skillDistribution: [
+        {
+          id: null,
+          ...watch(),
+          skillDistributionValue: skillDistribute,
+        },
+      ],
+    };
+    if (total === 100 && isValid) {
+      dispatch(createTeam(formData as unknown as ICreateTeam)).then((res) => {
+        dispatch(resetTeam());
+      });
+
+      router.push("/manage-teams");
+    }
+  };
+
   useEffect(() => {
     setTotal(
       skillDistribute.reduce((acc, cur) => {
@@ -232,17 +285,22 @@ export const ServicesLine = (props: IProps) => {
               <input
                 placeholder="Search for Services Line"
                 className="md:max-w-[400px] w-full py-2 outline-none"
-                onChange={(e) => {}}
               />
             </div>
 
             <input
               placeholder="Enter name here"
-              className="md:max-w-[500px] mb-5 w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-              onChange={(e) => {
-                setTextName(e.target.value);
-              }}
+              className="md:max-w-[500px] w-full mb-3 border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+              {...register("skillDistributionName")}
             />
+
+            {errors?.skillDistributionName && (
+              <div className="flex justify-left  mb-3 text-sm ">
+                <p className={"block text-red-500 font-medium"}>
+                  {errors?.skillDistributionName?.message}
+                </p>
+              </div>
+            )}
 
             {skillDistribute &&
               skillDistribute.map((cur, index) => (
@@ -405,7 +463,12 @@ export const ServicesLine = (props: IProps) => {
       <div className="flex items-center justify-between md:min-h-[80px] my-5">
         <button
           onClick={() => {
-            if (props.step === 1) {
+            if (
+              props.step === 1 &&
+              (skillDistribute.length > 0 || textName !== "")
+            ) {
+              setOpenDialog(true);
+            } else {
               props.setStep(0);
             }
           }}
@@ -419,42 +482,18 @@ export const ServicesLine = (props: IProps) => {
 
         <button
           type="button"
-          onClick={() => {
-            const formData = {
-              teamName: team.teamName,
-              description: team.description,
-              skills: team.skills,
-              linkWebsite: team.linkWebsite,
-              founded: team.founded,
-              timeZone: team.timeZone,
-              projectSize: team.projectSize,
-              slogan: team.slogan,
-              teamSize: team.teamSize,
-              saleEmail: team.saleEmail,
-              awards: team.awards,
-              keyClients: team.keyClients,
-              portfolios: team.portfolios,
-              skillDistribution: [
-                {
-                  id: null,
-                  skillDistributionName: textName,
-                  skillDistributionValue: skillDistribute,
-                },
-              ],
-            };
-            if (total === 100) {
-              dispatch(createTeam(formData as unknown as ICreateTeam));
-              setTimeout(() => {
-                router.reload();
-              }, 3000);
-              router.push("/manage-teams");
-            }
-          }}
+          onClick={handleSubmit(handleSaveCreateTeam)}
           className={"py-3 text-white px-3 flex items center bg-[red]"}
         >
           Save Changes
         </button>
       </div>
+      <Dialog
+        open={openDialog}
+        setOpen={setOpenDialog}
+        setStep={props.setStep}
+        step={props.step}
+      />
     </div>
   );
 };

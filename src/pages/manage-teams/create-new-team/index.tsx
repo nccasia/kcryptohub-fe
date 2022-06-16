@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { CreateForm } from "@/src/layouts/create-team/Create-form";
 import { ServicesLine } from "@/src/layouts/create-team/Services-line";
@@ -11,10 +11,9 @@ import {
 import { Container } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "chart.js/auto";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { SyntheticEvent, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const theme = createTheme({
   components: {
@@ -177,7 +176,9 @@ const CreateNewTeam = () => {
               {step === 0 ? "Enter Team Information" : "Add Skill Distribution"}
             </h2>
           </div>
-          {step === 0 && <CreateForm nextStep={nextStep} />}
+          {step === 0 && (
+            <CreateForm nextStep={nextStep} step={step} setStep={setStep} />
+          )}
           {step === 1 && (
             <ServicesLine
               setListSkill={setListSkill}

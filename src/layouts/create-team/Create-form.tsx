@@ -8,13 +8,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Autocomplete, TextField } from "@mui/material";
-import Link from "next/link";
+import router from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import * as yub from "yup";
+import { Dialog } from "../Dialog";
 import { UploadImage } from "./UploadImage";
 
 const schema = yub.object().shape({
@@ -61,6 +62,8 @@ const schema = yub.object().shape({
 
 export interface IProps {
   nextStep: () => void;
+  step: number;
+  setStep: (step: number) => void;
 }
 
 export const CreateForm = (props: IProps) => {
@@ -79,6 +82,7 @@ export const CreateForm = (props: IProps) => {
   const [dataSkill, setData] = useState<Skill[]>([]);
   const skills = useAppSelector(getSkillsSelector);
   const timeZone = Object.values(TimeZone);
+  const [open, setOpen] = useState(false);
   const selectRange = {
     totalEmployee: [
       "Freelance",
@@ -157,6 +161,14 @@ export const CreateForm = (props: IProps) => {
 
     dispatch(saveTeam(formSave));
     props.nextStep();
+  };
+
+  const handleBack = () => {
+    if (props.step === 0 && isDirty) {
+      setOpen(true);
+    } else {
+      router.push("/manage-teams");
+    }
   };
 
   useEffect(() => {
@@ -418,14 +430,18 @@ export const CreateForm = (props: IProps) => {
 
         <hr className="w-full h-[1px] border border-[#cae0e7]"></hr>
         <div className="flex items-center justify-between md:min-h-[80px] my-5">
-          <Link href="/manage-teams">
-            <a className="text-cyan-700 flex items center">
+          <button
+            type="button"
+            className="text-cyan-700 flex items center"
+            onClick={handleBack}
+          >
+            <a>
               <span className="text-red-600 font-medium">
                 <ChevronLeftIcon />
               </span>
               Back
             </a>
-          </Link>
+          </button>
 
           <button
             type="button"
@@ -439,6 +455,12 @@ export const CreateForm = (props: IProps) => {
           </button>
         </div>
       </form>
+      <Dialog
+        open={open}
+        setOpen={setOpen}
+        step={props.step}
+        setStep={props.setStep}
+      />
     </div>
   );
 };
