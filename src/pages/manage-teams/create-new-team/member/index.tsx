@@ -109,10 +109,15 @@ const mockData = [
     },
 ];
 
-interface IMember {
-    member: string /* email */;
+enum InviteStatus {
+    PENDING = 'PENDING',
+    ACCEPTED = 'ACCEPTED',
+    REJECTED = 'REJECTED',
 }
-interface iMemberResponse {
+interface IMember {
+    member: string;
+}
+interface IMemberResponse {
     teamId: number;
     member: IMember[];
 }
@@ -121,11 +126,13 @@ const Member = () => {
     const getTag =
         typeof window !== undefined ||
         JSON.parse(localStorage.getItem('tag') || '');
+
     const [email, setEmail] = useState<string>('');
-    const [tags, setTags] = useState<string[]>(getTag && []);
+    const [tags, setTags] = useState<string[]>([]);
     const [openPermissions, setOpenPermissions] = useState<boolean>(false);
     const [openStatus, setOpenStatus] = useState<boolean>(false);
-    const { register, handleSubmit } = useForm<iMemberResponse>();
+
+    const { register, handleSubmit } = useForm<IMemberResponse>();
 
     const memberList = useAppSelector(getMemberSelector);
 
@@ -133,7 +140,7 @@ const Member = () => {
     const handleOpenPermissions = () => setOpenPermissions(!openPermissions);
     const handleOpenStatus = () => setOpenStatus(!openStatus);
 
-    const onEmailSend = async (email: iMemberResponse) => {
+    const onEmailSend = async (email: IMemberResponse) => {
         if (typeof window !== undefined) {
             localStorage.removeItem('tags');
         }
@@ -148,13 +155,14 @@ const Member = () => {
             setTags((tag) => {
                 const newTag = [...tag, email];
 
-                if (typeof window !== undefined) {
-                    localStorage.setItem('tags', JSON.stringify(newTag));
-                }
+                // if (typeof window !== undefined) {
+                //     localStorage.setItem('tags', JSON.stringify(newTag));
+                // }
                 return newTag;
             });
             setEmail('');
             e.preventDefault();
+            console.log(tags);
         }
     };
 
@@ -210,15 +218,7 @@ const Member = () => {
                                             {tags.map((tag, index) => (
                                                 <Chip
                                                     variant="outlined"
-                                                    className={`${
-                                                        mailColor[
-                                                            Math.floor(
-                                                                Math.random() *
-                                                                    tags.length,
-                                                            )
-                                                        ]
-                                                        // mailColor[index]
-                                                    } mr-2 my-2 text-white`}
+                                                    className={`${mailColor[index]} mr-2 my-2 text-white`}
                                                     key={index}
                                                     label={tag}
                                                     onDelete={() =>
@@ -237,8 +237,7 @@ const Member = () => {
                                                 })}
                                             />
                                         </div>
-
-                                        {/* <div className="mr-10">
+                                        <div className="mr-10 hidden">
                                             <div className="flex justify-center">
                                                 <span className="pr-3">
                                                     <Image
@@ -259,7 +258,7 @@ const Member = () => {
                                                     ))}
                                                 </div>
                                             </div>
-                                        </div> */}
+                                        </div>
                                     </FormControl>
 
                                     <div className="ml-3 pb-2">
@@ -271,14 +270,14 @@ const Member = () => {
                                         </button>
                                     </div>
 
-                                    {/* <div className="py-2">
-                                            <button
-                                                onClick={handleClose}
-                                                className="py-2 px-4 border-[1px] border-green-400 rounded shadow"
-                                            >
-                                                <span>Send more invites</span>
-                                            </button>
-                                        </div> */}
+                                    <div className="py-2 hidden">
+                                        <button
+                                            // onClick={handleClose}
+                                            className="py-2 px-4 border-[1px] border-green-400 rounded shadow"
+                                        >
+                                            <span>Send more invites</span>
+                                        </button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -309,32 +308,14 @@ const Member = () => {
                                                     />
                                                 </span>
                                             ) : (
-                                                <span
-                                                    className="w-3 h-3 absolute right-0 z-20 
-                                                 border-[1px]
-                                                border-[#3e839e] 
-                                                 top-[7px] 
-                                                 left-[88px] 
-                                                 rounded-full
-                                                 after:absolute
-                                                 after:w-3
-                                                 after:h-[1px]
-                                                 after:-right-[1px]
-                                                 after:bg-[#3e839e]
-                                                 after:rotate-90
-                                                 after:top-[17px]
-                                                  "
-                                                ></span>
+                                                <span className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#3e839e] top-[7px] left-[88px] rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#3e839e] after:rotate-90 after:top-[17px]"></span>
                                             )}
                                         </div>
                                         <div
-                                            style={{
-                                                top: 'calc(100% + 1px)',
-                                            }}
                                             className={
                                                 !openPermissions
                                                     ? 'hidden'
-                                                    : 'absolute w-[180px] z-50 bg-[white] shadow-lg drop-shadow'
+                                                    : 'absolute top-[calc(100% + 1px)] w-[180px] z-50 bg-[white] shadow-lg drop-shadow'
                                             }
                                         >
                                             <div className="p-[10px]">
@@ -377,25 +358,15 @@ const Member = () => {
                                                 </span>
                                             ) : (
                                                 <span
-                                                    className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#3e839e]  top-[7px] left-[88px]  rounded-full
-                                                 after:absolute
-                                                 after:w-3
-                                                 after:h-[1px]
-                                                 after:-right-[1px]
-                                                 after:bg-[#3e839e]
-                                                 after:rotate-90
-                                                 after:top-[17px]
+                                                    className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#3e839e]  top-[7px] left-[88px]  rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#3e839e] after:rotate-90 after:top-[17px]
                                                   "
                                                 ></span>
                                             )}
                                             <div
-                                                style={{
-                                                    top: 'calc(100% + 8px)',
-                                                }}
                                                 className={
                                                     !openStatus
                                                         ? 'hidden'
-                                                        : 'absolute w-[180px] z-50 bg-[white] shadow-lg drop-shadow '
+                                                        : 'absolute top-[calc(100% + 8px)] w-[180px] z-50 bg-[white] shadow-lg drop-shadow '
                                                 }
                                             >
                                                 <div className="p-[10px]">
@@ -426,7 +397,6 @@ const Member = () => {
                                         <span>Options</span>
                                     </div>
                                 </div>
-                                {/* --- STATIC --- */}
                                 <div className="border-[1px] py-3 flex items-center justify-center">
                                     <div className="w-1/5 px-2 py-2 text-sm font-normal">
                                         <span className="pr-2">
@@ -447,7 +417,6 @@ const Member = () => {
                                     <div className="w-1/5 px-4 py-2 text-sm font-normal"></div>
                                     <div className="w-1/5 px-4 py-2 text-sm font-normal"></div>
                                 </div>
-                                {/* ---- show member */}
                                 {mockData.map((item, index) => (
                                     <>
                                         <div
@@ -476,21 +445,21 @@ const Member = () => {
                                             </div>
                                             <div className="w-1/5 px-4 py-2 text-sm font-normal">
                                                 {item.inviteStatus ===
-                                                'PENDING' ? (
+                                                InviteStatus.PENDING ? (
                                                     <div className="bg-[#cae0e7] rounded-3xl px-2 py-1 w-[110px] text-center">
                                                         <span className="!text-xs">
                                                             Invite Pending
                                                         </span>
                                                     </div>
                                                 ) : item.inviteStatus ===
-                                                  'ACCEPTED' ? (
-                                                    <div className="bg-[#0ce1e1] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
+                                                  InviteStatus.ACCEPTED ? (
+                                                    <div className="bg-[#d51512] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
                                                         <span className="!text-xs">
                                                             Accepted
                                                         </span>
                                                     </div>
                                                 ) : (
-                                                    <div className="bg-[#d51512] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
+                                                    <div className="bg-[#333131] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
                                                         <span className="!text-xs">
                                                             Rejected
                                                         </span>
