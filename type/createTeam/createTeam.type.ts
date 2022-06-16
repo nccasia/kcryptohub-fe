@@ -8,10 +8,13 @@ export interface ICreateTeam {
   linkWebsite: string;
   workingTime: string;
   saleEmail: string;
-  avatar: string;
+  imageUrl: string;
   founded: string;
   description: string;
   slogan: string;
+  portfolios: string[];
+  awards: string[];
+  keyClients: string[];
   skills: Skill[];
   id: string;
 }

@@ -1,27 +1,21 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
-import { createTeam, updateTeam } from "@/redux/teamSlice";
-import {
-  EProjectSize,
-  ETeamSize,
-  ICreateTeam,
-} from "@/type/createTeam/createTeam.type";
+import { saveTeam } from "@/redux/teamSlice";
+import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { TimeZone } from "@/type/enum/TimeZone";
 import { Skill } from "@/type/Skill";
 import { yupResolver } from "@hookform/resolvers/yup";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Autocomplete, TextField } from "@mui/material";
-import Image from "next/image";
 import Link from "next/link";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { FileDrop } from "react-file-drop";
-import "react-datepicker/dist/react-datepicker.css";
 
 import * as yub from "yup";
+import { UploadImage } from "./UploadImage";
 
 const schema = yub.object().shape({
   teamName: yub
@@ -39,7 +33,7 @@ const schema = yub.object().shape({
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Invalid email"
     )
-    .max(70, "Max length is 70 characters!"),
+    .max(50, "Max length is 50 characters!"),
   founded: yub.string().required("Founding Year is required"),
   linkWebsite: yub
     .string()
@@ -49,7 +43,7 @@ const schema = yub.object().shape({
       /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/,
       "Please enter a valid website format!"
     )
-    .max(70, "Max length is 70 characters!"),
+    .max(50, "Max length is 50 characters!"),
   projectSize: yub
     .string()
     .required("Project Size is required")
@@ -159,22 +153,9 @@ export const CreateForm = (props: IProps) => {
     const formSave = {
       ...watch(),
       skills: dataSkill,
-    };
-    dispatch(createTeam(formSave as unknown as ICreateTeam));
+    } as unknown as ICreateTeam;
 
-    props.nextStep();
-
-    console.log(formSave);
-  };
-
-  const handleUpdate = () => {
-    const formUpdate = {
-      id: team.id,
-      ...watch(),
-      skills: dataSkill,
-    };
-
-    dispatch(updateTeam(formUpdate as unknown as ICreateTeam));
+    dispatch(saveTeam(formSave));
     props.nextStep();
   };
 
@@ -353,95 +334,12 @@ export const CreateForm = (props: IProps) => {
             </div>
           </div>
           <div className="md:flex-[50%] max-w-[1/2]">
-            <div className="my-5">
-              <label className="text-primary justify-between flex block mb-2 py-2 md:py-0">
-                Team Logo
-              </label>
-              <div className="flex items-center justify-between">
-                <div className="flex-[50%]">
-                  <input
-                    id="image"
-                    type="file"
-                    autoComplete="off"
-                    accept="image/*"
-                    className="h-0 w-0 peer"
-                    onChange={uploadToClient}
-                  />
-                  <div className="min-h-[202px] mt-[-30px] max-w-[267px] w-full h-[202px] mr-3 relative border border-[#cae0e7] border-dashed border-2 peer-focus:border-cyan-600">
-                    {createObjectURL ? (
-                      <div>
-                        <div className="absolute top-0 right-0 translate-y-[-50%] z-10 ">
-                          <button
-                            className="h-[30px] flex justify-center items-center w-[30px] rounded-full bg-gray-500 text-white"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setImage(null);
-                              setCreateObjectURL("");
-                            }}
-                          >
-                            x
-                          </button>
-                        </div>
-                        <Image
-                          src={createObjectURL}
-                          layout="fill"
-                          alt=""
-                          draggable={true}
-                        />
-                      </div>
-                    ) : (
-                      <FileDrop
-                        onDrop={(files, event) => {
-                          event.preventDefault();
-                          uploadToClient({ target: { files: files } });
-                        }}
-                      >
-                        <div className="md:text-xs lg:text-base  absolute top-0 left-0 w-full h-1/2 flex items-center justify-center">
-                          Upload Image
-                        </div>
-                        <p className="md:text-xs lg:text-base w-full h-[50px] absolute top-1/2 left-0 text-center">
-                          Drag and drop an image
-                        </p>
-                        <p className=" md:text-xs lg:text-base w-full h-[50px] absolute top-3/4 left-0 text-center">
-                          or{" "}
-                          <label
-                            htmlFor="image"
-                            className=" md:text-xs lg:text-base text-cyan-800 cursor-pointer"
-                          >
-                            browse for an image
-                            <span className="text-red-500">
-                              <AddPhotoAlternateIcon />
-                            </span>
-                          </label>
-                        </p>
-                      </FileDrop>
-                    )}
-                  </div>
-                </div>
-
-                <div className="text-gray-500 px-3 py-3 text-sm flex-[50%]">
-                  Your Team Logo must be one of the following image formats:
-                  <ul className="px-14">
-                    <li className="list-disc">
-                      <a>.JPG</a>
-                    </li>
-                    <li className="list-disc">
-                      <a>.JPEG</a>
-                    </li>
-                    <li className="list-disc">
-                      <a>.SVG</a>
-                    </li>
-                    <li className="list-disc">
-                      <a>.PNG </a>
-                    </li>
-                    <li className="list-disc">
-                      <a>.WEBP</a>
-                    </li>
-                  </ul>
-                  Maximum file size for image: 15MB
-                </div>
-              </div>
-            </div>
+            <UploadImage
+              uploadToClient={uploadToClient}
+              createObjectURL={createObjectURL}
+              setImage={setImage}
+              setCreateObjectURL={setCreateObjectURL}
+            />
             <div className="my-5">
               <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                 Sales Email
@@ -528,29 +426,17 @@ export const CreateForm = (props: IProps) => {
               Back
             </a>
           </Link>
-          {team.id ? (
-            <button
-              type="button"
-              onClick={handleSubmit(handleUpdate)}
-              className={"py-3 text-white px-3 flex items center bg-[red]"}
-            >
-              Add Skill Distribution
-              <span className=" font-medium">
-                <ChevronRightIcon />
-              </span>
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSubmit(handleSave)}
-              className={"py-3 text-white px-3 flex items center bg-[red]"}
-            >
-              Add Skill Distribution
-              <span className=" font-medium">
-                <ChevronRightIcon />
-              </span>
-            </button>
-          )}
+
+          <button
+            type="button"
+            onClick={handleSubmit(handleSave)}
+            className={"py-3 text-white px-3 flex items center bg-[red]"}
+          >
+            Add Skill Distribution
+            <span className=" font-medium">
+              <ChevronRightIcon />
+            </span>
+          </button>
         </div>
       </form>
     </div>

@@ -26,7 +26,7 @@ export const createTeam = createAsyncThunk(
       url: "/team/create",
       data: team,
     });
-    return response.data;
+    return response.data.data;
   }
 );
 
@@ -46,7 +46,14 @@ export const updateTeam = createAsyncThunk(
       url: `/team/update/${team.id}`,
       data: team,
     });
-    return response.data;
+    return response.data.data;
+  }
+);
+
+export const saveTeam = createAsyncThunk(
+  "saveTeam",
+  async (team: ICreateTeam) => {
+    return team;
   }
 );
 
@@ -114,6 +121,9 @@ export const TeamSlice = createSlice({
       })
       .addCase(getAllSkill.fulfilled, (state, action) => {
         state.skillInfo = action.payload;
+      })
+      .addCase(saveTeam.fulfilled, (state, action) => {
+        state.value = action.payload;
       });
   },
 });

@@ -38,14 +38,11 @@ const theme = createTheme({
 });
 
 const CreateNewTeam = () => {
-  const { data } = useSession();
-  const dispatch = useAppDispatch();
-
   const skills = useAppSelector(getSkillsSelector);
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState("");
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [value, setValue] = useState(0);
   const [open, setOpen] = React.useState(false);
   const [listSkill, setListSkill] = useState<Skill[]>([]);

@@ -14,8 +14,13 @@ import { Pie } from "react-chartjs-2";
 import { SkillCollapse } from "./SkillCollapse";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { ICreateTeam } from "@/type/createTeam/createTeam.type";
+import { createTeam, saveTeam, updateTeam } from "@/redux/teamSlice";
+import { useRouter } from "next/router";
+import { connect } from "cookies";
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend);
-
+ChartJS.defaults.plugins.tooltip;
 export interface IValue {
   field: string;
   quantity: number | 0;
@@ -40,11 +45,24 @@ const skillColor = [
   "#62BA56",
   "#5D997E",
   "#4BA98B",
-  "#3ACC6",
+  "#3ACC61",
   "#6A957D",
 ];
 
+const skillColorBG = [
+  "bg-[#1B85CE]",
+  "bg-[#08537E]",
+  "bg-[#267C87]",
+  "bg-[#62BA56]",
+  "bg-[#5D997E]",
+  "bg-[#4BA98B]",
+  "bg-[#3ACC61]",
+  "bg-[#6A957D]",
+];
+
 export const ServicesLine = (props: IProps) => {
+  const router = useRouter();
+  const team = useAppSelector((state) => state.TeamReducer.value);
   const dataSkillDis: ISkillDistribution[] = [
     {
       id: null,
@@ -88,6 +106,14 @@ export const ServicesLine = (props: IProps) => {
           field: "Pay Per Click",
           quantity: 0,
         },
+        {
+          field: "HR Marketing",
+          quantity: 0,
+        },
+        {
+          field: "SEO",
+          quantity: 0,
+        },
       ],
     },
   ];
@@ -96,6 +122,9 @@ export const ServicesLine = (props: IProps) => {
   const [total, setTotal] = useState(0);
   const [show, setShow] = useState(false);
   const [change, setChange] = useState(false);
+  const dispatch = useAppDispatch();
+  const [textName, setTextName] = useState("");
+
   const getLabel = () => {
     const labels = skillDistribute.map((data) => data.field);
     const data = getData();
@@ -121,12 +150,13 @@ export const ServicesLine = (props: IProps) => {
     const sum = skillDistribute.reduce((acc, cur) => acc + cur.quantity, 0);
     const extra = 100 - sum;
     if (labels[labels.length - 1] === "Allocate a percentage") {
-      colors[colors.length - 1] = "#F5F5F5";
+      colors[labels.length - 1] = "#F5F5F5";
       return colors;
     } else if (extra < 0) {
       colors[colors.length - 1] = "#ffb1ab";
       return colors;
     } else {
+      colors[colors.length - 1];
       return colors;
     }
   };
@@ -138,9 +168,9 @@ export const ServicesLine = (props: IProps) => {
         data: getData(),
         backgroundColor: getColor(),
         hoverBackgroundColor: getColor(),
-        hoverOffset: 4,
+        hoverOffset: getData()[0] < 100 ? 1 : 0,
         datalabels: {
-          color: getData()[0] < 100 ? "white" : "black",
+          color: getData()[0] <= 100 ? "#F5F5F5" : "black",
           font: {
             size: 20,
           },
@@ -150,12 +180,29 @@ export const ServicesLine = (props: IProps) => {
   };
   const options = {
     plugins: {
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          label: function (tooltipItems: any) {
+            if (tooltipItems.label === "Allocate a percentage") {
+              return tooltipItems.label + " : " + 0 + "%";
+            } else {
+              return (
+                tooltipItems.label + " : " + tooltipItems.formattedValue + "%"
+              );
+            }
+          },
+        },
+      },
       legend: {
         display: false,
       },
       datalabels: {
         display: function (context: any) {
-          return context.dataset.data[context.dataIndex] !== 0; // or >= 1 or ...
+          return context.dataset.data[context.dataIndex] >= 10; // or >= 1 or ...
+        },
+        formatter: (value: any, ctx: any) => {
+          let dataArr = ctx.chart.data.datasets[0].data;
         },
       },
     },
@@ -167,7 +214,7 @@ export const ServicesLine = (props: IProps) => {
         return acc + cur.quantity;
       }, 0)
     );
-  }, [skillDistribute]);
+  }, [skillDistribute, team]);
   return (
     <div>
       <div className="md:flex w-full">
@@ -177,13 +224,24 @@ export const ServicesLine = (props: IProps) => {
             least one (1) Service Line to your Company Profile.
           </p>
           <div className="py-2">
-            <span className="text-cyan-800">
-              <SearchIcon />
-            </span>
+            <div className="flex items-center mb-4">
+              <span className="text-cyan-800 mr-2">
+                <SearchIcon />
+              </span>
+
+              <input
+                placeholder="Search for Services Line"
+                className="md:max-w-[400px] w-full py-2 outline-none"
+                onChange={(e) => {}}
+              />
+            </div>
 
             <input
-              placeholder="Search for Services Line"
-              className="md:max-w-[500px] w-full py-2 outline-none"
+              placeholder="Enter name here"
+              className="md:max-w-[500px] mb-4 w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+              onChange={(e) => {
+                setTextName(e.target.value);
+              }}
             />
 
             {skillDistribute &&
@@ -228,7 +286,7 @@ export const ServicesLine = (props: IProps) => {
             Selected Skill Distribution
           </p>
           <div className="flex justify-center items-center w-full">
-            <div className="py-5 w-[280px] h-[280px]">
+            <div className="py-5 md:max-w-[280px] md:max-h-[280px] w-[340px] h-[340px]">
               <Pie
                 data={dataChart}
                 options={options}
@@ -244,9 +302,10 @@ export const ServicesLine = (props: IProps) => {
                 <div key={index}>
                   <div className="flex items-center py-3">
                     <div
-                      className={` rounded-full border w-[20px] h-[20px] bg-[${
-                        skillColor[index % skillColor.length || 0]
-                      }]`}
+                      className={
+                        `rounded-full border w-[20px] h-[20px] ` +
+                        `${skillColorBG[index % skillColorBG.length || 0]}`
+                      }
                     ></div>
 
                     <div className="px-3">
@@ -358,7 +417,41 @@ export const ServicesLine = (props: IProps) => {
           Back
         </button>
 
-        <button className={"py-3 text-white px-3 flex items center bg-[red]"}>
+        <button
+          type="button"
+          onClick={() => {
+            const formData = {
+              teamName: team.teamName,
+              description: team.description,
+              skills: team.skills,
+              linkWebsite: team.linkWebsite,
+              founded: team.founded,
+              timeZone: team.timeZone,
+              projectSize: team.projectSize,
+              slogan: team.slogan,
+              teamSize: team.teamSize,
+              saleEmail: team.saleEmail,
+              awards: team.awards,
+              keyClients: team.keyClients,
+              portfolios: team.portfolios,
+              skillDistribution: [
+                {
+                  id: null,
+                  skillDistributionName: textName,
+                  skillDistributionValue: skillDistribute,
+                },
+              ],
+            };
+            if (total === 100) {
+              dispatch(createTeam(formData as unknown as ICreateTeam));
+              setTimeout(() => {
+                router.reload();
+              }, 3000);
+              router.push("/manage-teams");
+            }
+          }}
+          className={"py-3 text-white px-3 flex items center bg-[red]"}
+        >
           Save Changes
         </button>
       </div>

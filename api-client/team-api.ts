@@ -38,8 +38,6 @@ export const teamApi = {
       return [];
     }
   },
-<<<<<<< HEAD
-=======
 
   async getTeam(id: number) {
     if (isNaN(id)) {
@@ -52,5 +50,4 @@ export const teamApi = {
       return null;
     }
   },
->>>>>>> 104c3d2f5c17648fc2c65d2c99105bf5c65d87ef
 };
