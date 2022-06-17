@@ -105,6 +105,7 @@ export const CreateForm = (props: IProps) => {
       "$250,000+",
     ],
   };
+
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
@@ -157,6 +158,7 @@ export const CreateForm = (props: IProps) => {
     const formSave = {
       ...watch(),
       skills: dataSkill,
+      imageUrl: image || "/user1.png",
     } as unknown as ICreateTeam;
 
     dispatch(saveTeam(formSave));
@@ -170,6 +172,10 @@ export const CreateForm = (props: IProps) => {
       router.push("/manage-teams");
     }
   };
+
+  const from = Array.from(Array(1950).keys());
+  const to = Array.from(Array(new Date().getFullYear() + 1).keys());
+  const founded = to.filter((i) => !from.includes(i));
 
   useEffect(() => {
     setCount(watch("description").length);
@@ -281,9 +287,12 @@ export const CreateForm = (props: IProps) => {
                   defaultValue={team.founded || ""}
                 >
                   <option value="">- Select a value -</option>
-                  <option value="2022">2022</option>
-                  <option value="2019">2019</option>
-                  <option value="2018">2018</option>
+                  {founded &&
+                    founded.map((cur, index) => (
+                      <option key={index} value={cur}>
+                        {cur}
+                      </option>
+                    ))}
                 </select>
                 {errors?.founded && (
                   <div className="flex justify-left mt-1 text-sm ">

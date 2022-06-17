@@ -1,7 +1,7 @@
 import { useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { CreateForm } from "@/src/layouts/create-team/Create-form";
-import { ServicesLine } from "@/src/layouts/create-team/Services-line";
+import { SkillDis } from "@/src/layouts/create-team/Skill-Dis";
 import { Layout } from "@/src/layouts/layout";
 import { Skill } from "@/type/Skill";
 import {
@@ -180,7 +180,7 @@ const CreateNewTeam = () => {
             <CreateForm nextStep={nextStep} step={step} setStep={setStep} />
           )}
           {step === 1 && (
-            <ServicesLine
+            <SkillDis
               setListSkill={setListSkill}
               setStep={setStep}
               skills={skills}

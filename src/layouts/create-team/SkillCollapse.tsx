@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CloseIcon from "@mui/icons-material/Close";
-import { IValue } from "./Services-line";
+import { IValue } from "./Skill-Dis";
 import { ISkillDistribution } from "@/type/skill/skill.types";
 
 export interface IProps {

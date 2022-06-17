@@ -29,9 +29,9 @@ ChartJS.defaults.plugins.tooltip;
 const schema = yub.object().shape({
   skillDistributionName: yub
     .string()
-    .required("Skill name is required")
-    .trim("Skill name is required")
-    .max(30, "Skill name dose not exceed 30 character"),
+    .required("Skill Distribution Name is required")
+    .trim("Skill Distribution Name is required")
+    .max(30, "Skill Distribution Name dose not exceed 30 character"),
 });
 export interface IValue {
   field: string;
@@ -72,7 +72,7 @@ const skillColorBG = [
   "bg-[#6A957D]",
 ];
 
-export const ServicesLine = (props: IProps) => {
+export const SkillDis = (props: IProps) => {
   const router = useRouter();
   const team = useAppSelector((state) => state.TeamReducer.value);
   const {
@@ -277,7 +277,7 @@ export const ServicesLine = (props: IProps) => {
         <div className="md:flex-[50%] md:mr-5">
           <p className="text-sm text-gray-600 py-5">
             Give buyers a sense of how you spend your time. You must add at
-            least one (1) Service Line to your Company Profile.
+            least one (1) Skill Distribution to your Company Profile.
           </p>
           <div className="py-2">
             <div className="flex items-center mb-4">
@@ -286,11 +286,14 @@ export const ServicesLine = (props: IProps) => {
               </span>
 
               <input
-                placeholder="Search for Services Line"
+                placeholder="Search for Skill Distribution"
                 className="md:max-w-[400px] w-full py-2 outline-none"
               />
             </div>
 
+            <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
+              Skill Distribution Name
+            </label>
             <input
               placeholder="Enter name here"
               className="md:max-w-[500px] w-full mb-3 border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
@@ -327,7 +330,8 @@ export const ServicesLine = (props: IProps) => {
           </div>
           <h2 className="text-xl py-2">All Available Skills</h2>
           <h2 className="text-base py-2 text-gray-600">
-            Below is a full list of all the Service Lines available on Clutch.
+            Below is a full list of all the Skill Distribution available on
+            Kryptohub.
           </h2>
 
           <div>
