@@ -15,8 +15,8 @@ export const UploadImage = ({
 }) => {
   return (
     <div className="my-5">
-      <div className="flex items-center justify-center">
-        <div className="flex-[50%] ">
+      <div className="flex sm:flex-row flex-col items-center justify-center">
+        <div className="flex-[50%] w-full">
           <label className="text-primary w-full block mb-2 py-2 md:py-0">
             Team Logo
             <span className="float-right text-gray-400 ">optional</span>
@@ -81,7 +81,7 @@ export const UploadImage = ({
           </div>
         </div>
 
-        <div className="text-gray-500 ml-3 mt-5 text-sm flex-col justify-center flex-[50%] ">
+        <div className="text-gray-500 ml-3 mt-5 text-sm md:flex-col justify-center flex-[50%] ">
           Your Team Logo must be one of the following image formats:
           <ul className="px-14">
             <li className="list-disc">

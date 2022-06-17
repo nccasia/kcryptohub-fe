@@ -454,7 +454,9 @@ export const CreateForm = (props: IProps) => {
           <button
             type="button"
             onClick={handleSubmit(handleSave)}
-            className={"py-3 text-white px-3 flex items center bg-[red]"}
+            className={
+              "py-3 md:text-md text-sm text-white px-3 flex items center bg-[red]"
+            }
           >
             Add Skill Distribution
             <span className=" font-medium">
