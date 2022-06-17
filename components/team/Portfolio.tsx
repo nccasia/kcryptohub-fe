@@ -5,11 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { MutableRefObject, useState } from "react";
 import { IconMap } from "@/components/IconSVG/IconMap";
+import { useRouter } from "next/router";
 export interface PortfolioProps {
   portfolioRef: MutableRefObject<null | HTMLElement>;
   handleScrollToSection: Function;
 }
 const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
+  const router = useRouter();
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const [isShowAll, setIsShowAll] = useState<boolean>(false);
   const [portfolio, setPortfolio] = useState<IPortfolio | null>(null);
@@ -112,7 +114,12 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
       )}
       {!teamProfile.portfolios?.length && (
         <div className="flex items-center gap-x-2">
-          <Link href="#">
+          <Link
+            href={{
+              pathname: `/team/[teamId]/dashboard/portfolio`,
+              query: { teamId: router.query.teamId },
+            }}
+          >
             <a className="text-sm text-[#3e839e] hover:underline">
               Add Portfolio
             </a>
