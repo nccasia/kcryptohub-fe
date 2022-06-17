@@ -466,10 +466,7 @@ export const ServicesLine = (props: IProps) => {
       <div className="flex items-center justify-between md:min-h-[80px] my-5">
         <button
           onClick={() => {
-            if (
-              props.step === 1 &&
-              (skillDistribute.length > 0 || textName !== "")
-            ) {
+            if (props.step === 1 && (skillDistribute.length > 0 || isValid)) {
               setOpenDialog(true);
             } else {
               props.setStep(0);
