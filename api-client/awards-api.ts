@@ -19,8 +19,7 @@ export const awardsApi = {
   async editAward(award: IAwardDetail, handleGetAwards: Function) {
     try {
       const res = await axiosClient.put(`/awards/update/${award.id}`, award);
-      // handleGetAwards(res.data.teamId);
-      handleGetAwards(1);
+      handleGetAwards(res.data.teamId);
       toast.success("Edit Award Success!", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });

@@ -189,6 +189,11 @@ export const getStaticProps: GetStaticProps = async (
   const teamId = context.params?.teamId;
   const res = await fetch(`${process.env.API_URL}/api/team/get/${teamId}`);
   const teamProfile = await res.json();
+  if (teamProfile?.statusCode == 404) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       teamProfileInfo: teamProfile,
@@ -204,6 +209,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths: teamList.map((team: ITeamProfile) => ({
       params: { teamId: team.id.toString() },
     })),
-    fallback: false,
+    fallback: true,
   };
 };

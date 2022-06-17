@@ -8,6 +8,7 @@ import Clock from "@/src/assets/image/Clock.svg";
 import Person from "@/src/assets/image/Person.svg";
 import Flag from "@/src/assets/image/Flag.svg";
 import Website from "@/src/assets/image/Website.svg";
+import WebsiteWhite from "@/src/assets/image/WebsiteWhite.svg";
 import Bookmark from "@/src/assets/image/Bookmark.svg";
 import Message from "@/src/assets/image/Message.svg";
 import Pen from "@/src/assets/image/Pen.svg";
@@ -25,6 +26,7 @@ export const IconMap = {
   Person,
   Flag,
   Website,
+  WebsiteWhite,
   Bookmark,
   Message,
   Pen,

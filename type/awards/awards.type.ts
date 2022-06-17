@@ -4,3 +4,8 @@ export interface IAwardDetail {
   awardsWebsite: string;
   teamId?: number;
 }
+
+export interface IAwardParams {
+  award: IAwardDetail;
+  handler: Function;
+}
