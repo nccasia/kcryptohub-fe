@@ -84,5 +84,5 @@ export interface ITeamProfile {
   status: true;
   skills: ISkill[];
   skillDistribution: ISkillDistribution[];
-  portfolio: IPortfolio[];
+  portfolios: IPortfolio[];
 }

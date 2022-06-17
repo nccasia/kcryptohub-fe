@@ -192,6 +192,11 @@ export const getStaticProps: GetStaticProps = async (
       ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/get/${teamId}`)
       : await fetch(`${process.env.API_URL}/api/team/get/${teamId}`);
   const teamProfile = await res.json();
+  if (teamProfile?.statusCode == 404) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       teamProfileInfo: teamProfile,
@@ -208,9 +213,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths:
-      teamList?.map((team: ITeamProfile) => ({
+      teamList.map((team: ITeamProfile) => ({
         params: { teamId: team.id.toString() },
       })) || [],
-    fallback: false,
+    fallback: true,
   };
 };

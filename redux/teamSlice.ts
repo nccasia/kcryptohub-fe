@@ -98,7 +98,7 @@ export const TeamSlice = createSlice({
           progress: undefined,
         });
       })
-      .addCase(deleteTeam.fulfilled, (state, action) => {})
+      .addCase(deleteTeam.fulfilled, (state, action) => { })
       .addCase(deleteTeam.rejected, (state, action) => {
         toast.error(action.error.message, {
           position: "bottom-right",
