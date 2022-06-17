@@ -71,8 +71,6 @@ export const memberSlice = createSlice({
       })
       .addCase(getMemberList.fulfilled, (state, action) => {
         state.member = action.payload.content;
-
-        console.log(action.error.message);
       })
   },
 })
