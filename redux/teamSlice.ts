@@ -51,7 +51,7 @@ export const updateTeam = createAsyncThunk(
 );
 
 const initialState = {
-  value: [] as ICreateTeam[],
+  value: {} as ICreateTeam,
   skillInfo: [] as ISkills[],
 };
 
@@ -87,11 +87,7 @@ export const TeamSlice = createSlice({
           progress: undefined,
         });
       })
-      .addCase(deleteTeam.fulfilled, (state, action) => {
-        state.value = state.value.filter(
-          (team) => team.id !== action.payload.id
-        );
-      })
+      .addCase(deleteTeam.fulfilled, (state, action) => { })
       .addCase(deleteTeam.rejected, (state, action) => {
         toast.error(action.error.message, {
           position: "bottom-right",
@@ -99,12 +95,7 @@ export const TeamSlice = createSlice({
         });
       })
       .addCase(updateTeam.fulfilled, (state, action) => {
-        state.value = state.value.map((team) => {
-          if (team.id === action.payload.id) {
-            return action.payload;
-          }
-          return team;
-        });
+        state.value = action.payload;
         toast.success("Update Team successfull!", {
           position: "bottom-right",
           autoClose: 1000,

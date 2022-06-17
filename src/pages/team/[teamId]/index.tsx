@@ -187,7 +187,10 @@ export const getStaticProps: GetStaticProps = async (
   context: GetStaticPropsContext
 ) => {
   const teamId = context.params?.teamId;
-  const res = await fetch(`${process.env.API_URL}/api/team/get/${teamId}`);
+  const res =
+    process.env.NODE_ENV === "production"
+      ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/get/${teamId}`)
+      : await fetch(`${process.env.API_URL}/api/team/get/${teamId}`);
   const teamProfile = await res.json();
   if (teamProfile?.statusCode == 404) {
     return {
@@ -202,13 +205,17 @@ export const getStaticProps: GetStaticProps = async (
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch(`${process.env.API_URL}/api/team/getAll`);
+  const res =
+    process.env.NODE_ENV === "production"
+      ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/getAll`)
+      : await fetch(`${process.env.API_URL}/api/team/getAll`);
   const teamList = (await res.json()) || [];
 
   return {
-    paths: teamList.map((team: ITeamProfile) => ({
-      params: { teamId: team.id.toString() },
-    })),
+    paths:
+      teamList.map((team: ITeamProfile) => ({
+        params: { teamId: team.id.toString() },
+      })) || [],
     fallback: true,
   };
 };
