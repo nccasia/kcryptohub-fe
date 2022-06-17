@@ -4,8 +4,18 @@ import TeamReducer from "@/redux/teamSlice";
 import { SkillReducer } from "./skillSlice";
 import { MemberReducer } from "@/redux/memberSlice";
 import TeamProfileReducer from "@/redux/teamProfileSlice";
+import AwardsReducer from "@/redux/awardSlice";
+import DashboardReducer from "@/redux/dashboardSlice";
 
-const reducer = { TeamProfileReducer, ProfileReducer, TeamReducer, SkillReducer, MemberReducer };
+const reducer = {
+  ProfileReducer,
+  SkillReducer,
+  TeamReducer,
+  TeamProfileReducer,
+  AwardsReducer,
+  DashboardReducer,
+  MemberReducer,
+};
 
 const store = configureStore({ reducer });
 

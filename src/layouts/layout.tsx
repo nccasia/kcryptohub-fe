@@ -29,7 +29,7 @@ const Layout = (props: IHeaderProps) => {
             setOpenWarning(true);
           }
         })
-        .catch((err) => {});
+        .catch((err) => console.error(err));
     }
   }, [userInfo, dispatch]);
   useEffect(() => {
