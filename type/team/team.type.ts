@@ -87,3 +87,10 @@ export interface ITeamProfile {
   skillDistribution: ISkillDistribution[];
   portfolio: IPortfolio[];
 }
+
+
+export enum EPrivacy {
+  "SHOW_ALL" = 1 ,
+  "CONFIDENTAL" = 2,
+  "HIDDEN" = 3,
+}

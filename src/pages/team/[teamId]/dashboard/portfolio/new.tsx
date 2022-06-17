@@ -1,17 +1,21 @@
+import { PortfolioApi } from "@/api/portfolio-api";
 import { InputFieldCol } from "@/components/portfolio/InputFieldCol";
 import { SelectField } from "@/components/portfolio/SelectField";
 import { useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
+import { IPortfolio } from "@/type/team/team.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   AddPhotoAlternate,
   DesktopWindowsOutlined,
   LockOutlined,
-  PersonOutlineOutlined
+  PersonOutlineOutlined,
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -47,21 +51,28 @@ const schemaValidation = yup.object().shape({
         }
       }
     ),
-  endDate: yup
-    .string()
-    .test("minDate", "Please choose a date after start date", (value, ctx) => {
-      const { path, createError } = ctx;
-      if (!value) return true;
-      const date = new Date(value);
-      if (date.getTime() - new Date(ctx.parent.startDate).getTime() < 0) {
-        return createError({
-          path,
-          message: "Please choose a date after start date",
-        });
-      } else {  
-        return true;
-      }
-    }),
+  endDate: yup.string().when("startDate", {
+    is: (startDate: string) => startDate,
+    then: yup
+      .string()
+      .test(
+        "minDate",
+        "Please choose a date after start date",
+        (value, ctx) => {
+          const { path, createError } = ctx;
+          if (!value) return true;
+          const date = new Date(value);
+          if (date.getTime() - new Date(ctx.parent.startDate).getTime() < 0) {
+            return createError({
+              path,
+              message: `Please choose a date after ${ctx.parent.startDate}`,
+            });
+          } else {
+            return true;
+          }
+        }
+      ),
+  }),
   description: yup.string().required("Description is required"),
   imageUrl: yup.string(),
   videoLink: yup
@@ -89,6 +100,7 @@ const NewPortfolio = () => {
   const skills = useAppSelector(getSkillsSelector);
   const {
     register,
+    trigger,
     handleSubmit,
     watch,
     reset,
@@ -98,9 +110,27 @@ const NewPortfolio = () => {
     mode: "all",
   });
 
-  const onSubmit = () => {
-    reset();
-    toast.success("Portfolio added successfully!");
+  const [teamId, setTeamId] = useState<number>(NaN);
+  const router = useRouter();
+  useEffect(() => {
+    if (router.query.teamId) {
+      setTeamId(Number(router.query.teamId));
+    }
+  }, [router.query.teamId]);
+
+  const onSubmit = async () => {
+    console.log(watch(), teamId);
+    const data = await PortfolioApi.createPortfolio(
+      watch() as IPortfolio,
+      teamId
+    );
+    if (data === null) {
+      toast.error("Portfolio creation failed!");
+    } else {
+      reset();
+      toast.success("Portfolio added successfully!");
+      router.push(`/team/${teamId}/dashboard/portfolio/${data.id}`);
+    }
   };
 
   return (
@@ -121,10 +151,10 @@ const NewPortfolio = () => {
               </div>
               <div className="my-2 pl-4">
                 <InputFieldCol
-                  label={"Client Company"}
+                  label={"Client Team"}
                   register={register("companyName")}
                   errors={errors.companyName}
-                  placeholder="company name"
+                  placeholder="team name"
                   watch={watch("companyName")}
                 />
                 <InputFieldCol
@@ -178,6 +208,9 @@ const NewPortfolio = () => {
                         id="startDate"
                         type="month"
                         {...register("startDate")}
+                        onChange={async () => {
+                          trigger("endDate");
+                        }}
                         className={` border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
                           errors.startDate && "bg-red-200"
                         }`}
@@ -260,7 +293,9 @@ const NewPortfolio = () => {
                         name="media"
                         className="peer"
                       />
-                      <label htmlFor="videoLinkField">Video Link</label>
+                      <label htmlFor="videoLinkField" className="pl-1">
+                        Video Link
+                      </label>
                       <div className="w-fit hidden flex-col relative peer-checked:flex">
                         <input
                           id="videoLink"
@@ -274,12 +309,12 @@ const NewPortfolio = () => {
                           {watch("videoLink") ? watch("videoLink").length : 0}/
                           {200}
                         </div>
+                        {errors.videoLink && (
+                          <span className="text-red-500 text-left text-sm font-normal mt-1">
+                            {errors.videoLink?.message}
+                          </span>
+                        )}
                       </div>
-                      {errors.videoLink && (
-                        <span className="text-red-500 text-left text-sm font-normal mt-1">
-                          {errors.videoLink?.message}
-                        </span>
-                      )}
                     </div>
                     <div className="">
                       <input
@@ -288,7 +323,9 @@ const NewPortfolio = () => {
                         name="media"
                         className="peer"
                       />
-                      <label htmlFor="imageField">Image</label>
+                      <label htmlFor="imageField" className="pl-1">
+                        Image
+                      </label>
                       <div className="hidden items-center justify-between peer-checked:flex">
                         <div className="flex-[50%]">
                           <input
@@ -369,7 +406,7 @@ const NewPortfolio = () => {
                 <div className="">
                   <input
                     type="radio"
-                    value={0}
+                    value={1}
                     id="showall"
                     className="cursor-pointer"
                     {...register("privacy")}
@@ -390,7 +427,7 @@ const NewPortfolio = () => {
                 <div className="">
                   <input
                     type="radio"
-                    value={1}
+                    value={2}
                     id="confidential"
                     className="cursor-pointer"
                     {...register("privacy")}
@@ -420,7 +457,7 @@ const NewPortfolio = () => {
                 <div className="">
                   <input
                     type="radio"
-                    value={2}
+                    value={3}
                     id="hidden"
                     className="cursor-pointer"
                     {...register("privacy")}

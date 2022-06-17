@@ -5,9 +5,17 @@ import { Step4Img } from "@/components/IconSVG/Step4";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
 import { Typography } from "@mui/material";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 const Portfolio = () => {
+  const router = useRouter();
+  const [teamId, setTeamId] = useState(router.query.teamId as string);
+  useEffect(() =>{
+    if(router.query.teamId){
+      setTeamId(router.query.teamId as string);
+    }
+  },[router.query]);
 
   return (
     <ManagePortfolio>
@@ -32,7 +40,7 @@ const Portfolio = () => {
               to help buyers understand the value that your company can bring to
               them and showcase examples of work that you have performed.
             </p>
-            <Link href={"/manage-teams/portfolio/new"}>
+            <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
               <a
                 className="px-4 py-2 w-fit bg-secondary font-semibold text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
                hover:bg-transparent hover:text-secondary"
@@ -76,7 +84,7 @@ const Portfolio = () => {
         </div>
         <hr />
         <div className="p-3 flex justify-end">
-          <Link href={"/manage-teams/portfolio/new"}>
+          <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
             <a
               className="px-4 py-2 w-fit bg-secondary font-semibold text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
                hover:bg-transparent hover:text-secondary"
