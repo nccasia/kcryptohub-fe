@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "chart.js/auto";
 
@@ -18,8 +19,10 @@ import React, { SyntheticEvent, useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { IMemberAddRequest } from "@/type/member/member.type";
+import { getMemberList } from "@/redux/memberSlice";
+
 const theme = createTheme({
   components: {
     MuiOutlinedInput: {
@@ -126,10 +129,14 @@ const Member = () => {
   const [openStatus, setOpenStatus] = useState<boolean>(false);
 
   const { register, handleSubmit } = useForm<IMemberAddRequest>();
+  const dispatch = useAppDispatch();
 
   const memberList = useAppSelector(getMemberSelector);
 
-  console.log(memberList);
+  useEffect(() => {
+    dispatch(getMemberList());
+  }, [dispatch]);
+
   const handleOpenPermissions = () => setOpenPermissions(!openPermissions);
   const handleOpenStatus = () => setOpenStatus(!openStatus);
 
@@ -213,6 +220,9 @@ const Member = () => {
                           className={`${mailColor[index]} mr-2 my-2 text-white`}
                           key={index}
                           label={tag}
+                          deleteIcon={
+                            <HighlightOffIcon className="w-5 h-5 text-white" />
+                          }
                           onDelete={() => handleDeleteTag(index)}
                         />
                       ))}
