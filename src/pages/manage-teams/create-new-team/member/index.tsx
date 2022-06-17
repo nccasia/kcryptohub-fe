@@ -2,11 +2,19 @@ import { Layout } from "@/src/layouts/layout";
 import iconToolip from "../../../../assets/image/icon-tooltip.svg";
 import iconchecked from "../../../../assets/image/icon-check.svg";
 import { getMemberSelector } from "@/redux/selector";
-import { Chip, Container, FormControl, TextareaAutosize } from "@mui/material";
+import {
+  Chip,
+  Container,
+  FormControl,
+  InputLabel,
+  TextareaAutosize,
+  Typography,
+} from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "chart.js/auto";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+
 import React, { SyntheticEvent, useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import Image from "next/image";
@@ -129,7 +137,6 @@ const Member = () => {
     dispatch(getMemberList());
   }, [dispatch]);
 
-  console.log(memberList);
   const handleOpenPermissions = () => setOpenPermissions(!openPermissions);
   const handleOpenStatus = () => setOpenStatus(!openStatus);
 
@@ -210,7 +217,7 @@ const Member = () => {
                       {tags.map((tag, index) => (
                         <Chip
                           variant="outlined"
-                          className={`${mailColor[index]} mr-2 my-2 !text-white`}
+                          className={`${mailColor[index]} mr-2 my-2 text-white`}
                           key={index}
                           label={tag}
                           deleteIcon={

@@ -4,7 +4,6 @@ import { IMember } from "@/type/member/member.type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
-
 export const getMemberList = createAsyncThunk(
   "getMemberList",
   async () => {
@@ -44,12 +43,12 @@ export const addMember = createAsyncThunk(
   }
 )
 
+interface initialState {
+  member: IMember[];
+}
 
-
-
-
-const initialState = {
-  member: [] as IMember[],
+const initialState: initialState = {
+  member: [],
 }
 
 export const memberSlice = createSlice({
@@ -73,10 +72,9 @@ export const memberSlice = createSlice({
       .addCase(getMemberList.fulfilled, (state, action) => {
         state.member = action.payload.content;
 
+        console.log(action.error.message);
       })
   },
 })
-
-
 
 export const MemberReducer = memberSlice.reducer;

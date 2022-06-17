@@ -5,7 +5,6 @@ import { SkillReducer } from "./skillSlice";
 import { MemberReducer } from "@/redux/memberSlice";
 import TeamProfileReducer from "@/redux/teamProfileSlice";
 
-
 const reducer = { TeamProfileReducer, ProfileReducer, TeamReducer, SkillReducer, MemberReducer };
 
 const store = configureStore({ reducer });
