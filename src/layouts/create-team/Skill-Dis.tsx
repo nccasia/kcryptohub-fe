@@ -15,7 +15,7 @@ import { Slider, Typography } from "@mui/material";
 import { Chart as ChartJS, Legend, Title, Tooltip } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Dialog } from "../Dialog";
 import { SkillCollapse } from "./SkillCollapse";
@@ -23,6 +23,7 @@ import * as yub from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
+import { getProfile } from "@/redux/profileSlice";
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend);
 ChartJS.defaults.plugins.tooltip;
 
@@ -78,12 +79,14 @@ export const SkillDis = (props: IProps) => {
   const {
     watch,
     register,
+    reset,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(schema),
     mode: "all",
   });
+  const buttonRef = useRef(null);
   const dataSkillDis: ISkillDistribution[] = [
     {
       id: null,
@@ -146,6 +149,7 @@ export const SkillDis = (props: IProps) => {
   const dispatch = useAppDispatch();
   const [textName, setTextName] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
+  const [valid, setValid] = useState(false);
 
   const getLabel = () => {
     const labels = skillDistribute.map((data) => data.field);
@@ -230,7 +234,7 @@ export const SkillDis = (props: IProps) => {
     },
   };
 
-  const handleSaveCreateTeam = () => {
+  const handleSaveCreateTeam = async () => {
     const formData = {
       teamName: team.teamName,
       description: team.description,
@@ -254,10 +258,15 @@ export const SkillDis = (props: IProps) => {
       ],
     };
     if (total === 100) {
-      dispatch(createTeam(formData as unknown as ICreateTeam)).then((res) => {
-        dispatch(resetTeam());
-      });
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
+      await dispatch(createTeam(formData as unknown as ICreateTeam)).then(
+        (res) => {
+          dispatch(resetTeam());
+        }
+      );
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
 
+      dispatch(getProfile());
       router.push("/manage-teams");
     } else {
       toast.error("Total percentage is not 100%");
@@ -488,6 +497,7 @@ export const SkillDis = (props: IProps) => {
           type="button"
           onClick={handleSubmit(handleSaveCreateTeam)}
           className={"py-3 text-white px-3 flex items center bg-[red]"}
+          ref={buttonRef}
         >
           Save Changes
         </button>

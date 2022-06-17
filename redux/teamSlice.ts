@@ -47,6 +47,7 @@ export const resetTeam = createAsyncThunk("resetTeam", async () => {
     imageUrl: "",
     founded: "",
     projectSize: "",
+    timeZone: "",
     description: "",
     teamName: "",
     teamSize: "",
@@ -98,7 +99,7 @@ export const TeamSlice = createSlice({
           progress: undefined,
         });
       })
-      .addCase(deleteTeam.fulfilled, (state, action) => { })
+      .addCase(deleteTeam.fulfilled, (state, action) => {})
       .addCase(deleteTeam.rejected, (state, action) => {
         toast.error(action.error.message, {
           position: "bottom-right",
