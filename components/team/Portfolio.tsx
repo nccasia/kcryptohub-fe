@@ -15,8 +15,8 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
   const [portfolio, setPortfolio] = useState<IPortfolio | null>(null);
 
   const handleRenderClientKey = () => {
-    if (teamProfile.portfolio) {
-      return teamProfile.portfolio.map((item) => item.companyName).join(", ");
+    if (teamProfile.portfolios) {
+      return teamProfile.portfolios.map((item) => item.companyName).join(", ");
     }
     return "";
   };
@@ -110,7 +110,7 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
           </div>
         </div>
       )}
-      {!teamProfile.portfolio?.length && (
+      {!teamProfile.portfolios?.length && (
         <div className="flex items-center gap-x-2">
           <Link href="#">
             <a className="text-sm text-[#3e839e] hover:underline">
@@ -128,9 +128,9 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
           </div>
         </div>
       )}
-      {teamProfile.portfolio?.length > 0 && (
+      {teamProfile.portfolios?.length > 0 && (
         <div className="grid xxs:grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 mb-5">
-          {teamProfile.portfolio.map((item, index) => {
+          {teamProfile.portfolios.map((item, index) => {
             if (index <= 5) {
               return (
                 <div
@@ -185,7 +185,7 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
         </div>
       )}
 
-      {teamProfile.portfolio?.length > 6 && !isShowAll && (
+      {teamProfile.portfolios?.length > 6 && !isShowAll && (
         <span
           className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
           onClick={() => setIsShowAll(true)}
@@ -193,7 +193,7 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
           SHOW ALL +
         </span>
       )}
-      {teamProfile.portfolio?.length > 6 && isShowAll && (
+      {teamProfile.portfolios?.length > 6 && isShowAll && (
         <span
           className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
           onClick={() => setIsShowAll(false)}

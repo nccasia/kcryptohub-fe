@@ -21,11 +21,9 @@ import * as Yup from "yup";
 const schemaValidation = Yup.object({
   usernameOrEmail: Yup.string()
     .required("Email or username is required!")
-    .trim("Username or email is required!")
     .max(30, "Email or username dose not exceed 30 character!"),
   password: Yup.string()
     .required("Password is required!")
-    .trim("Password is required!")
     .max(30, "Password dose not exceed 30 character!"),
 });
 
@@ -43,7 +41,7 @@ const Login = () => {
   });
 
   const [isOpen, setIsOpen] = useState(false);
-  const [redirectUrl, setRedirectUrl] = useState('/');
+  const [redirectUrl, setRedirectUrl] = useState("/");
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -77,12 +75,12 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    if(router.isReady){
-      if(router.query.redirectUrl){
+    if (router.isReady) {
+      if (router.query.redirectUrl) {
         setRedirectUrl(router.query.redirectUrl as string);
       }
     }
-  },[router.isReady]);
+  }, [router.isReady]);
 
   const handleLogin = async (payload: IFormLogin) => {
     try {

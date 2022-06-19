@@ -2,7 +2,7 @@ export const Footer = () => {
   return (
     <footer
       className="w-full bg-cyan-900 relative 
-      before:w-full before:h-[1px] before:bg-cyan-600 before:absolute lg:before:top-1/4 md:before:top-1/2 before:top-1/3"
+      before:w-full before:h-[1px] before:bg-cyan-600 before:absolute lg:before:top-1/4 sm:before:top-1/2 before:top-1/3"
     >
       <div className="flex items-center justify-center h-full">
         <div className=" grid lg:grid-cols-5 sm:grid-cols-3 grid-cols-2 gap-x-4 text-white container-xl h-full pl-8">
@@ -160,7 +160,10 @@ export const Footer = () => {
             </div>
             <ul className="flex flex-col justify-around h-1/3 text-xs">
               <li>
-                <a href="https://help.kryptohub.co/contact-us" title="Contact Us">
+                <a
+                  href="https://help.kryptohub.co/contact-us"
+                  title="Contact Us"
+                >
                   Contact Us
                 </a>
               </li>

@@ -6,7 +6,11 @@ const nextConfig = {
       "lh3.googleusercontent.com",
       "img.shgstatic.com",
       "avatars.githubusercontent.com",
+      "www.google.com",
     ],
+  },
+  env: {
+    API_URL: process.env.API_URL,
   },
 };
 
