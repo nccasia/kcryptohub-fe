@@ -259,7 +259,9 @@ const UpdateProfilePage = () => {
                   <button
                     type="button"
                     className="px-5 py-2 transition duration-150 text-[#08537E] hover:underline"
-                    onClick={() => router.push("/")}
+                    onClick={() => {
+                      router.push("/");
+                    }}
                   >
                     Cancel
                   </button>
