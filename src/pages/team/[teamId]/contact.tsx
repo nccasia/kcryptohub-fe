@@ -190,7 +190,7 @@ export const Contact = () => {
                   placeholder="+1 (555) 555-5555"
                   maxLength={15}
                   onKeyDown={(e) => {
-                    if (e.key === "Backspace" || e.key === "Tab") return;
+                    if (e.key === "Backspace" || e.key === "Tab" || e.key === "Enter") return;
                     if (isNaN(parseInt(e.key))) e.preventDefault();
                   }}
                   className="md:max-w-[400px] w-full border-2 border-[#cae0e7] pl-8 px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"

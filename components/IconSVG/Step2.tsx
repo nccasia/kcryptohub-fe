@@ -1,0 +1,175 @@
+export const Step2Img = () => {
+  return (
+    <svg
+      data-v-30131f6e=""
+      fill="none"
+      viewBox="0 0 146 106"
+      height="106"
+      width="146"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M128.345 20.5906H17.4619C15.2116 20.5906 13.3875 22.4148 13.3875 24.665V98.8779C13.3875 101.128 15.2116 102.952 17.4619 102.952H128.345C130.595 102.952 132.419 101.128 132.419 98.8779V24.665C132.419 22.4148 130.595 20.5906 128.345 20.5906Z"
+        fill="#2E3030"
+        stroke="#979797"
+        strokeWidth="2"
+      ></path>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M13.3875 94.2214H132.419V99.169C132.419 101.419 130.595 103.243 128.345 103.243H17.4619C15.2116 103.243 13.3875 101.419 13.3875 99.169V94.2214Z"
+        fill="#4A4A4A"
+      ></path>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M128.199 20.7361H17.6074C15.3571 20.7361 13.533 22.5603 13.533 24.8105V98.7324C13.533 100.983 15.3571 102.807 17.6074 102.807H128.199C130.449 102.807 132.274 100.983 132.274 98.7324V24.8105C132.274 22.5603 130.449 20.7361 128.199 20.7361Z"
+        stroke="#787878"
+        strokeWidth="3"
+      ></path>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M0 99.375H145.75V101.784L134.01 106H11.74L0 101.784V99.375Z"
+        fill="#787878"
+      ></path>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M87.6004 101.206H58.4973V102.37H87.6004V101.206Z"
+        fill="#949494"
+      ></path>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M124.852 25.2472H20.9542V91.6023H124.852V25.2472Z"
+        fill="white"
+      ></path>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M124.852 25.2472H20.9542V91.6023H124.852V25.2472Z"
+        fill="#CAE0E7"
+        fillOpacity="0.41"
+      ></path>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M33.7825 7.06519H112.284V81.2119C112.284 82.3165 111.389 83.2119 110.284 83.2119H35.7825C34.6779 83.2119 33.7825 82.3165 33.7825 81.2119V7.06519Z"
+        fill="white"
+      ></path>
+      <rect
+        xmlns="http://www.w3.org/2000/svg"
+        x="33.7825"
+        y="4.71021"
+        width="78.5018"
+        height="8.6352"
+        fill="#17313B"
+      ></rect>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M33.7825 2C33.7825 0.895432 34.6779 0 35.7825 0H110.284C111.389 0 112.284 0.895431 112.284 2V7.06516H33.7825V2Z"
+        fill="#323639"
+      ></path>
+      <circle
+        xmlns="http://www.w3.org/2000/svg"
+        cx="36.1143"
+        cy="3.5893"
+        r="0.843696"
+        fill="#FF5A52"
+      ></circle>
+      <circle
+        xmlns="http://www.w3.org/2000/svg"
+        cx="39.4892"
+        cy="3.5893"
+        r="0.843696"
+        fill="#E5C12B"
+      ></circle>
+      <circle
+        xmlns="http://www.w3.org/2000/svg"
+        cx="42.864"
+        cy="3.5893"
+        r="0.843696"
+        fill="#53C22B"
+      ></circle>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M73.0334 36.94C67.8308 36.94 63.6132 32.7126 63.6132 27.4977C63.6132 22.2829 67.8308 18.0554 73.0334 18.0554C78.236 18.0554 82.4536 22.2829 82.4536 27.4977C82.4536 32.7126 78.236 36.94 73.0334 36.94Z"
+        fill="white"
+        stroke="#08537E"
+        strokeWidth="0.7"
+      ></path>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M73.0307 28.4915C71.1824 28.4915 69.684 26.9896 69.684 25.137C69.684 23.2843 71.1824 21.7825 73.0307 21.7825C74.879 21.7825 76.3773 23.2843 76.3773 25.137C76.3773 26.9896 74.879 28.4915 73.0307 28.4915Z"
+        fill="white"
+        stroke="#08537E"
+        strokeWidth="0.7"
+      ></path>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M79.2292 34.3308C78.2376 31.9702 75.8826 30.2308 73.1557 30.2308C70.4288 30.2308 68.0737 31.846 67.0821 34.2065"
+        fill="white"
+      ></path>
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M79.2292 34.3308C78.2376 31.9702 75.8826 30.2308 73.1557 30.2308C70.4288 30.2308 68.0737 31.846 67.0821 34.2065"
+        stroke="#08537E"
+        strokeWidth="0.7"
+      ></path>
+      <rect
+        xmlns="http://www.w3.org/2000/svg"
+        x="45.5579"
+        y="45.531"
+        width="54.9512"
+        height="6.28014"
+        rx="0.5"
+        fill="#F1F1F1"
+        stroke="#DADEE1"
+        strokeWidth="0.25"
+      ></rect>
+      <rect
+        xmlns="http://www.w3.org/2000/svg"
+        x="45.5579"
+        y="58.0912"
+        width="54.9512"
+        height="6.28014"
+        rx="0.5"
+        fill="#F1F1F1"
+        stroke="#DADEE1"
+        strokeWidth="0.25"
+      ></rect>
+      <rect
+        xmlns="http://www.w3.org/2000/svg"
+        x="62.8284"
+        y="70.6516"
+        width="23.5505"
+        height="6.28014"
+        rx="0.5"
+        fill="#FF3D2E"
+      ></rect>
+      <rect
+        xmlns="http://www.w3.org/2000/svg"
+        x="45.5579"
+        y="45.531"
+        width="7.85018"
+        height="6.28014"
+        rx="0.5"
+        fill="#DADEE1"
+      ></rect>
+      <rect
+        xmlns="http://www.w3.org/2000/svg"
+        x="45.5579"
+        y="58.0912"
+        width="7.85018"
+        height="6.28014"
+        rx="0.5"
+        fill="#DADEE1"
+      ></rect>
+    </svg>
+  );
+};
