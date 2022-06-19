@@ -10,7 +10,7 @@ import {
   AddPhotoAlternate,
   DesktopWindowsOutlined,
   LockOutlined,
-  PersonOutlineOutlined,
+  PersonOutlineOutlined
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import Image from "next/image";
@@ -74,13 +74,13 @@ const schemaValidation = yup.object().shape({
       ),
   }),
   description: yup.string().required("Description is required"),
-  imageUrl: yup.string(),
+  imageUrl: yup.string().nullable(),
   videoLink: yup
     .string()
     .matches(
       /(^$)|(^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$)/,
       "Please enter a valid website format! URL must contain http:// or https:// prefix."
-    ),
+    ).nullable(),
   privacy: yup
     .number()
     .nullable()
@@ -126,7 +126,7 @@ const PortfolioEdit = () => {
       PortfolioApi.getPortfolio(portfolioId)
         .then((portfolio) => {
           if (portfolio) {
-            reset(portfolio);
+            reset({...portfolio,privacy: portfolio.privacy.toString()});
           } else {
             toast.error("failed get portfolio info");
           }
@@ -135,19 +135,20 @@ const PortfolioEdit = () => {
           toast.error("failed get portfolio info");
         });
     }
-  }, [portfolioId]);
+  }, [portfolioId, reset, teamId]);
 
   const onSubmit = async () => {
-    const data = await PortfolioApi.createPortfolio(
+    const data = await PortfolioApi.updatePortfolio(
       watch() as IPortfolio,
-      teamId
+      teamId,
+      portfolioId
     );
     if (data === null) {
-      toast.error("Portfolio creation failed!");
+      toast.error("Portfolio update failed!");
     } else {
       reset();
-      toast.success("Portfolio added successfully!");
-      router.push(`/manage-teams/portfolio/${data.id}`);
+      toast.success("Portfolio updated successfully!");
+      router.push(`/team/${teamId}/dashboard/portfolio/${data.id}`);
     }
   };
 
@@ -421,7 +422,7 @@ const PortfolioEdit = () => {
                 <div className="">
                   <input
                     type="radio"
-                    value={0}
+                    value={1}
                     id="showall"
                     className="cursor-pointer"
                     {...register("privacy")}
@@ -442,7 +443,7 @@ const PortfolioEdit = () => {
                 <div className="">
                   <input
                     type="radio"
-                    value={1}
+                    value={2}
                     id="confidential"
                     className="cursor-pointer"
                     {...register("privacy")}
@@ -472,7 +473,7 @@ const PortfolioEdit = () => {
                 <div className="">
                   <input
                     type="radio"
-                    value={2}
+                    value={3}
                     id="hidden"
                     className="cursor-pointer"
                     {...register("privacy")}
@@ -503,7 +504,7 @@ const PortfolioEdit = () => {
                hover:bg-transparent hover:text-secondary"
                 onClick={handleSubmit(onSubmit)}
               >
-                Add Portfolio Item
+                Save Portfolio Item
               </button>
             </div>
           </div>

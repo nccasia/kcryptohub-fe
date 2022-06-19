@@ -13,8 +13,7 @@ export const PortfolioApi = {
       });
       return response.data;
     } catch (error) {
-        console.log(error);
-      return null;
+      return (error as any).response.data.statusCode;
     }
   },
 
@@ -24,7 +23,17 @@ export const PortfolioApi = {
       const response = await axiosClient.put(`/portfolio/update/${id}`, {...data, privacy: parseInt(data.privacy.toString()), teamId});
       return response.data;
     } catch (error) {
-      return null;
+      return (error as any).response.data.statusCode;
+    }
+  },
+
+  async deletePortfolio(id: number){
+    if(isNaN(id)) return null;
+    try {
+      const response = await axiosClient.delete(`/portfolio/delete/${id}`);
+      return response.data;
+    } catch (error) {
+      return (error as any).response.data.statusCode;
     }
   },
 

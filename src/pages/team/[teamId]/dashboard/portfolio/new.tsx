@@ -119,13 +119,14 @@ const NewPortfolio = () => {
   }, [router.query.teamId]);
 
   const onSubmit = async () => {
-    console.log(watch(), teamId);
     const data = await PortfolioApi.createPortfolio(
       watch() as IPortfolio,
       teamId
     );
     if (data === null) {
       toast.error("Portfolio creation failed!");
+    } else if(data === 404){
+      toast.error("Can't create portfolio for the team that is not yours!");
     } else {
       reset();
       toast.success("Portfolio added successfully!");
