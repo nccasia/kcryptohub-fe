@@ -33,7 +33,7 @@ const Layout = (props: IHeaderProps) => {
     }
   }, [userInfo, dispatch]);
   useEffect(() => {
-    if (skills.length === 0) {
+    if (!skills || skills.length === 0) {
       dispatch(getListSkill());
     }
   }, [dispatch]);
@@ -43,7 +43,7 @@ const Layout = (props: IHeaderProps) => {
     router.push("/profile");
   };
   return (
-    <div className="h-full flex flex-col">
+    <div className="flex flex-col h-full">
       <Header />
 
       <div className="flex-1">{props.children}</div>

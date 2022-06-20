@@ -38,79 +38,15 @@ const theme = createTheme({
 
 const CreateNewTeam = () => {
   const skills = useAppSelector(getSkillsSelector);
-  const [image, setImage] = useState(null);
-  const [createObjectURL, setCreateObjectURL] = useState("");
 
   const [step, setStep] = useState(0);
   const [value, setValue] = useState(0);
   const [open, setOpen] = React.useState(false);
   const [listSkill, setListSkill] = useState<Skill[]>([]);
 
-  const router = useRouter();
-
-  const [dataSkill, setData] = useState<Skill[]>([]);
-  const [dataSkillDistribute, setDataSkillDistribute] = useState<
-    ISkillDistribution[]
-  >([]);
   const [distributionValue, setDistributionValue] = useState<
     ISkillDistributionValue[]
   >([{ field: "", quantity: 0 } as ISkillDistributionValue]);
-  const [distributionValueForm, setDistributionValueForm] = useState(
-    {} as ISkillDistribution
-  );
-
-  const uploadToClient = (event: any) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
-      if (Math.ceil(i.size / 1024) <= 15000 && i.type.includes("image")) {
-        setImage(i);
-        setCreateObjectURL(URL.createObjectURL(i));
-      } else if (!i.type.includes("image")) {
-        toast.error("File upload must have .jpg, .jpge, .png!");
-        setImage(null);
-      } else {
-        toast.error("File upload is over 15MB!");
-        setImage(null);
-      }
-    }
-  };
-
-  const handleAddField = () => {
-    setDistributionValue([...distributionValue, { quantity: 0, field: "" }]);
-  };
-
-  const handleRemoveField = (index: number) => {
-    const list = [...distributionValue];
-    list.splice(index, 1);
-    setDistributionValue(list);
-  };
-
-  const handleChangeField = (e: any, index: number) => {
-    const list = [...distributionValue];
-    list[index] = {
-      ...list[index],
-      [e.target.name]: e.target.value,
-    };
-    setDistributionValue(list);
-    setDistributionValueForm({
-      ...distributionValueForm,
-      skillDistributionValue: list,
-    });
-  };
-
-  const handleSaveField = () => {
-    setDataSkillDistribute([...dataSkillDistribute, distributionValueForm]);
-    setDistributionValueForm({
-      skillDistributionName: "",
-      skillDistributionValue: [],
-    } as unknown as ISkillDistribution);
-    setDistributionValue([
-      {
-        quantity: 0,
-        field: "",
-      },
-    ] as ISkillDistributionValue[]);
-  };
 
   const nextStep = () => {
     if (step === 0) {

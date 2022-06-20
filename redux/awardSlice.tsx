@@ -57,9 +57,6 @@ export const awardsSlice = createSlice({
       .addCase(getAwardById.fulfilled, (state, action) => {
         state.awardDetail = action.payload;
       })
-      .addCase(getAwardById.rejected, (state, action) => {
-        console.log(action.payload);
-      })
       .addCase(getAwards.fulfilled, (state, action) => {
         state.awards = action.payload;
       })

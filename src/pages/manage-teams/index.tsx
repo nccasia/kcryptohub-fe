@@ -19,9 +19,9 @@ const ManageTeam = () => {
       <div className="">
         <div className="px-4 mb-5 mt-5 w-full justify-between flex items-center">
           <h1 className="text-xl font-bold">KryptoHub {">"} Manage Teams</h1>
-          <div>
+          <div className="">
             <Link href="/manage-teams/create-new-team">
-              <a className="px-6 py-2 text-white rounded bg-red-600 mt-5">
+              <a className="bg-red-500 text-white block text-center py-2 xs:px-5 px-1 w-full shadow-lg mx-auto">
                 New team
               </a>
             </Link>
