@@ -210,7 +210,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/getAll`)
       : await fetch(`${process.env.API_URL}/api/team/getAll`);
   const teamList = (await res.json()) || [];
-  console.log(teamList);
+
   return {
     paths:
       teamList.map((team: ITeamProfile) => ({
