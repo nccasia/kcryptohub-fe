@@ -166,7 +166,6 @@ export const CreateForm = (props: IProps) => {
 
     dispatch(saveTeam(formSave));
 
-    console.log(formSave);
     props.nextStep();
   };
 
