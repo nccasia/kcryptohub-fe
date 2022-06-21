@@ -187,7 +187,7 @@ const TeamDetail = () => {
           portfolioRef={portfolioRef}
           handleScrollToSection={handleScrollToSection}
         />
-        <CardInfo editable={parseInt(userProfile.userInfo.id.toString()) === parseInt(ownerId.toString())}/>
+        <CardInfo editable={userProfile.userInfo.id === ownerId}/>
       </div>
     </Layout>
   );
