@@ -84,4 +84,8 @@ export const teamApi = {
     });
     return response.data.data;
   },
+
+  getTeamImageUrl(path: string) {
+    return process.env.API_URL + "/api/team/getImage/" + path;
+  }
 };

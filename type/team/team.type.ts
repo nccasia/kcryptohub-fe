@@ -12,7 +12,7 @@ export type Team = {
   hour?: string;
   week?: string;
   description: string;
-  avatar: string;
+  imageUrl: string;
   user?: IProfile;
   userId?: number;
   status: boolean;
