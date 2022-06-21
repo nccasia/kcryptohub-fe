@@ -12,7 +12,7 @@ import { Container } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "chart.js/auto";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const theme = createTheme({
@@ -57,6 +57,10 @@ const CreateNewTeam = () => {
   const handleChange = () => {
     setOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [step]);
 
   return (
     <Layout>
