@@ -3,10 +3,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { getUserInfoSelector } from "@/redux/selector";
 import { Layout } from "@/src/layouts/layout";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  LocalPhoneOutlined,
-  MessageOutlined
-} from "@mui/icons-material";
+import { LocalPhoneOutlined, MessageOutlined } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,12 +34,12 @@ const conatctSchemaValidation = Yup.object({
   companyname: Yup.string()
     .max(30, "Team name does not exceed 30 character!")
     .required(`Please enter your team name!`),
-  contactemail: Yup.string().required('You not yet have a contact email, please update your profile!'),
-  phone: Yup.string().matches(
-    /^(\s*|\d+)$/,
-    "Please enter valid phone number!"
-  )
-  .max(15, "Phone number does not exceed 15 number!"),
+  contactemail: Yup.string().required(
+    "You not yet have a contact email, please update your profile!"
+  ),
+  phone: Yup.string()
+    .matches(/^(\s*|\d+)$/, "Please enter valid phone number!")
+    .max(15, "Phone number does not exceed 15 number!"),
   subject: Yup.string()
     .required("Please choose one subject!")
     .max(subjectExample.length, "Subject is invalid!")
@@ -72,20 +69,30 @@ export const Contact = () => {
 
   useEffect(() => {
     if (router.query.teamId) {
-      teamApi.getTeam(parseInt(router.query.teamId as string)||NaN).then((data) => {
-        setTeamName(data.teamName);
-      }).catch((err) => {
-
-      });
+      teamApi
+        .getTeam(parseInt(router.query.teamId as string) || NaN)
+        .then((data) => {
+          setTeamName(data.teamName);
+        })
+        .catch((err) => {});
     }
   }, [router]);
   useEffect(() => {
-    setValue("contactemail", userInfo.emailAddress || '', {shouldValidate: true});
-    if(userInfo.username)setValue("fullname", userInfo.username, { shouldValidate: true });
-  },[getValues, setValue, userInfo.emailAddress, userInfo.username])
+    setValue("contactemail", userInfo.emailAddress || "", {
+      shouldValidate: true,
+    });
+    if (userInfo.username)
+      setValue("fullname", userInfo.username, { shouldValidate: true });
+  }, [getValues, setValue, userInfo.emailAddress, userInfo.username]);
 
   const onSubmit = () => {
-    alert(`A message have send to ${teamName} \nYour name: ${getValues().fullname} \nContact Email: ${getValues().contactemail} \nSubject: ${subjectExample[getValues().subject]} \nMessage: ${getValues().message} \n${`Phone: ${getValues().phone}`}`);
+    alert(
+      `A message have send to ${teamName} \nYour name: ${
+        getValues().fullname
+      } \nContact Email: ${getValues().contactemail} \nSubject: ${
+        subjectExample[getValues().subject]
+      } \nMessage: ${getValues().message} \n${`Phone: ${getValues().phone}`}`
+    );
   };
   return (
     <Layout>

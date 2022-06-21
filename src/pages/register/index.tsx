@@ -1,15 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import * as yub from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { ToastContainer, toast } from "react-toastify";
 import { authApi } from "@/api/auth-api";
-import router from "next/router";
 import { IRegisterForm } from "@/type/auth/register.type";
-import Link from "next/link";
+import { yupResolver } from "@hookform/resolvers/yup";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import axios from "axios";
-import axiosClient from "@/api/axios-client";
+import Link from "next/link";
+import router from "next/router";
+import React, { useEffect, useRef } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
+import * as yub from "yup";
 const schema = yub.object().shape({
   username: yub
     .string()

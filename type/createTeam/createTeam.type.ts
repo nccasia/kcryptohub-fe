@@ -8,10 +8,13 @@ export interface ICreateTeam {
   linkWebsite: string;
   workingTime: string;
   saleEmail: string;
-  avatar: string;
+  imageUrl: string;
   founded: string;
   description: string;
   slogan: string;
+  portfolios: string[];
+  awards: string[];
+  keyClients: string[];
   skills: Skill[];
   id: string;
 }
@@ -42,4 +45,26 @@ export enum ETimeZone {
   "UTC +10",
   "UTC +11",
   "UTC +12",
+}
+
+export enum ETeamSize {
+  "Freelancer",
+  "2-9",
+  "10-49",
+  "50-249",
+  "250-999",
+  "1,000-9,999",
+  "10,000+",
+}
+
+export enum EProjectSize {
+  "N/A",
+  "$1,000+",
+  "$5,000+",
+  "$10,000+",
+  "$25,000+",
+  "$50,000+",
+  "$75,000+",
+  "$100,000+",
+  "$250,000+",
 }
