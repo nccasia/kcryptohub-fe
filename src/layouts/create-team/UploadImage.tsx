@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { FileDrop } from "react-file-drop";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 export const UploadImage = ({
@@ -7,12 +7,19 @@ export const UploadImage = ({
   uploadToClient,
   setCreateObjectURL,
   setImage,
+  image,
 }: {
   createObjectURL: string;
   uploadToClient: (event: any) => void;
   setCreateObjectURL: (image: string) => void;
   setImage: (image: any) => void;
+  image?: File;
 }) => {
+  useEffect(() => {
+    if (image?.name) {
+      setCreateObjectURL(URL.createObjectURL(image));
+    }
+  }, [image]);
   return (
     <div className="my-5">
       <div className="flex sm:flex-row flex-col items-center justify-center">

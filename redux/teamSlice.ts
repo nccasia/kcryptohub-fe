@@ -16,8 +16,12 @@ export const getAllTeam = createAsyncThunk("getAllTeam", async () => {
 });
 export const createTeam = createAsyncThunk(
   "createTeam",
-  async (team: ICreateTeam) => {
+  async ({ team, file }: { team: ICreateTeam; file: File | undefined }) => {
     const response = await teamApi.createTeam(team);
+    if (file) {
+      const res = await teamApi.postImage(file, response.id);
+    }
+
     return response;
   }
 );
@@ -31,6 +35,7 @@ export const updateTeam = createAsyncThunk(
   "updateTeam",
   async (team: ICreateTeam) => {
     const response = await teamApi.updateTeam(team);
+
     return response.data.data;
   }
 );
@@ -62,9 +67,17 @@ export const resetTeam = createAsyncThunk("resetTeam", async () => {
   } as unknown as ICreateTeam;
 });
 
+export const saveFile = createAsyncThunk("saveFile", async (file: File) => {
+  return file;
+});
+
+export const resetFile = createAsyncThunk("resetFile", async () => {
+  return undefined;
+});
 const initialState = {
   value: {} as ICreateTeam,
   skillInfo: [] as ISkills[],
+  imageUrl: {} as File | undefined,
 };
 
 export const TeamSlice = createSlice({
@@ -132,6 +145,12 @@ export const TeamSlice = createSlice({
       })
       .addCase(resetTeam.fulfilled, (state, action) => {
         state.value = action.payload;
+      })
+      .addCase(saveFile.fulfilled, (state, action) => {
+        state.imageUrl = action.payload;
+      })
+      .addCase(resetFile.fulfilled, (state, action) => {
+        state.imageUrl = action.payload;
       });
   },
 });

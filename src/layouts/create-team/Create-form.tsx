@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
-import { saveTeam } from "@/redux/teamSlice";
+import { saveFile, saveTeam } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { TimeZone } from "@/type/enum/TimeZone";
 import { Skill } from "@/type/Skill";
@@ -76,8 +76,9 @@ export const CreateForm = (props: IProps) => {
   } = useForm({ resolver: yupResolver(schema), mode: "all" });
   const dispatch = useAppDispatch();
   const team = useAppSelector((state) => state.TeamReducer.value);
+  const file = useAppSelector((state) => state.TeamReducer.imageUrl);
   const [createObjectURL, setCreateObjectURL] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(file);
   const [count, setCount] = useState(0);
   const [dataSkill, setData] = useState<Skill[]>([]);
   const skills = useAppSelector(getSkillsSelector);
@@ -112,12 +113,13 @@ export const CreateForm = (props: IProps) => {
       if (Math.ceil(i.size / 1024) <= 15000 && i.type.includes("image")) {
         setImage(i);
         setCreateObjectURL(URL.createObjectURL(i));
+        dispatch(saveFile(i));
       } else if (!i.type.includes("image")) {
         toast.error("File upload must have .jpg, .jpge, .png!");
-        setImage(null);
+        setImage(undefined);
       } else {
         toast.error("File upload is over 15MB!");
-        setImage(null);
+        setImage(undefined);
       }
     }
   };
@@ -158,15 +160,17 @@ export const CreateForm = (props: IProps) => {
     const formSave = {
       ...watch(),
       skills: dataSkill,
-      imageUrl: image || "/user1.png",
     } as unknown as ICreateTeam;
 
     dispatch(saveTeam(formSave));
+
+    console.log(file);
+    console.log(formSave);
     props.nextStep();
   };
 
   const handleBack = () => {
-    if (props.step === 0 && isDirty) {
+    if (props.step === 0 && (isDirty || isValid)) {
       setOpen(true);
     } else {
       router.push("/manage-teams");
@@ -359,6 +363,7 @@ export const CreateForm = (props: IProps) => {
               createObjectURL={createObjectURL}
               setImage={setImage}
               setCreateObjectURL={setCreateObjectURL}
+              image={file || image || undefined}
             />
             <div className="my-5">
               <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">

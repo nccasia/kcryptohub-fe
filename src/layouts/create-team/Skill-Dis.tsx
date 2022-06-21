@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { createTeam, resetTeam } from "@/redux/teamSlice";
+import { createTeam, resetFile, resetTeam } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { Skill } from "@/type/Skill";
 import {
@@ -143,6 +143,7 @@ export const SkillDis = (props: IProps) => {
   ];
 
   const [skillDistribute, setDataSkillDistribute] = useState<IValue[]>([]);
+  const file = useAppSelector((state) => state.TeamReducer.imageUrl);
   const [total, setTotal] = useState(0);
   const [show, setShow] = useState(false);
   const [change, setChange] = useState(false);
@@ -174,15 +175,18 @@ export const SkillDis = (props: IProps) => {
     const colors = skillColor.slice(0, data.length);
     const labels = getLabel();
     const sum = skillDistribute.reduce((acc, cur) => acc + cur.quantity, 0);
+
     const extra = 100 - sum;
-    if (labels[labels.length - 1] === "Allocate a percentage") {
+    if (
+      labels[labels.length - 1] === "Allocate a percentage" &&
+      labels.length % colors.length === 0
+    ) {
       colors[labels.length - 1] = "#F5F5F5";
       return colors;
     } else if (extra < 0) {
       colors[colors.length - 1] = "#ffb1ab";
       return colors;
     } else {
-      colors[colors.length - 1];
       return colors;
     }
   };
@@ -238,6 +242,7 @@ export const SkillDis = (props: IProps) => {
     const formData = {
       teamName: team.teamName,
       description: team.description,
+      imageUrl: team.imageUrl,
       skills: team.skills,
       linkWebsite: team.linkWebsite,
       founded: team.founded,
@@ -258,14 +263,16 @@ export const SkillDis = (props: IProps) => {
       ],
     };
     if (total === 100) {
+      console.log(formData);
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
-      await dispatch(createTeam(formData as unknown as ICreateTeam)).then(
-        (res) => {
-          dispatch(resetTeam());
-        }
-      );
+      await dispatch(
+        createTeam({ team: formData as unknown as ICreateTeam, file })
+      ).then((res) => {
+        dispatch(resetTeam());
+      });
       (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
 
+      dispatch(resetFile());
       dispatch(getProfile());
       router.push("/manage-teams");
     } else {

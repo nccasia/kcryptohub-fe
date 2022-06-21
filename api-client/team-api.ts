@@ -84,4 +84,18 @@ export const teamApi = {
     });
     return response.data.data;
   },
+
+  async postImage(image: File, teamid: number) {
+    const formData = new FormData();
+    formData.append("file", image);
+    const response = await axiosClient({
+      method: "post",
+      url: `/team/${teamid}/image`,
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data.data;
+  },
 };
