@@ -120,20 +120,27 @@ const NewPortfolio = () => {
   }, [router.query.teamId]);
 
   const onSubmit = async () => {
+    const formData = watch();
+    if(isValid){
+      reset();
+    }
     const data = await PortfolioApi.createPortfolio(
-      watch() as IPortfolio,
+      formData as IPortfolio,
       teamId
     );
     if (data === null) {
       toast.error("Portfolio creation failed!");
     } else if (data === 404) {
       toast.error("Can't create portfolio for the team that is not yours!");
-    } else {
+    } else if(data.id) {
       PortfolioApi.postImage(image, data.id).then((res) => {
         reset();
         toast.success("Portfolio added successfully!");
         router.push(`/team/${teamId}/dashboard/portfolio/${data.id}`);
       });
+    }
+    else {
+      toast.error("Portfolio creation failed!");
     }
   };
 

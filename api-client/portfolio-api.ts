@@ -13,7 +13,7 @@ export const PortfolioApi = {
       });
       return response.data;
     } catch (error) {
-      return (error as any).response.data.statusCode;
+      return (error as any).response?.data.statusCode;
     }
   },
 

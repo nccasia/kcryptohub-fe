@@ -12,6 +12,7 @@ const PortfolioDetail = () => {
   const [teamId, setTeamId] = useState<number>(NaN);
   const [portfolioId, setPortfolioId] = useState<number>(NaN);
   const [portfolio, setPortfolio] = useState<IPortfolio>({} as IPortfolio);
+  const [ isDeleting, setIsDeleting ] = useState(false);
   const router = useRouter();
   useEffect(() => {
     if (router.query.teamId) {
@@ -38,19 +39,26 @@ const PortfolioDetail = () => {
     }
   },[portfolioId]);
 
+  useEffect(() => {
+    if(isDeleting){
+      PortfolioApi.deletePortfolio(portfolioId)
+        .then((res) => {
+          if (res) {
+            toast.success("Prtfolio delete  successfull");
+            router.push(`/team/${teamId}/dashboard/portfolio`);
+          } else {
+            toast.error("Failed delete portfolio");
+            setIsDeleting(false);
+          }
+        })
+        .catch((err) => {
+          toast.error("Failed delete portfolio");
+          setIsDeleting(false);
+        });
+    }
+  },[isDeleting])
   const handleDelte = () => {
-    PortfolioApi.deletePortfolio(portfolioId)
-      .then((res) => {
-        if (res) {
-          toast.success("success delete portfolio");
-          router.push(`/team/${teamId}/dashboard/portfolio`);
-        } else {
-          toast.error("failed delete portfolio");
-        }
-      })
-      .catch((err) => {
-        toast.error("failed delete portfolio");
-      });
+    setIsDeleting(true);
   };
   return (
     <ManagePortfolio>

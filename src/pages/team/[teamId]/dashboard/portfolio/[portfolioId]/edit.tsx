@@ -154,7 +154,6 @@ const PortfolioEdit = () => {
   }, [portfolioId, reset, teamId]);
 
   const onSubmit = async () => {
-    console.log('update')
     const data = await PortfolioApi.updatePortfolio(
       watch() as IPortfolio,
       teamId,
