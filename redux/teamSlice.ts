@@ -16,8 +16,12 @@ export const getAllTeam = createAsyncThunk("getAllTeam", async () => {
 });
 export const createTeam = createAsyncThunk(
   "createTeam",
-  async (team: ICreateTeam) => {
+  async ({ team, file }: { team: ICreateTeam; file: File | null }) => {
     const response = await teamApi.createTeam(team);
+    if (file) {
+      const res = await teamApi.postImage(file, response.id);
+    }
+
     return response;
   }
 );
@@ -31,6 +35,7 @@ export const updateTeam = createAsyncThunk(
   "updateTeam",
   async (team: ICreateTeam) => {
     const response = await teamApi.updateTeam(team);
+
     return response.data.data;
   }
 );

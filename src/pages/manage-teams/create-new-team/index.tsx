@@ -43,6 +43,7 @@ const CreateNewTeam = () => {
   const [value, setValue] = useState(0);
   const [open, setOpen] = React.useState(false);
   const [listSkill, setListSkill] = useState<Skill[]>([]);
+  const [imageFile, setImageFile] = React.useState<File | null>(null);
 
   const [distributionValue, setDistributionValue] = useState<
     ISkillDistributionValue[]
@@ -117,7 +118,13 @@ const CreateNewTeam = () => {
             </h2>
           </div>
           {step === 0 && (
-            <CreateForm nextStep={nextStep} step={step} setStep={setStep} />
+            <CreateForm
+              nextStep={nextStep}
+              step={step}
+              setStep={setStep}
+              imageFile={imageFile}
+              setImageFile={setImageFile}
+            />
           )}
           {step === 1 && (
             <SkillDis
@@ -131,6 +138,8 @@ const CreateNewTeam = () => {
               setValue={setValue}
               handleChange={handleChange}
               open={open}
+              imageFile={imageFile}
+              setImageFile={setImageFile}
             />
           )}
         </Container>

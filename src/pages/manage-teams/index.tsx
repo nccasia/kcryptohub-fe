@@ -1,19 +1,18 @@
 import { Layout } from "@/src/layouts/layout";
 import Link from "next/link";
-import { deleteTeam } from "redux/teamSlice";
+import { deleteTeam, resetTeam } from "redux/teamSlice";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { Team } from "@/type/team/team.type";
+import React from "react";
 
 const ManageTeam = () => {
   const dispatch = useAppDispatch();
   const profile = useAppSelector((state) => state.ProfileReducer.userInfo);
+  const [imageFile, setImageFile] = React.useState<File | null>(null);
 
-  const handleDelete = (teams: ICreateTeam) => {
-    dispatch(deleteTeam(teams.id));
-  };
   return (
     <Layout>
       <div className="">
@@ -21,7 +20,12 @@ const ManageTeam = () => {
           <h1 className="text-xl font-bold">KryptoHub {">"} Manage Teams</h1>
           <div className="">
             <Link href="/manage-teams/create-new-team">
-              <a className="bg-red-500 text-white block text-center py-2 xs:px-5 px-1 w-full shadow-lg mx-auto">
+              <a
+                className="bg-red-500 text-white block text-center py-2 xs:px-5 px-1 w-full shadow-lg mx-auto"
+                onClick={() => {
+                  dispatch(resetTeam());
+                }}
+              >
                 New team
               </a>
             </Link>
