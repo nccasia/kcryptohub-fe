@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 interface IFromData {
@@ -86,13 +87,8 @@ export const Contact = () => {
   }, [getValues, setValue, userInfo.emailAddress, userInfo.username]);
 
   const onSubmit = () => {
-    alert(
-      `A message have send to ${teamName} \nYour name: ${
-        getValues().fullname
-      } \nContact Email: ${getValues().contactemail} \nSubject: ${
-        subjectExample[getValues().subject]
-      } \nMessage: ${getValues().message} \n${`Phone: ${getValues().phone}`}`
-    );
+    toast.success('Your message has been sent!');
+    reset();
   };
   return (
     <Layout>

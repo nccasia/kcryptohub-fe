@@ -438,7 +438,11 @@ const NewPortfolio = () => {
             <div className="flex xxs:flex-row flex-col items-center justify-end p-4">
               <button
                 className="bg-white px-16 py-3 hover:text-cyan-600 "
-                onClick={handleCancel}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCancel();
+                }}
               >
                 Cancel
               </button>

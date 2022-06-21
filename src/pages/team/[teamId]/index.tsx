@@ -113,7 +113,7 @@ const TeamDetail = () => {
           className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
         >
           <div className="md:max-w-[500px] w-full flex">
-            <Image src={"https://kryptohub-be.herokuapp.com/api/portfolio/getImage/"+teamProfile.imageUrl || '/user1.png'} alt="avatar" width={50} height={50}/>
+            <Image src={teamProfile.imageUrl?"https://kryptohub-be.herokuapp.com/api/portfolio/getImage/"+teamProfile.imageUrl : '/user1.png'} alt="avatar" width={50} height={50}/>
             <h1 className="w-full bg-primary pl-4 flex items-center">
               <Link href="#">
                 <a className="text-3xl text-white">{teamProfile.teamName}</a>

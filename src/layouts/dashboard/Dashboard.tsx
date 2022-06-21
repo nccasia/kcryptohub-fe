@@ -12,7 +12,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     <div className="bg-[#e8eef0] h-full">
       <Layout>
         <div className="container mx-auto">
-          <ul className="flex justify-start items-center gap-x-10 ">
+          <ul className="flex justify-start items-center gap-x-10 md:overflow-x-hidden overflow-x-scroll">
             <li>
               <Link href="#">
                 <a className="block text-sm text-[#08537E] px-4 py-4">
@@ -78,6 +78,22 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   }`}
                 >
                   Members
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={{
+                  pathname: `/team/[teamId]`,
+                  query: { teamId: router.query.teamId },
+                }}
+              >
+                <a
+                  className={`block text-sm  px-4 py-4 ${
+                     " text-secondary font-normal relative"
+                  }`}
+                >
+                  View team profile
                 </a>
               </Link>
             </li>
