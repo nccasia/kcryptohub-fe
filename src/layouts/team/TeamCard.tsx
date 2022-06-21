@@ -58,7 +58,7 @@ interface Props {
 
 export const TeamCard = (props: Props) => {
     const team = props.team;
-    const [teamImgSrc, setTeamImgSrc] = useState( teamApi.getTeamImageUrl(team.imageUrl) || '/user1.png');
+    const [teamImgSrc, setTeamImgSrc] = useState(team.imageUrl? teamApi.getTeamImageUrl(team.imageUrl) : '/user1.png');
     return (
         <div className="flex md:flex-row w-full border-y my-4 shadow-md flex-col">
             <div className="flex-1">
