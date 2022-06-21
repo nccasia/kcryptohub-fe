@@ -63,13 +63,18 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
       {portfolio && (
         <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-3 mb-5">
           <div>
-            {portfolio?.imageUrl && (
-              <img
-                src={portfolio?.imageUrl!}
+            {portfolio?.imageUrl ? (
+              <Image
+                src={
+                  "https://kryptohub-be.herokuapp.com/api/portfolio/getImage/" +
+                  portfolio.imageUrl
+                }
                 alt="portfolio"
                 className="hidden md:block w-full"
+                width={400}
+                height={400}
               />
-            )}
+            ) : null}
             {portfolio?.videoLink && (
               <iframe
                 src={handleYoutubeEmbedUrl(portfolio.videoLink)}
@@ -90,10 +95,15 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
               onClick={() => setPortfolio(null)}
             />
             {portfolio?.imageUrl && (
-              <img
-                src={portfolio?.imageUrl!}
+              <Image
+                src={
+                  "https://kryptohub-be.herokuapp.com/api/portfolio/getImage/" +
+                  portfolio?.imageUrl
+                }
                 alt="portfolio"
                 className="block md:hidden w-full mb-3"
+                width={400}
+                height={400}
               />
             )}
             {portfolio?.videoLink && (
@@ -145,14 +155,17 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
                   className="relative cursor-pointer overflow-hidden group"
                   onClick={() => setPortfolio(item)}
                 >
-                  <img
+                  <Image
                     src={
                       item?.imageUrl
-                        ? item?.imageUrl!
-                        : handleYoutubeThumbnail(item.videoLink!)
+                        ? "https://kryptohub-be.herokuapp.com/api/portfolio/getImage/" +
+                          item?.imageUrl
+                        : handleYoutubeThumbnail(item.videoLink!) || ""
                     }
                     alt="portfolio"
                     className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
+                    width={400}
+                    height={400}
                   />
                   <span
                     onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
@@ -169,14 +182,17 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
                   className="relative cursor-pointer overflow-hidden group"
                   onClick={() => setPortfolio(item)}
                 >
-                  <img
+                  <Image
                     src={
                       item?.imageUrl
-                        ? item?.imageUrl!
-                        : handleYoutubeThumbnail(item.videoLink!)
+                        ? "https://kryptohub-be.herokuapp.com/api/portfolio/getImage/" +
+                          item?.imageUrl
+                        : handleYoutubeThumbnail(item.videoLink!) || ""
                     }
                     alt="portfolio"
                     className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
+                    width={400}
+                    height={400}
                   />
                   <span
                     onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}

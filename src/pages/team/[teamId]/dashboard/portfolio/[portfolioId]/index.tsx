@@ -1,11 +1,12 @@
 import { PortfolioApi } from "@/api/portfolio-api";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
 import { EPrivacy, IPortfolio } from "@/type/team/team.type";
-import { DeleteOutline, LockOutlined } from "@mui/icons-material";
+import { ApiOutlined, CalendarMonthOutlined, DeleteOutline, InsertLinkOutlined, LabelOutlined, LockOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Image from "next/image"
 
 const PortfolioDetail = () => {
   const [teamId, setTeamId] = useState<number>(NaN);
@@ -68,17 +69,26 @@ const PortfolioDetail = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
+                <InsertLinkOutlined className="text-sm mr-2" />{" "}
                 {portfolio.clientWebsite}
               </a>
             ) : null}
             {portfolio.category ? (
-              <span className="text-sm">{portfolio.category}</span>
+              <span className="text-sm">
+                {" "}
+                <ApiOutlined className="text-sm mr-2" />
+                {portfolio.category}
+              </span>
             ) : null}
             {portfolio.estimate ? (
-              <span className="text-sm">{portfolio.estimate}</span>
+              <span className="text-sm">
+                <LabelOutlined className="text-sm mr-2" />
+                {portfolio.estimate}
+              </span>
             ) : null}
             {portfolio.startDate ? (
               <span className="text-sm">
+                <CalendarMonthOutlined className="text-sm mr-2" />
                 {portfolio.startDate}
                 {portfolio.endDate ? " to " + portfolio.endDate : null}
               </span>
@@ -88,6 +98,24 @@ const PortfolioDetail = () => {
             <p>{portfolio.description}</p>
           </div>
         </div>
+        {portfolio.imageUrl ? (
+          <div className="w-full flex items-center justify-center">
+            <Image
+              src={
+                "https://kryptohub-be.herokuapp.com/api/portfolio/getImage/" +
+                  portfolio.imageUrl || "/user1.png"
+              }
+              alt="img"
+              width={300}
+              height={300}
+            />
+          </div>
+        ) : null}
+        {portfolio.videoLink ? (
+          <div className="w-full flex items-center justify-center">
+            <a href={portfolio.videoLink}>{portfolio.videoLink}</a>
+          </div>
+        ) : null}
         <div className="flex items-center justify-between p-2">
           <Link href={`#`}>
             <a onClick={handleDelte}>

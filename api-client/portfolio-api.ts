@@ -55,5 +55,24 @@ export const PortfolioApi = {
     } catch (error) { 
         return null;
     }
+  },
+
+  async postImage(image: File | undefined, id: number) {
+    if(isNaN(id) || !image) return null;
+    try {
+      const formData = new FormData();
+      formData.append("file", image);
+      const response = await axiosClient.post(
+        `/portfolio/${id}/image`,
+        formData
+      );
+      return response.data;
+    } catch (error) {
+      return (error as any).response.data.statusCode;
+    }
+  },
+
+  getPortfolioImageUrl(url: string) {
+    return process.env.API_URL + "/api/portfolio/getImage/" + url;
   }
 };

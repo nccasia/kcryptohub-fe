@@ -3,22 +3,21 @@ import { InputFieldCol } from "@/components/portfolio/InputFieldCol";
 import { SelectField } from "@/components/portfolio/SelectField";
 import { useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
+import { UploadImage } from "@/src/layouts/create-team/UploadImage";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
 import { IPortfolio } from "@/type/team/team.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  AddPhotoAlternate,
   DesktopWindowsOutlined,
   LockOutlined,
-  PersonOutlineOutlined,
+  PersonOutlineOutlined
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import * as yup from "yup";
+import * as yup from "yup"; 
 
 const schemaValidation = yup.object().shape({
   companyName: yup.string().required("Company name is required"),
@@ -68,7 +67,7 @@ const schemaValidation = yup.object().shape({
               message: `Please choose a date after ${ctx.parent.startDate}`,
             });
           } else {
-            return true;
+            return true
           }
         }
       ),
@@ -112,6 +111,8 @@ const NewPortfolio = () => {
 
   const [teamId, setTeamId] = useState<number>(NaN);
   const router = useRouter();
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [image, setImage] = useState<File>();
   useEffect(() => {
     if (router.query.teamId) {
       setTeamId(Number(router.query.teamId));
@@ -125,12 +126,14 @@ const NewPortfolio = () => {
     );
     if (data === null) {
       toast.error("Portfolio creation failed!");
-    } else if(data === 404){
+    } else if (data === 404) {
       toast.error("Can't create portfolio for the team that is not yours!");
     } else {
-      reset();
-      toast.success("Portfolio added successfully!");
-      router.push(`/team/${teamId}/dashboard/portfolio/${data.id}`);
+      PortfolioApi.postImage(image, data.id).then((res) => {
+        reset();
+        toast.success("Portfolio added successfully!");
+        router.push(`/team/${teamId}/dashboard/portfolio/${data.id}`);
+      });
     }
   };
 
@@ -138,12 +141,21 @@ const NewPortfolio = () => {
     router.push(`/team/${teamId}/dashboard/portfolio`);
   };
 
+  const handleFileChange = (e: any) => {
+    setImageUrl(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
+  };
+
+  useEffect(() => {
+    trigger('endDate')
+  },[trigger, watch('startDate')])
+
   return (
     <ManagePortfolio>
       <div>
         <div className="lg:border-b-0 border-b mb-2 pb-2">
           <h1 className="text-3xl">Add a New Portfolio Item</h1>
-          <Typography className="text-xl my-3"> 
+          <Typography className="text-xl my-3">
             Share your latest exciting work.
           </Typography>
         </div>
@@ -213,9 +225,6 @@ const NewPortfolio = () => {
                         id="startDate"
                         type="month"
                         {...register("startDate")}
-                        onChange={async () => {
-                          trigger("endDate");
-                        }}
                         className={` border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
                           errors.startDate && "bg-red-200"
                         }`}
@@ -331,71 +340,13 @@ const NewPortfolio = () => {
                       <label htmlFor="imageField" className="pl-1">
                         Image
                       </label>
-                      <div className="hidden items-center justify-between peer-checked:flex">
-                        <div className="flex-[50%]">
-                          <input
-                            id="image"
-                            type="file"
-                            autoComplete="off"
-                            accept="image/*"
-                            className="h-0 w-0 peer"
-                          />
-                          <div className="min-h-[202px] mt-[-30px] max-w-[267px] w-full h-[202px] mr-3 relative border-[#cae0e7] border-dashed border-2 peer-focus:border-cyan-600">
-                            {false ? (
-                              <div>
-                                <Image
-                                  src={"createObjectURL"}
-                                  layout="fill"
-                                  alt=""
-                                  draggable={true}
-                                />
-                              </div>
-                            ) : (
-                              <div>
-                                <div className="md:text-xs lg:text-base  absolute top-0 left-0 w-full h-1/2 flex items-center justify-center">
-                                  Upload Image
-                                </div>
-                                <p className="md:text-xs lg:text-base w-full h-[50px] absolute top-1/2 left-0 text-center">
-                                  Drag and drop an image
-                                </p>
-                                <p className=" md:text-xs lg:text-base w-full h-[50px] absolute top-3/4 left-0 text-center">
-                                  or{" "}
-                                  <label
-                                    htmlFor="image"
-                                    className=" md:text-xs lg:text-base text-cyan-800 cursor-pointer"
-                                  >
-                                    browse for an image
-                                    <span className="text-red-500">
-                                      <AddPhotoAlternate />
-                                    </span>
-                                  </label>
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        <div className="text-gray-500 px-3 py-3 text-sm flex-[50%]">
-                          Your Team Logo must be one of the following image
-                          formats:
-                          <ul className="px-14">
-                            <li className="list-disc">
-                              <a>.JPG</a>
-                            </li>
-                            <li className="list-disc">
-                              <a>.JPEG</a>
-                            </li>
-                            <li className="list-disc">
-                              <a>.SVG</a>
-                            </li>
-                            <li className="list-disc">
-                              <a>.PNG </a>
-                            </li>
-                            <li className="list-disc">
-                              <a>.WEBP</a>
-                            </li>
-                          </ul>
-                          Maximum file size for image: 15MB
-                        </div>
+                      <div className="hidden items-center font-normal justify-between peer-checked:flex">
+                        <UploadImage
+                          createObjectURL={imageUrl}
+                          uploadToClient={handleFileChange}
+                          setCreateObjectURL={setImageUrl}
+                          setImage={setImage}
+                        />
                       </div>
                     </div>
                   </div>
@@ -485,7 +436,10 @@ const NewPortfolio = () => {
               </div>
             </div>
             <div className="flex xxs:flex-row flex-col items-center justify-end p-4">
-              <button className="bg-white px-16 py-3 hover:text-cyan-600 " onClick={handleCancel}>
+              <button
+                className="bg-white px-16 py-3 hover:text-cyan-600 "
+                onClick={handleCancel}
+              >
                 Cancel
               </button>
               <button

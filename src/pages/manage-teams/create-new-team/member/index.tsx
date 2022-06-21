@@ -162,7 +162,6 @@ const Member = () => {
       });
       setEmail("");
       e.preventDefault();
-      console.log(tags);
     }
   };
 

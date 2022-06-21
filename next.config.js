@@ -7,6 +7,8 @@ const nextConfig = {
       "img.shgstatic.com",
       "avatars.githubusercontent.com",
       "www.google.com",
+      "kryptohub-be.herokuapp.com",
+      "img.youtube.com",
     ],
   },
   env: {
