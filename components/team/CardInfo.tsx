@@ -17,7 +17,7 @@ const CardInfo = () => {
       <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center px-4 py-2 md:py-4 cursor-pointer border-r border-[#cae0e7] md:border-0">
         <Link
           href={{
-            pathname: `/team/[teamId]/dashboard/awards`,
+            pathname: `/team/[teamId]/dashboard`,
             query: { teamId: router.query.teamId },
           }}
         >

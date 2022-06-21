@@ -134,12 +134,16 @@ const NewPortfolio = () => {
     }
   };
 
+  const handleCancel = () => {
+    router.push(`/team/${teamId}/dashboard/portfolio`);
+  };
+
   return (
     <ManagePortfolio>
       <div>
         <div className="lg:border-b-0 border-b mb-2 pb-2">
           <h1 className="text-3xl">Add a New Portfolio Item</h1>
-          <Typography className="text-xl my-3">
+          <Typography className="text-xl my-3"> 
             Share your latest exciting work.
           </Typography>
         </div>
@@ -480,14 +484,16 @@ const NewPortfolio = () => {
                 )}
               </div>
             </div>
-            <div className="flex items-center justify-end p-4">
-              <button className="bg-white px-16 py-3 hover:text-cyan-600 ">
+            <div className="flex xxs:flex-row flex-col items-center justify-end p-4">
+              <button className="bg-white px-16 py-3 hover:text-cyan-600 " onClick={handleCancel}>
                 Cancel
               </button>
               <button
                 className="px-4 py-2 w-fit bg-secondary text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
-               hover:bg-transparent hover:text-secondary"
+               hover:bg-transparent hover:text-secondary
+               disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSubmit(onSubmit)}
+                disabled={!isValid}
               >
                 Add Portfolio Item
               </button>
