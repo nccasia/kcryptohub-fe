@@ -1,3 +1,4 @@
+import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import axiosClient from "./axios-client";
 
 export const teamApi = {
@@ -49,5 +50,38 @@ export const teamApi = {
     } catch (error) {
       return null;
     }
+  },
+  async getAllTeam() {
+    const response = await axiosClient({
+      method: "get",
+      url: "/team/getAll",
+    });
+
+    return response.data;
+  },
+  async createTeam(team: ICreateTeam) {
+    const response = await axiosClient({
+      method: "post",
+      url: "/team/create",
+      data: team,
+    });
+    return response.data.data;
+  },
+
+  async deleteTeam(id: string) {
+    const response = await axiosClient({
+      method: "delete",
+      url: `/team/delete/${id}`,
+    });
+    return { id };
+  },
+
+  async updateTeam(team: ICreateTeam) {
+    const response = await axiosClient({
+      method: "put",
+      url: `/team/update/${team.id}`,
+      data: team,
+    });
+    return response.data.data;
   },
 };

@@ -53,7 +53,7 @@ export const Teams = () => {
       parseInt(router.query.page as string) !== currentPage
     ) {
       let page = parseInt(router.query.page as string);
-      console.log(page);
+
       if (page < 1) page = 1;
       setcurrentPage(page);
     }

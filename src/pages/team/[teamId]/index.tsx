@@ -205,17 +205,23 @@ export const getStaticProps: GetStaticProps = async (
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res =
-    process.env.NODE_ENV === "production"
-      ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/getAll`)
-      : await fetch(`${process.env.API_URL}/api/team/getAll`);
-  const teamList = (await res.json()) || [];
-  console.log(teamList);
-  return {
-    paths:
-      teamList.map((team: ITeamProfile) => ({
-        params: { teamId: team.id.toString() },
-      })) || [],
-    fallback: true,
-  };
+  try {
+    const res =
+      process.env.NODE_ENV === "production"
+        ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/getAll`)
+        : await fetch(`${process.env.API_URL}/api/team/getAll`);
+    const teamList = (await res.json()) || [];
+    return {
+      paths:
+        teamList.map((team: ITeamProfile) => ({
+          params: { teamId: team.id.toString() },
+        })) || [],
+      fallback: true,
+    };
+  } catch {
+    return {
+      paths: [],
+      fallback: true,
+    };
+  }
 };

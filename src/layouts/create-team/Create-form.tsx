@@ -1,20 +1,22 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
-import { createTeam, updateTeam } from "@/redux/teamSlice";
+import { saveTeam } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { TimeZone } from "@/type/enum/TimeZone";
 import { Skill } from "@/type/Skill";
 import { yupResolver } from "@hookform/resolvers/yup";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Autocomplete, TextField } from "@mui/material";
-import Image from "next/image";
-import Link from "next/link";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import router from "next/router";
+import { SyntheticEvent, useEffect, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+
 import * as yub from "yup";
+import { Dialog } from "../Dialog";
+import { UploadImage } from "./UploadImage";
 
 const schema = yub.object().shape({
   teamName: yub
@@ -32,12 +34,8 @@ const schema = yub.object().shape({
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Invalid email"
     )
-    .max(70, "Max length is 70 characters!"),
+    .max(50, "Max length is 50 characters!"),
   founded: yub.string().required("Founding Year is required"),
-  workingTime: yub
-    .string()
-    .required("Working Time is required")
-    .max(10, "Invalid length!"),
   linkWebsite: yub
     .string()
     .required("Team Website is required")
@@ -46,7 +44,7 @@ const schema = yub.object().shape({
       /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/,
       "Please enter a valid website format!"
     )
-    .max(70, "Max length is 70 characters!"),
+    .max(50, "Max length is 50 characters!"),
   projectSize: yub
     .string()
     .required("Project Size is required")
@@ -64,6 +62,8 @@ const schema = yub.object().shape({
 
 export interface IProps {
   nextStep: () => void;
+  step: number;
+  setStep: (step: number) => void;
 }
 
 export const CreateForm = (props: IProps) => {
@@ -82,6 +82,29 @@ export const CreateForm = (props: IProps) => {
   const [dataSkill, setData] = useState<Skill[]>([]);
   const skills = useAppSelector(getSkillsSelector);
   const timeZone = Object.values(TimeZone);
+  const [open, setOpen] = useState(false);
+  const selectRange = {
+    totalEmployee: [
+      "Freelance",
+      "2-9",
+      "10-49",
+      "50-249",
+      "250-499",
+      "1,000-9,999",
+      "10,000+",
+    ],
+    projectSize: [
+      "N/A",
+      "$1,000+",
+      "$5,000+",
+      "$10,000+",
+      "$25,000+",
+      "$50,000+",
+      "$75,000+",
+      "$100,000+",
+      "$250,000+",
+    ],
+  };
 
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -135,24 +158,24 @@ export const CreateForm = (props: IProps) => {
     const formSave = {
       ...watch(),
       skills: dataSkill,
-    };
-    dispatch(createTeam(formSave as unknown as ICreateTeam));
+      imageUrl: image || "/user1.png",
+    } as unknown as ICreateTeam;
 
-    props.nextStep();
-
-    console.log(formSave);
-  };
-
-  const handleUpdate = () => {
-    const formUpdate = {
-      id: team.id,
-      ...watch(),
-      skills: dataSkill,
-    };
-
-    dispatch(updateTeam(formUpdate as unknown as ICreateTeam));
+    dispatch(saveTeam(formSave));
     props.nextStep();
   };
+
+  const handleBack = () => {
+    if (props.step === 0 && isDirty) {
+      setOpen(true);
+    } else {
+      router.push("/manage-teams");
+    }
+  };
+
+  const from = Array.from(Array(1950).keys());
+  const to = Array.from(Array(new Date().getFullYear() + 1).keys());
+  const founded = to.filter((i) => !from.includes(i));
 
   useEffect(() => {
     setCount(watch("description").length);
@@ -240,9 +263,11 @@ export const CreateForm = (props: IProps) => {
                   defaultValue={team.teamSize || ""}
                 >
                   <option value="">- Select a value -</option>
-                  <option value="Freelancer">Freelancer</option>
-                  <option value="2 - 9">2 - 9</option>
-                  <option value="10 - 49">10 - 49</option>
+                  {selectRange.totalEmployee.map((cur, index) => (
+                    <option key={index} value={cur}>
+                      {cur}
+                    </option>
+                  ))}
                 </select>
                 {errors?.teamSize && (
                   <div className="flex justify-left mt-1  text-sm ">
@@ -262,9 +287,12 @@ export const CreateForm = (props: IProps) => {
                   defaultValue={team.founded || ""}
                 >
                   <option value="">- Select a value -</option>
-                  <option value="2022">2022</option>
-                  <option value="2019">2019</option>
-                  <option value="2018">2018</option>
+                  {founded &&
+                    founded.map((cur, index) => (
+                      <option key={index} value={cur}>
+                        {cur}
+                      </option>
+                    ))}
                 </select>
                 {errors?.founded && (
                   <div className="flex justify-left mt-1 text-sm ">
@@ -326,78 +354,12 @@ export const CreateForm = (props: IProps) => {
             </div>
           </div>
           <div className="md:flex-[50%] max-w-[1/2]">
-            <div className="my-5">
-              <label className="text-primary justify-between flex block mb-2 py-2 md:py-0">
-                Team Logo
-              </label>
-              <div className="flex items-center justify-between">
-                <div className="flex-[50%]">
-                  <input
-                    id="image"
-                    type="file"
-                    autoComplete="off"
-                    accept="image/*"
-                    className="h-0 w-0 peer"
-                    onChange={uploadToClient}
-                  />
-                  <div className="min-h-[202px] mt-[-30px] max-w-[267px] w-full h-[202px] mr-3 relative border border-[#cae0e7] border-dashed border-2 peer-focus:border-cyan-600">
-                    {createObjectURL ? (
-                      <div>
-                        <Image
-                          src={createObjectURL}
-                          layout="fill"
-                          alt=""
-                          draggable={true}
-                        />
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="md:text-xs lg:text-base  absolute top-0 left-0 w-full h-1/2 flex items-center justify-center">
-                          Upload Image
-                        </div>
-                        <p className="md:text-xs lg:text-base w-full h-[50px] absolute top-1/2 left-0 text-center">
-                          Drag and drop an image
-                        </p>
-                        <p className=" md:text-xs lg:text-base w-full h-[50px] absolute top-3/4 left-0 text-center">
-                          or{" "}
-                          <label
-                            htmlFor="image"
-                            className=" md:text-xs lg:text-base text-cyan-800 cursor-pointer"
-                          >
-                            browse for an image
-                            <span className="text-red-500">
-                              <AddPhotoAlternateIcon />
-                            </span>
-                          </label>
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="text-gray-500 px-3 py-3 text-sm flex-[50%]">
-                  Your Team Logo must be one of the following image formats:
-                  <ul className="px-14">
-                    <li className="list-disc">
-                      <a>.JPG</a>
-                    </li>
-                    <li className="list-disc">
-                      <a>.JPEG</a>
-                    </li>
-                    <li className="list-disc">
-                      <a>.SVG</a>
-                    </li>
-                    <li className="list-disc">
-                      <a>.PNG </a>
-                    </li>
-                    <li className="list-disc">
-                      <a>.WEBP</a>
-                    </li>
-                  </ul>
-                  Maximum file size for image: 15MB
-                </div>
-              </div>
-            </div>
+            <UploadImage
+              uploadToClient={uploadToClient}
+              createObjectURL={createObjectURL}
+              setImage={setImage}
+              setCreateObjectURL={setCreateObjectURL}
+            />
             <div className="my-5">
               <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                 Sales Email
@@ -413,6 +375,34 @@ export const CreateForm = (props: IProps) => {
                 <div className="flex justify-left mt-1 text-sm ">
                   <p className={" block  text-red-500 font-medium"}>
                     {errors?.saleEmail?.message}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <h2 className=" xl:text-3xl text-xl lg:text-2xl mt-5 text-primary font-[400] font-['Roboto, sans-serif'] ">
+              Project Information
+            </h2>
+            <div className="my-5">
+              <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
+                Minimum Project Size
+              </label>
+              <select
+                {...register("projectSize")}
+                className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                defaultValue={team.projectSize || ""}
+              >
+                <option value="">- Select a value -</option>
+                {selectRange.projectSize.map((cur, index) => (
+                  <option key={index} value={cur}>
+                    {cur}
+                  </option>
+                ))}
+              </select>
+              {errors?.projectSize && (
+                <div className="flex justify-left mt-1 text-sm ">
+                  <p className={"block  text-red-500 font-medium"}>
+                    {errors?.projectSize?.message}
                   </p>
                 </div>
               )}
@@ -443,98 +433,44 @@ export const CreateForm = (props: IProps) => {
                 )}
               />
             </div>
-            <h2 className=" xl:text-3xl text-xl lg:text-2xl mt-5 text-primary font-[400] font-['Roboto, sans-serif'] ">
-              Project Information
-            </h2>
-            <div className="my-5">
-              <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                Minimum Project Size
-              </label>
-              <select
-                {...register("projectSize")}
-                className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
-                defaultValue={team.projectSize || ""}
-              >
-                <option value="">- Select a value -</option>
-                <option value="$1,000+">$1,000+</option>
-                <option value="$5,000+">$5,000+</option>
-                <option value="$10,000+">$10,000+</option>
-              </select>
-              {errors?.projectSize && (
-                <div className="flex justify-left mt-1 text-sm ">
-                  <p className={"block  text-red-500 font-medium"}>
-                    {errors?.projectSize?.message}
-                  </p>
-                </div>
-              )}
-            </div>
-            <div className="my-5">
-              <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                Average Hourly Rate
-              </label>
-              <div className="flex items-center">
-                <select
-                  {...register("workingTime")}
-                  className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
-                  defaultValue={team.workingTime || ""}
-                >
-                  <option value="">- Select a value -</option>
-                  <option value="<25$">{"<"} 25$</option>
-                  <option value="$25 - $49">$25 - $49</option>
-                  <option value="$50 - $99">$50 - $99</option>
-                </select>
-
-                <span className="px-3 text-[10px] tracking-widest whitespace-nowrap">
-                  PER HOUR
-                </span>
-              </div>
-
-              {errors?.workingTime && (
-                <div className="flex justify-left mt-1 text-sm ">
-                  <p className={"block  text-red-500 font-medium"}>
-                    {errors?.workingTime?.message}
-                  </p>
-                </div>
-              )}
-            </div>
           </div>
         </div>
 
         <hr className="w-full h-[1px] border border-[#cae0e7]"></hr>
         <div className="flex items-center justify-between md:min-h-[80px] my-5">
-          <Link href="/manage-teams">
-            <a className="text-cyan-700 flex items center">
+          <button
+            type="button"
+            className="text-cyan-700 flex items center"
+            onClick={handleBack}
+          >
+            <a>
               <span className="text-red-600 font-medium">
                 <ChevronLeftIcon />
               </span>
               Back
             </a>
-          </Link>
-          {team.id ? (
-            <button
-              type="button"
-              onClick={handleSubmit(handleUpdate)}
-              className={"py-3 text-white px-3 flex items center bg-[red]"}
-            >
-              Add Skill Distribution
-              <span className=" font-medium">
-                <ChevronRightIcon />
-              </span>
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSubmit(handleSave)}
-              className={"py-3 text-white px-3 flex items center bg-[red]"}
-            >
-              Add Skill Distribution
-              <span className=" font-medium">
-                <ChevronRightIcon />
-              </span>
-            </button>
-          )}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSubmit(handleSave)}
+            className={
+              "py-3 md:text-md text-sm text-white px-3 flex items center bg-[red]"
+            }
+          >
+            Add Skill Distribution
+            <span className=" font-medium">
+              <ChevronRightIcon />
+            </span>
+          </button>
         </div>
       </form>
+      <Dialog
+        open={open}
+        setOpen={setOpen}
+        step={props.step}
+        setStep={props.setStep}
+      />
     </div>
   );
 };
