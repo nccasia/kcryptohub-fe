@@ -89,7 +89,7 @@ export const Contact = () => {
   const onSubmit = () => {
     toast.success('Your message has been sent!');
     reset();
-    router.push('/teams');
+    router.back();
   };
   return (
     <Layout>
