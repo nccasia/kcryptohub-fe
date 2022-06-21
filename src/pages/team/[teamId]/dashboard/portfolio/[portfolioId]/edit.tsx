@@ -477,7 +477,7 @@ const PortfolioEdit = () => {
                 onClick={handleSubmit(onSubmit)}
                 disabled={!isValid}
               >
-                Add Portfolio Item
+                Save Portfolio Item
               </button>
             </div>
           </div>
