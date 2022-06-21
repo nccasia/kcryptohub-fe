@@ -60,7 +60,7 @@ const PortfolioDetail = () => {
   const handleDelte = () => {
     setIsDeleting(true);
   };
-  return (
+  return (  
     <ManagePortfolio>
       <div className="">
         <div className="flex items-center justify-between border-b ">

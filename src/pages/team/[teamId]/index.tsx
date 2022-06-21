@@ -19,6 +19,7 @@ interface ITeamDetailProps {
 const TeamDetail = () => {
   const router = useRouter();
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
+  const userProfile = useAppSelector((state) => state.ProfileReducer);
   const dispatch = useAppDispatch();
   const headerRef = useRef(null);
   const summaryRef = useRef(null);
@@ -26,7 +27,7 @@ const TeamDetail = () => {
   const portfolioRef = useRef(null);
   const [hash, setHash] = useState<string>(ESection[ESection["SUMMARY"]]);
   const { teamId } = router.query;
-
+  const [ownerId, setOwnerId] = useState(NaN);
   useEffect(() => {
     const handleChangeHash = () => {
       const isSummaryVisibile = isInViewport(
@@ -57,9 +58,10 @@ const TeamDetail = () => {
 
   useEffect(() => {
     if (teamId) {
-      teamApi.getTeam(parseInt(teamId as string)).then((teamProfileInfo) => {
-        if(teamProfileInfo){
-          dispatch(setTeamProfile(teamProfileInfo));
+      teamApi.getTeam(parseInt(teamId as string)).then((res) => {
+        if(res){
+          dispatch(setTeamProfile(res.data));
+          setOwnerId(res.userId);
         } else {
           router.push("/404");
         }
@@ -185,7 +187,7 @@ const TeamDetail = () => {
           portfolioRef={portfolioRef}
           handleScrollToSection={handleScrollToSection}
         />
-        <CardInfo />
+        <CardInfo editable={parseInt(userProfile.userInfo.id.toString()) === parseInt(ownerId.toString())}/>
       </div>
     </Layout>
   );

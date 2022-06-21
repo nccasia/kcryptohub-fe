@@ -41,7 +41,7 @@ export const PortfolioApi = {
     if (isNaN(teamId)) return null;
     try {
       const response = await teamApi.getTeam(teamId);
-      return response.portfolios;
+      return response.data.portfolios;
     } catch (error) {
       return null;
     }
