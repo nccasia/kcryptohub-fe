@@ -73,7 +73,7 @@ export const Contact = () => {
       teamApi
         .getTeam(parseInt(router.query.teamId as string) || NaN)
         .then((data) => {
-          setTeamName(data.teamName);
+          setTeamName(data.data.teamName);
         })
         .catch((err) => {});
     }
@@ -96,7 +96,7 @@ export const Contact = () => {
       <div className="md:mx-32 lg:mx-64 mx-4 flex justify-between">
         <div className="max-w-[500px] w-full py-16">
           <div className="">
-            <h1 className="text-5xl text-cy an-900 relative mb-8 after:w-full after:h-[1px] after:absolute after:bottom-[-10px] after:bg-cyan-900 after:left-0">
+            <h1 className="text-5xl text-cy an-900 relative mb-8 pb-4 border-b ">
               {teamName}
             </h1>
             <Typography className="text-lg ">

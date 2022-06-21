@@ -120,18 +120,15 @@ export const Teams = () => {
             setTotalTeam(res.pageable.total);
           }
         });
-      let url = `/teams?page=${currentPage}`;
-      if (filter.search.length > 0) {
-        url += `&search=${filter.search}`;
-      }
-      filter.skill.forEach((sk) => {
-        url += `&skill=${sk}`;
-      });
-
-      filter.timezone.forEach((tz) => {
-        url += `&timezone=${tz}`;
-      });
-      window.history.replaceState({}, "", url);
+      const query = {} as any;
+      if(currentPage > 1 )query.page = currentPage;
+      if(filter.search && filter.search.length > 0)query.search = filter.search;
+      if(filter.skill.length > 0)query.skill = filter.skill;
+      if(filter.timezone.length > 0)query.timezone = filter.timezone;
+      router.push({
+        pathname: '/teams',
+        query,
+      })
       setIsReady(true);
     }
   }, [filter, currentPage, SkillSelect]);
