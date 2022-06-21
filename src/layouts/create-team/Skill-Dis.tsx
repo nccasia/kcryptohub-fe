@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { createTeam, resetFile, resetTeam } from "@/redux/teamSlice";
+import { createTeam, resetTeam } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { Skill } from "@/type/Skill";
 import {
@@ -49,9 +49,19 @@ export interface IProps {
   setStep: (step: number) => void;
   distributionValue: ISkillDistributionValue[];
   open: boolean;
+  imageFile: File | null;
+  setImageFile: (imageFile: File | null) => void;
 }
 
 const skillColor = [
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
   "#1B85CE",
   "#08537E",
   "#267C87",
@@ -143,14 +153,13 @@ export const SkillDis = (props: IProps) => {
   ];
 
   const [skillDistribute, setDataSkillDistribute] = useState<IValue[]>([]);
-  const file = useAppSelector((state) => state.TeamReducer.imageUrl);
+
   const [total, setTotal] = useState(0);
   const [show, setShow] = useState(false);
-  const [change, setChange] = useState(false);
+
   const dispatch = useAppDispatch();
-  const [textName, setTextName] = useState("");
+
   const [openDialog, setOpenDialog] = useState(false);
-  const [valid, setValid] = useState(false);
 
   const getLabel = () => {
     const labels = skillDistribute.map((data) => data.field);
@@ -179,7 +188,7 @@ export const SkillDis = (props: IProps) => {
     const extra = 100 - sum;
     if (
       labels[labels.length - 1] === "Allocate a percentage" &&
-      labels.length % colors.length === 0
+      labels.length % colors.length >= 0
     ) {
       colors[labels.length - 1] = "#F5F5F5";
       return colors;
@@ -263,16 +272,17 @@ export const SkillDis = (props: IProps) => {
       ],
     };
     if (total === 100) {
-      console.log(formData);
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       await dispatch(
-        createTeam({ team: formData as unknown as ICreateTeam, file })
+        createTeam({
+          team: formData as unknown as ICreateTeam,
+          file: props.imageFile,
+        })
       ).then((res) => {
         dispatch(resetTeam());
       });
       (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
 
-      dispatch(resetFile());
       dispatch(getProfile());
       router.push("/manage-teams");
     } else {

@@ -1,15 +1,17 @@
 import { Layout } from "@/src/layouts/layout";
 import Link from "next/link";
-import { deleteTeam, resetFile, resetTeam } from "redux/teamSlice";
+import { deleteTeam, resetTeam } from "redux/teamSlice";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { Team } from "@/type/team/team.type";
+import React from "react";
 
 const ManageTeam = () => {
   const dispatch = useAppDispatch();
   const profile = useAppSelector((state) => state.ProfileReducer.userInfo);
+  const [imageFile, setImageFile] = React.useState<File | null>(null);
 
   return (
     <Layout>
@@ -22,7 +24,6 @@ const ManageTeam = () => {
                 className="bg-red-500 text-white block text-center py-2 xs:px-5 px-1 w-full shadow-lg mx-auto"
                 onClick={() => {
                   dispatch(resetTeam());
-                  dispatch(resetFile());
                 }}
               >
                 New team

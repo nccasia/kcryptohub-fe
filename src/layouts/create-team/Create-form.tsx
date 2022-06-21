@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
-import { saveFile, saveTeam } from "@/redux/teamSlice";
+import { saveTeam } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { TimeZone } from "@/type/enum/TimeZone";
 import { Skill } from "@/type/Skill";
@@ -64,6 +64,8 @@ export interface IProps {
   nextStep: () => void;
   step: number;
   setStep: (step: number) => void;
+  imageFile: File | null;
+  setImageFile: (file: File | null) => void;
 }
 
 export const CreateForm = (props: IProps) => {
@@ -76,9 +78,9 @@ export const CreateForm = (props: IProps) => {
   } = useForm({ resolver: yupResolver(schema), mode: "all" });
   const dispatch = useAppDispatch();
   const team = useAppSelector((state) => state.TeamReducer.value);
-  const file = useAppSelector((state) => state.TeamReducer.imageUrl);
+
   const [createObjectURL, setCreateObjectURL] = useState("");
-  const [image, setImage] = useState(file);
+  const [image, setImage] = useState(props.imageFile);
   const [count, setCount] = useState(0);
   const [dataSkill, setData] = useState<Skill[]>([]);
   const skills = useAppSelector(getSkillsSelector);
@@ -113,13 +115,13 @@ export const CreateForm = (props: IProps) => {
       if (Math.ceil(i.size / 1024) <= 15000 && i.type.includes("image")) {
         setImage(i);
         setCreateObjectURL(URL.createObjectURL(i));
-        dispatch(saveFile(i));
+        props.setImageFile(i);
       } else if (!i.type.includes("image")) {
         toast.error("File upload must have .jpg, .jpge, .png!");
-        setImage(undefined);
+        setImage(null);
       } else {
         toast.error("File upload is over 15MB!");
-        setImage(undefined);
+        setImage(null);
       }
     }
   };
@@ -164,7 +166,6 @@ export const CreateForm = (props: IProps) => {
 
     dispatch(saveTeam(formSave));
 
-    console.log(file);
     console.log(formSave);
     props.nextStep();
   };
@@ -290,10 +291,12 @@ export const CreateForm = (props: IProps) => {
                   className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
                   defaultValue={team.founded || ""}
                 >
-                  <option value="">- Select a value -</option>
+                  <option className="text-sm" value="">
+                    - Select a value -
+                  </option>
                   {founded &&
                     founded.map((cur, index) => (
-                      <option key={index} value={cur}>
+                      <option className="text-sm" key={index} value={cur}>
                         {cur}
                       </option>
                     ))}
@@ -357,14 +360,15 @@ export const CreateForm = (props: IProps) => {
               </div>
             </div>
           </div>
-          <div className="md:flex-[50%] max-w-[1/2]">
+          <div className="md:flex-[50%]  max-w-[1/2]">
             <UploadImage
               uploadToClient={uploadToClient}
               createObjectURL={createObjectURL}
               setImage={setImage}
               setCreateObjectURL={setCreateObjectURL}
-              image={file || image || undefined}
+              image={props.imageFile || image || undefined}
             />
+
             <div className="my-5">
               <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                 Sales Email
