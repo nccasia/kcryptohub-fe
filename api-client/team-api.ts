@@ -85,6 +85,10 @@ export const teamApi = {
     return response.data.data;
   },
 
+  getTeamImageUrl(path: string) {
+    return process.env.API_URL + "/api/team/getImage/" + path;
+  }, 
+  
   async postImage(image: File, teamid: number) {
     const formData = new FormData();
     formData.append("file", image);
