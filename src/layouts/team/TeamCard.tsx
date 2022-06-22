@@ -1,25 +1,20 @@
 import { teamApi } from '@/api/team-api';
-import { useAppSelector } from '@/redux/hooks';
 
 import { Team } from '@/type/team/team.type';
 import {
     AccessAlarmOutlined,
     ApartmentOutlined,
-    ApiOutlined,
-    ArrowForwardIosOutlined,
-    AvTimerOutlined,
-    BookmarkBorderOutlined,
-    BookmarkOutlined,
-    CheckCircleOutlined,
+    ApiOutlined, AvTimerOutlined,
+    BookmarkBorderOutlined, CheckCircleOutlined,
     ContactlessOutlined,
     GroupsOutlined,
     InfoOutlined,
     LabelOutlined,
-    LanguageOutlined,
+    LanguageOutlined
 } from '@mui/icons-material';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconHover } from './IconHover';
 const skillColor = [
     'bg-red-500',
@@ -59,17 +54,21 @@ interface Props {
 export const TeamCard = (props: Props) => {
     const team = props.team;
     const [teamImgSrc, setTeamImgSrc] = useState(team.imageUrl? teamApi.getTeamImageUrl(team.imageUrl) : '/user1.png');
+    useEffect(() => {
+      if (team.imageUrl) {
+        setTeamImgSrc(teamApi.getTeamImageUrl(team.imageUrl));
+      }
+    }, [team.imageUrl]);
     return (
         <div className="flex md:flex-row w-full border-y my-4 shadow-md flex-col">
             <div className="flex-1">
                 <div className="flex xs:flex-row flex-col items-start border-b relative">
                     <div className="flex items-center justify-center p-2">
                         <Image
+                            key={team.id}
                             width={50}
                             height={50}
                             src={teamImgSrc}
-                            placeholder="blur"
-                            blurDataURL="/user1.png"
                             onError={() => setTeamImgSrc('/user1.png')}
                             alt="logo"
                         />

@@ -9,6 +9,7 @@ import { Modal } from "@mui/material";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { getUserInfoSelector, getSkillsSelector } from "@/redux/selector";
+import { signOut } from "next-auth/react";
 type IHeaderProps = {
   children: ReactNode;
 };
@@ -29,7 +30,13 @@ const Layout = (props: IHeaderProps) => {
             setOpenWarning(true);
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          console.error(err)
+          localStorage.removeItem("accessToken");
+          signOut({
+            callbackUrl: "/",
+          });
+        });
     }
   }, [userInfo, dispatch]);
   useEffect(() => {
