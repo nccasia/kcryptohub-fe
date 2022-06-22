@@ -187,6 +187,9 @@ export const CreateForm = (props: IProps) => {
   return (
     <div>
       {" "}
+      <h2 className=" xl:text-3xl text-xl lg:text-2xl text-primary font-[400] font-['Roboto, sans-serif'] ">
+        Enter Team Information
+      </h2>
       <form>
         <div className="md:flex w-full">
           <div className="md:flex-[50%] md:mr-5">

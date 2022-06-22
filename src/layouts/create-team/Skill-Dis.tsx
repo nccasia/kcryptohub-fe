@@ -39,18 +39,11 @@ export interface IValue {
   quantity: number | 0;
 }
 export interface IProps {
-  listSkill: Skill[];
-  setListSkill: (listSkill: Skill[]) => void;
-  handleChange: () => void;
-  skills: Skill[];
-  value: number;
-  setValue: (value: number) => void;
   step: number;
   setStep: (step: number) => void;
-  distributionValue: ISkillDistributionValue[];
-  open: boolean;
-  imageFile: File | null;
-  setImageFile: (imageFile: File | null) => void;
+  imageFile?: File | null;
+  setImageFile?: (imageFile: File | null) => void;
+  title?: string;
 }
 
 const skillColor = [
@@ -276,7 +269,7 @@ export const SkillDis = (props: IProps) => {
       await dispatch(
         createTeam({
           team: formData as unknown as ICreateTeam,
-          file: props.imageFile,
+          file: props.imageFile || null,
         })
       ).then((res) => {
         dispatch(resetTeam());
@@ -285,8 +278,10 @@ export const SkillDis = (props: IProps) => {
 
       dispatch(getProfile());
       router.push("/manage-teams");
+    } else if (total > 100) {
+      toast.error("Total percentage exceed 100%");
     } else {
-      toast.error("Total percentage is not 100%");
+      toast.error("Total percentage less than 100%");
     }
   };
 
@@ -301,6 +296,9 @@ export const SkillDis = (props: IProps) => {
     <div>
       <div className="md:flex w-full">
         <div className="md:flex-[50%] md:mr-5">
+          <h2 className=" xl:text-3xl text-xl lg:text-2xl text-primary font-[400] font-['Roboto, sans-serif'] ">
+            {props.title} Skill Distribution
+          </h2>
           <p className="text-sm text-gray-600 py-5">
             Give buyers a sense of how you spend your time. You must add at
             least one (1) Skill Distribution to your Company Profile.
@@ -373,9 +371,9 @@ export const SkillDis = (props: IProps) => {
           </div>
         </div>
         <div className="md:flex-[50%] md:mr-5">
-          <p className="xl:text-3xl text-xl lg:text-2xl">
-            Selected Skill Distribution
-          </p>
+          <h2 className=" xl:text-3xl text-xl lg:text-2xl text-primary font-[400] font-['Roboto, sans-serif'] ">
+            Select Skill Distribution
+          </h2>
           <div className="flex justify-center items-center w-full">
             <div className="py-5 md:max-w-[280px] md:max-h-[280px] w-[340px] h-[340px]">
               <Pie

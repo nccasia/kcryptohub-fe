@@ -41,6 +41,7 @@ export const UploadImage = ({
               <div>
                 <div className="absolute top-0 right-0 translate-y-[-30%] translate-x-[30%] z-10 ">
                   <button
+                    type="button"
                     className="h-[30px] flex justify-center items-center w-[30px] rounded-full bg-gray-400 text-white"
                     onClick={(e) => {
                       e.preventDefault();
