@@ -8,9 +8,11 @@ import BadgeHover from "./BadgeHover";
 
 export interface SkillDistributionProps {
   skillDistributionRef: MutableRefObject<null | HTMLElement>;
+  editable: boolean;
 }
 const SkillDistribution = ({
   skillDistributionRef,
+  editable,
 }: SkillDistributionProps) => {
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
 
@@ -31,7 +33,7 @@ const SkillDistribution = ({
     >
       <h2 className="text-xl text-[#154369] mb-5">Skill Distribution</h2>
 
-      {!teamProfile.skillDistribution?.length && (
+      {!teamProfile.skillDistribution?.length && editable && (
         <div className="flex items-center gap-x-2">
           <Link href="#">
             <a className="text-sm text-[#3e839e] hover:underline">

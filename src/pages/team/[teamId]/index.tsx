@@ -190,11 +190,15 @@ const TeamDetail = () => {
         </section>
         <Summary summaryRef={summaryRef} />
         <Separate />
-        <SkillDistribution skillDistributionRef={skillDistributionRef} />
+        <SkillDistribution
+          skillDistributionRef={skillDistributionRef}
+          editable={userProfile.userInfo.id === ownerId}
+        />
         <Separate />
         <Portfolio
           portfolioRef={portfolioRef}
           handleScrollToSection={handleScrollToSection}
+          editable={userProfile.userInfo.id === ownerId}
         />
         <CardInfo editable={userProfile.userInfo.id === ownerId} />
       </div>

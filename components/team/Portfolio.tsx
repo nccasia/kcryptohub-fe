@@ -10,8 +10,13 @@ import { PortfolioApi } from "@/api/portfolio-api";
 export interface PortfolioProps {
   portfolioRef: MutableRefObject<null | HTMLElement>;
   handleScrollToSection: Function;
+  editable: boolean;
 }
-const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
+const Portfolio = ({
+  portfolioRef,
+  handleScrollToSection,
+  editable,
+}: PortfolioProps) => {
   const router = useRouter();
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const [isShowAll, setIsShowAll] = useState<boolean>(false);
@@ -119,7 +124,7 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
           </div>
         </div>
       )}
-      {!teamProfile.portfolios?.length && (
+      {!teamProfile.portfolios?.length && editable && (
         <div className="flex items-center gap-x-2">
           <Link
             href={{
