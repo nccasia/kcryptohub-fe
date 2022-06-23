@@ -13,7 +13,7 @@ export const PortfolioApi = {
       });
       return response.data;
     } catch (error) {
-      return (error as any).response.data.statusCode;
+      return (error as any).response?.data.statusCode;
     }
   },
 
@@ -41,7 +41,7 @@ export const PortfolioApi = {
     if (isNaN(teamId)) return null;
     try {
       const response = await teamApi.getTeam(teamId);
-      return response.portfolios;
+      return response.data.portfolios;
     } catch (error) {
       return null;
     }
@@ -55,5 +55,24 @@ export const PortfolioApi = {
     } catch (error) { 
         return null;
     }
+  },
+
+  async postImage(image: File | undefined, id: number) {
+    if(isNaN(id) || !image) return null;
+    try {
+      const formData = new FormData();
+      formData.append("file", image);
+      const response = await axiosClient.post(
+        `/portfolio/${id}/image`,
+        formData
+      );
+      return response.data;
+    } catch (error) {
+      return (error as any).response.data.statusCode;
+    }
+  },
+
+  getPortfolioImageUrl(url: string) {
+    return process.env.API_URL + "/api/portfolio/getImage/" + url;
   }
 };

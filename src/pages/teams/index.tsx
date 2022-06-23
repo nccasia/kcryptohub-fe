@@ -89,11 +89,12 @@ export const Teams = () => {
   }, [router.isReady]);
   useEffect(() => {
     if (isReady && SkillSelect.length > 0) {
+      setTeams([]);
       teamApi
         .getListTeamsQuery(
           filter.search,
           currentPage,
-          5,
+          10,
           filter.sortBy.toString(),
           filter.skill
             .map(
@@ -105,10 +106,6 @@ export const Teams = () => {
         )
         .then((data) => {
           const res = data as PageResponse;
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
           const maxPage = Math.ceil(res.pageable.total / res.pageable.size);
           if (currentPage > maxPage && maxPage > 0) {
             setcurrentPage(maxPage);
@@ -119,22 +116,24 @@ export const Teams = () => {
             setTotalPage(maxPage);
             setTotalTeam(res.pageable.total);
           }
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
         });
-      let url = `/teams?page=${currentPage}`;
-      if (filter.search.length > 0) {
-        url += `&search=${filter.search}`;
-      }
-      filter.skill.forEach((sk) => {
-        url += `&skill=${sk}`;
-      });
-
-      filter.timezone.forEach((tz) => {
-        url += `&timezone=${tz}`;
-      });
-      window.history.replaceState({}, "", url);
+      const query = {} as any;
+      if(currentPage > 1 )query.page = currentPage;
+      if(filter.search && filter.search.length > 0)query.search = filter.search;
+      if(filter.skill.length > 0)query.skill = filter.skill;
+      if(filter.timezone.length > 0)query.timezone = filter.timezone;
+      router.push({
+        pathname: '/teams',
+        query,
+      })
       setIsReady(true);
     }
   }, [filter, currentPage, SkillSelect]);
+
 
   const handleSearch = (event: any) => {
     setFilter({ ...filter, search: event.target.value });

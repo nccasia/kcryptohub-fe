@@ -9,6 +9,7 @@ import {
   useContext, useEffect, useState
 } from "react";
 import { Provider, useSelector } from "react-redux";
+import DashboardLayout from "../dashboard/Dashboard";
 import { Layout } from "../layout";
 
 const theme = createTheme({
@@ -56,7 +57,7 @@ export const ManagePortfolio = (props: Props) => {
     };
   }, [router.query]);
   return (
-    <Layout>
+    <DashboardLayout>
       <ThemeProvider theme={theme}>
         <div className="w-full h-full bg-gray-200 p-4">
           <Container fixed maxWidth="lg" className="h-full">
@@ -101,6 +102,6 @@ export const ManagePortfolio = (props: Props) => {
           </Container>
         </div>
       </ThemeProvider>
-    </Layout>
+    </DashboardLayout>
   );
 };

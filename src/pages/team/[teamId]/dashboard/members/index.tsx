@@ -159,7 +159,6 @@ const Members = () => {
       });
       setEmail("");
       e.preventDefault();
-      console.log(tags);
     }
   };
 

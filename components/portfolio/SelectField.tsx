@@ -36,14 +36,14 @@ export const SelectField = ({
             errors && "bg-red-200"
           }`}
         >
-          <option value="" className="text-gray-500 bg-white">
+          <option value="" className="text-gray-500 bg-white xs:max-w-[200px]">
             {placeholder}
           </option>
           {valueList.map((value) => (
             <option
               key={value}
               value={value}
-              className="bg-white"
+              className="bg-white xs:max-w-[200px]"
             >
               {value}
             </option>

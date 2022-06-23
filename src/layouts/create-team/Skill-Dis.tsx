@@ -279,9 +279,17 @@ export const SkillDis = (props: IProps) => {
       dispatch(getProfile());
       router.push("/manage-teams");
     } else if (total > 100) {
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       toast.error("Total percentage exceed 100%");
+      setTimeout(() => {
+        (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
+      }, 1500);
     } else {
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       toast.error("Total percentage less than 100%");
+      setTimeout(() => {
+        (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
+      }, 1500);
     }
   };
 
