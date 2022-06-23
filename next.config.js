@@ -9,6 +9,7 @@ const nextConfig = {
       "www.google.com",
       "kryptohub-be.herokuapp.com",
       "img.youtube.com",
+      "localhost",
     ],
   },
   env: {

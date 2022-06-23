@@ -63,15 +63,15 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
       )}
       {portfolio && (
         <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-3 mb-5">
-          <div>
+          <div className="hidden md:block w-full">
             {portfolio?.imageUrl ? (
-              <Image
-                src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
-                alt="portfolio"
-                className="hidden md:block w-full"
-                width={400}
-                height={400}
-              />
+              <div className="w-full h-[400px] mt-2 mb-3 relative">
+                <Image
+                  src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
+                  alt="portfolio"
+                  layout="fill"
+                />
+              </div>
             ) : null}
             {portfolio?.videoLink && (
               <iframe
@@ -92,7 +92,7 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
               className="absolute top-0 right-0 w-10 h-10 cursor-pointer"
               onClick={() => setPortfolio(null)}
             />
-            {portfolio?.imageUrl?  (
+            {portfolio?.imageUrl ? (
               <Image
                 src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
                 alt="portfolio"
@@ -100,7 +100,7 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
                 width={400}
                 height={400}
               />
-            ): null}
+            ) : null}
             {portfolio?.videoLink && (
               <iframe
                 src={handleYoutubeEmbedUrl(portfolio.videoLink!)}
@@ -154,7 +154,8 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
                     src={
                       item?.imageUrl
                         ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
-                        : handleYoutubeThumbnail(item.videoLink!) || "/user1.png"
+                        : handleYoutubeThumbnail(item.videoLink!) ||
+                          "/user1.png"
                     }
                     alt="portfolio"
                     className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
