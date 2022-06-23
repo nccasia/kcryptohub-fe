@@ -1,6 +1,7 @@
 import { PortfolioApi } from "@/api/portfolio-api";
 import { InputFieldCol } from "@/components/portfolio/InputFieldCol";
 import { SelectField } from "@/components/portfolio/SelectField";
+import { SelectRadio } from "@/components/portfolio/SelectRadio";
 import { useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { UploadImage } from "@/src/layouts/create-team/UploadImage";
@@ -204,12 +205,13 @@ const NewPortfolio = () => {
                   placeholder="Enter a Title for this Portfolio Item"
                   watch={watch("title")}
                 />
-                <SelectField
+                <SelectRadio
                   label={"Category"}
                   register={register("category")}
                   valueList={skills.map((skill) => skill.skillName)}
                   placeholder="Select a category"
                   errors={errors.category}
+                  watch={watch("category")}
                 />
                 <SelectField
                   label={"Estimated Project Size"}
