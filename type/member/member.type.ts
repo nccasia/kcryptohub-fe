@@ -3,25 +3,23 @@ import { IProfile } from "../profile/profile.type";
 export interface IMember {
   id: number;
   emailAddress: string;
-  inviteStatus: MemberInviteStatus.PENDING | MemberInviteStatus;
-  role: MemberRole.MEMBER | MemberRole;
+  inviteStatus: string;
+  role: string;
   createAt: string;
   updateAt: string;
-  teamId: number;
-  userId: IProfile | null
-}
-
-export enum MemberInviteStatus {
-  PENDING = 'pending',
-  REJECTED = 'rejected',
-  ACCEPTED = 'accepted',
-}
-export enum MemberRole {
-  LEADER = 'leader',
-  MEMBER = 'member'
+  user: IProfile | null
 }
 
 export interface IMemberAddRequest {
   teamId: number;
-  member: IMember[];
+  members: emails[];
+}
+export interface emails {
+  email: string,
+  role: string
+}
+
+export interface IRemoveMember {
+  teamId: number;
+  memberId: number;
 }

@@ -54,15 +54,15 @@ export interface ISkillDistribution {
 
 export interface IPortfolio {
   companyName: string;
-  imageUrl: string | null;
-  videoLink: string | null;
-  content: string;
-  clientWebsite: string;
+  imageUrl?: string | null;
+  videoLink?: string | null;
+  content?: string;
+  clientWebsite?: string;
   title: string;
   category: string;
   estimate: string;
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
   description: string;
   privacy: number;
 }
@@ -84,5 +84,12 @@ export interface ITeamProfile {
   status: true;
   skills: ISkill[];
   skillDistribution: ISkillDistribution[];
-  portfolio: IPortfolio[];
+  portfolios: IPortfolio[];
+}
+
+
+export enum EPrivacy {
+  "SHOW_ALL" = 1 ,
+  "CONFIDENTAL" = 2,
+  "HIDDEN" = 3,
 }
