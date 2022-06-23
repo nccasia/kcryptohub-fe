@@ -59,7 +59,7 @@ const TeamDetail = () => {
   useEffect(() => {
     if (teamId) {
       teamApi.getTeam(parseInt(teamId as string)).then((res) => {
-        if(res){
+        if (res) {
           dispatch(setTeamProfile(res.data));
           setOwnerId(res.userId);
         } else {

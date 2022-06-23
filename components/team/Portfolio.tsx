@@ -53,7 +53,7 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
   return (
     <section
       ref={portfolioRef}
-      className="px-8 py-3 border-x border-b border-[#cae0e7]"
+      className="px-8 py-3 border-x border-b border-[#cae0e7] "
     >
       <h2 className="text-xl text-[#154369] mb-5">Portfolio</h2>
       {handleRenderClientKey() && (
@@ -62,39 +62,60 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
         </p>
       )}
       {portfolio && (
-        <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-3 mb-5">
-          <div className="hidden md:block w-full">
-            {portfolio?.imageUrl ? (
-              <div className="w-full h-[400px] mt-2 mb-3 relative">
-                <Image
-                  src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
-                  alt="portfolio"
-                  layout="fill"
+        <div className="w-5/6">
+          <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-3 mb-5">
+            <div className="hidden md:block w-full">
+              {portfolio?.imageUrl ? (
+                <div className="w-full h-[300px] mt-2 mb-3 relative">
+                  <Image
+                    src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
+                    alt="portfolio"
+                    layout="fill"
+                  />
+                </div>
+              ) : null}
+              {portfolio?.videoLink && (
+                <iframe
+                  src={handleYoutubeEmbedUrl(portfolio.videoLink)}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="hidden md:block w-full h-80"
                 />
-              </div>
-            ) : null}
-            {portfolio?.videoLink && (
-              <iframe
-                src={handleYoutubeEmbedUrl(portfolio.videoLink)}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="hidden md:block w-full h-80"
+              )}
+            </div>
+            <div className="relative">
+              <h2 className="text-primary text-2xl pr-8 md:pr-6 mb-10">
+                {portfolio?.title}
+              </h2>
+              <CloseIcon
+                className="absolute top-0 right-0 w-10 h-10 cursor-pointer"
+                onClick={() => setPortfolio(null)}
               />
-            )}
-          </div>
-          <div className="relative">
-            <h2 className="text-primary text-2xl pr-8 md:pr-6 mb-10">
-              {portfolio?.title}
-            </h2>
-            <CloseIcon
-              className="absolute top-0 right-0 w-8 h-8 cursor-pointer"
-              onClick={() => setPortfolio(null)}
-            />
-            <p className="text-sm text-[#6A797D] whitespace-pre-line">
-              {portfolio?.description}
-            </p>
+              <p className="text-sm text-[#6A797D] whitespace-pre-line mb-2">
+                {portfolio?.description}
+              </p>
+              {portfolio?.imageUrl ? (
+                <div className="w-full block md:hidden h-[300px] mt-2 mb-3 relative">
+                  <Image
+                    src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
+                    alt="portfolio"
+                    layout="fill"
+                  />
+                </div>
+              ) : null}
+              {portfolio?.videoLink && (
+                <iframe
+                  src={handleYoutubeEmbedUrl(portfolio.videoLink!)}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="block md:hidden mb-3 w-full h-80"
+                />
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -122,64 +143,70 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
         </div>
       )}
       {teamProfile.portfolios?.length > 0 && (
-        <div className="grid xxs:grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 mb-5">
-          {teamProfile.portfolios.map((item, index) => {
-            if (index <= 5) {
-              return (
-                <div
-                  key={index}
-                  className="relative cursor-pointer overflow-hidden group"
-                  onClick={() => setPortfolio(item)}
-                >
-                  <Image
-                    src={
-                      item?.imageUrl
-                        ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
-                        : handleYoutubeThumbnail(item.videoLink!) ||
-                          "/user1.png"
-                    }
-                    alt="portfolio"
-                    className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
-                    width={400}
-                    height={400}
-                  />
-                  <span
-                    onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
-                    className="px-5 opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        <div className="w-5/6">
+          <div className="grid xxs:grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 mb-5">
+            {teamProfile.portfolios.map((item, index) => {
+              if (index <= 5) {
+                return (
+                  <div
+                    key={index}
+                    className="relative cursor-pointer overflow-hidden group"
+                    onClick={() => setPortfolio(item)}
                   >
-                    {item.title}
-                  </span>
-                </div>
-              );
-            } else if (isShowAll) {
-              return (
-                <div
-                  key={index}
-                  className="relative cursor-pointer overflow-hidden group"
-                  onClick={() => setPortfolio(item)}
-                >
-                  <Image
-                    src={
-                      item?.imageUrl
-                        ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
-                        : handleYoutubeThumbnail(item.videoLink!) || ""
-                    }
-                    alt="portfolio"
-                    className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
-                    width={400}
-                    height={400}
-                  />
-                  <span
-                    onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
-                    className="opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                    <Image
+                      src={
+                        item?.imageUrl
+                          ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
+                          : handleYoutubeThumbnail(item.videoLink!) ||
+                            "/user1.png"
+                      }
+                      alt="portfolio"
+                      className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
+                      width={400}
+                      height={400}
+                    />
+                    <span
+                      onClick={() =>
+                        handleScrollToSection(ESection["PORTFOLIO"])
+                      }
+                      className="px-5 opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                    >
+                      {item.title}
+                    </span>
+                  </div>
+                );
+              } else if (isShowAll) {
+                return (
+                  <div
+                    key={index}
+                    className="relative cursor-pointer overflow-hidden group"
+                    onClick={() => setPortfolio(item)}
                   >
-                    {item.title}
-                  </span>
-                </div>
-              );
-            }
-            return null;
-          })}
+                    <Image
+                      src={
+                        item?.imageUrl
+                          ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
+                          : handleYoutubeThumbnail(item.videoLink!) || ""
+                      }
+                      alt="portfolio"
+                      className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
+                      width={400}
+                      height={400}
+                    />
+                    <span
+                      onClick={() =>
+                        handleScrollToSection(ESection["PORTFOLIO"])
+                      }
+                      className="opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                    >
+                      {item.title}
+                    </span>
+                  </div>
+                );
+              }
+              return null;
+            })}
+          </div>
         </div>
       )}
 
