@@ -89,28 +89,9 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
               {portfolio?.title}
             </h2>
             <CloseIcon
-              className="absolute top-0 right-0 w-10 h-10 cursor-pointer"
+              className="absolute top-0 right-0 w-8 h-8 cursor-pointer"
               onClick={() => setPortfolio(null)}
             />
-            {portfolio?.imageUrl ? (
-              <Image
-                src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
-                alt="portfolio"
-                className="block md:hidden w-full mb-3"
-                width={400}
-                height={400}
-              />
-            ) : null}
-            {portfolio?.videoLink && (
-              <iframe
-                src={handleYoutubeEmbedUrl(portfolio.videoLink!)}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="block md:hidden mb-3 w-full h-80"
-              />
-            )}
             <p className="text-sm text-[#6A797D] whitespace-pre-line">
               {portfolio?.description}
             </p>
