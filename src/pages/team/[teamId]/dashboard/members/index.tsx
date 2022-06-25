@@ -356,19 +356,19 @@ const Members = () => {
                     <span className="pr-2">
                       <AccountCircleIcon className="w-5 h-5" />
                     </span>
-                    {!Owner ? (
-                      <div className="bg-[#1b08086c] w-full h-[10px] rounded-3xl animate-pulse"></div>
+                    {Object.entries(Owner).length !== 0 ? (
+                      <span className="text-[#17313b]">{Owner.username}</span>
                     ) : (
-                      <span>{Owner.username}</span>
+                      <div className="bg-[#1b08086c] w-full h-[10px] rounded-3xl animate-pulse"></div>
                     )}
                   </div>
                   <div className="w-1/5 px-4 py-2 text-sm font-normal">
-                    {!Owner ? (
-                      <div className="bg-[#1b08086c] w-full h-[10px] rounded-3xl animate-pulse"></div>
-                    ) : (
+                    {Object.entries(Owner).length !== 0 ? (
                       <span className="text-[#17313b]">
                         {Owner.emailAddress}
                       </span>
+                    ) : (
+                      <div className="bg-[#1b08086c] w-full h-[10px] rounded-3xl animate-pulse"></div>
                     )}
                   </div>
                   <div className="w-1/5 px-4 py-2 text-sm font-normal">
@@ -378,69 +378,67 @@ const Members = () => {
                   <div className="w-1/5 px-4 py-2 text-sm font-normal"></div>
                 </div>
                 <ul className="w-full">
-                  {memberList?.length ? (
-                    memberList.map((item, index) => (
-                      <li
-                        key={index}
-                        className="border-[1px] py-3 flex items-center justify-center"
-                      >
-                        <div className="w-1/5 px-2 py-2 text-sm font-normal">
-                          <span className="pr-2">
-                            <AccountCircleIcon className="w-5 h-5" />
-                          </span>
-                          <span>
-                            {item.user === null ? "-" : item.user?.username}
-                          </span>
-                        </div>
-                        <div className="w-1/5 px-4 py-2 text-sm font-normal">
-                          <span className="text-[#17313b]">
-                            {item.emailAddress}
-                          </span>
-                        </div>
-                        <div className="w-1/5 px-4 py-2 text-sm font-normal">
-                          <span className="text-[#17313b]">{item.role}</span>
-                        </div>
-                        <div className="w-1/5 px-4 py-2 text-sm font-normal">
-                          {item.inviteStatus === InviteStatus.PENDING ? (
-                            <div className="bg-[#cae0e7] rounded-3xl px-2 py-1 w-[110px] text-center">
-                              <span className="!text-xs">Invite Pending</span>
-                            </div>
-                          ) : item.inviteStatus === InviteStatus.ACCEPTED ? (
-                            <div className="bg-[#d51512] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
-                              <span className="!text-xs">Accepted</span>
-                            </div>
-                          ) : (
-                            <div className="bg-[#ff3d2e] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
-                              <span className="!text-xs">invite Expired</span>
-                            </div>
-                          )}
-                        </div>
-                        <div className="w-1/5 px-4 py-2 text-sm font-normal">
-                          {item.inviteStatus === InviteStatus.REJECTED ? (
-                            <>
-                              <span className="cursor-pointer hover:underline text-blue-500">
-                                Resend
-                              </span>
-                              {" | "}
-                              <span
-                                onClick={() => deleteMember(item.id)}
-                                className="cursor-pointer hover:underline text-blue-500"
-                              >
-                                Remove
-                              </span>
-                            </>
-                          ) : (
+                  {memberList?.map((item, index) => (
+                    <li
+                      key={index}
+                      className="border-[1px] py-3 flex items-center justify-center"
+                    >
+                      <div className="w-1/5 px-2 py-2 text-sm font-normal">
+                        <span className="pr-2">
+                          <AccountCircleIcon className="w-5 h-5" />
+                        </span>
+                        <span>
+                          {item.user === null ? "-" : item.user?.username}
+                        </span>
+                      </div>
+                      <div className="w-1/5 px-4 py-2 text-sm font-normal">
+                        <span className="text-[#17313b]">
+                          {item.emailAddress}
+                        </span>
+                      </div>
+                      <div className="w-1/5 px-4 py-2 text-sm font-normal">
+                        <span className="text-[#17313b]">{item.role}</span>
+                      </div>
+                      <div className="w-1/5 px-4 py-2 text-sm font-normal">
+                        {item.inviteStatus === InviteStatus.PENDING ? (
+                          <div className="bg-[#cae0e7] rounded-3xl px-2 py-1 w-[110px] text-center">
+                            <span className="!text-xs">Invite Pending</span>
+                          </div>
+                        ) : item.inviteStatus === InviteStatus.ACCEPTED ? (
+                          <div className="bg-[#d51512] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
+                            <span className="!text-xs">Accepted</span>
+                          </div>
+                        ) : (
+                          <div className="bg-[#ff3d2e] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
+                            <span className="!text-xs">invite Expired</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="w-1/5 px-4 py-2 text-sm font-normal">
+                        {item.inviteStatus === InviteStatus.REJECTED ? (
+                          <>
+                            <span className="cursor-pointer hover:underline text-blue-500">
+                              Resend
+                            </span>
+                            {" | "}
                             <span
                               onClick={() => deleteMember(item.id)}
                               className="cursor-pointer hover:underline text-blue-500"
                             >
                               Remove
                             </span>
-                          )}
-                        </div>
-                      </li>
-                    ))
-                  ) : (
+                          </>
+                        ) : (
+                          <span
+                            onClick={() => deleteMember(item.id)}
+                            className="cursor-pointer hover:underline text-blue-500"
+                          >
+                            Remove
+                          </span>
+                        )}
+                      </div>
+                    </li>
+                  )) ?? (
                     <>
                       <li className="border-[1px] py-3 flex items-center justify-center animate-pulse">
                         <div className="w-1/5 px-2 py-2 text-sm font-normal inline-flex items-center">
@@ -461,6 +459,13 @@ const Members = () => {
                         <div className=" w-1/5 px-4 py-2 text-sm font-normal flex">
                           <span className="bg-[#1b08086c] w-full h-[10px] rounded-3xl"></span>
                         </div>
+                      </li>
+                    </>
+                  )}
+                  {memberList?.length === 0 && (
+                    <>
+                      <li className="border-[1px] py-3 flex items-center justify-center w-full">
+                        <span>No Data</span>
                       </li>
                     </>
                   )}

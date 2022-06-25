@@ -31,7 +31,6 @@ export const memberApi = {
     }
   },
   async removeMember({ teamId, memberId }: IRemoveMember) {
-    if (isNaN(teamId)) return null;
     try {
       const response = await axiosClient.delete(`/members/remove-member?teamId=${teamId}&memberId=${memberId}`)
       return response.data;

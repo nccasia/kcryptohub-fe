@@ -3,7 +3,6 @@ import axiosClient from "@/api/axios-client";
 import { memberApi } from "@/api/member-api";
 import { IMember, IMemberAddRequest, IRemoveMember } from "@/type/member/member.type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { stat } from "fs";
 import { toast } from "react-toastify";
 
 export const getMemberList = createAsyncThunk(
