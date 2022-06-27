@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   addMember,
   getMemberList,
+  joinTeam,
   removeMember,
   resetSuccess,
 } from "@/redux/memberSlice";
@@ -131,6 +132,10 @@ const Members = () => {
     }
   }, [actionSuccess, dispatch, teamId]);
 
+  // useEffect(() => {
+  //   dispatch(joinTeam(parseInt(teamId as string)));
+  // }, [dispatch, teamId]);
+
   const handleSubmit = async () => {
     const data: IMemberAddRequest = {
       teamId: parseInt(teamId as string),
@@ -206,7 +211,7 @@ const Members = () => {
                         />
                       ))}
 
-                      <textarea
+                      <TextareaAutosize
                         className={
                           !success
                             ? "w-full h-20 outline-none rounded border-none resize-none p-1 "
