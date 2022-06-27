@@ -101,9 +101,6 @@ const Members = () => {
       setDisableIvt(true);
     }
     setEmail(e.target.value);
-    if (e.target.value.match(mailRegexp)) {
-      setDisableIvt(true);
-    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
