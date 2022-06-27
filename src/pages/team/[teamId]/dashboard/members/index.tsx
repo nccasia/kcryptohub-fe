@@ -18,7 +18,7 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Image from "next/image";
 import iconchecked from "@/src/assets/image/icon-check.svg";
@@ -80,7 +80,6 @@ const Members = () => {
   const [openStatus, setOpenStatus] = useState<boolean>(false);
   const [disableIvt, setDisableIvt] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-
   const dispatch = useAppDispatch();
   const actionSuccess = useSelector(
     (state: RootState) => state.MemberReducer.success
@@ -98,6 +97,9 @@ const Members = () => {
   const handleOpenStatus = () => setOpenStatus(!openStatus);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.match(mailRegexp)) {
+      setDisableIvt(true);
+    }
     setEmail(e.target.value);
     if (e.target.value.match(mailRegexp)) {
       setDisableIvt(true);
@@ -133,9 +135,9 @@ const Members = () => {
     }
   }, [actionSuccess, dispatch, teamId]);
 
-  useEffect(() => {
-    dispatch(joinTeam(parseInt(teamId as string)));
-  }, [dispatch, teamId]);
+  // useEffect(() => {
+  //   dispatch(joinTeam(parseInt(teamId as string)));
+  // }, [dispatch, teamId]);
 
   const handleSubmit = async () => {
     const data: IMemberAddRequest = {
@@ -212,7 +214,7 @@ const Members = () => {
                         />
                       ))}
 
-                      <textarea
+                      <TextareaAutosize
                         className={
                           !success
                             ? "w-full h-20 outline-none rounded border-none resize-none p-1 "
