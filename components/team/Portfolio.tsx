@@ -6,6 +6,7 @@ import Link from "next/link";
 import React, { MutableRefObject, useState } from "react";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import { useRouter } from "next/router";
+import { PortfolioApi } from "@/api/portfolio-api";
 export interface PortfolioProps {
   portfolioRef: MutableRefObject<null | HTMLElement>;
   handleScrollToSection: Function;
@@ -63,13 +64,15 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
       {portfolio && (
         <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-3 mb-5">
           <div>
-            {portfolio?.imageUrl && (
-              <img
-                src={portfolio?.imageUrl!}
+            {portfolio?.imageUrl ? (
+              <Image
+                src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
                 alt="portfolio"
                 className="hidden md:block w-full"
+                width={400}
+                height={400}
               />
-            )}
+            ) : null}
             {portfolio?.videoLink && (
               <iframe
                 src={handleYoutubeEmbedUrl(portfolio.videoLink)}
@@ -89,13 +92,15 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
               className="absolute top-0 right-0 w-10 h-10 cursor-pointer"
               onClick={() => setPortfolio(null)}
             />
-            {portfolio?.imageUrl && (
-              <img
-                src={portfolio?.imageUrl!}
+            {portfolio?.imageUrl?  (
+              <Image
+                src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
                 alt="portfolio"
                 className="block md:hidden w-full mb-3"
+                width={400}
+                height={400}
               />
-            )}
+            ): null}
             {portfolio?.videoLink && (
               <iframe
                 src={handleYoutubeEmbedUrl(portfolio.videoLink!)}
@@ -145,14 +150,16 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
                   className="relative cursor-pointer overflow-hidden group"
                   onClick={() => setPortfolio(item)}
                 >
-                  <img
+                  <Image
                     src={
                       item?.imageUrl
-                        ? item?.imageUrl!
-                        : handleYoutubeThumbnail(item.videoLink!)
+                        ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
+                        : handleYoutubeThumbnail(item.videoLink!) || "/user1.png"
                     }
                     alt="portfolio"
                     className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
+                    width={400}
+                    height={400}
                   />
                   <span
                     onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
@@ -169,14 +176,16 @@ const Portfolio = ({ portfolioRef, handleScrollToSection }: PortfolioProps) => {
                   className="relative cursor-pointer overflow-hidden group"
                   onClick={() => setPortfolio(item)}
                 >
-                  <img
+                  <Image
                     src={
                       item?.imageUrl
-                        ? item?.imageUrl!
-                        : handleYoutubeThumbnail(item.videoLink!)
+                        ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
+                        : handleYoutubeThumbnail(item.videoLink!) || ""
                     }
                     alt="portfolio"
                     className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
+                    width={400}
+                    height={400}
                   />
                   <span
                     onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}

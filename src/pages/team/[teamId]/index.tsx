@@ -11,12 +11,15 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { teamApi } from "@/api/team-api";
 interface ITeamDetailProps {
   teamProfileInfo: ITeamProfile;
 }
-const TeamDetail = ({ teamProfileInfo }: ITeamDetailProps) => {
+const TeamDetail = () => {
   const router = useRouter();
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
+  const userProfile = useAppSelector((state) => state.ProfileReducer);
   const dispatch = useAppDispatch();
   const headerRef = useRef(null);
   const summaryRef = useRef(null);
@@ -24,7 +27,7 @@ const TeamDetail = ({ teamProfileInfo }: ITeamDetailProps) => {
   const portfolioRef = useRef(null);
   const [hash, setHash] = useState<string>(ESection[ESection["SUMMARY"]]);
   const { teamId } = router.query;
-
+  const [ownerId, setOwnerId] = useState(NaN);
   useEffect(() => {
     const handleChangeHash = () => {
       const isSummaryVisibile = isInViewport(
@@ -54,8 +57,17 @@ const TeamDetail = ({ teamProfileInfo }: ITeamDetailProps) => {
   }, []);
 
   useEffect(() => {
-    dispatch(setTeamProfile(teamProfileInfo));
-  }, [dispatch, teamId, teamProfileInfo]);
+    if (teamId) {
+      teamApi.getTeam(parseInt(teamId as string)).then((res) => {
+        if(res){
+          dispatch(setTeamProfile(res.data));
+          setOwnerId(res.userId);
+        } else {
+          router.push("/404");
+        }
+      });
+    }
+  }, [dispatch, teamId]);
 
   const isInViewport = (
     offsetHeight: number,
@@ -103,7 +115,16 @@ const TeamDetail = ({ teamProfileInfo }: ITeamDetailProps) => {
           className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
         >
           <div className="md:max-w-[500px] w-full flex">
-            <img src={teamProfile.imageUrl} alt="avatar" />
+            <Image
+              src={
+                teamProfile.imageUrl
+                  ? teamApi.getTeamImageUrl(teamProfile.imageUrl)
+                  : "/user1.png"
+              }
+              alt="avatar"
+              width={50}
+              height={50}
+            />
             <h1 className="w-full bg-primary pl-4 flex items-center">
               <Link href="#">
                 <a className="text-3xl text-white">{teamProfile.teamName}</a>
@@ -175,7 +196,7 @@ const TeamDetail = ({ teamProfileInfo }: ITeamDetailProps) => {
           portfolioRef={portfolioRef}
           handleScrollToSection={handleScrollToSection}
         />
-        <CardInfo />
+        <CardInfo editable={userProfile.userInfo.id === ownerId} />
       </div>
     </Layout>
   );
@@ -183,39 +204,45 @@ const TeamDetail = ({ teamProfileInfo }: ITeamDetailProps) => {
 
 export default TeamDetail;
 
-export const getStaticProps: GetStaticProps = async (
-  context: GetStaticPropsContext
-) => {
-  const teamId = context.params?.teamId;
-  const res =
-    process.env.NODE_ENV === "production"
-      ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/get/${teamId}`)
-      : await fetch(`${process.env.API_URL}/api/team/get/${teamId}`);
-  const teamProfile = await res.json();
-  if (teamProfile?.statusCode == 404) {
-    return {
-      notFound: true,
-    };
-  }
-  return {
-    props: {
-      teamProfileInfo: teamProfile,
-    },
-  };
-};
+// export const getStaticProps: GetStaticProps = async (
+//   context: GetStaticPropsContext
+// ) => {
+//   const teamId = context.params?.teamId;
+//   const res =
+//     process.env.NODE_ENV === "production"
+//       ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/get/${teamId}`)
+//       : await fetch(`${process.env.API_URL}/api/team/get/${teamId}`);
+//   const teamProfile = await res.json();
+//   if (teamProfile?.statusCode == 404) {
+//     return {
+//       notFound: true,
+//     };
+//   }
+//   return {
+//     props: {
+//       teamProfileInfo: teamProfile,
+//     },
+//   };
+// };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res =
-    process.env.NODE_ENV === "production"
-      ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/getAll`)
-      : await fetch(`${process.env.API_URL}/api/team/getAll`);
-  const teamList = (await res.json()) || [];
-  console.log(teamList);
-  return {
-    paths:
-      teamList.map((team: ITeamProfile) => ({
-        params: { teamId: team.id.toString() },
-      })) || [],
-    fallback: true,
-  };
-};
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   try {
+//     const res =
+//       process.env.NODE_ENV === "production"
+//         ? await fetch(`https://kryptohub-be.herokuapp.com/api/team/getAll`)
+//         : await fetch(`${process.env.API_URL}/api/team/getAll`);
+//     const teamList = (await res.json()) || [];
+//     return {
+//       paths:
+//         teamList.map((team: ITeamProfile) => ({
+//           params: { teamId: team.id.toString() },
+//         })) || [],
+//       fallback: true,
+//     };
+//   } catch {
+//     return {
+//       paths: [],
+//       fallback: true,
+//     };
+//   }
+// };

@@ -3,16 +3,14 @@ import { useAppSelector } from "@/redux/hooks";
 import { getUserInfoSelector } from "@/redux/selector";
 import { Layout } from "@/src/layouts/layout";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  LocalPhoneOutlined,
-  MessageOutlined
-} from "@mui/icons-material";
+import { LocalPhoneOutlined, MessageOutlined } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 interface IFromData {
@@ -37,12 +35,12 @@ const conatctSchemaValidation = Yup.object({
   companyname: Yup.string()
     .max(30, "Team name does not exceed 30 character!")
     .required(`Please enter your team name!`),
-  contactemail: Yup.string().required('You not yet have a contact email, please update your profile!'),
-  phone: Yup.string().matches(
-    /^(\s*|\d+)$/,
-    "Please enter valid phone number!"
-  )
-  .max(15, "Phone number does not exceed 15 number!"),
+  contactemail: Yup.string().required(
+    "You not yet have a contact email, please update your profile!"
+  ),
+  phone: Yup.string()
+    .matches(/^(\s*|\d+)$/, "Please enter valid phone number!")
+    .max(15, "Phone number does not exceed 15 number!"),
   subject: Yup.string()
     .required("Please choose one subject!")
     .max(subjectExample.length, "Subject is invalid!")
@@ -72,27 +70,33 @@ export const Contact = () => {
 
   useEffect(() => {
     if (router.query.teamId) {
-      teamApi.getTeam(parseInt(router.query.teamId as string)||NaN).then((data) => {
-        setTeamName(data.teamName);
-      }).catch((err) => {
-
-      });
+      teamApi
+        .getTeam(parseInt(router.query.teamId as string) || NaN)
+        .then((data) => {
+          setTeamName(data.data.teamName);
+        })
+        .catch((err) => {});
     }
   }, [router]);
   useEffect(() => {
-    setValue("contactemail", userInfo.emailAddress || '', {shouldValidate: true});
-    if(userInfo.username)setValue("fullname", userInfo.username, { shouldValidate: true });
-  },[getValues, setValue, userInfo.emailAddress, userInfo.username])
+    setValue("contactemail", userInfo.emailAddress || "", {
+      shouldValidate: true,
+    });
+    if (userInfo.username)
+      setValue("fullname", userInfo.username, { shouldValidate: true });
+  }, [getValues, setValue, userInfo.emailAddress, userInfo.username]);
 
   const onSubmit = () => {
-    alert(`A message have send to ${teamName} \nYour name: ${getValues().fullname} \nContact Email: ${getValues().contactemail} \nSubject: ${subjectExample[getValues().subject]} \nMessage: ${getValues().message} \n${`Phone: ${getValues().phone}`}`);
+    toast.success('Your message has been sent!');
+    reset();
+    router.back();
   };
   return (
     <Layout>
       <div className="md:mx-32 lg:mx-64 mx-4 flex justify-between">
         <div className="max-w-[500px] w-full py-16">
           <div className="">
-            <h1 className="text-5xl text-cy an-900 relative mb-8 after:w-full after:h-[1px] after:absolute after:bottom-[-10px] after:bg-cyan-900 after:left-0">
+            <h1 className="text-5xl text-cy an-900 relative mb-8 pb-4 border-b ">
               {teamName}
             </h1>
             <Typography className="text-lg ">

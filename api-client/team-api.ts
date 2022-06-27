@@ -1,3 +1,4 @@
+import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import axiosClient from "./axios-client";
 
 export const teamApi = {
@@ -49,5 +50,56 @@ export const teamApi = {
     } catch (error) {
       return null;
     }
+  },
+  async getAllTeam() {
+    const response = await axiosClient({
+      method: "get",
+      url: "/team/getAll",
+    });
+
+    return response.data;
+  },
+  async createTeam(team: ICreateTeam) {
+    const response = await axiosClient({
+      method: "post",
+      url: "/team/create",
+      data: team,
+    });
+    return response.data.data;
+  },
+
+  async deleteTeam(id: string) {
+    const response = await axiosClient({
+      method: "delete",
+      url: `/team/delete/${id}`,
+    });
+    return { id };
+  },
+
+  async updateTeam(team: ICreateTeam) {
+    const response = await axiosClient({
+      method: "put",
+      url: `/team/update/${team.id}`,
+      data: team,
+    });
+    return response.data.data;
+  },
+
+  getTeamImageUrl(path: string) {
+    return process.env.API_URL + "/api/team/getImage/" + path;
+  }, 
+  
+  async postImage(image: File, teamid: number) {
+    const formData = new FormData();
+    formData.append("file", image);
+    const response = await axiosClient({
+      method: "post",
+      url: `/team/${teamid}/image`,
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data.data;
   },
 };
