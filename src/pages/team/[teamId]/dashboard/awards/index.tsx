@@ -24,8 +24,8 @@ const Awards = () => {
           <p className="text-sm text-[#6A797D] mb-3">
             Add an award below to tell us where your company has been recognized
             for its accomplishments. This is an opportunity to share your recent
-            achievements and industry recognitions with Clutch and potential
-            buyers. You do not need to add any Clutch Awards you have received;
+            achievements and industry recognitions with KryptoHub and potential
+            buyers. You do not need to add any KryptoHub Awards you have received;
             we already know about all of those!
           </p>
           <p className="text-sm text-[#6A797D] mb-3">
