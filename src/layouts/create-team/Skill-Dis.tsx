@@ -11,6 +11,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import CloseIcon from "@mui/icons-material/Close";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import SaveIcon from "@mui/icons-material/Save";
 import { Slider, Typography } from "@mui/material";
 import { Chart as ChartJS, Legend, Title, Tooltip } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -24,6 +25,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { getProfile } from "@/redux/profileSlice";
+import LoadingButton from "@mui/lab/LoadingButton";
+
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend);
 ChartJS.defaults.plugins.tooltip;
 
@@ -153,6 +156,7 @@ export const SkillDis = (props: IProps) => {
   const dispatch = useAppDispatch();
 
   const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getLabel = () => {
     const labels = skillDistribute.map((data) => data.field);
@@ -266,10 +270,11 @@ export const SkillDis = (props: IProps) => {
     };
     if (total === 100) {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
+      console.log(props.imageFile);
       await dispatch(
         createTeam({
           team: formData as unknown as ICreateTeam,
-          file: props.imageFile || null,
+          file: props.imageFile || null
         })
       ).then((res) => {
         dispatch(resetTeam());
@@ -280,16 +285,20 @@ export const SkillDis = (props: IProps) => {
       router.push("/manage-teams");
     } else if (total > 100) {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
+      setLoading(true);
       toast.error("Total percentage exceed 100%");
       setTimeout(() => {
         (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
-      }, 1500);
+        setLoading(false);
+      }, 3100);
     } else {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
+      setLoading(true);
       toast.error("Total percentage less than 100%");
       setTimeout(() => {
         (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
-      }, 1500);
+        setLoading(false);
+      }, 3100);
     }
   };
 
@@ -516,10 +525,24 @@ export const SkillDis = (props: IProps) => {
           Back
         </button>
 
+        <LoadingButton
+          className={!loading ? "hidden" : "py-3 px-3 flex items center"}
+          loading
+          loadingPosition="start"
+          startIcon={<SaveIcon />}
+          variant="outlined"
+        >
+          Save Changes
+        </LoadingButton>
+
         <button
           type="button"
           onClick={handleSubmit(handleSaveCreateTeam)}
-          className={"py-3 text-white px-3 flex items center bg-[red]"}
+          className={
+            +loading
+              ? "hidden"
+              : "py-3 text-white px-3 flex items center bg-[red]"
+          }
           ref={buttonRef}
         >
           Save Changes

@@ -96,9 +96,6 @@ export const teamApi = {
       method: "post",
       url: `/team/${teamid}/image`,
       data: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
     });
     return response.data.data;
   },
