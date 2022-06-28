@@ -289,9 +289,7 @@ const Members = () => {
                         })}
                         placeholder="name@profilename.com..."
                         value={email}
-                        // onChange={handleChange}
                         onKeyDown={handleKeyDown}
-                        // onKeyUp={(e: React.BaseSyntheticEvent) => addTags(e)}
                       />
                     </div>
                     <div className={!success ? "mr-10 hidden" : "mr-10"}>

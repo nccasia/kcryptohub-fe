@@ -25,7 +25,6 @@ export const memberApi = {
   async joinTeam(teamId: number) {
     try {
       const response = await axiosClient.post("/members/join-team", { teamId: teamId });
-      console.log(response.data);
       return response.data;
     } catch (error: any) {
       toast.error(error.response.data.message, {
