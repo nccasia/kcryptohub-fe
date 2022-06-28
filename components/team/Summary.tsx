@@ -57,21 +57,6 @@ const Summary = ({ summaryRef }: SummaryProps) => {
               {teamProfile.projectSize}
             </span>
           </div>
-          <div className="border-b border-l md:border-0 border-[#cae0e7] p-2 md:p-0 flex items-center gap-x-4 md:mb-3 group md:w-fit">
-            <div className="w-[16px] h-[16px] flex-none relative">
-              <Image
-                width="16"
-                height="16"
-                src={IconMap.Clock.src}
-                alt="avatar"
-                layout="responsive"
-              />
-              <BadgeHover label="Working time" />
-            </div>
-            <span className="text-sm text-[#6a7a7e]">
-              {teamProfile.workingTime}
-            </span>
-          </div>
           <div className="border-t border-r md:border-0 border-[#cae0e7] p-2 md:p-0 flex items-center gap-x-4 md:mb-3 group md:w-fit">
             <div className="w-[16px] h-[16px] flex-none relative">
               <Image
