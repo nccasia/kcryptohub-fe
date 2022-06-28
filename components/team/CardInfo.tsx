@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { IconMap } from "../IconSVG/IconMap";
 
-const CardInfo = ({ editable }: { editable : boolean}) => {
+const CardInfo = ({ editable }: { editable: boolean }) => {
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const router = useRouter();
   const handleVisitWebsite = (url: string) => {

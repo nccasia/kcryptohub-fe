@@ -40,23 +40,12 @@ const CreateNewTeam = () => {
   const skills = useAppSelector(getSkillsSelector);
 
   const [step, setStep] = useState(0);
-  const [value, setValue] = useState(0);
-  const [open, setOpen] = React.useState(false);
-  const [listSkill, setListSkill] = useState<Skill[]>([]);
   const [imageFile, setImageFile] = React.useState<File | null>(null);
-
-  const [distributionValue, setDistributionValue] = useState<
-    ISkillDistributionValue[]
-  >([{ field: "", quantity: 0 } as ISkillDistributionValue]);
 
   const nextStep = () => {
     if (step === 0) {
       setStep((cur) => cur + 1);
     }
-  };
-
-  const handleChange = () => {
-    setOpen((prev) => !prev);
   };
 
   useEffect(() => {
@@ -113,9 +102,6 @@ const CreateNewTeam = () => {
                 </div>
               </div>
             </div>
-            <h2 className=" xl:text-3xl text-xl lg:text-2xl text-primary font-[400] font-['Roboto, sans-serif'] ">
-              {step === 0 ? "Enter Team Information" : "Add Skill Distribution"}
-            </h2>
           </div>
           {step === 0 && (
             <CreateForm
@@ -128,18 +114,11 @@ const CreateNewTeam = () => {
           )}
           {step === 1 && (
             <SkillDis
-              setListSkill={setListSkill}
               setStep={setStep}
-              skills={skills}
               step={step}
-              distributionValue={distributionValue}
-              listSkill={listSkill}
-              value={value}
-              setValue={setValue}
-              handleChange={handleChange}
-              open={open}
               imageFile={imageFile}
               setImageFile={setImageFile}
+              title={"Add"}
             />
           )}
         </Container>

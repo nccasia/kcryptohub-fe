@@ -11,6 +11,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import CloseIcon from "@mui/icons-material/Close";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import SaveIcon from "@mui/icons-material/Save";
 import { Slider, Typography } from "@mui/material";
 import { Chart as ChartJS, Legend, Title, Tooltip } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -24,6 +25,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { getProfile } from "@/redux/profileSlice";
+import LoadingButton from "@mui/lab/LoadingButton";
+
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend);
 ChartJS.defaults.plugins.tooltip;
 
@@ -39,18 +42,11 @@ export interface IValue {
   quantity: number | 0;
 }
 export interface IProps {
-  listSkill: Skill[];
-  setListSkill: (listSkill: Skill[]) => void;
-  handleChange: () => void;
-  skills: Skill[];
-  value: number;
-  setValue: (value: number) => void;
   step: number;
   setStep: (step: number) => void;
-  distributionValue: ISkillDistributionValue[];
-  open: boolean;
-  imageFile: File | null;
-  setImageFile: (imageFile: File | null) => void;
+  imageFile?: File | null;
+  setImageFile?: (imageFile: File | null) => void;
+  title?: string;
 }
 
 const skillColor = [
@@ -160,6 +156,7 @@ export const SkillDis = (props: IProps) => {
   const dispatch = useAppDispatch();
 
   const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getLabel = () => {
     const labels = skillDistribute.map((data) => data.field);
@@ -273,10 +270,11 @@ export const SkillDis = (props: IProps) => {
     };
     if (total === 100) {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
+      console.log(props.imageFile);
       await dispatch(
         createTeam({
           team: formData as unknown as ICreateTeam,
-          file: props.imageFile,
+          file: props.imageFile || null
         })
       ).then((res) => {
         dispatch(resetTeam());
@@ -285,8 +283,22 @@ export const SkillDis = (props: IProps) => {
 
       dispatch(getProfile());
       router.push("/manage-teams");
+    } else if (total > 100) {
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
+      setLoading(true);
+      toast.error("Total percentage exceed 100%");
+      setTimeout(() => {
+        (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
+        setLoading(false);
+      }, 3100);
     } else {
-      toast.error("Total percentage is not 100%");
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
+      setLoading(true);
+      toast.error("Total percentage less than 100%");
+      setTimeout(() => {
+        (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
+        setLoading(false);
+      }, 3100);
     }
   };
 
@@ -301,6 +313,9 @@ export const SkillDis = (props: IProps) => {
     <div>
       <div className="md:flex w-full">
         <div className="md:flex-[50%] md:mr-5">
+          <h2 className=" xl:text-3xl text-xl lg:text-2xl text-primary font-[400] font-['Roboto, sans-serif'] ">
+            {props.title} Skill Distribution
+          </h2>
           <p className="text-sm text-gray-600 py-5">
             Give buyers a sense of how you spend your time. You must add at
             least one (1) Skill Distribution to your Company Profile.
@@ -373,9 +388,9 @@ export const SkillDis = (props: IProps) => {
           </div>
         </div>
         <div className="md:flex-[50%] md:mr-5">
-          <p className="xl:text-3xl text-xl lg:text-2xl">
-            Selected Skill Distribution
-          </p>
+          <h2 className=" xl:text-3xl text-xl lg:text-2xl text-primary font-[400] font-['Roboto, sans-serif'] ">
+            Select Skill Distribution
+          </h2>
           <div className="flex justify-center items-center w-full">
             <div className="py-5 md:max-w-[280px] md:max-h-[280px] w-[340px] h-[340px]">
               <Pie
@@ -510,10 +525,24 @@ export const SkillDis = (props: IProps) => {
           Back
         </button>
 
+        <LoadingButton
+          className={!loading ? "hidden" : "py-3 px-3 flex items center"}
+          loading
+          loadingPosition="start"
+          startIcon={<SaveIcon />}
+          variant="outlined"
+        >
+          Save Changes
+        </LoadingButton>
+
         <button
           type="button"
           onClick={handleSubmit(handleSaveCreateTeam)}
-          className={"py-3 text-white px-3 flex items center bg-[red]"}
+          className={
+            +loading
+              ? "hidden"
+              : "py-3 text-white px-3 flex items center bg-[red]"
+          }
           ref={buttonRef}
         >
           Save Changes

@@ -167,16 +167,13 @@ export const TeamCard = (props: Props) => {
             <div className="">
               <span className="font-medium ">Description: </span>
               <p className="max-h-[8rem] overflow-hidden text-ellipsis">
-                {team.description?.length > 100
+                {team.description.length > 100
                   ? team.description.slice(0, 100) + "..."
                   : team.description}
-                {team.description?.length > 100 ? (
-                  <span
-                    className="text-cyan-400 cursor-pointer"
-                    onClick={() => {}}
-                  >
-                    More
-                  </span>
+                {team.description.length > 100 ? (
+                  <Link href={`/team/${team.id}`}>
+                    <span className="text-cyan-400 cursor-pointer">More</span>
+                  </Link>
                 ) : null}
               </p>
             </div>
