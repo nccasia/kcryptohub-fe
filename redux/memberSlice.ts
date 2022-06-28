@@ -1,15 +1,17 @@
+
 import axiosClient from "@/api/axios-client";
 import { memberApi } from "@/api/member-api";
-import { IMember } from "@/type/member/member.type";
+import { IMember, IMemberAddRequest, IRemoveMember } from "@/type/member/member.type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 export const getMemberList = createAsyncThunk(
   "getMemberList",
-  async () => {
+  async (teamId: number) => {
+    if (isNaN(teamId)) return null;
     try {
-      const data = await memberApi.getAllMemberLists();
-      return data;
+      const response = await memberApi.getAllMemberLists(teamId)
+      return response;
     }
     catch (error) {
       return [];
@@ -32,9 +34,9 @@ export const joinTeam = createAsyncThunk(
 
 export const addMember = createAsyncThunk(
   "addMember",
-  async (members: IMember[]) => {
+  async ({ teamId, members }: IMemberAddRequest) => {
     try {
-      const data = await memberApi.addMember(1, members);
+      const data = await memberApi.addMember({ teamId, members });
       return data;
     }
     catch (error) {
@@ -43,18 +45,35 @@ export const addMember = createAsyncThunk(
   }
 )
 
+export const removeMember = createAsyncThunk(
+  "removeMember",
+  async ({ teamId, memberId }: IRemoveMember) => {
+    try {
+      const data = await memberApi.removeMember({ teamId, memberId });
+      return data
+    } catch (error) {
+      return [];
+    }
+  }
+)
+
 interface initialState {
   member: IMember[];
+  success: boolean;
 }
 
 const initialState: initialState = {
   member: [],
+  success: false
 }
 
 export const memberSlice = createSlice({
   name: "member",
   initialState,
   reducers: {
+    resetSuccess: (state) => {
+      state.success = false;
+    }
   },
   extraReducers(builder) {
     builder
@@ -70,9 +89,60 @@ export const memberSlice = createSlice({
         });
       })
       .addCase(getMemberList.fulfilled, (state, action) => {
-        state.member = action.payload.content;
+        state.member = action.payload?.content;
+      })
+    builder
+      .addCase(addMember.rejected, (state, action) => {
+        toast.error(action.error.message, {
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .addCase(addMember.fulfilled, (state, action) => {
+        state.success = true
+        toast.success("invite Success!", {
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+
+      })
+    builder
+      .addCase(removeMember.rejected, (state, action) => {
+        toast.error(action.error.message, {
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .addCase(removeMember.fulfilled, (state, action) => {
+        state.success = true;
+        toast.success("Delete Success!", {
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
       })
   },
 })
 
-export const MemberReducer = memberSlice.reducer;
+export const { resetSuccess } = memberSlice.actions;
+
+export default memberSlice.reducer;
