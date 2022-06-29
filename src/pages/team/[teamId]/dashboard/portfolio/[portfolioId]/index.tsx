@@ -73,6 +73,7 @@ const PortfolioDetail = () => {
           <div className="flex flex-col items-start border-r p-4">
             {portfolio.clientWebsite ? (
               <a
+              className="break-all"
                 href={portfolio.clientWebsite}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -102,7 +103,7 @@ const PortfolioDetail = () => {
               </span>
             ) : null}
           </div>
-          <div className="p-4 break-all">
+          <div className="p-4">
             <p>{portfolio.description}</p>
           </div>
         </div>
