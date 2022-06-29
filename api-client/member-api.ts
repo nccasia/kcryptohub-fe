@@ -1,4 +1,5 @@
 import { IMemberAddRequest, IRemoveMember } from "@/type/member/member.type";
+import { toast } from "react-toastify";
 import axiosClient from "./axios-client";
 
 
@@ -23,11 +24,19 @@ export const memberApi = {
   },
   async joinTeam(teamId: number) {
     try {
-      const response = await axiosClient.post(`/members/join?teamId=${teamId}`);
+      const response = await axiosClient.post("/members/join-team", { teamId: teamId });
+      toast.success("Joined team successfully", {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return response.data;
-    }
-    catch (error) {
-      return [];
+    } catch (error) {
+      return []
     }
   },
   async removeMember({ teamId, memberId }: IRemoveMember) {

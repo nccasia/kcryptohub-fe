@@ -22,9 +22,10 @@ export const getMemberList = createAsyncThunk(
 export const joinTeam = createAsyncThunk(
   "joinTeam",
   async (teamId: number) => {
+    if (isNaN(teamId)) return null;
     try {
-      const data = await memberApi.joinTeam(teamId);
-      return data;
+      const response = await memberApi.joinTeam(teamId)
+      return response;
     }
     catch (error) {
       return [];
@@ -140,6 +141,21 @@ export const memberSlice = createSlice({
           progress: undefined,
         })
       })
+    builder.addCase(joinTeam.rejected, (state, action) => {
+      toast.error(action.error.message, {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+    )
+    builder.addCase(joinTeam.fulfilled, (state, action) => {
+      state.success = true;
+    })
   },
 })
 
