@@ -39,21 +39,13 @@ const JoinTeamID = () => {
   );
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
+
     if (!accessToken) {
       router.push("/login");
     }
 
     if (accessToken) {
       dispatch(joinTeam(parseInt(teamId as string)));
-      toast.success("Joined team successfully", {
-        position: "bottom-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
     }
   }, [dispatch, router, teamId]);
 
@@ -67,7 +59,9 @@ const JoinTeamID = () => {
   return (
     <DashboardLayout>
       <ThemeProvider theme={theme}>
-        <Container></Container>
+        <Container>
+          <h1>Joining team...</h1>
+        </Container>
       </ThemeProvider>
     </DashboardLayout>
   );

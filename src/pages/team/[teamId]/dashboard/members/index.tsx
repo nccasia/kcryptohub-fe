@@ -100,9 +100,9 @@ const Members = () => {
   });
   const Owner = useAppSelector(getUserInfoSelector);
 
-  const teamSize = useSelector(
-    (state: RootState) => state.ProfileReducer.userInfo.team
-  );
+  // const teamSize = useSelector(
+  //   (state: RootState) => state.ProfileReducer.userInfo.team
+  // );
 
   // const handleTeamSize = () => {
   //   const team = teamSize?.find(
@@ -179,10 +179,14 @@ const Members = () => {
             role: "member",
           },
         ];
+        if (newTag.length >= 0) {
+          setDisableIvt(true);
+        }
 
         return newTag;
       });
       setEmail("".trim());
+
       e.preventDefault();
     }
   };
@@ -212,10 +216,11 @@ const Members = () => {
   const handleClose = () => {
     setSuccess(false);
     setTags([]);
-    setEmail("".trim());
+    setDisableIvt(false);
   };
   const handleDeleteTag = (index: number) => {
     setTags((prev) => prev.filter((_, i) => i !== index));
+    setDisableIvt(false);
   };
 
   const deleteMember = (index: number) => {
@@ -255,7 +260,7 @@ const Members = () => {
                       className={
                         !success
                           ? `outline-none  border-[1px] border-green-400 ${
-                              errors.email && "border-red-400"
+                              errors.email && "border-[2px] border-red-400"
                             }`
                           : "outline-none"
                       }
