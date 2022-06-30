@@ -75,7 +75,7 @@ export const Clients = () => {
           </Typography>
         </div>
         <div className="">
-          <div className="border-b flex items-center font-medium text-lg">
+          <div className="border-b flex items-center font-medium text-lg gap-1">
             <PersonOutlineOutlined className="font-sm" />
             <span>Key Clients</span>
           </div>

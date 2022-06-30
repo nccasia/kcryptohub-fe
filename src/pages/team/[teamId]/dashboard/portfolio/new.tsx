@@ -169,7 +169,7 @@ const NewPortfolio = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="">
             <div className="">
-              <div className="border-b flex items-center font-medium text-lg">
+              <div className="border-b flex items-center font-medium text-lg gap-1">
                 <PersonOutlineOutlined className="font-sm" />
                 <span>Client Details</span>
               </div>
@@ -192,7 +192,7 @@ const NewPortfolio = () => {
               </div>
             </div>
             <div className="">
-              <div className="border-b flex items-center font-medium text-lg">
+              <div className="border-b flex items-center font-medium text-lg gap-1">
                 <DesktopWindowsOutlined className="font-sm" />
                 <span>Portfolio Item Details</span>
               </div>
@@ -361,7 +361,7 @@ const NewPortfolio = () => {
               </div>
             </div>
             <div className="border-b pb-4">
-              <div className="border-b flex items-center font-medium text-lg">
+              <div className="border-b flex items-center font-medium text-lg gap-1">
                 <LockOutlined className="font-sm" />
                 <span>Privacy Settings</span>
               </div>

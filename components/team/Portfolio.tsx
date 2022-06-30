@@ -98,7 +98,7 @@ const Portfolio = ({
                 className="absolute top-0 right-0 w-10 h-10 cursor-pointer"
                 onClick={() => setPortfolio(null)}
               />
-              <p className="text-sm text-[#6A797D] whitespace-pre-line mb-2 break-all">
+              <p className="text-sm text-[#6A797D] whitespace-pre-line mb-2">
                 {portfolio?.description}
               </p>
               {portfolio?.imageUrl ? (
