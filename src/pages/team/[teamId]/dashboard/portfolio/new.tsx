@@ -215,7 +215,7 @@ const NewPortfolio = () => {
                   label={"Estimated Project Size"}
                   register={register("estimate")}
                   valueList={costEstimate}
-                  placeholder=" Select the estimated cost of this project "
+                  placeholder=" Select a cost range"
                   errors={errors.estimate}
                 />
                 <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
