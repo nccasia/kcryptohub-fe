@@ -33,7 +33,6 @@ const theme = createTheme({
 const JoinTeamID = () => {
   const router = useRouter();
   const { teamId } = router.query;
-  console.log({ router });
   const dispatch = useAppDispatch();
   const actionSuccess = useSelector(
     (state: RootState) => state.MemberReducer.success

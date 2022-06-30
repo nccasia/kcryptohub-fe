@@ -77,12 +77,9 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    console.log("started", { redirectUrl });
     if (router.isReady) {
       if (router.query && router.query.url) {
         setRedirectUrl(router.query.url as string);
-        console.log(router.query);
-        console.log("end", { redirectUrl });
       }
     }
   }, [router.isReady]);
@@ -102,7 +99,6 @@ const Login = () => {
   };
 
   const handleRedirectHomePage = () => {
-    console.log("redirect", redirectUrl, router);
     const query = new URLSearchParams(router.asPath);
     const url = query.has("/login?url") ? query.get("/login?url") : redirectUrl;
     router.push(!url ? "/" : url);
