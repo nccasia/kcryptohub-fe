@@ -1,5 +1,6 @@
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { joinTeam, resetSuccess } from "@/redux/memberSlice";
+import { getUserInfoSelector } from "@/redux/selector";
 import { RootState } from "@/redux/store";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
@@ -32,27 +33,30 @@ const theme = createTheme({
 const JoinTeamID = () => {
   const router = useRouter();
   const { teamId } = router.query;
-
   const dispatch = useAppDispatch();
   const actionSuccess = useSelector(
     (state: RootState) => state.MemberReducer.success
   );
+
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-
     if (!accessToken) {
-      router.push("/login");
+      if (router.isReady) {
+        router.push({
+          pathname: "/login",
+          query: { url: router.asPath },
+        });
+      }
     }
-
     if (accessToken) {
       dispatch(joinTeam(parseInt(teamId as string)));
     }
-  }, [dispatch, router, teamId]);
+  }, [dispatch, router.isReady, teamId]);
 
   useEffect(() => {
     if (actionSuccess) {
-      router.push(`/team/${teamId}`);
       dispatch(resetSuccess());
+      router.push(`/team/${teamId}`);
     }
   }, [actionSuccess, dispatch, router, teamId]);
 

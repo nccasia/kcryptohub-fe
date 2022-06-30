@@ -106,7 +106,7 @@ export const memberSlice = createSlice({
       })
       .addCase(addMember.fulfilled, (state, action) => {
         state.success = true
-        toast.success("invite Success!", {
+        toast.success("Members successfully invited", {
           position: "bottom-right",
           autoClose: 1500,
           hideProgressBar: false,

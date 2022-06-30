@@ -78,8 +78,8 @@ const Login = () => {
 
   useEffect(() => {
     if (router.isReady) {
-      if (router.query.redirectUrl) {
-        setRedirectUrl(router.query.redirectUrl as string);
+      if (router.query && router.query.url) {
+        setRedirectUrl(router.query.url as string);
       }
     }
   }, [router.isReady]);
@@ -97,8 +97,11 @@ const Login = () => {
   const handleLoginGoogle = async (payload: IFormLoginGoogle) => {
     await authApi.logInGoogle(payload, handleRedirectHomePage);
   };
+
   const handleRedirectHomePage = () => {
-    router.push(redirectUrl);
+    const query = new URLSearchParams(router.asPath);
+    const url = query.has("/login?url") ? query.get("/login?url") : redirectUrl;
+    router.push(url);
   };
 
   const onSubmit: SubmitHandler<IFormLogin> = (values) => {

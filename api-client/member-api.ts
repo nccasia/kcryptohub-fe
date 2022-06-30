@@ -27,7 +27,7 @@ export const memberApi = {
       const response = await axiosClient.post("/members/join-team", { teamId: teamId });
       toast.success("Joined team successfully", {
         position: "bottom-right",
-        autoClose: 1500,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
