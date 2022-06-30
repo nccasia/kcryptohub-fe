@@ -70,7 +70,7 @@ const PortfolioDetail = () => {
           </span>
         </div>
         <div className="flex border-b">
-          <div className="flex flex-col items-start border-r p-4">
+          <div className="flex flex-col items-start border-r p-4 w-full">
             {portfolio.clientWebsite ? (
               <a
               className="break-all"
