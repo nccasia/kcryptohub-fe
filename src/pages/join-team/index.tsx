@@ -48,9 +48,12 @@ const JoinTeamID = () => {
         });
       }
     }
-    if (accessToken) {
-      dispatch(joinTeam(parseInt(teamId as string)));
-    }
+
+    (async () => {
+      if (accessToken) {
+        await dispatch(joinTeam(parseInt(teamId as string)));
+      }
+    })();
   }, [dispatch, router.isReady, teamId]);
 
   useEffect(() => {
