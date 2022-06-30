@@ -53,7 +53,7 @@ const schema = yub.object().shape({
     .string()
     .required("Tagline is required")
     .trim("Tagline is required")
-    .max(70, "Max length is 70 characters!"),
+    .max(200, "Max length is 200 characters!"),
   description: yub
     .string()
     .required("Description is required")

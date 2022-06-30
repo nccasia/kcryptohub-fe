@@ -169,7 +169,7 @@ const NewPortfolio = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="">
             <div className="">
-              <div className="border-b flex items-center font-medium text-lg gap-1">
+              <div className="border-b flex items-center font-medium text-lg">
                 <PersonOutlineOutlined className="font-sm" />
                 <span>Client Details</span>
               </div>
@@ -192,7 +192,7 @@ const NewPortfolio = () => {
               </div>
             </div>
             <div className="">
-              <div className="border-b flex items-center font-medium text-lg gap-1">
+              <div className="border-b flex items-center font-medium text-lg">
                 <DesktopWindowsOutlined className="font-sm" />
                 <span>Portfolio Item Details</span>
               </div>
@@ -215,7 +215,7 @@ const NewPortfolio = () => {
                   label={"Estimated Project Size"}
                   register={register("estimate")}
                   valueList={costEstimate}
-                  placeholder=" Select a cost range"
+                  placeholder=" Select the estimated cost of this project "
                   errors={errors.estimate}
                 />
                 <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
@@ -361,7 +361,7 @@ const NewPortfolio = () => {
               </div>
             </div>
             <div className="border-b pb-4">
-              <div className="border-b flex items-center font-medium text-lg gap-1">
+              <div className="border-b flex items-center font-medium text-lg">
                 <LockOutlined className="font-sm" />
                 <span>Privacy Settings</span>
               </div>

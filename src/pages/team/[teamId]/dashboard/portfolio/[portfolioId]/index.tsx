@@ -60,7 +60,7 @@ const PortfolioDetail = () => {
   const handleDelte = () => {
     setIsDeleting(true);
   };
-  return (
+  return (  
     <ManagePortfolio>
       <div className="">
         <div className="flex items-center justify-between border-b ">
@@ -69,11 +69,10 @@ const PortfolioDetail = () => {
             <LockOutlined className="text-sm" /> {EPrivacy[portfolio.privacy]}
           </span>
         </div>
-        <div className="flex border-b md:flex-row flex-col">
-          <div className="flex flex-col items-start border-r p-4 min-w-[250px]">
+        <div className="flex border-b">
+          <div className="flex flex-col items-start border-r p-4">
             {portfolio.clientWebsite ? (
               <a
-              className="break-all"
                 href={portfolio.clientWebsite}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -103,7 +102,7 @@ const PortfolioDetail = () => {
               </span>
             ) : null}
           </div>
-          <div className="p-4">
+          <div className="p-4 break-all">
             <p>{portfolio.description}</p>
           </div>
         </div>
@@ -121,15 +120,15 @@ const PortfolioDetail = () => {
           </div>
         ) : null}
         {portfolio.videoLink ? (
-          <div className="w-full flex items-center justify-center overflow-hidden">
+          <div className="w-full flex items-center justify-center">
             <a href={portfolio.videoLink}>{portfolio.videoLink}</a>
           </div>
         ) : null}
-        <div className="flex flex-col sm:flex-row items-center justify-between p-2">
+        <div className="flex items-center justify-between p-2">
           <Link href={`#`}>
-            <a onClick={handleDelte} className="m-2 sm:m-0">
+            <a onClick={handleDelte}>
               Delete Portfolio Item{" "}
-              <DeleteOutline className="text-md text-secondary " />
+              <DeleteOutline className="text-md text-secondary" />
             </a>
           </Link>
           <Link

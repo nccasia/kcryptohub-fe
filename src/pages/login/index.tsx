@@ -100,7 +100,9 @@ const Login = () => {
 
   const handleRedirectHomePage = () => {
     const query = new URLSearchParams(router.asPath);
-    const url = query.has("/login?url") ? query.get("/login?url") : redirectUrl;
+    const url = query.has("/login?url")
+      ? (query.get("/login?url") as string)
+      : redirectUrl;
     router.push(url);
   };
 
