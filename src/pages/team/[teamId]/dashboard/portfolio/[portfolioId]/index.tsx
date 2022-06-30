@@ -60,7 +60,7 @@ const PortfolioDetail = () => {
   const handleDelte = () => {
     setIsDeleting(true);
   };
-  return (  
+  return (
     <ManagePortfolio>
       <div className="">
         <div className="flex items-center justify-between border-b ">
@@ -69,8 +69,8 @@ const PortfolioDetail = () => {
             <LockOutlined className="text-sm" /> {EPrivacy[portfolio.privacy]}
           </span>
         </div>
-        <div className="flex border-b">
-          <div className="flex flex-col items-start border-r p-4 w-full">
+        <div className="flex border-b md:flex-row flex-col">
+          <div className="flex flex-col items-start border-r p-4 min-w-[250px]">
             {portfolio.clientWebsite ? (
               <a
               className="break-all"
@@ -121,15 +121,15 @@ const PortfolioDetail = () => {
           </div>
         ) : null}
         {portfolio.videoLink ? (
-          <div className="w-full flex items-center justify-center">
+          <div className="w-full flex items-center justify-center overflow-hidden">
             <a href={portfolio.videoLink}>{portfolio.videoLink}</a>
           </div>
         ) : null}
-        <div className="flex items-center justify-between p-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between p-2">
           <Link href={`#`}>
-            <a onClick={handleDelte}>
+            <a onClick={handleDelte} className="m-2 sm:m-0">
               Delete Portfolio Item{" "}
-              <DeleteOutline className="text-md text-secondary" />
+              <DeleteOutline className="text-md text-secondary " />
             </a>
           </Link>
           <Link

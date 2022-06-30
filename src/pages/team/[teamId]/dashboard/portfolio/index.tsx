@@ -35,7 +35,7 @@ const Portfolio = () => {
         <div className="relative">
           <div className="xl:max-w-[450px] xl:absolute right-4 top-4">
             <h1 className="text-3xl">Add a Portfolio Item today!</h1>
-            <p className="text-sm">
+            <p className="text-sm my-2">
               We recommend that vendors add information on their past projects
               to help buyers understand the value that your company can bring to
               them and showcase examples of work that you have performed.
@@ -51,25 +51,29 @@ const Portfolio = () => {
           </div>
           <div className="p-4 max-w-[650px]">
             <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4">
-              <h1 className="text-lg">1. Add a new Portfolio Item</h1>
+              <h1 className="text-lg mb-2">1. Add a new Portfolio Item</h1>
               <Step1Img />
             </div>
           </div>
           <div className="p-4 max-w-[650px] flex justify-end">
             <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4">
-              <h1 className="text-lg">2. Fill out the Client Information</h1>
+              <h1 className="text-lg mb-2">
+                2. Fill out the Client Information
+              </h1>
               <Step2Img />
             </div>
           </div>
           <div className="p-4 max-w-[650px]">
             <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4">
-              <h1 className="text-lg">3. Add the Portfolio Item Details</h1>
+              <h1 className="text-lg mb-2">
+                3. Add the Portfolio Item Details
+              </h1>
               <Step3Img />
             </div>
           </div>
           <div className="p-4 max-w-[650px] flex justify-end">
             <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4">
-              <h1 className="text-lg">4. Set the Privacy Setting</h1>
+              <h1 className="text-lg mb-2">4. Set the Privacy Setting</h1>
               <Step4Img />
             </div>
           </div>
