@@ -129,6 +129,10 @@ const Members = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEmail(e.target.value.replaceAll("\n", "").trim());
+    if (mailRegexp.test(e.target.value)) {
+      setDisableIvt(true);
+    }
+    setDisableIvt(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -220,7 +224,6 @@ const Members = () => {
   };
   const handleDeleteTag = (index: number) => {
     setTags((prev) => prev.filter((_, i) => i !== index));
-    setDisableIvt(false);
   };
 
   const deleteMember = (index: number) => {
@@ -319,6 +322,7 @@ const Members = () => {
                   <div className={!success ? "ml-3 pb-2 " : "ml-3 pb-2 hidden"}>
                     <button
                       type="submit"
+                      tabIndex={2}
                       onClick={handleSubmit}
                       disabled={!disableIvt ? true : false}
                       className={
@@ -333,6 +337,7 @@ const Members = () => {
 
                   <div className={!success ? "py-2 hidden" : "py-2"}>
                     <button
+                      tabIndex={2}
                       onClick={handleClose}
                       className="py-2 px-4 border-[1px] border-green-400 rounded shadow"
                     >
@@ -503,7 +508,7 @@ const Members = () => {
                             </div>
                             {" | "}
                             <div
-                              tabIndex={2}
+                              tabIndex={3}
                               onClick={() => deleteMember(item.id)}
                               className="cursor-pointer hover:underline text-blue-500"
                             >
@@ -512,7 +517,7 @@ const Members = () => {
                           </>
                         ) : (
                           <div
-                            tabIndex={2}
+                            tabIndex={3}
                             onClick={() => deleteMember(item.id)}
                             className="cursor-pointer hover:underline text-blue-500"
                           >
