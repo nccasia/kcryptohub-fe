@@ -101,7 +101,7 @@ const Login = () => {
   const handleRedirectHomePage = () => {
     const query = new URLSearchParams(router.asPath);
     const url = query.has("/login?url") ? query.get("/login?url") : redirectUrl;
-    router.push(!url ? "/" : url);
+    router.push(url);
   };
 
   const onSubmit: SubmitHandler<IFormLogin> = (values) => {
