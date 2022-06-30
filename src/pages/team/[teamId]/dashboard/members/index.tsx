@@ -72,7 +72,12 @@ enum InviteStatus {
   REJECTED = "rejected",
 }
 const schemaValidation = yup.object().shape({
-  email: yup.string().trim().required("Email is required").matches(mailRegexp),
+  email: yup
+    .string()
+    .trim()
+    .max(50, "Max length is 50 characters!")
+    .required("Email is required")
+    .matches(mailRegexp),
 });
 const Members = () => {
   const [email, setEmail] = useState<string>("");
@@ -287,6 +292,7 @@ const Members = () => {
 
                       <textarea
                         tabIndex={1}
+                        maxLength={50}
                         className={
                           !success
                             ? `w-full h-20 outline-none rounded border-none resize-none p-1 mt-0`
