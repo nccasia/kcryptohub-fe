@@ -76,8 +76,7 @@ const schemaValidation = yup.object().shape({
     .string()
     .trim()
     .max(50, "Max length is 50 characters!")
-    .required("Email is required")
-    .matches(mailRegexp),
+    .matches(mailRegexp, "incorrect email format"),
 });
 const Members = () => {
   const [email, setEmail] = useState<string>("");
@@ -98,28 +97,13 @@ const Members = () => {
   );
   const {
     register,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
   const Owner = useAppSelector(getUserInfoSelector);
-
-  // const teamSize = useSelector(
-  //   (state: RootState) => state.ProfileReducer.userInfo.team
-  // );
-
-  // const handleTeamSize = () => {
-  //   const team = teamSize?.find(
-  //     (item) => parseInt(item.id) === parseInt(teamId as string)
-  //   );
-  //   console.log(typeof team?.teamSize);
-
-  //   const [min, max] = String(team?.teamSize).trim().split("-");
-
-  //   console.log(min, max);
-  // };
-  // handleTeamSize();
 
   const checkDuplicate = (email: string) => {
     const check = memberList.find((member) => member.emailAddress === email);
@@ -218,8 +202,8 @@ const Members = () => {
     };
 
     await dispatch(addMember(data));
-
     setSuccess(true);
+    reset();
   };
 
   const handleClose = () => {
@@ -306,6 +290,11 @@ const Members = () => {
                         onKeyDown={handleKeyDown}
                       />
                     </div>
+                    {/* {errors.email && (
+                      <div className="text-red-500 text-sm">
+                        {errors.email.message}
+                      </div>
+                    )} */}
                     <div className={!success ? "mr-10 hidden" : "mr-10"}>
                       <div className="flex justify-center">
                         <span className="pr-3">
