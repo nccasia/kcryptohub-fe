@@ -115,7 +115,7 @@ const TeamDetail = () => {
             ref={headerRef}
             className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
           >
-            <div className="flex">
+            <div className="flex xs:w-auto w-full">
               <div className="flex items-center justify-center p-2">
                 <Image
                   src={
@@ -130,7 +130,7 @@ const TeamDetail = () => {
               </div>
               <h1 className="w-full bg-primary flex items-center">
                 <Link href="#">
-                  <a className="xxs:text-3xl text-xl text-white">
+                  <a className="xxs:text-3xl text-xl text-white ml-2">
                     {teamProfile.teamName}
                   </a>
                 </Link>
