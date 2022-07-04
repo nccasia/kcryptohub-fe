@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         primary: "#17313b",
         secondary: "#FF3D2D",
+        thirdary: "#e8eef0",
       },
       boxShadow: {
         "3xl":

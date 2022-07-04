@@ -52,7 +52,7 @@ const AwardDetail = () => {
 
   if (router.isFallback) {
     return (
-      <div className="bg-[#e8eef0]">
+      <div className="bg-thirdary">
         <Layout>
           <CircularProgress />
         </Layout>

@@ -95,7 +95,7 @@ const EditAwardDetail = () => {
   };
   if (router.isFallback) {
     return (
-      <div className="bg-[#e8eef0]">
+      <div className="bg-thirdary">
         <Layout>
           <div className="h-40 flex items-center justify-center">
             <CircularProgress />
