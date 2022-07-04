@@ -2,19 +2,21 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   addMember,
   getMemberList,
-  joinTeam,
   removeMember,
   resetSuccess,
 } from "@/redux/memberSlice";
 import { getUserInfoSelector } from "@/redux/selector";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
-import { emails, IMemberAddRequest } from "@/type/member/member.type";
+import { emails, IMember, IMemberAddRequest } from "@/type/member/member.type";
 import {
   Chip,
+  ClickAwayListener,
   Container,
   createTheme,
   FormControl,
+  Pagination,
   ThemeProvider,
+  Tooltip,
 } from "@mui/material";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -29,24 +31,28 @@ import { RootState } from "@/redux/store";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { ParsedUrlQueryInput } from "querystring";
+
 const theme = createTheme({
   components: {
-    MuiOutlinedInput: {
+    MuiTooltip: {
       styleOverrides: {
-        root: {
-          borderRadius: 0,
-          border: "2px solid #cae0e7",
-          "&.Mui-focused": {
-            borderColor: "#17313b",
-            boxShadow:
-              "inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%)",
-          },
+        tooltip: {
+          backgroundColor: "#fff",
+          color: "#fff",
         },
-        notchedOutline: {
-          border: "none",
+        popper: {
+          margin: "0px",
+          left: "-100px !important",
+        },
+        tooltipPlacementBottom: {
+          margin: "0px !important",
         },
       },
     },
+    // MuiContainer: {
+    //   styleOverrides: {
+    //     root: {
   },
 });
 
@@ -75,9 +81,15 @@ const schemaValidation = yup.object().shape({
   email: yup
     .string()
     .trim()
+    .required("Email is required")
     .max(50, "Max length is 50 characters!")
-    .matches(mailRegexp, "incorrect email format"),
+    .matches(mailRegexp, "Incorrect email format"),
 });
+
+interface PaginationQueryParams {
+  page: string;
+}
+
 const Members = () => {
   const [email, setEmail] = useState<string>("");
   const [tags, setTags] = useState<emails[]>([]);
@@ -85,16 +97,23 @@ const Members = () => {
   const [openStatus, setOpenStatus] = useState<boolean>(false);
   const [disableIvt, setDisableIvt] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const [onLoading, setOnLoading] = useState<boolean>(false);
+
+  const DEFAULT_SIZE = 10;
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPage, setTotalPage] = useState<number>(0);
+
   const dispatch = useAppDispatch();
   const actionSuccess = useSelector(
     (state: RootState) => state.MemberReducer.success
   );
+
   const router = useRouter();
   const teamId = router.query.teamId;
 
-  const memberList = useSelector(
-    (state: RootState) => state.MemberReducer.member
-  );
+  const Owner = useAppSelector(getUserInfoSelector);
+
   const {
     register,
     reset,
@@ -103,7 +122,20 @@ const Members = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
-  const Owner = useAppSelector(getUserInfoSelector);
+
+  // useEffect(() => {
+  //   if (!router.isReady) return;
+
+  //   if (
+  //     router.query.page &&
+  //     parseInt(router.query.page as string) !== currentPage
+  //   ) {
+  //     let page = parseInt(router.query.page as string);
+
+  //     if (page < 1) page = 1;
+  //     setCurrentPage(page);
+  //   }
+  // }, [router.isReady]);
 
   const checkDuplicate = (email: string) => {
     const check = memberList.find((member) => member.emailAddress === email);
@@ -116,12 +148,18 @@ const Members = () => {
   const handleOpenPermissions = () => setOpenPermissions(!openPermissions);
   const handleOpenStatus = () => setOpenStatus(!openStatus);
 
+  const handleClosePermissions = () => setOpenPermissions(false);
+  const handleCloseStatus = () => setOpenStatus(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEmail(e.target.value.replaceAll("\n", "").trim());
     if (mailRegexp.test(e.target.value)) {
       setDisableIvt(true);
     }
     setDisableIvt(false);
+  };
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -183,15 +221,68 @@ const Members = () => {
       e.preventDefault();
     }
   };
+  const memberList = useSelector(
+    (state: RootState) => state.MemberReducer?.member
+  );
+
+  const pageAble = useSelector(
+    (state: RootState) => state.MemberReducer?.pageable
+  );
 
   useEffect(() => {
-    dispatch(getMemberList(parseInt(teamId as string)));
-  }, [dispatch, teamId]);
+    dispatch(
+      getMemberList({
+        teamId: parseInt(teamId as string),
+        page: currentPage,
+        size: DEFAULT_SIZE,
+      })
+    );
+
+    const getMaxPage = () => {
+      return Math.ceil(pageAble?.total / pageAble?.size);
+    };
+
+    if (currentPage > getMaxPage() && getMaxPage() > 0) {
+      setCurrentPage(getMaxPage());
+    } else if (currentPage < 1) {
+      setCurrentPage(1);
+    } else {
+      setTotalPage(getMaxPage());
+    }
+
+    console.log(
+      "max page",
+      getMaxPage(),
+      "|current page",
+      currentPage,
+      "|total page",
+      totalPage
+    );
+    console.log("page total| ", pageAble?.total);
+    console.log("page size| ", pageAble?.size);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+    const query = {} as PaginationQueryParams;
+    if (currentPage > 1) {
+      query.page = currentPage.toString();
+    }
+
+    (async () => {
+      router.push({
+        pathname: "/team/2/dashboard/members",
+        query: query as unknown as ParsedUrlQueryInput,
+      });
+    })();
+  }, [dispatch, teamId, currentPage, pageAble?.total, pageAble?.size]);
 
   useEffect(() => {
     if (actionSuccess === true) {
       dispatch(resetSuccess());
-      dispatch(getMemberList(parseInt(teamId as string)));
+      dispatch(getMemberList({ teamId: parseInt(teamId as string) }));
     }
   }, [actionSuccess, dispatch, teamId]);
 
@@ -215,18 +306,25 @@ const Members = () => {
     setTags((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const deleteMember = (index: number) => {
-    dispatch(
+  const deleteMember = async (index: number) => {
+    setOnLoading(true);
+    await dispatch(
       removeMember({ teamId: parseInt(teamId as string), memberId: index })
     );
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setOnLoading(false);
+    }, 1000);
+  }, [memberList]);
 
   return (
     <DashboardLayout>
       <ThemeProvider theme={theme}>
         <Container fixed maxWidth="lg" className="md:!px-8">
-          <div>
-            <div className="w-full block relative ">
+          <div className="w-full h-full">
+            <div className="w-full block bg-[#e8eef0] h-full relative ">
               <div className="my-2">
                 <form
                   onSubmit={(e) => e.preventDefault()}
@@ -290,11 +388,6 @@ const Members = () => {
                         onKeyDown={handleKeyDown}
                       />
                     </div>
-                    {/* {errors.email && (
-                      <div className="text-red-500 text-sm">
-                        {errors.email.message}
-                      </div>
-                    )} */}
                     <div className={!success ? "mr-10 hidden" : "mr-10"}>
                       <div className="flex justify-center">
                         <span className="pr-3">
@@ -353,78 +446,112 @@ const Members = () => {
                     <span>Email address</span>
                   </div>
                   <div className="w-1/5 px-4 py-2 text-base font-normal cursor-help relative">
-                    <div onClick={handleOpenPermissions} className="relative">
-                      <span>Permissions</span>
-                      {!openPermissions ? (
-                        <span className="w-3 h-3 absolute right-0 z-20 top-0 left-[88px] rounded-full">
-                          <Image
-                            className="w-full h-full"
-                            src={iconToolip}
-                            alt="tooltip"
-                          />
-                        </span>
-                      ) : (
-                        <span className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#3e839e] top-[7px] left-[88px] rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#3e839e] after:rotate-90 after:top-[17px]"></span>
-                      )}
-                    </div>
-                    <div
-                      className={
-                        !openPermissions
-                          ? "hidden"
-                          : "absolute top-[calc(100% + 1px)] w-[180px] z-50 bg-[white] shadow-lg drop-shadow"
-                      }
-                    >
-                      <div className="p-[10px]">
-                        <div className="py-1">
-                          <div className="font-bold">Profile Owner</div>
-                          <div>Profile administrator</div>
-                          <div>Member administrator</div>
-                        </div>
-                        <div className="py-1">
-                          <div className="font-bold">Admin</div>
-                          <div>
-                            Profile administrator; cannot add new members
+                    <ClickAwayListener onClickAway={handleClosePermissions}>
+                      <div className="bg-transparent relative">
+                        <Tooltip
+                          PopperProps={{
+                            disablePortal: true,
+                          }}
+                          onClose={handleClosePermissions}
+                          placement="bottom"
+                          open={openPermissions}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          title={
+                            <div className="absolute top-[calc(100% + 1px)] left-0 right-0 w-[180px] z-50 bg-[white] shadow-lg drop-shadow">
+                              <div className="p-[10px]">
+                                <div className="py-1 text-black">
+                                  <div className="font-bold">Profile Owner</div>
+                                  <div>Profile administrator</div>
+                                  <div>Member administrator</div>
+                                </div>
+                                <div className="py-1 text-black">
+                                  <div className="font-bold">Admin</div>
+                                  <div>
+                                    Profile administrator; cannot add new
+                                    members
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          }
+                        >
+                          <div
+                            onClick={handleOpenPermissions}
+                            className="relative"
+                          >
+                            <span>Permissions</span>
+                            {!openPermissions ? (
+                              <span className="w-3 h-3 absolute right-0 z-20 top-0 left-[88px] rounded-full">
+                                <Image
+                                  className="w-full h-full"
+                                  src={iconToolip}
+                                  alt="tooltip"
+                                />
+                              </span>
+                            ) : (
+                              <span className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#3e839e] top-[7px] left-[88px] rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#3e839e] after:rotate-90 after:top-[17px]"></span>
+                            )}
                           </div>
-                        </div>
+                        </Tooltip>
                       </div>
-                    </div>
+                    </ClickAwayListener>
                   </div>
-                  <div className="w-1/5 px-4 py-2 text-base font-normal cursor-help">
-                    <div onClick={handleOpenStatus} className="relative">
-                      <span>Invite Status</span>
-                      {!openStatus ? (
-                        <span className="w-3 h-3 absolute right-0 z-20 top-0 left-[88px] rounded-full">
-                          <Image
-                            className="w-full h-full"
-                            src={iconToolip}
-                            alt="tooltip"
-                          />
-                        </span>
-                      ) : (
-                        <span
-                          className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#3e839e]  top-[7px] left-[88px]  rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#3e839e] after:rotate-90 after:top-[17px]
+                  <div className="w-1/5 px-4 py-2 text-base font-normal cursor-help relative">
+                    <ClickAwayListener onClickAway={handleCloseStatus}>
+                      <div className="bg-transparent">
+                        <Tooltip
+                          PopperProps={{
+                            disablePortal: true,
+                          }}
+                          onClose={handleCloseStatus}
+                          placement="bottom"
+                          open={openStatus}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          title={
+                            <div className="absolute top-[calc(100% + 8px)] w-[180px] z-50 bg-[white] shadow-lg drop-shadow ">
+                              <div className="p-[10px]">
+                                <div className="py-1 text-black">
+                                  <div className="font-bold">
+                                    Invite Pending
+                                  </div>
+                                  <div>
+                                    The invite {"hasn't"} been accepted yet.
+                                  </div>
+                                </div>
+                                <div className="py-1 text-black">
+                                  <div className="font-bold">
+                                    Invite Expired
+                                  </div>
+                                  <div>Invite expire after 72 hours</div>
+                                </div>
+                              </div>
+                            </div>
+                          }
+                        >
+                          <div onClick={handleOpenStatus} className="relative">
+                            <span>Invite Status</span>
+                            {!openStatus ? (
+                              <span className="w-3 h-3 absolute right-0 z-20 top-0 left-[88px] rounded-full">
+                                <Image
+                                  className="w-full h-full"
+                                  src={iconToolip}
+                                  alt="tooltip"
+                                />
+                              </span>
+                            ) : (
+                              <span
+                                className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#3e839e]  top-[7px] left-[88px]  rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#3e839e] after:rotate-90 after:top-[17px]
                                                   "
-                        ></span>
-                      )}
-                      <div
-                        className={
-                          !openStatus
-                            ? "hidden"
-                            : "absolute top-[calc(100% + 8px)] w-[180px] z-50 bg-[white] shadow-lg drop-shadow "
-                        }
-                      >
-                        <div className="p-[10px]">
-                          <div className="py-1">
-                            <div className="font-bold">Invite Pending</div>
-                            <div>The invite {"hasn't"} been accepted yet.</div>
+                              ></span>
+                            )}
                           </div>
-                          <div className="py-1">
-                            <div className="font-bold">Invite Expired</div>
-                            <div>Invite expire after 72 hours</div>
-                          </div>
-                        </div>
+                        </Tooltip>
                       </div>
-                    </div>
+                    </ClickAwayListener>
                   </div>
                   <div className="w-1/5 px-4 py-2 text-base font-normal">
                     <span>Options</span>
@@ -511,13 +638,37 @@ const Members = () => {
                             </div>
                           </>
                         ) : (
-                          <div
-                            tabIndex={3}
-                            onClick={() => deleteMember(item.id)}
-                            className="cursor-pointer hover:underline text-blue-500"
-                          >
-                            Remove
-                          </div>
+                          <>
+                            {!onLoading ? (
+                              <div
+                                tabIndex={3}
+                                onClick={() => {
+                                  deleteMember(item.id);
+                                }}
+                                className={
+                                  "cursor-pointer hover:underline text-blue-500"
+                                }
+                              >
+                                Remove
+                              </div>
+                            ) : (
+                              <div className="text-sm text-gray-700">
+                                <svg
+                                  fill="none"
+                                  className="w-6 h-6 animate-spin"
+                                  viewBox="0 0 32 32"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clipRule="evenodd"
+                                    d="M15.165 8.53a.5.5 0 01-.404.58A7 7 0 1023 16a.5.5 0 011 0 8 8 0 11-9.416-7.874.5.5 0 01.58.404z"
+                                    fill="currentColor"
+                                    fillRule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                            )}
+                          </>
                         )}
                       </div>
                     </li>
@@ -554,6 +705,15 @@ const Members = () => {
                   )}
                 </ul>
               </div>
+            </div>
+            <div className="flex items-center justify-center pb-2">
+              <Pagination
+                count={totalPage}
+                page={currentPage}
+                onChange={(e, value) => {
+                  handlePageChange(value);
+                }}
+              />
             </div>
           </div>
         </Container>

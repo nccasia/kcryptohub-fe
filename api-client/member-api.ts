@@ -1,12 +1,20 @@
-import { IMemberAddRequest, IRemoveMember } from "@/type/member/member.type";
+import { IGetMemberList, IMemberAddRequest, IRemoveMember } from "@/type/member/member.type";
 import { toast } from "react-toastify";
 import axiosClient from "./axios-client";
 
 
 export const memberApi = {
-  async getAllMemberLists(teamId: number) {
+  async getAllMemberLists({ teamId, page, size, sort }: IGetMemberList) {
     try {
-      const response = await axiosClient.get(`/members/list?teamId=${teamId}`);
+      const response = await axiosClient.get(`/members/list`, {
+        params: {
+          teamId,
+          page,
+          size,
+          sort,
+        },
+
+      });
       return response.data;
     }
     catch (error) {
