@@ -10,14 +10,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   DesktopWindowsOutlined,
   LockOutlined,
-  PersonOutlineOutlined
+  PersonOutlineOutlined,
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import * as yup from "yup"; 
+import * as yup from "yup";
 
 const schemaValidation = yup.object().shape({
   companyName: yup.string().required("Company name is required"),
@@ -90,12 +90,13 @@ const schemaValidation = yup.object().shape({
 });
 
 const costEstimate = [
-  "Less than $10,000",
-  "$10,000 to $49,999",
-  "$50,000 to $199,999",
-  "$200,000 to $999,999",
-  "$1,000,000 to $9,999,999",
-  "$10,000,000+",
+  "Freelance",
+  "2-9",
+  "10-49",
+  "50-249",
+  "250-499",
+  "1,000-9,999",
+  "10,000+",
 ];
 
 const NewPortfolio = () => {
@@ -124,7 +125,7 @@ const NewPortfolio = () => {
 
   const onSubmit = async () => {
     const formData = watch();
-    if(isValid){
+    if (isValid) {
       reset();
     }
     const data = await PortfolioApi.createPortfolio(
@@ -135,14 +136,13 @@ const NewPortfolio = () => {
       toast.error("Portfolio creation failed!");
     } else if (data === 404) {
       toast.error("Can't create portfolio for the team that is not yours!");
-    } else if(data.id) {
+    } else if (data.id) {
       PortfolioApi.postImage(image, data.id).then((res) => {
         reset();
         toast.success("Portfolio added successfully!");
         router.push(`/team/${teamId}/dashboard/portfolio/${data.id}`);
       });
-    }
-    else {
+    } else {
       toast.error("Portfolio creation failed!");
     }
   };
@@ -157,8 +157,8 @@ const NewPortfolio = () => {
   };
 
   useEffect(() => {
-    trigger('endDate')
-  },[trigger, watch('startDate')])
+    trigger("endDate");
+  }, [trigger, watch("startDate")]);
 
   return (
     <ManagePortfolio>

@@ -111,7 +111,7 @@ const Login = () => {
     reset();
   };
   return (
-    <div className="h-auto min-h-full bg-cyan-900 flex justify-center xs:items-center px-2 xxs:px-0  py-4">
+    <div className="h-auto min-h-full bg-primary flex justify-center xs:items-center px-2 xxs:px-0  py-4">
       <div className="max-w-[420px] h-fit w-full">
         <div className="text-center ">
           <h3 className="text-5xl font-bold text-white">Kryptohub</h3>

@@ -274,7 +274,7 @@ export const SkillDis = (props: IProps) => {
       await dispatch(
         createTeam({
           team: formData as unknown as ICreateTeam,
-          file: props.imageFile || null
+          file: props.imageFile || null,
         })
       ).then((res) => {
         dispatch(resetTeam());
@@ -315,6 +315,9 @@ export const SkillDis = (props: IProps) => {
         <div className="md:flex-[50%] md:mr-5">
           <h2 className=" xl:text-3xl text-xl lg:text-2xl text-primary font-[400] font-['Roboto, sans-serif'] ">
             {props.title} Skill Distribution
+            <span className="md:hidden ml-1 text-gray-500">{`(${
+              props.step + 1
+            }/2)`}</span>
           </h2>
           <p className="text-sm text-gray-600 py-5">
             Give buyers a sense of how you spend your time. You must add at

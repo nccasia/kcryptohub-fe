@@ -1,7 +1,7 @@
 export const Footer = () => {
   return (
     <footer
-      className="w-full bg-cyan-900 relative 
+      className="w-full bg-primary relative 
       before:w-full before:h-[1px] before:bg-cyan-600 before:absolute lg:before:top-1/4 sm:before:top-1/2 before:top-1/3"
     >
       <div className="flex items-center justify-center h-full">

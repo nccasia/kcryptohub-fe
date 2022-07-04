@@ -123,7 +123,7 @@ const Members = () => {
   });
 
   const checkDuplicate = (email: string) => {
-    const check = memberList.find((member) => member.emailAddress === email);
+    const check = memberList?.find((member) => member.emailAddress === email);
     if (check) {
       return true;
     }
