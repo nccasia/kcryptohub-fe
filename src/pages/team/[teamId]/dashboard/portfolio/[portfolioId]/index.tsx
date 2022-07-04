@@ -44,7 +44,7 @@ const PortfolioDetail = () => {
       PortfolioApi.deletePortfolio(portfolioId)
         .then((res) => {
           if (res) {
-            toast.success("Prtfolio delete  successfull");
+            toast.success("Portfolio delete successfull");
             router.push(`/team/${teamId}/dashboard/portfolio`);
           } else {
             toast.error("Failed delete portfolio");
@@ -102,7 +102,7 @@ const PortfolioDetail = () => {
               </span>
             ) : null}
           </div>
-          <div className="p-4">
+          <div className="p-4 break-all">
             <p>{portfolio.description}</p>
           </div>
         </div>

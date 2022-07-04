@@ -109,97 +109,101 @@ const TeamDetail = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto">
-        <section
-          ref={headerRef}
-          className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
-        >
-          <div className="md:max-w-[500px] w-full flex">
-            <Image
-              src={
-                teamProfile.imageUrl
-                  ? teamApi.getTeamImageUrl(teamProfile.imageUrl)
-                  : "/user1.png"
-              }
-              alt="avatar"
-              width={50}
-              height={50}
-            />
-            <h1 className="w-full bg-primary pl-4 flex items-center">
-              <Link href="#">
-                <a className="text-3xl text-white">{teamProfile.teamName}</a>
-              </Link>
-            </h1>
-          </div>
-          <ul className="hidden md:flex">
-            <li
-              className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
-                hash === ESection[ESection["SUMMARY"]] ? "!text-secondary" : ""
-              }`}
-              onClick={() => handleScrollToSection(ESection["SUMMARY"])}
-            >
-              <span
-                className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
+      <div className="flex flex-col items-center justify-center md:block">
+        <div className="container mx-auto">
+          <section
+            ref={headerRef}
+            className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
+          >
+            <div className="md:max-w-[500px] w-full flex">
+              <Image
+                src={
+                  teamProfile.imageUrl
+                    ? teamApi.getTeamImageUrl(teamProfile.imageUrl)
+                    : "/user1.png"
+                }
+                alt="avatar"
+                width={50}
+                height={50}
+              />
+              <h1 className="w-full bg-primary pl-4 flex items-center">
+                <Link href="#">
+                  <a className="text-3xl text-white">{teamProfile.teamName}</a>
+                </Link>
+              </h1>
+            </div>
+            <ul className="hidden md:flex">
+              <li
+                className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
                   hash === ESection[ESection["SUMMARY"]]
-                    ? "after:!bg-[#FF3D2D]"
+                    ? "!text-secondary"
                     : ""
                 }`}
+                onClick={() => handleScrollToSection(ESection["SUMMARY"])}
               >
-                Summary
-              </span>
-            </li>
-            <li
-              className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
-                hash === ESection[ESection["SKILL-DISTRIBUTION"]]
-                  ? "!text-secondary"
-                  : ""
-              }`}
-              onClick={() =>
-                handleScrollToSection(ESection["SKILL-DISTRIBUTION"])
-              }
-            >
-              <span
-                className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
+                <span
+                  className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
+                    hash === ESection[ESection["SUMMARY"]]
+                      ? "after:!bg-[#FF3D2D]"
+                      : ""
+                  }`}
+                >
+                  Summary
+                </span>
+              </li>
+              <li
+                className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
                   hash === ESection[ESection["SKILL-DISTRIBUTION"]]
-                    ? "after:!bg-[#FF3D2D]"
+                    ? "!text-secondary"
                     : ""
                 }`}
+                onClick={() =>
+                  handleScrollToSection(ESection["SKILL-DISTRIBUTION"])
+                }
               >
-                Skill Distribution
-              </span>
-            </li>
-            <li
-              className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
-                hash === ESection[ESection["PORTFOLIO"]]
-                  ? "!text-secondary"
-                  : ""
-              }`}
-              onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
-            >
-              <span
-                className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
+                <span
+                  className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
+                    hash === ESection[ESection["SKILL-DISTRIBUTION"]]
+                      ? "after:!bg-[#FF3D2D]"
+                      : ""
+                  }`}
+                >
+                  Skill Distribution
+                </span>
+              </li>
+              <li
+                className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
                   hash === ESection[ESection["PORTFOLIO"]]
-                    ? "after:!bg-[#FF3D2D]"
+                    ? "!text-secondary"
                     : ""
                 }`}
+                onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
               >
-                Portfolio
-              </span>
-            </li>
-          </ul>
-        </section>
-        <Summary summaryRef={summaryRef} />
-        <Separate />
-        <SkillDistribution
-          skillDistributionRef={skillDistributionRef}
-          editable={userProfile.userInfo.id === ownerId}
-        />
-        <Separate />
-        <Portfolio
-          portfolioRef={portfolioRef}
-          handleScrollToSection={handleScrollToSection}
-          editable={userProfile.userInfo.id === ownerId}
-        />
+                <span
+                  className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
+                    hash === ESection[ESection["PORTFOLIO"]]
+                      ? "after:!bg-[#FF3D2D]"
+                      : ""
+                  }`}
+                >
+                  Portfolio
+                </span>
+              </li>
+            </ul>
+          </section>
+          <Summary summaryRef={summaryRef} />
+          <Separate />
+          <SkillDistribution
+            skillDistributionRef={skillDistributionRef}
+            editable={userProfile.userInfo.id === ownerId}
+          />
+          <Separate />
+          <Portfolio
+            portfolioRef={portfolioRef}
+            handleScrollToSection={handleScrollToSection}
+            editable={userProfile.userInfo.id === ownerId}
+          />
+        </div>
         <CardInfo editable={userProfile.userInfo.id === ownerId} />
       </div>
     </Layout>

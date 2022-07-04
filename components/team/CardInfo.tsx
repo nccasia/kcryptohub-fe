@@ -13,7 +13,10 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
   };
 
   return (
-    <div className="fixed w-full flex right-0 bottom-0 md:block md:bottom-1/2 md:translate-y-1/2 md:w-[200px] bg-white z-[9999] border border-[#cae0e7] shadow-xl">
+    <div
+      className="sticky w-full flex bottom-0 float-right  bg-white z-[9999] border border-[#cae0e7] shadow-xl 
+    md:block md:bottom-1/3 md:w-[200px] "
+    >
       {editable ? (
         <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center px-4 py-2 md:py-4 cursor-pointer border-r border-[#cae0e7] md:border-0">
           <Link

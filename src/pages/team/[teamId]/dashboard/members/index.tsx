@@ -14,11 +14,10 @@ import {
   Container,
   createTheme,
   FormControl,
-  TextareaAutosize,
   ThemeProvider,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import React, { SyntheticEvent, useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Image from "next/image";
 import iconchecked from "@/src/assets/image/icon-check.svg";
@@ -27,8 +26,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 const theme = createTheme({
   components: {
@@ -72,7 +71,13 @@ enum InviteStatus {
   ACCEPTED = "accepted",
   REJECTED = "rejected",
 }
-
+const schemaValidation = yup.object().shape({
+  email: yup
+    .string()
+    .trim()
+    .max(50, "Max length is 50 characters!")
+    .matches(mailRegexp, "incorrect email format"),
+});
 const Members = () => {
   const [email, setEmail] = useState<string>("");
   const [tags, setTags] = useState<emails[]>([]);
@@ -90,33 +95,91 @@ const Members = () => {
   const memberList = useSelector(
     (state: RootState) => state.MemberReducer.member
   );
-
+  const {
+    register,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schemaValidation),
+    mode: "all",
+  });
   const Owner = useAppSelector(getUserInfoSelector);
+
+  const checkDuplicate = (email: string) => {
+    const check = memberList.find((member) => member.emailAddress === email);
+    if (check) {
+      return true;
+    }
+    return false;
+  };
 
   const handleOpenPermissions = () => setOpenPermissions(!openPermissions);
   const handleOpenStatus = () => setOpenStatus(!openStatus);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value.match(mailRegexp)) {
+    setEmail(e.target.value.replaceAll("\n", "").trim());
+    if (mailRegexp.test(e.target.value)) {
       setDisableIvt(true);
     }
-    setEmail(e.target.value);
+    setDisableIvt(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.code === "Enter" && mailRegexp.test(email)) {
+    if (e.key === "Enter" && mailRegexp.test(email)) {
       setTags((tag) => {
+        if (checkDuplicate(email)) {
+          toast.warning(`${email} is already in the team`, {
+            position: "bottom-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          return tag;
+        }
+
+        if (email === Owner.emailAddress) {
+          toast.warning(`${email} is owner of the team`, {
+            position: "bottom-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          return tag;
+        }
+
+        if (tags.find((tag) => tag.email === email)) {
+          toast.warning(`${email} is already exist`, {
+            position: "bottom-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          return tag;
+        }
         const newTag = [
           ...tag,
           {
-            email: email,
+            email: email.replaceAll("\\r|\\n", "").toLowerCase(),
             role: "member",
           },
         ];
+        if (newTag.length >= 0) {
+          setDisableIvt(true);
+        }
 
         return newTag;
       });
-      setEmail("");
+      setEmail("".trim());
+
       e.preventDefault();
     }
   };
@@ -132,23 +195,21 @@ const Members = () => {
     }
   }, [actionSuccess, dispatch, teamId]);
 
-  // useEffect(() => {
-  //   dispatch(joinTeam(parseInt(teamId as string)));
-  // }, [dispatch, teamId]);
-
   const handleSubmit = async () => {
     const data: IMemberAddRequest = {
       teamId: parseInt(teamId as string),
       members: tags,
     };
-    await dispatch(addMember(data));
 
+    await dispatch(addMember(data));
     setSuccess(true);
+    reset();
   };
 
   const handleClose = () => {
     setSuccess(false);
     setTags([]);
+    setDisableIvt(false);
   };
   const handleDeleteTag = (index: number) => {
     setTags((prev) => prev.filter((_, i) => i !== index));
@@ -190,7 +251,9 @@ const Members = () => {
                     <div
                       className={
                         !success
-                          ? "outline-none  border-[1px] border-green-400"
+                          ? `outline-none  border-[1px] border-green-400 ${
+                              errors.email && "border-[2px] border-red-400"
+                            }`
                           : "outline-none"
                       }
                     >
@@ -211,18 +274,27 @@ const Members = () => {
                         />
                       ))}
 
-                      <TextareaAutosize
+                      <textarea
+                        tabIndex={1}
+                        maxLength={50}
                         className={
                           !success
-                            ? "w-full h-20 outline-none rounded border-none resize-none p-1 "
+                            ? `w-full h-20 outline-none rounded border-none resize-none p-1 mt-0`
                             : "w-full h-20 outline-none rounded border-none resize-none p-1 hidden"
                         }
+                        {...register("email", {
+                          onChange: handleChange,
+                        })}
                         placeholder="name@profilename.com..."
                         value={email}
-                        onChange={handleChange}
                         onKeyDown={handleKeyDown}
                       />
                     </div>
+                    {/* {errors.email && (
+                      <div className="text-red-500 text-sm">
+                        {errors.email.message}
+                      </div>
+                    )} */}
                     <div className={!success ? "mr-10 hidden" : "mr-10"}>
                       <div className="flex justify-center">
                         <span className="pr-3">
@@ -245,6 +317,7 @@ const Members = () => {
                   <div className={!success ? "ml-3 pb-2 " : "ml-3 pb-2 hidden"}>
                     <button
                       type="submit"
+                      tabIndex={2}
                       onClick={handleSubmit}
                       disabled={!disableIvt ? true : false}
                       className={
@@ -259,6 +332,7 @@ const Members = () => {
 
                   <div className={!success ? "py-2 hidden" : "py-2"}>
                     <button
+                      tabIndex={2}
                       onClick={handleClose}
                       className="py-2 px-4 border-[1px] border-green-400 rounded shadow"
                     >
@@ -382,7 +456,7 @@ const Members = () => {
                   <div className="w-1/5 px-4 py-2 text-sm font-normal"></div>
                   <div className="w-1/5 px-4 py-2 text-sm font-normal"></div>
                 </div>
-                <ul className="w-full">
+                <ul className="w-full" aria-label="aria-owns">
                   {memberList?.map((item, index) => (
                     <li
                       key={index}
@@ -393,12 +467,14 @@ const Members = () => {
                           <AccountCircleIcon className="w-5 h-5" />
                         </span>
                         <span>
-                          {item.user === null ? "-" : item.user?.username}
+                          {item.user === null
+                            ? "-"
+                            : item.user?.username.trim()}
                         </span>
                       </div>
                       <div className="w-1/5 px-4 py-2 text-sm font-normal">
-                        <span className="text-[#17313b]">
-                          {item.emailAddress}
+                        <span className="text-[#17313b] w-full">
+                          {item.emailAddress.trim().replace(/\s/g, "")}
                         </span>
                       </div>
                       <div className="w-1/5 px-4 py-2 text-sm font-normal">
@@ -422,24 +498,26 @@ const Members = () => {
                       <div className="w-1/5 px-4 py-2 text-sm font-normal">
                         {item.inviteStatus === InviteStatus.REJECTED ? (
                           <>
-                            <span className="cursor-pointer hover:underline text-blue-500">
+                            <div className="cursor-pointer hover:underline text-blue-500">
                               Resend
-                            </span>
+                            </div>
                             {" | "}
-                            <span
+                            <div
+                              tabIndex={3}
                               onClick={() => deleteMember(item.id)}
                               className="cursor-pointer hover:underline text-blue-500"
                             >
                               Remove
-                            </span>
+                            </div>
                           </>
                         ) : (
-                          <span
+                          <div
+                            tabIndex={3}
                             onClick={() => deleteMember(item.id)}
                             className="cursor-pointer hover:underline text-blue-500"
                           >
                             Remove
-                          </span>
+                          </div>
                         )}
                       </div>
                     </li>
