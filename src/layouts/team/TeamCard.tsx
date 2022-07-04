@@ -106,15 +106,7 @@ export const TeamCard = (props: Props) => {
                 <span className="text-left ml-1">{team.projectSize}</span>
               </span>
             }
-            <span className="text-cyan-900">
-              <IconHover
-                icon={<AccessAlarmOutlined />}
-                hoverText="Working hours"
-              />
-              <span className="text-left ml-1">
-                {team.workingTime} hours/week
-              </span>
-            </span>
+
             <span className="text-cyan-900">
               <IconHover icon={<GroupsOutlined />} hoverText="Team size" />
               <span className="text-left ml-1">{team.teamSize}</span> members

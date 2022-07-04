@@ -120,7 +120,7 @@ const Register = () => {
   }, [watch("emailAddress")]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-cyan-900">
+    <div className="min-h-screen flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-primary">
       <div className="flex flex-col items-center content-center relative m-auto h-auto w-[470px] mt-20">
         <form
           onSubmit={handleSubmit(onSubmit)}

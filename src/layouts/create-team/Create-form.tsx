@@ -48,7 +48,8 @@ const schema = yub.object().shape({
   projectSize: yub
     .string()
     .required("Project Size is required")
-    .max(10, "Invalid length!"),
+    .max(10, "Invalid length!")
+    .default("1-5"),
   slogan: yub
     .string()
     .required("Tagline is required")
@@ -96,17 +97,7 @@ export const CreateForm = (props: IProps) => {
       "1,000-9,999",
       "10,000+",
     ],
-    projectSize: [
-      "N/A",
-      "$1,000+",
-      "$5,000+",
-      "$10,000+",
-      "$25,000+",
-      "$50,000+",
-      "$75,000+",
-      "$100,000+",
-      "$250,000+",
-    ],
+    projectSize: ["1-5"],
   };
 
   const uploadToClient = (event: any) => {
@@ -189,6 +180,9 @@ export const CreateForm = (props: IProps) => {
       {" "}
       <h2 className=" xl:text-3xl text-xl lg:text-2xl text-primary font-[400] font-['Roboto, sans-serif'] ">
         Enter Team Information
+        <span className="md:hidden ml-1 text-gray-500">{`(${
+          props.step + 1
+        }/2)`}</span>
       </h2>
       <form>
         <div className="md:flex w-full">
@@ -394,14 +388,14 @@ export const CreateForm = (props: IProps) => {
             <h2 className=" xl:text-3xl text-xl lg:text-2xl mt-5 text-primary font-[400] font-['Roboto, sans-serif'] ">
               Project Information
             </h2>
-            <div className="my-5">
+            <div className="my-5 hidden">
               <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                 Minimum Project Size
               </label>
               <select
                 {...register("projectSize")}
                 className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
-                defaultValue={team.projectSize || ""}
+                defaultValue={team.projectSize || "1-5"}
               >
                 <option value="">- Select a value -</option>
                 {selectRange.projectSize.map((cur, index) => (
