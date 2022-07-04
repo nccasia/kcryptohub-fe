@@ -215,43 +215,52 @@ const Members = () => {
   );
 
   useEffect(() => {
-    dispatch(
-      getMemberList({
-        teamId: parseInt(teamId as string),
-        page: currentPage,
-        size: DEFAULT_SIZE,
-      })
-    );
+    if (router.isReady) {
+      dispatch(
+        getMemberList({
+          teamId: parseInt(teamId as string),
+          page: currentPage,
+          size: DEFAULT_SIZE,
+        })
+      );
 
-    const getMaxPage = () => {
-      return Math.ceil(pageAble?.total / pageAble?.size);
-    };
+      const getMaxPage = () => {
+        return Math.ceil(pageAble?.total / pageAble?.size);
+      };
 
-    if (currentPage > getMaxPage() && getMaxPage() > 0) {
-      setCurrentPage(getMaxPage());
-    } else if (currentPage < 1) {
-      setCurrentPage(1);
-    } else {
-      setTotalPage(getMaxPage());
-    }
+      if (currentPage > getMaxPage() && getMaxPage() > 0) {
+        setCurrentPage(getMaxPage());
+      } else if (currentPage < 1) {
+        setCurrentPage(1);
+      } else {
+        setTotalPage(getMaxPage());
+      }
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-
-    const query = {} as PaginationQueryParams;
-    if (currentPage > 1) {
-      query.page = currentPage.toString();
-    }
-
-    (async () => {
-      router.push({
-        pathname: "/team/2/dashboard/members",
-        query: query as unknown as ParsedUrlQueryInput,
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
       });
-    })();
-  }, [dispatch, teamId, currentPage, pageAble?.total, pageAble?.size]);
+
+      const query = {} as PaginationQueryParams;
+      if (currentPage > 1) {
+        query.page = currentPage.toString();
+      }
+
+      (async () => {
+        router.push({
+          pathname: `/team/${teamId as string}/dashboard/members`,
+          query: query as unknown as ParsedUrlQueryInput,
+        });
+      })();
+    }
+  }, [
+    dispatch,
+    teamId,
+    currentPage,
+    pageAble?.total,
+    pageAble?.size,
+    router.isReady,
+  ]);
 
   useEffect(() => {
     if (actionSuccess === true) {
@@ -415,7 +424,7 @@ const Members = () => {
               </div>
             </div>
             <div className="bg-white w-full h-full block relative overflow-x-auto shadow-md my-2 drop-shadow">
-              <div className="w-[1200px] table p-3">
+              <div className="xl:w-full w-[1200px] table p-3">
                 <h1 className="font-bold text-xl py-1 px-4">Member</h1>
                 <div className="flex items-center justify-center">
                   <div className="w-1/5 px-4 py-2 text-base font-normal">

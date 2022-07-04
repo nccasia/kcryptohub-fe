@@ -129,8 +129,8 @@ export const TeamCard = (props: Props) => {
               <div className="text-cyan-900 w-full break-normal">
                 {team.skills &&
                   team.skills.map((skill, i) => (
-                    <div key={i} className="inline-block p-1">
-                      <span 
+                    <div key={i} className="inline-block p-1 pt-3">
+                      <span
                         className={`px-2 py-1  rounded-2xl ${
                           skillColor[
                             skill.id
@@ -170,7 +170,7 @@ export const TeamCard = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-row md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-sm xs:text-md">
+      <div className="flex flex-row-reverse md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-md">
         <a
           className="sm:px-2 flex items-center justify-start h-1/3 flex-1 border"
           href={
@@ -181,21 +181,26 @@ export const TeamCard = (props: Props) => {
               : "#"
           }
         >
-          <span className="xs:p-4 w-full bg-red-500 font-semibold text-white flex justify-between cursor-pointer border-2 border-red-500 hover:bg-transparent hover:text-red-500">
-            Visit Website <LanguageOutlined fontSize="small" />
+          <span
+            className="xs:p-4 p-2 px-[1px] w-full bg-red-500 font-semibold text-white flex justify-between cursor-pointer border-2 border-red-500
+           hover:bg-transparent hover:text-red-500"
+          >
+            Visit Website <LanguageOutlined />
           </span>
         </a>
         <Link href={`/team/${team.id}`}>
-          <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
-            <span className="xs:p-4  w-full flex justify-between">
-              View Profile <InfoOutlined fontSize="small" />
+          <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 xs:flex-1 xs:w-full w-1/4">
+            <span className="xs:p-4 p-2  w-full flex items-center xs:justify-between justify-center border-2 border-transparent">
+              <span className="hidden xs:block">View Profile</span>{" "}
+              <InfoOutlined />
             </span>
           </a>
         </Link>
         <Link href={`/team/${team.id}/contact`}>
-          <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 flex-1">
-            <span className="xs:p-4 w-full flex justify-between">
-              Contact <ContactlessOutlined fontSize="small" />
+          <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 xs:flex-1 xs:w-full w-1/4">
+            <span className="xs:p-4 p-2 w-full flex items-center xs:justify-between justify-center border-2 border-transparent">
+              <span className="hidden xs:block">Contact</span>{" "}
+              <ContactlessOutlined />
             </span>
           </a>
         </Link>

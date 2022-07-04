@@ -67,7 +67,7 @@ const Portfolio = ({
         </p>
       )}
       {portfolio && (
-        <div className="w-5/6">
+        <div className="md:w-5/6 w-full">
           <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-3 mb-5">
             <div className="hidden md:block w-full">
               {portfolio?.imageUrl ? (
@@ -98,28 +98,32 @@ const Portfolio = ({
                 className="absolute top-0 right-0 w-10 h-10 cursor-pointer"
                 onClick={() => setPortfolio(null)}
               />
+              <div className="w-full block md:hidden">
+                {portfolio?.imageUrl ? (
+                  <div className=" h-[300px] mt-2 mb-3 relative">
+                    <Image
+                      src={PortfolioApi.getPortfolioImageUrl(
+                        portfolio.imageUrl
+                      )}
+                      alt="portfolio"
+                      layout="fill"
+                    />
+                  </div>
+                ) : null}
+                {portfolio?.videoLink && (
+                  <iframe
+                    src={handleYoutubeEmbedUrl(portfolio.videoLink!)}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="mb-3 w-full h-80"
+                  />
+                )}
+              </div>
               <p className="text-sm text-[#6A797D] whitespace-pre-line mb-2 break-all">
                 {portfolio?.description}
               </p>
-              {portfolio?.imageUrl ? (
-                <div className="w-full block md:hidden h-[300px] mt-2 mb-3 relative">
-                  <Image
-                    src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
-                    alt="portfolio"
-                    layout="fill"
-                  />
-                </div>
-              ) : null}
-              {portfolio?.videoLink && (
-                <iframe
-                  src={handleYoutubeEmbedUrl(portfolio.videoLink!)}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="block md:hidden mb-3 w-full h-80"
-                />
-              )}
             </div>
           </div>
         </div>
@@ -148,8 +152,8 @@ const Portfolio = ({
         </div>
       )}
       {teamProfile.portfolios?.length > 0 && (
-        <div className="w-5/6">
-          <div className="grid xxs:grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 mb-5">
+        <div className="md:w-5/6 w-full">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5">
             {teamProfile.portfolios.map((item, index) => {
               if (index <= 5) {
                 return (
@@ -168,7 +172,7 @@ const Portfolio = ({
                       alt="portfolio"
                       className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
                       width={400}
-                      height={400}
+                      height={200}
                     />
                     <span
                       onClick={() =>
@@ -196,7 +200,7 @@ const Portfolio = ({
                       alt="portfolio"
                       className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
                       width={400}
-                      height={400}
+                      height={200}
                     />
                     <span
                       onClick={() =>

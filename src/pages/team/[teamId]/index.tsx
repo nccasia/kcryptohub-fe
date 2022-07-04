@@ -115,20 +115,24 @@ const TeamDetail = () => {
             ref={headerRef}
             className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
           >
-            <div className="md:max-w-[500px] w-full flex">
-              <Image
-                src={
-                  teamProfile.imageUrl
-                    ? teamApi.getTeamImageUrl(teamProfile.imageUrl)
-                    : "/user1.png"
-                }
-                alt="avatar"
-                width={75}
-                height={64}
-              />
-              <h1 className="w-full bg-primary pl-4 flex items-center">
+            <div className="flex xs:w-auto w-full">
+              <div className="flex items-center justify-center p-2">
+                <Image
+                  src={
+                    teamProfile.imageUrl
+                      ? teamApi.getTeamImageUrl(teamProfile.imageUrl)
+                      : "/user1.png"
+                  }
+                  alt="avatar"
+                  width={50}
+                  height={50}
+                />
+              </div>
+              <h1 className="w-full bg-primary flex items-center">
                 <Link href="#">
-                  <a className="text-3xl text-white">{teamProfile.teamName}</a>
+                  <a className="xxs:text-3xl text-xl text-white ml-2">
+                    {teamProfile.teamName}
+                  </a>
                 </Link>
               </h1>
             </div>
