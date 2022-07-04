@@ -90,12 +90,13 @@ const schemaValidation = yup.object().shape({
 });
 
 const costEstimate = [
-  "Less than $10,000",
-  "$10,000 to $49,999",
-  "$50,000 to $199,999",
-  "$200,000 to $999,999",
-  "$1,000,000 to $9,999,999",
-  "$10,000,000+",
+ "Freelance",
+  "2-9",
+  "10-49",
+  "50-249",
+  "250-499",
+  "1,000-9,999",
+  "10,000+",
 ];
 
 const PortfolioEdit = () => {

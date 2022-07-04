@@ -162,7 +162,7 @@ export const Teams = () => {
 
   return (
     <Layout>
-      <div className="flex items-center justify-center relative bg-cyan-900 border-t border-cyan-500  ">
+      <div className="flex items-center justify-center relative bg-primary border-t border-cyan-500  ">
         <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
           <div
             className="px-4 py-2 w-fit border-2 border-red-500 xxs:flex hidden items-center justify-center text-xl
@@ -183,7 +183,7 @@ export const Teams = () => {
               <div className="flex flex-col sm:flex-row border-b ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
-                    <div className="p-1 xs:p-4 bg-cyan-900 text-white font-semibold border-2 border-cyan-900 mr-2 max-w-[10rem] hidden sm:block">
+                    <div className="p-1 xs:p-4 bg-primary text-white font-semibold border-2 border-cyan-900 mr-2 max-w-[10rem] hidden sm:block">
                       <span>{totalTeam} Teams</span>
                     </div>
                   </div>
