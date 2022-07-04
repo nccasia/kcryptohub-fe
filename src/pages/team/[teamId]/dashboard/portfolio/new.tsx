@@ -28,7 +28,10 @@ const schemaValidation = yup.object().shape({
       /(^$)|(^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$)/,
       "Please enter a valid website format! URL must contain http:// or https:// prefix."
     ),
-  title: yup.string().required("Title is required"),
+  title: yup
+    .string()
+    .required("Title is required")
+    .max(50, "Title must be less than 50 characters"),
   category: yup.string().required("Category is required"),
   estimate: yup.string().required("Project size is required"),
   startDate: yup
@@ -67,7 +70,7 @@ const schemaValidation = yup.object().shape({
               message: `Please choose a date after ${ctx.parent.startDate}`,
             });
           } else {
-            return true
+            return true;
           }
         }
       ),
@@ -180,6 +183,7 @@ const NewPortfolio = () => {
                   errors={errors.companyName}
                   placeholder="team name"
                   watch={watch("companyName")}
+                  maxLength={50}
                 />
                 <InputFieldCol
                   label={"Client Website"}
@@ -203,6 +207,7 @@ const NewPortfolio = () => {
                   errors={errors.title}
                   placeholder="Enter a Title for this Portfolio Item"
                   watch={watch("title")}
+                  maxLength={50}
                 />
                 <SelectField
                   label={"Category"}

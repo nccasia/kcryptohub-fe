@@ -124,7 +124,7 @@ export const Header = () => {
                                                         height={32}
                                                         onError={(e) => {
                                                             setUserImage(
-                                                                '/favicon.ico',
+                                                                '/user1.png',
                                                             );
                                                         }}
                                                     />
