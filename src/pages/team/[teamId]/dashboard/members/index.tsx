@@ -81,14 +81,8 @@ const schemaValidation = yup.object().shape({
   email: yup
     .string()
     .trim()
-<<<<<<< HEAD
-    .required("Email is required")
     .max(50, "Max length is 50 characters!")
     .matches(mailRegexp, "Incorrect email format"),
-=======
-    .max(50, "Max length is 50 characters!")
-    .matches(mailRegexp, "incorrect email format"),
->>>>>>> develop
 });
 
 interface PaginationQueryParams {
@@ -102,7 +96,7 @@ const Members = () => {
   const [openStatus, setOpenStatus] = useState<boolean>(false);
   const [disableIvt, setDisableIvt] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-  const [onLoading, setOnLoading] = useState<boolean>(false);
+  const [onLoading, setOnLoading] = useState<boolean[]>([]);
 
   const DEFAULT_SIZE = 10;
 
@@ -128,23 +122,6 @@ const Members = () => {
     mode: "all",
   });
 
-<<<<<<< HEAD
-  // useEffect(() => {
-  //   if (!router.isReady) return;
-
-  //   if (
-  //     router.query.page &&
-  //     parseInt(router.query.page as string) !== currentPage
-  //   ) {
-  //     let page = parseInt(router.query.page as string);
-
-  //     if (page < 1) page = 1;
-  //     setCurrentPage(page);
-  //   }
-  // }, [router.isReady]);
-
-=======
->>>>>>> develop
   const checkDuplicate = (email: string) => {
     const check = memberList.find((member) => member.emailAddress === email);
     if (check) {
@@ -258,17 +235,6 @@ const Members = () => {
       setTotalPage(getMaxPage());
     }
 
-    console.log(
-      "max page",
-      getMaxPage(),
-      "|current page",
-      currentPage,
-      "|total page",
-      totalPage
-    );
-    console.log("page total| ", pageAble?.total);
-    console.log("page size| ", pageAble?.size);
-
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -315,24 +281,24 @@ const Members = () => {
   };
 
   const deleteMember = async (index: number) => {
-    setOnLoading(true);
+    if (onLoading[index]) return;
+    const onLoadArray: boolean[] = onLoading;
+
+    onLoadArray[index] = true;
+
+    setOnLoading(onLoadArray);
+
     await dispatch(
       removeMember({ teamId: parseInt(teamId as string), memberId: index })
     );
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setOnLoading(false);
-    }, 1000);
-  }, [memberList]);
 
   return (
     <DashboardLayout>
       <ThemeProvider theme={theme}>
         <Container fixed maxWidth="lg" className="md:!px-8">
           <div className="w-full h-full">
-            <div className="w-full block bg-[#e8eef0] h-full relative ">
+            <div className="w-full block bg-thirdary h-full relative ">
               <div className="my-2">
                 <form
                   onSubmit={(e) => e.preventDefault()}
@@ -357,7 +323,7 @@ const Members = () => {
                     <div
                       className={
                         !success
-                          ? `outline-none  border-[1px] border-green-400 ${
+                          ? `outline-none  border-[1px] border-[#cae0e7] ${
                               errors.email && "border-[2px] border-red-400"
                             }`
                           : "outline-none"
@@ -396,7 +362,7 @@ const Members = () => {
                         onKeyDown={handleKeyDown}
                       />
                     </div>
-                    {/* {errors.email && (
+                    {/* {errors.email ?? (
                       <div className="text-red-500 text-sm">
                         {errors.email.message}
                       </div>
@@ -428,8 +394,8 @@ const Members = () => {
                       disabled={!disableIvt ? true : false}
                       className={
                         !disableIvt
-                          ? "py-2 px-4 border-[1px] border-green-400 rounded shadow cursor-not-allowed"
-                          : "py-2 px-4 border-[1px] border-green-400 rounded shadow "
+                          ? "py-2 px-4 border-[1px] border-[#cae0e7] rounded shadow cursor-not-allowed"
+                          : "py-2 px-4 border-[1px] border-[#cae0e7] rounded shadow "
                       }
                     >
                       <span>Invite</span>
@@ -652,7 +618,7 @@ const Members = () => {
                           </>
                         ) : (
                           <>
-                            {!onLoading ? (
+                            {!onLoading[item.id] ? (
                               <div
                                 tabIndex={3}
                                 onClick={() => {
