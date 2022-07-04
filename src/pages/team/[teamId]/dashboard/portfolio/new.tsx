@@ -170,7 +170,7 @@ const NewPortfolio = () => {
           <div className="">
             <div className="">
               <div className="border-b flex items-center font-medium text-lg">
-                <PersonOutlineOutlined className="font-sm" />
+                <PersonOutlineOutlined className="font-sm mr-2" />
                 <span>Client Details</span>
               </div>
               <div className="my-2 pl-4">
@@ -193,7 +193,7 @@ const NewPortfolio = () => {
             </div>
             <div className="">
               <div className="border-b flex items-center font-medium text-lg">
-                <DesktopWindowsOutlined className="font-sm" />
+                <DesktopWindowsOutlined className="font-sm mr-2" />
                 <span>Portfolio Item Details</span>
               </div>
               <div className="my-2 pl-4">
@@ -215,7 +215,7 @@ const NewPortfolio = () => {
                   label={"Estimated Project Size"}
                   register={register("estimate")}
                   valueList={costEstimate}
-                  placeholder=" Select the estimated cost of this project "
+                  placeholder=" Select size of project"
                   errors={errors.estimate}
                 />
                 <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
@@ -362,7 +362,7 @@ const NewPortfolio = () => {
             </div>
             <div className="border-b pb-4">
               <div className="border-b flex items-center font-medium text-lg">
-                <LockOutlined className="font-sm" />
+                <LockOutlined className="font-sm mr-2" />
                 <span>Privacy Settings</span>
               </div>
               <div className="px-4 py-2">
