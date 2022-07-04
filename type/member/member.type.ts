@@ -23,3 +23,16 @@ export interface IRemoveMember {
   teamId: number;
   memberId: number;
 }
+
+export interface IGetMemberList {
+  teamId: number;
+  page?: number;
+  size?: number;
+  sort?: string;
+}
+
+export interface IMemberPageAble {
+  total: number;
+  page: number;
+  size: number;
+}

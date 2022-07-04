@@ -122,18 +122,18 @@ export const Teams = () => {
           });
         });
       const query = {} as any;
-      if(currentPage > 1 )query.page = currentPage;
-      if(filter.search && filter.search.length > 0)query.search = filter.search;
-      if(filter.skill.length > 0)query.skill = filter.skill;
-      if(filter.timezone.length > 0)query.timezone = filter.timezone;
+      if (currentPage > 1) query.page = currentPage;
+      if (filter.search && filter.search.length > 0)
+        query.search = filter.search;
+      if (filter.skill.length > 0) query.skill = filter.skill;
+      if (filter.timezone.length > 0) query.timezone = filter.timezone;
       router.push({
-        pathname: '/teams',
+        pathname: "/teams",
         query,
-      })
+      });
       setIsReady(true);
     }
   }, [filter, currentPage, SkillSelect]);
-
 
   const handleSearch = (event: any) => {
     setFilter({ ...filter, search: event.target.value });

@@ -9,7 +9,7 @@ interface DashboardLayoutProps {
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const router = useRouter();
   return (
-    <div className="bg-[#e8eef0] h-full">
+    <div className="bg-thirdary h-full">
       <Layout>
         <div className="container mx-auto">
           <ul className="flex justify-start items-center gap-x-10 md:overflow-x-hidden overflow-x-scroll">
@@ -89,9 +89,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 }}
               >
                 <a
-                  className={`block text-sm  px-4 py-4 ${
-                     " text-secondary font-normal relative"
-                  }`}
+                  className={`block text-sm  px-4 py-4 ${" text-secondary font-normal relative"}`}
                 >
                   View team profile
                 </a>

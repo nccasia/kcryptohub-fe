@@ -1,16 +1,16 @@
 
 import axiosClient from "@/api/axios-client";
 import { memberApi } from "@/api/member-api";
-import { IMember, IMemberAddRequest, IRemoveMember } from "@/type/member/member.type";
+import { IGetMemberList, IMember, IMemberAddRequest, IMemberPageAble, IRemoveMember } from "@/type/member/member.type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 export const getMemberList = createAsyncThunk(
   "getMemberList",
-  async (teamId: number) => {
+  async ({ teamId, page, size, sort }: IGetMemberList) => {
     if (isNaN(teamId)) return null;
     try {
-      const response = await memberApi.getAllMemberLists(teamId)
+      const response = await memberApi.getAllMemberLists({ teamId, page, size, sort });
       return response;
     }
     catch (error) {
@@ -60,11 +60,17 @@ export const removeMember = createAsyncThunk(
 
 interface initialState {
   member: IMember[];
+  pageable: IMemberPageAble;
   success: boolean;
 }
 
 const initialState: initialState = {
   member: [],
+  pageable: {
+    page: 0,
+    size: 0,
+    total: 0,
+  },
   success: false
 }
 
@@ -91,6 +97,7 @@ export const memberSlice = createSlice({
       })
       .addCase(getMemberList.fulfilled, (state, action) => {
         state.member = action.payload?.content;
+        state.pageable = action.payload?.pageable;
       })
     builder
       .addCase(addMember.rejected, (state, action) => {
