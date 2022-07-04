@@ -81,9 +81,14 @@ const schemaValidation = yup.object().shape({
   email: yup
     .string()
     .trim()
+<<<<<<< HEAD
     .required("Email is required")
     .max(50, "Max length is 50 characters!")
     .matches(mailRegexp, "Incorrect email format"),
+=======
+    .max(50, "Max length is 50 characters!")
+    .matches(mailRegexp, "incorrect email format"),
+>>>>>>> develop
 });
 
 interface PaginationQueryParams {
@@ -123,6 +128,7 @@ const Members = () => {
     mode: "all",
   });
 
+<<<<<<< HEAD
   // useEffect(() => {
   //   if (!router.isReady) return;
 
@@ -137,6 +143,8 @@ const Members = () => {
   //   }
   // }, [router.isReady]);
 
+=======
+>>>>>>> develop
   const checkDuplicate = (email: string) => {
     const check = memberList.find((member) => member.emailAddress === email);
     if (check) {
@@ -388,6 +396,11 @@ const Members = () => {
                         onKeyDown={handleKeyDown}
                       />
                     </div>
+                    {/* {errors.email && (
+                      <div className="text-red-500 text-sm">
+                        {errors.email.message}
+                      </div>
+                    )} */}
                     <div className={!success ? "mr-10 hidden" : "mr-10"}>
                       <div className="flex justify-center">
                         <span className="pr-3">
