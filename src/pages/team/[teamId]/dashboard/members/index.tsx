@@ -424,7 +424,7 @@ const Members = () => {
               </div>
             </div>
             <div className="bg-white w-full h-full block relative overflow-x-auto shadow-md my-2 drop-shadow">
-              <div className="w-[1200px] table p-3">
+              <div className="xl:w-full w-[1200px] table p-3">
                 <h1 className="font-bold text-xl py-1 px-4">Member</h1>
                 <div className="flex items-center justify-center">
                   <div className="w-1/5 px-4 py-2 text-base font-normal">

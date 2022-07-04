@@ -98,28 +98,32 @@ const Portfolio = ({
                 className="absolute top-0 right-0 w-10 h-10 cursor-pointer"
                 onClick={() => setPortfolio(null)}
               />
+              <div className="w-full block md:hidden">
+                {portfolio?.imageUrl ? (
+                  <div className=" h-[300px] mt-2 mb-3 relative">
+                    <Image
+                      src={PortfolioApi.getPortfolioImageUrl(
+                        portfolio.imageUrl
+                      )}
+                      alt="portfolio"
+                      layout="fill"
+                    />
+                  </div>
+                ) : null}
+                {portfolio?.videoLink && (
+                  <iframe
+                    src={handleYoutubeEmbedUrl(portfolio.videoLink!)}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="mb-3 w-full h-80"
+                  />
+                )}
+              </div>
               <p className="text-sm text-[#6A797D] whitespace-pre-line mb-2 break-all">
                 {portfolio?.description}
               </p>
-              {portfolio?.imageUrl ? (
-                <div className="w-full block md:hidden h-[300px] mt-2 mb-3 relative">
-                  <Image
-                    src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
-                    alt="portfolio"
-                    layout="fill"
-                  />
-                </div>
-              ) : null}
-              {portfolio?.videoLink && (
-                <iframe
-                  src={handleYoutubeEmbedUrl(portfolio.videoLink!)}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="block md:hidden mb-3 w-full h-80"
-                />
-              )}
             </div>
           </div>
         </div>
