@@ -18,6 +18,7 @@ import {
 import { Collapsor } from "../layouts/Collapsor";
 import { Header } from "../layouts/Header";
 import { Layout } from "../layouts/layout";
+import { TimeZone } from "@/type/enum/TimeZone";
 
 const categoty: { [id: string]: string[] } = {
   Development: [
@@ -105,11 +106,17 @@ const Home: NextPage = () => {
                 />
                 <h2 className="text-gray-600 mr-3">in</h2>
                 <select className="appearance-none mr-3 relative block w-full px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-                  <option>Location</option>
+                  <option value="">--Timezone--</option>
+                  {
+                    Object.values(TimeZone).map((cur, index) => (
+                      <option key={index} value={cur}>
+                        {cur}
+                      </option>
+                    ))}
                 </select>
 
                 <button className="px-10 py-2 mr-2 bg-red-500 text-white rounded-sm w-full">
-                  Find Provider
+                  Find Team
                 </button>
               </div>
             </div>
@@ -124,7 +131,7 @@ const Home: NextPage = () => {
                 </h2>
                 <p className="mb-4 text-gray-600">
                   From development to marketing, find your next business partner
-                  on Clutch.
+                  on Kryptohub.
                 </p>
                 <Link href="/teams">
                   <a className="text-cyan-600 hover:underline">
