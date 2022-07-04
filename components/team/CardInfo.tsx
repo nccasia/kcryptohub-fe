@@ -1,4 +1,5 @@
 import { useAppSelector } from "@/redux/hooks";
+import { Edit } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -25,19 +26,11 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
               query: { teamId: router.query.teamId },
             }}
           >
-            <a className="hidden xs:block text-sm md:text-base text-[#08537e] hover:underline">
-              Edit Team Profile
+            <a className="flex items-center justify-between w-full text-sm md:text-base text-[#08537e] hover:underline">
+              <span className="hidden xs:block"> Edit Team Profile</span>
+              <Edit className="text-secondary" />
             </a>
           </Link>
-          <div className="w-[16px] h-[20px] flex-none relative">
-            <Image
-              width="16"
-              height="20"
-              src={IconMap.Pen.src}
-              alt="message"
-              layout="responsive"
-            />
-          </div>
         </div>
       ) : null}
       <div

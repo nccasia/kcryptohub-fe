@@ -26,7 +26,7 @@ export const SelectField = ({
       >
         {label}
       </label>
-      <div className="w-fit flex flex-col relative">
+      <div className="xs:w-fit w-full flex flex-col relative">
         <select
           id={label.trim().toLowerCase().replace(/\s/g, "-")}
           {...register}

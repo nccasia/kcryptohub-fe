@@ -219,7 +219,7 @@ const NewPortfolio = () => {
                   errors={errors.estimate}
                 />
                 <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
-                  <div className="font-medium">
+                  <div className="font-medium xs:w-fit w-full">
                     <label
                       htmlFor="startDate"
                       className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
@@ -227,7 +227,7 @@ const NewPortfolio = () => {
                       Start Date
                       <span className="text-sm text-gray-300">optional</span>
                     </label>
-                    <div className="w-fit flex flex-col relative">
+                    <div className="xs:w-fit w-full flex flex-col relative">
                       <input
                         id="startDate"
                         type="month"
@@ -243,7 +243,7 @@ const NewPortfolio = () => {
                       </span>
                     )}
                   </div>
-                  <div className="font-medium">
+                  <div className="font-medium xs:w-fit w-full">
                     <label
                       htmlFor="endDate"
                       className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
@@ -251,7 +251,7 @@ const NewPortfolio = () => {
                       End Date
                       <span className="text-sm text-gray-300">optional</span>
                     </label>
-                    <div className="w-fit flex flex-col relative">
+                    <div className="xs:w-fit w-full flex flex-col relative">
                       <input
                         id="endDate"
                         type="month"
@@ -277,7 +277,7 @@ const NewPortfolio = () => {
                   >
                     Descripton
                   </label>
-                  <div className="w-fit flex items-center justify-center flex-col relative">
+                  <div className="xs:w-fit w-full flex items-center justify-center flex-col relative">
                     <textarea
                       id="descripton"
                       {...register("description")}
@@ -317,7 +317,7 @@ const NewPortfolio = () => {
                       <label htmlFor="videoLinkField" className="pl-1">
                         Video Link
                       </label>
-                      <div className="w-fit hidden flex-col relative peer-checked:flex">
+                      <div className="xs:w-fit w-full hidden flex-col relative peer-checked:flex">
                         <input
                           id="videoLink"
                           {...register("videoLink")}
@@ -442,7 +442,7 @@ const NewPortfolio = () => {
                 )}
               </div>
             </div>
-            <div className="flex xxs:flex-row flex-col items-center justify-end p-4">
+            <div className="flex xxs:flex-row flex-col-reverse items-center justify-end p-4">
               <button
                 className="bg-white px-16 py-3 hover:text-cyan-600 "
                 type="button"

@@ -67,7 +67,7 @@ const Portfolio = ({
         </p>
       )}
       {portfolio && (
-        <div className="w-5/6">
+        <div className="md:w-5/6 w-full">
           <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-3 mb-5">
             <div className="hidden md:block w-full">
               {portfolio?.imageUrl ? (
@@ -148,8 +148,8 @@ const Portfolio = ({
         </div>
       )}
       {teamProfile.portfolios?.length > 0 && (
-        <div className="w-5/6">
-          <div className="grid xxs:grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 mb-5">
+        <div className="md:w-5/6 w-full">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5">
             {teamProfile.portfolios.map((item, index) => {
               if (index <= 5) {
                 return (
@@ -168,7 +168,7 @@ const Portfolio = ({
                       alt="portfolio"
                       className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
                       width={400}
-                      height={400}
+                      height={200}
                     />
                     <span
                       onClick={() =>
@@ -196,7 +196,7 @@ const Portfolio = ({
                       alt="portfolio"
                       className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
                       width={400}
-                      height={400}
+                      height={200}
                     />
                     <span
                       onClick={() =>
