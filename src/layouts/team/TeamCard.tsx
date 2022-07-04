@@ -107,15 +107,6 @@ export const TeamCard = (props: Props) => {
               </span>
             }
             <span className="text-cyan-900">
-              <IconHover
-                icon={<AccessAlarmOutlined />}
-                hoverText="Working hours"
-              />
-              <span className="text-left ml-1">
-                {team.workingTime} hours/week
-              </span>
-            </span>
-            <span className="text-cyan-900">
               <IconHover icon={<GroupsOutlined />} hoverText="Team size" />
               <span className="text-left ml-1">{team.teamSize}</span> members
             </span>
@@ -135,12 +126,11 @@ export const TeamCard = (props: Props) => {
           </div>
           <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
             <div className="flex w-full">
-              <IconHover icon={<ApiOutlined />} hoverText="Skills" />
               <div className="text-cyan-900 w-full break-normal">
                 {team.skills &&
                   team.skills.map((skill, i) => (
                     <div key={i} className="inline-block p-1">
-                      <span
+                      <span 
                         className={`px-2 py-1  rounded-2xl ${
                           skillColor[
                             skill.id
