@@ -123,8 +123,8 @@ const TeamDetail = () => {
                     : "/user1.png"
                 }
                 alt="avatar"
-                width={50}
-                height={50}
+                width={75}
+                height={64}
               />
               <h1 className="w-full bg-primary pl-4 flex items-center">
                 <Link href="#">
