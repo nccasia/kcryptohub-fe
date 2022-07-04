@@ -270,14 +270,15 @@ const Members = () => {
   }, [actionSuccess, dispatch, teamId]);
 
   const handleSubmit = async () => {
+    reset();
+    if (success === true) return;
     const data: IMemberAddRequest = {
       teamId: parseInt(teamId as string),
       members: tags,
     };
 
-    await dispatch(addMember(data));
     setSuccess(true);
-    reset();
+    await dispatch(addMember(data));
   };
 
   const handleClose = () => {
@@ -371,11 +372,6 @@ const Members = () => {
                         onKeyDown={handleKeyDown}
                       />
                     </div>
-                    {/* {errors.email ?? (
-                      <div className="text-red-500 text-sm">
-                        {errors.email.message}
-                      </div>
-                    )} */}
                     <div className={!success ? "mr-10 hidden" : "mr-10"}>
                       <div className="flex justify-center">
                         <span className="pr-3">
