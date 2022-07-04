@@ -123,13 +123,13 @@ const Members = () => {
   };
 
   useEffect(() => {
-    dispatch(getMemberList(parseInt(teamId as string)));
+    dispatch(getMemberList({ teamId: parseInt(teamId as string) }));
   }, [dispatch, teamId]);
 
   useEffect(() => {
     if (actionSuccess === true) {
       dispatch(resetSuccess());
-      dispatch(getMemberList(parseInt(teamId as string)));
+      dispatch(getMemberList({ teamId: parseInt(teamId as string) }));
     }
   }, [actionSuccess, dispatch, teamId]);
 
