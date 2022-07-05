@@ -91,13 +91,15 @@ const Portfolio = ({
               )}
             </div>
             <div className="relative">
-              <h2 className="text-primary text-2xl pr-8 md:pr-6 mb-10">
-                {portfolio?.title}
-              </h2>
-              <CloseIcon
-                className="absolute top-0 right-0 w-10 h-10 cursor-pointer"
-                onClick={() => setPortfolio(null)}
-              />
+              <div className="">
+                <CloseIcon
+                  className="float-right cursor-pointer text-3xl mt-1"
+                  onClick={() => setPortfolio(null)}
+                />
+                <h2 className="text-primary text-2xl mb-10">
+                  {portfolio?.title}
+                </h2>
+              </div>
               <div className="w-full block md:hidden">
                 {portfolio?.imageUrl ? (
                   <div className=" h-[300px] mt-2 mb-3 relative">
