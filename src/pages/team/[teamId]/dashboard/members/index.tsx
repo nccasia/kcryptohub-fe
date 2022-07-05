@@ -590,15 +590,15 @@ const Members = () => {
                       </div>
                       <div className="w-1/5 px-4 py-2 text-sm font-normal">
                         {item.inviteStatus === InviteStatus.PENDING ? (
-                          <div className="bg-[#cae0e7] rounded-3xl px-2 py-1 w-[110px] text-center">
+                          <div className="bg-[#cae0e7] rounded-3xl px-2 pb-1 -pt-1 w-[110px] text-center">
                             <span className="!text-xs">Invite Pending</span>
                           </div>
                         ) : item.inviteStatus === InviteStatus.ACCEPTED ? (
-                          <div className="bg-[#d51512] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
+                          <div className="bg-[#d51512] text-[#fff] rounded-3xl px-2 pb-1 -pt-1 w-[110px] text-center">
                             <span className="!text-xs">Accepted</span>
                           </div>
                         ) : (
-                          <div className="bg-[#ff3d2e] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
+                          <div className="bg-[#ff3d2e] text-[#fff] rounded-3xl px-2 pb-1 -pt-1 w-[110px] text-center">
                             <span className="!text-xs">invite Expired</span>
                           </div>
                         )}
