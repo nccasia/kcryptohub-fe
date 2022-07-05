@@ -42,7 +42,7 @@ const Portfolio = () => {
             </p>
             <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
               <a
-                className="px-4 py-2 w-fit bg-secondary font-semibold text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
+                className="px-8 py-2 w-fit bg-secondary font-semibold text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
                hover:bg-transparent hover:text-secondary"
               >
                 Add a Portfolio Item
@@ -50,13 +50,13 @@ const Portfolio = () => {
             </Link>
           </div>
           <div className="p-4 max-w-[650px]">
-            <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4">
+            <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4 w-full">
               <h1 className="text-lg mb-2">1. Add a new Portfolio Item</h1>
               <Step1Img />
             </div>
           </div>
           <div className="p-4 max-w-[650px] flex justify-end">
-            <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4">
+            <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4 w-full">
               <h1 className="text-lg mb-2">
                 2. Fill out the Client Information
               </h1>
@@ -64,7 +64,7 @@ const Portfolio = () => {
             </div>
           </div>
           <div className="p-4 max-w-[650px]">
-            <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4">
+            <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4 w-full">
               <h1 className="text-lg mb-2">
                 3. Add the Portfolio Item Details
               </h1>
@@ -72,7 +72,7 @@ const Portfolio = () => {
             </div>
           </div>
           <div className="p-4 max-w-[650px] flex justify-end">
-            <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4">
+            <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4 w-full">
               <h1 className="text-lg mb-2">4. Set the Privacy Setting</h1>
               <Step4Img />
             </div>
