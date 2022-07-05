@@ -45,22 +45,22 @@ export const Header = () => {
             <div
               className={`${
                 showMenu ? "flex" : "hidden"
-              } md:flex flex-col flex-1 w-full`}
+              } md:flex flex-col flex-1 w-full xxs:flex-col flex-col-reverse`}
             >
-              <div className="flex flex-row items-center xs:justify-end justify-between  text-white">
+              <div className="flex xxs:flex-row xxs:mt-0 mt-2 flex-col xxs:items-center items-start xs:justify-end justify-between text-white">
                 <div className="flex">
                   <input
                     type="text"
                     placeholder="Search"
-                    className="shadow appearance-none border  w-full focus:outline-none focus:shadow-outline bg-transparent pl-2"
+                    className="shadow appearance-none border xxs:mb-0 mb-2 w-full focus:outline-none focus:shadow-outline bg-transparent pl-2"
                   />
                   <div className="ml-[-1.5rem]">
                     <Search fontSize="small" />
                   </div>
                 </div>
-                <div className="uppercase tracking-wider text-xs ml-2 hover:underline flex items-center justify-center">
+                <div className="uppercase tracking-wider text-xs ml-2 hover:underline flex  items-center justify-center">
                   {user.username ? (
-                    <div className="flex justify-end items-center">
+                    <div className="flex xxs:flex-row flex-row-reverse justify-end items-center">
                       <div className="flex group relative">
                         <input
                           type="text"
@@ -71,7 +71,7 @@ export const Header = () => {
                           htmlFor="showDropdown"
                           className="cursor-pointer"
                         >
-                          <span className="block">
+                          <span className="block xxs:ml-0 ml-2">
                             {user?.username || "anonymous"} <ArrowDropDown />
                           </span>
                         </label>

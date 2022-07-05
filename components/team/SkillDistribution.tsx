@@ -24,6 +24,7 @@ const SkillDistribution = ({
       (total, value) => value.quantity + total,
       0
     );
+
     return Math.round((100 * quantity) / totalPercent);
   };
   return (
@@ -61,59 +62,61 @@ const SkillDistribution = ({
             <div className="w-full md:w-4/5 mb-6">
               <div className="h-12 py-2 border-x border-[#cae0e7] flex">
                 {item.skillDistributionValue.map(
-                  (skillDistributionValue, index) => (
-                    <div
-                      key={skillDistributionValue.field}
-                      className="relative flex justify-center items-center group h-full"
-                      style={{
-                        width: `${handleCalculatePercentage(
-                          item.skillDistributionValue,
-                          skillDistributionValue.quantity
-                        )}%`,
-                        backgroundColor:
-                          IColors[index % (Object.keys(IColors).length / 2)],
-                      }}
-                    >
-                      <span className="hidden md:block text-sm text-white font-medium">
-                        {`${handleCalculatePercentage(
-                          item.skillDistributionValue,
-                          skillDistributionValue.quantity
-                        )}%`}
-                      </span>
-                      <BadgeHover label={skillDistributionValue.field} />
-                    </div>
-                  )
+                  (skillDistributionValue, index) =>
+                    skillDistributionValue.quantity > 0 && (
+                      <div
+                        key={skillDistributionValue.field}
+                        className="relative flex justify-center items-center group h-full"
+                        style={{
+                          width: `${handleCalculatePercentage(
+                            item.skillDistributionValue,
+                            skillDistributionValue.quantity
+                          )}%`,
+                          backgroundColor:
+                            IColors[index % (Object.keys(IColors).length / 2)],
+                        }}
+                      >
+                        <span className="hidden md:block text-sm text-white font-medium">
+                          {`${handleCalculatePercentage(
+                            item.skillDistributionValue,
+                            skillDistributionValue.quantity
+                          )}%`}
+                        </span>
+                        <BadgeHover label={skillDistributionValue.field} />
+                      </div>
+                    )
                 )}
               </div>
             </div>
 
             <ul className="flex flex-wrap gap-5">
               {item.skillDistributionValue.map(
-                (skillDistributionValue, index) => (
-                  <li
-                    key={skillDistributionValue.field}
-                    className="flex items-center gap-x-3"
-                  >
-                    <div
-                      className="w-4 h-4"
-                      style={{
-                        backgroundColor:
-                          IColors[index % (Object.keys(IColors).length / 2)],
-                      }}
-                    ></div>
-                    <h3 className="text-sm text-[#6d6e71]">
-                      {skillDistributionValue.field}{" "}
-                      <span className="md:hidden">
-                        (
-                        {`${handleCalculatePercentage(
-                          item.skillDistributionValue,
-                          skillDistributionValue.quantity
-                        )}%`}
-                        )
-                      </span>
-                    </h3>
-                  </li>
-                )
+                (skillDistributionValue, index) =>
+                  skillDistributionValue.quantity > 0 && (
+                    <li
+                      key={skillDistributionValue.field}
+                      className="flex items-center gap-x-3"
+                    >
+                      <div
+                        className="w-4 h-4"
+                        style={{
+                          backgroundColor:
+                            IColors[index % (Object.keys(IColors).length / 2)],
+                        }}
+                      ></div>
+                      <h3 className="text-sm text-[#6d6e71]">
+                        {skillDistributionValue.field}{" "}
+                        <span className="md:hidden">
+                          (
+                          {`${handleCalculatePercentage(
+                            item.skillDistributionValue,
+                            skillDistributionValue.quantity
+                          )}%`}
+                          )
+                        </span>
+                      </h3>
+                    </li>
+                  )
               )}
             </ul>
           </div>
