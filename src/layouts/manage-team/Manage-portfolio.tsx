@@ -1,7 +1,7 @@
 import { PortfolioApi } from "@/api/portfolio-api";
 import { IPortfolio } from "@/type/team/team.type";
-import { PlaylistAddOutlined } from "@mui/icons-material";
-import { Container, createTheme, ThemeProvider } from "@mui/material";
+import { KeyboardArrowDown, KeyboardArrowUp, PlaylistAddOutlined } from "@mui/icons-material";
+import { Collapse, Container, createTheme, ThemeProvider } from "@mui/material";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -42,6 +42,7 @@ export const ManagePortfolio = (props: Props) => {
   
   const router = useRouter();
   const [teamId, setTeamId] = useState<string>(router.query.teamId as string);
+  const [show, setShow] = useState(true);
   useEffect(() => {
     if (router.query.teamId) {
       PortfolioApi.getAll(parseInt(router.query.teamId as string)).then(
@@ -59,12 +60,29 @@ export const ManagePortfolio = (props: Props) => {
   return (
     <DashboardLayout>
       <ThemeProvider theme={theme}>
-        <div className="w-full h-full bg-thirdary p-4">
-          <Container fixed maxWidth="lg" className="h-full">
+        <div className="w-full h-full bg-thirdary py-4">
+          <Container fixed maxWidth="xl" className="h-full">
             <div className="flex  lg:flex-row flex-col h-full">
               <div className="lg:max-w-[280px] w-full lg:min-h-full bg-white flex flex-col p-2 lg:mr-4 lg:mb-0 mb-4">
-                <div className="mb-2">
+                <div
+                  className="mb-2 lg:flex hidden items-center justify-between"
+                >
                   <h1 className="text-3xl font-normal">My portfolio</h1>
+                </div>
+                <div
+                  className="mb-2 lg:hidden flex items-center justify-between"
+                  onClick={() => {
+                    setShow(!show);
+                  }}
+                >
+                  <h1 className="text-3xl font-normal">My portfolio</h1>
+                  {show ? (
+                    <KeyboardArrowDown className="text-2xl text-secondary" />
+                  ) : (
+                    <KeyboardArrowUp className="text-2xl text-secondary" />
+                  )}
+                </div>
+                <Collapse in={show}>
                   <p className="text-sm my-4">
                     The Portfolio items listed will be displayed on your Profile
                     page in the order below.
@@ -77,25 +95,28 @@ export const ManagePortfolio = (props: Props) => {
                       </a>
                     </Link>
                   </div>
-                </div>
-                <hr />
-                <div className="py-2 text-cyan-800 hover:underline">
-                  <Link href={`/team/${teamId}/dashboard/portfolio/clients`}>
-                    <a>Key Clients</a>
-                  </Link>
-                </div>
-                <hr />
-                <div className="">
-                  {portfolios.map((portfolio, i) => (
-                    <div key={i} className="py-2 text-cyan-800 hover:underline">
-                      <Link
-                        href={`/team/${teamId}/dashboard/portfolio/${portfolio.id}`}
+                  <hr />
+                  <div className="py-2 text-cyan-800 hover:underline">
+                    <Link href={`/team/${teamId}/dashboard/portfolio/clients`}>
+                      <a>Key Clients</a>
+                    </Link>
+                  </div>
+                  <hr />
+                  <div className="">
+                    {portfolios.map((portfolio, i) => (
+                      <div
+                        key={i}
+                        className="py-2 text-cyan-800 hover:underline"
                       >
-                        <a>{portfolio.title}</a>
-                      </Link>
-                    </div>
-                  ))}
-                </div>
+                        <Link
+                          href={`/team/${teamId}/dashboard/portfolio/${portfolio.id}`}
+                        >
+                          <a>{portfolio.title}</a>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </Collapse>
               </div>
               <div className="bg-white h-full w-full p-4">{props.children}</div>
             </div>

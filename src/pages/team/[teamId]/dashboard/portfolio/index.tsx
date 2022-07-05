@@ -33,7 +33,7 @@ const Portfolio = () => {
           </p>
         </div>
         <div className="relative">
-          <div className="xl:max-w-[450px] xl:absolute right-4 top-4">
+          <div className="xl:max-w-[450px] xl:absolute right-4 top-4 flex flex-col items-center justify-center xs:block">
             <h1 className="text-3xl">Add a Portfolio Item today!</h1>
             <p className="text-sm my-3">
               We recommend that vendors add information on their past projects
