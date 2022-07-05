@@ -73,10 +73,10 @@ const PortfolioDetail = () => {
           <div className="flex flex-col items-start border-r p-4">
             {portfolio.clientWebsite ? (
               <a
+              className="break-all"
                 href={portfolio.clientWebsite}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="break-all"
               >
                 <InsertLinkOutlined className="text-sm mr-2" />{" "}
                 {portfolio.clientWebsite}
@@ -122,7 +122,7 @@ const PortfolioDetail = () => {
         ) : null}
         {portfolio.videoLink ? (
           <div className="w-full flex items-center justify-center">
-            <a href={portfolio.videoLink}>{portfolio.videoLink}</a>
+            <a className="break-all" href={portfolio.videoLink}>{portfolio.videoLink}</a>
           </div>
         ) : null}
         <div className="flex flex-col-reverse xs:flex-row items-center justify-between p-2">

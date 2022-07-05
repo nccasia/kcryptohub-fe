@@ -181,7 +181,7 @@ const NewPortfolio = () => {
                   label={"Client Team"}
                   register={register("companyName")}
                   errors={errors.companyName}
-                  placeholder="team name"
+                  placeholder="Team name"
                   watch={watch("companyName")}
                   maxLength={50}
                 />
