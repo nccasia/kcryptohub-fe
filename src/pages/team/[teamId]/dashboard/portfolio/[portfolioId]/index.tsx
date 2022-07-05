@@ -76,6 +76,7 @@ const PortfolioDetail = () => {
                 href={portfolio.clientWebsite}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="break-all"
               >
                 <InsertLinkOutlined className="text-sm mr-2" />{" "}
                 {portfolio.clientWebsite}
@@ -124,9 +125,9 @@ const PortfolioDetail = () => {
             <a href={portfolio.videoLink}>{portfolio.videoLink}</a>
           </div>
         ) : null}
-        <div className="flex items-center justify-between p-2">
+        <div className="flex flex-col-reverse xs:flex-row items-center justify-between p-2">
           <Link href={`#`}>
-            <a onClick={handleDelte}>
+            <a onClick={handleDelte} className="py-4 xs:py-0">
               Delete Portfolio Item{" "}
               <DeleteOutline className="text-md text-secondary" />
             </a>
