@@ -86,7 +86,7 @@ export const memberSlice = createSlice({
     builder
       .addCase(getMemberList.rejected, (state, action) => {
         toast.error(action.error.message, {
-          position: "bottom-right",
+          position: "top-left",
           autoClose: 1500,
           hideProgressBar: false,
           closeOnClick: true,
@@ -102,7 +102,7 @@ export const memberSlice = createSlice({
     builder
       .addCase(addMember.rejected, (state, action) => {
         toast.error(action.error.message, {
-          position: "bottom-right",
+          position: "top-left",
           autoClose: 1500,
           hideProgressBar: false,
           closeOnClick: true,
@@ -114,7 +114,7 @@ export const memberSlice = createSlice({
       .addCase(addMember.fulfilled, (state, action) => {
         state.success = true
         toast.success("Members successfully invited", {
-          position: "bottom-right",
+          position: "top-left",
           autoClose: 1500,
           hideProgressBar: false,
           closeOnClick: true,
@@ -127,7 +127,7 @@ export const memberSlice = createSlice({
     builder
       .addCase(removeMember.rejected, (state, action) => {
         toast.error(action.error.message, {
-          position: "bottom-right",
+          position: "top-left",
           autoClose: 1500,
           hideProgressBar: false,
           closeOnClick: true,
@@ -139,7 +139,7 @@ export const memberSlice = createSlice({
       .addCase(removeMember.fulfilled, (state, action) => {
         state.success = true;
         toast.success("Delete Success!", {
-          position: "bottom-right",
+          position: "top-left",
           autoClose: 1500,
           hideProgressBar: false,
           closeOnClick: true,
@@ -150,7 +150,7 @@ export const memberSlice = createSlice({
       })
     builder.addCase(joinTeam.rejected, (state, action) => {
       toast.error(action.error.message, {
-        position: "bottom-right",
+        position: "top-left",
         autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,

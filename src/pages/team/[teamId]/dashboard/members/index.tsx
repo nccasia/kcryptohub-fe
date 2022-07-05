@@ -50,9 +50,6 @@ const theme = createTheme({
         },
       },
     },
-    // MuiContainer: {
-    //   styleOverrides: {
-    //     root: {
   },
 });
 
@@ -152,7 +149,7 @@ const Members = () => {
       setTags((tag) => {
         if (checkDuplicate(email)) {
           toast.warning(`${email} is already in the team`, {
-            position: "bottom-right",
+            position: "top-left",
             autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
@@ -165,7 +162,7 @@ const Members = () => {
 
         if (email === Owner.emailAddress) {
           toast.warning(`${email} is owner of the team`, {
-            position: "bottom-right",
+            position: "top-left",
             autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
@@ -178,7 +175,7 @@ const Members = () => {
 
         if (tags.find((tag) => tag.email === email)) {
           toast.warning(`${email} is already exist`, {
-            position: "bottom-right",
+            position: "top-left",
             autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
@@ -325,9 +322,9 @@ const Members = () => {
                           : "py-1 text-sm font-normal hidden"
                       }
                     >
-                      Add team members via email
+                      Add team members via email{" "}
                       <span className="opacity-50 ">
-                        ( separate emails with a enter if correct format):
+                        (separate emails with a enter if correct format):
                       </span>
                     </span>
                     <div
@@ -703,7 +700,7 @@ const Members = () => {
         </Container>
       </ThemeProvider>
 
-      <ToastContainer autoClose={2000} position="bottom-right" />
+      <ToastContainer autoClose={2000} position="top-left" />
     </DashboardLayout>
   );
 };
