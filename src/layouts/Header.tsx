@@ -87,7 +87,7 @@ export const Header = () => {
                           htmlFor="showDropdown"
                           className="cursor-pointer"
                         >
-                          <span className="block xxs:ml-0 ml-2">ME</span>
+                          <span className="block xxs:ml-0 mx-2">ME</span>
                         </label>
                         <div
                           className="invisible flex flex-col absolute z-10 top-6 p-1 border min-w-[230px] w-full bg-white text-cyan-800 md:right-[-20px] 
@@ -149,8 +149,8 @@ export const Header = () => {
                     <div className="text-white font-semibold hover:text-cyan-400 text-right">
                       <Link href={`/login`}>
                         <a>
-                          <span>Sign in</span>
-                          <PersonOutline className="text-sm" />
+                          <span className="text-[16p] mx-2">Sign in</span>
+                          <PersonOutline className="text-[20px]" />
                         </a>
                       </Link>
                     </div>
