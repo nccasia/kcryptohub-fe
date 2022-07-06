@@ -1,18 +1,25 @@
 import { PortfolioApi } from "@/api/portfolio-api";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
 import { EPrivacy, IPortfolio } from "@/type/team/team.type";
-import { ApiOutlined, CalendarMonthOutlined, DeleteOutline, InsertLinkOutlined, LabelOutlined, LockOutlined } from "@mui/icons-material";
+import {
+  ApiOutlined,
+  CalendarMonthOutlined,
+  DeleteOutline,
+  InsertLinkOutlined,
+  LabelOutlined,
+  LockOutlined,
+} from "@mui/icons-material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import Image from "next/image"
+import Image from "next/image";
 
 const PortfolioDetail = () => {
   const [teamId, setTeamId] = useState<number>(NaN);
   const [portfolioId, setPortfolioId] = useState<number>(NaN);
   const [portfolio, setPortfolio] = useState<IPortfolio>({} as IPortfolio);
-  const [ isDeleting, setIsDeleting ] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
   useEffect(() => {
     if (router.query.teamId) {
@@ -37,10 +44,10 @@ const PortfolioDetail = () => {
           toast.error("failed get portfolio info");
         });
     }
-  },[portfolioId]);
+  }, [portfolioId]);
 
   useEffect(() => {
-    if(isDeleting){
+    if (isDeleting) {
       PortfolioApi.deletePortfolio(portfolioId)
         .then((res) => {
           if (res) {
@@ -56,11 +63,11 @@ const PortfolioDetail = () => {
           setIsDeleting(false);
         });
     }
-  },[isDeleting])
+  }, [isDeleting]);
   const handleDelte = () => {
     setIsDeleting(true);
   };
-  return (  
+  return (
     <ManagePortfolio>
       <div className="">
         <div className="flex items-center justify-between border-b ">
@@ -115,8 +122,8 @@ const PortfolioDetail = () => {
                   portfolio.imageUrl || "/user1.png"
               }
               alt="img"
-              width={300}
-              height={300}
+              width={400}
+              height={200}
             />
           </div>
         ) : null}

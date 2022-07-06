@@ -56,7 +56,6 @@ const CreateNewTeam = () => {
     <Layout>
       <ThemeProvider theme={theme}>
         <Container
-          fixed
           maxWidth="lg"
           className="border border-[#cae0e7] md:!px-8"
         >

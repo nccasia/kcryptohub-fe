@@ -57,7 +57,7 @@ export const ManagePortfolio = (props: Props) => {
     <DashboardLayout>
       <ThemeProvider theme={theme}>
         <div className="w-full h-full bg-thirdary py-4">
-          <Container fixed maxWidth="xl" className="h-full">
+          <Container maxWidth="xl" className="h-full">
             <div className="flex  lg:flex-row flex-col h-full">
               <div className="lg:max-w-[280px] w-full lg:min-h-full bg-white flex flex-col p-2 lg:mr-4 lg:mb-0 mb-4">
                 <div

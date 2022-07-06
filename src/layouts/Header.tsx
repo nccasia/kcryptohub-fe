@@ -1,5 +1,6 @@
 import { useAppSelector } from "@/redux/hooks";
 import {
+  AccountCircleRounded,
   BookmarkBorderOutlined,
   ChatOutlined,
   CreateOutlined,
@@ -8,6 +9,7 @@ import {
   PersonOutline,
   Search,
 } from "@mui/icons-material";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
@@ -19,17 +21,21 @@ export const Header = () => {
   const user = useAppSelector((state) => state.ProfileReducer.userInfo);
   const [userImage, setUserImage] = useState(user.avatarPath);
   const [showMenu, setShowMenu] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const router = useRouter();
   return (
     <>
       <div className="bg-primary text-white ">
         <div className="flex flex-col items-center justify-center w-full border-b border-cyan-700">
-          <div className="flex md:flex-row flex-col md:items-center items-start justify-center w-full md:w-4/5 px-2 pt-2">
+          <div className="flex md:flex-row flex-col md:items-center items-start justify-center w-full md:w-4/5 px-2 pt-2 py-2">
             <div className="flex justify-between w-full md:w-auto">
               <div className="md:hidden">
                 <Menu
                   onClick={() => {
                     setShowMenu(!showMenu);
+                    if (showSearch) {
+                      setShowSearch(false);
+                    }
                   }}
                 />
               </div>
@@ -38,10 +44,19 @@ export const Header = () => {
                   KryptoHub
                 </a>
               </Link>
-              <div className="md:hidden">
+              <label
+                className="md:hidden"
+                onClick={() => {
+                  setShowSearch(!showSearch);
+                  if (showMenu) {
+                    setShowMenu(false);
+                  }
+                }}
+              >
                 <Search />
-              </div>
+              </label>
             </div>
+
             <div
               className={`${
                 showMenu ? "flex" : "hidden"
@@ -52,7 +67,7 @@ export const Header = () => {
                   <input
                     type="text"
                     placeholder="Search"
-                    className="shadow appearance-none border xxs:mb-0 mb-2 w-full focus:outline-none focus:shadow-outline bg-transparent pl-2"
+                    className="shadow appearance-none border xxs:mb-0 xxs:block hidden mb-2 w-full focus:outline-none focus:shadow-outline bg-transparent pl-2"
                   />
                   <div className="ml-[-1.5rem]">
                     <Search fontSize="small" />
@@ -87,14 +102,14 @@ export const Header = () => {
                           <Link href="/manage-teams">
                             <div
                               className="p-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer relative
-                            before:w-full before:h-[1px] before:bg-cyan-800 before:absolute before:top-0"
+                            before:w-full before:left-0 before:h-[1px] before:bg-cyan-800 before:absolute before:top-0"
                             >
                               <a>Manage Teams</a>
                             </div>
                           </Link>
                           <div
                             className="p-1 border-l-2  border-white hover:border-red-700 hover:text-red-700 cursor-pointer relative
-                            before:w-full before:h-[1px] before:bg-cyan-800 before:absolute before:top-0"
+                            before:w-full before:left-0 before:h-[1px] before:bg-cyan-800 before:absolute before:top-0"
                             onClick={() => {
                               localStorage.removeItem("accessToken");
                               signOut({
@@ -108,6 +123,7 @@ export const Header = () => {
                       </div>
                       <Link href={"/profile"}>
                         <a>
+                          {userImage ? 
                           <Image
                             src={userImage || "/favicon.ico"}
                             alt="avatar"
@@ -118,6 +134,7 @@ export const Header = () => {
                               setUserImage("/favicon.ico");
                             }}
                           />
+                          :<AccountCircleRounded className="text-thirdary"/>}
                         </a>
                       </Link>
                     </div>
@@ -155,6 +172,19 @@ export const Header = () => {
                 </div>
               </div>
             </div>
+          </div>
+          <div
+            className={`w-full flex relative ${showSearch ? "flex" : "hidden"}`}
+          >
+            <div className="flex-[70%] w-full items-center">
+              <ChevronLeftIcon className="absolute left-2 bottom-[9px] text-[#08537e] " />
+              <input
+                className={` md:max-w-[500px] w-full border-2 border-[#cae0e7] md:hidden pl-10 px-3 py-2 outline-none placeholder:text-[#cae0e7] text-black rounded-none `}
+              />
+            </div>
+            <button className="absolute right-0 px-3 py-2 bg-white text-cyan-700 border-2 border-[#cae0e7]">
+              Go
+            </button>
           </div>
         </div>
       </div>

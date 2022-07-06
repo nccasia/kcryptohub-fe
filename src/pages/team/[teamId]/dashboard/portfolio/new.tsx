@@ -306,7 +306,7 @@ const NewPortfolio = () => {
                 <div className="items-center my-4 font-medium">
                   <label
                     htmlFor="endDate"
-                    className="text-primary xs:min-w-[130px] max-w-[300px] flex justify-between py-2 md:py-0"
+                    className="text-primary xs:min-w-[130px] max-w-[300px] flex justify-between items-center py-2 md:py-0"
                   >
                     Add a Video Link or Image
                     <span className="text-sm text-gray-300">optional</span>
