@@ -270,7 +270,6 @@ export const SkillDis = (props: IProps) => {
     };
     if (total === 100) {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
-      console.log(props.imageFile);
       await dispatch(
         createTeam({
           team: formData as unknown as ICreateTeam,

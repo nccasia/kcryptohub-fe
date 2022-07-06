@@ -130,7 +130,7 @@ const TeamDetail = () => {
                   objectFit="contain"
                 />
               </div>
-              <h1 className="w-full bg-primary flex items-center ml-1">
+              <h1 className="w-full bg-primary flex items-center">
                 <Link href="#">
                   <a className="xxs:text-3xl text-xl text-white ml-2">
                     {teamProfile.teamName}

@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
-import { saveTeam } from "@/redux/teamSlice";
+import { saveTeam, updateTeam } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { TimeZone } from "@/type/enum/TimeZone";
 import { Skill } from "@/type/Skill";
@@ -19,6 +19,8 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import * as yub from "yup";
 import { Dialog } from "../Dialog";
 import { UploadImage } from "./UploadImage";
+import { Team } from "@/type/team/team.type";
+import { teamApi } from "@/api/team-api";
 
 const schema = yub.object().shape({
   teamName: yub
@@ -69,8 +71,20 @@ export interface IProps {
   setStep: (step: number) => void;
   imageFile: File | null;
   setImageFile: (file: File | null) => void;
+  defaultTeamInfo?: Team;
 }
-
+const selectRange = {
+  totalEmployee: [
+    "Freelance",
+    "2-9",
+    "10-49",
+    "50-249",
+    "250-499",
+    "1,000-9,999",
+    "10,000+",
+  ],
+  projectSize: ["1-5"],
+};
 export const CreateForm = (props: IProps) => {
   const {
     register,
@@ -84,23 +98,20 @@ export const CreateForm = (props: IProps) => {
 
   const [createObjectURL, setCreateObjectURL] = useState("");
   const [image, setImage] = useState(props.imageFile);
-  const [count, setCount] = useState(0);
   const [dataSkill, setData] = useState<Skill[]>([]);
   const skills = useAppSelector(getSkillsSelector);
   const timeZone = Object.values(TimeZone);
   const [open, setOpen] = useState(false);
-  const selectRange = {
-    totalEmployee: [
-      "Freelance",
-      "2-9",
-      "10-49",
-      "50-249",
-      "250-499",
-      "1,000-9,999",
-      "10,000+",
-    ],
-    projectSize: ["1-5"],
-  };
+
+  useEffect(() => {
+    if (props.defaultTeamInfo) {
+      reset({ ...props.defaultTeamInfo, skills: [] });
+      setData(props.defaultTeamInfo.skills || []);
+      setCreateObjectURL(
+        teamApi.getTeamImageUrl(props.defaultTeamInfo.imageUrl)
+      );
+    }
+  }, [props.defaultTeamInfo]);
 
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -151,15 +162,31 @@ export const CreateForm = (props: IProps) => {
     }
   };
 
-  const handleSave = () => {
-    const formSave = {
-      ...watch(),
-      skills: dataSkill,
-    } as unknown as ICreateTeam;
+  const handleSave = async () => {
+    if (props.defaultTeamInfo) {
+      dispatch(
+        updateTeam({
+          ...watch(),
+          id: props.defaultTeamInfo.id.toString(),
+          imageUrl:
+            createObjectURL.length > 0 ? props.defaultTeamInfo.imageUrl : null,
+            skills: dataSkill,
+        } as ICreateTeam)
+      );
+      if (image) {
+        await teamApi.postImage(image, props.defaultTeamInfo.id);
+      }
+      
+    } else {
+      const formSave = {
+        ...watch(),
+        skills: dataSkill,
+      } as unknown as ICreateTeam;
 
-    dispatch(saveTeam(formSave));
+      dispatch(saveTeam(formSave));
 
-    props.nextStep();
+      props.nextStep();
+    }
   };
 
   const handleBack = () => {
@@ -174,9 +201,6 @@ export const CreateForm = (props: IProps) => {
   const to = Array.from(Array(new Date().getFullYear() + 1).keys());
   const founded = to.filter((i) => !from.includes(i));
 
-  useEffect(() => {
-    setCount(watch("description").length);
-  }, [watch("description")]);
   return (
     <div>
       {" "}
@@ -238,9 +262,7 @@ export const CreateForm = (props: IProps) => {
                 <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                   Time Zone
                 </label>
-                <div
-                  className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary"
-                >
+                <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
                   <select
                     {...register("timeZone")}
                     className="w-full"
@@ -273,7 +295,6 @@ export const CreateForm = (props: IProps) => {
                     {...register("teamSize")}
                     className="w-full hidden-arrow-input-number"
                     defaultValue={team.teamSize || ""}
-             
                   >
                     <option value="">- Select a value -</option>
                     {selectRange.totalEmployee.map((cur, index) => (
@@ -300,7 +321,6 @@ export const CreateForm = (props: IProps) => {
                     {...register("founded")}
                     className="w-full"
                     defaultValue={team.founded || ""}
-                 
                   >
                     <option className="text-sm" value="">
                       - Select a value -
@@ -367,7 +387,9 @@ export const CreateForm = (props: IProps) => {
                       </p>
                     </div>
                   )}
-                  <span className="text-sm text-gray-500">{count}/200</span>
+                  <span className="text-sm text-gray-500">
+                    {watch("description")?.length || 0}/200
+                  </span>
                 </div>
               </div>
             </div>
@@ -462,19 +484,22 @@ export const CreateForm = (props: IProps) => {
 
         <hr className="w-full h-[1px] border border-[#cae0e7]"></hr>
         <div className="flex items-center justify-between md:min-h-[80px] my-5">
-          <button
-            type="button"
-            className="text-cyan-700 flex items center"
-            onClick={handleBack}
-          >
-            <a>
-              <span className="text-red-600 font-medium">
-                <ChevronLeftIcon />
-              </span>
-              Back
-            </a>
-          </button>
-
+          {props.defaultTeamInfo ? (
+            <div className=""></div>
+          ) : (
+            <button
+              type="button"
+              className="text-cyan-700 flex items center"
+              onClick={handleBack}
+            >
+              <a>
+                <span className="text-red-600 font-medium">
+                  <ChevronLeftIcon />
+                </span>
+                Back
+              </a>
+            </button>
+          )}
           <button
             type="button"
             onClick={handleSubmit(handleSave)}
@@ -482,10 +507,16 @@ export const CreateForm = (props: IProps) => {
               "py-3 md:text-md text-sm text-white px-3 flex items center bg-[red]"
             }
           >
-            Add Skill Distribution
-            <span className=" font-medium">
-              <ChevronRightIcon />
-            </span>
+            {props.defaultTeamInfo ? (
+              "Save changes"
+            ) : (
+              <>
+                Add Skill Distribution
+                <span className=" font-medium">
+                  <ChevronRightIcon />
+                </span>
+              </>
+            )}
           </button>
         </div>
       </form>
@@ -498,3 +529,4 @@ export const CreateForm = (props: IProps) => {
     </div>
   );
 };
+

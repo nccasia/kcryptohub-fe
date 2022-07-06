@@ -35,8 +35,7 @@ export const updateTeam = createAsyncThunk(
   "updateTeam",
   async (team: ICreateTeam) => {
     const response = await teamApi.updateTeam(team);
-
-    return response.data.data;
+    return response;
   }
 );
 
