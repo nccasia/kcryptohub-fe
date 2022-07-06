@@ -68,14 +68,16 @@ export const TeamCard = (props: Props) => {
       <div className="flex-1">
         <div className="flex xs:flex-row flex-col items-start  xxs:items-center border-b relative">
           <div className="flex items-center justify-center p-2">
-            <Image
-              key={team.id}
-              width={50}
-              height={50}
-              src={teamImgSrc}
-              onError={() => setTeamImgSrc("/user1.png")}
-              alt="logo"
-            />
+            <div className="h-[50px] w-[50px] relative">
+              <Image
+                key={team.id}
+                layout="fill"
+                objectFit="contain"
+                src={teamImgSrc}
+                onError={() => setTeamImgSrc("/user1.png")}
+                alt="logo"
+              />
+            </div>
             <div className="xxs:hidden ml-2">
               <Link href={`/team/${team.id}`}>
                 <a className="text-3xl">{team.teamName}</a>
