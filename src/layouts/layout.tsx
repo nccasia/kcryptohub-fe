@@ -53,7 +53,7 @@ const Layout = (props: IHeaderProps) => {
     <div className="flex flex-col h-full">
       <Header />
 
-      <div className="flex-1 ">{props.children}</div>
+      <div className="flex-1 bg-thirdary ">{props.children}</div>
 
       <Footer />
 
