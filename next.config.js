@@ -8,6 +8,7 @@ const nextConfig = {
       "avatars.githubusercontent.com",
       "www.google.com",
       "kryptohub-be.herokuapp.com",
+      "kryptohub-fe.herokuapp.com",
       "img.youtube.com",
       "localhost",
     ],

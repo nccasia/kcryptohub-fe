@@ -13,6 +13,8 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 
 import * as yub from "yup";
 import { Dialog } from "../Dialog";
@@ -213,13 +215,17 @@ export const CreateForm = (props: IProps) => {
                 <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                   Team Website
                 </label>
-                <input
-                  {...register("linkWebsite")}
-                  autoComplete="off"
-                  placeholder="https://Team-name.com/"
-                  className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
-                  defaultValue={team.linkWebsite || ""}
-                />
+                <div className="w-full flex flex-col justify-center relative">
+                  <LanguageOutlinedIcon className="absolute left-2 text-[#08537e] text-[20px]" />
+                  <input
+                    {...register("linkWebsite")}
+                    autoComplete="off"
+                    placeholder="https://team-name.com/"
+                    className="md:max-w-[500px] w-full border-2 border-[#cae0e7] pl-10 px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
+                    defaultValue={team.linkWebsite || ""}
+                  />
+                </div>
+
                 {errors?.linkWebsite && (
                   <div className="flex justify-left mt-1 text-sm ">
                     <p className={" block text-red-500 font-medium"}>
@@ -369,13 +375,16 @@ export const CreateForm = (props: IProps) => {
               <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                 Sales Email
               </label>
-              <input
-                autoComplete="off"
-                {...register("saleEmail")}
-                className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                placeholder="email@email.com"
-                defaultValue={team.saleEmail || ""}
-              />
+              <div className="w-full flex flex-col justify-center relative">
+                <EmailOutlinedIcon className="absolute left-2 text-[#08537e] text-[20px] bottom-[11px]" />
+                <input
+                  autoComplete="off"
+                  {...register("saleEmail")}
+                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] pl-10 px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                  placeholder="email@email.com"
+                  defaultValue={team.saleEmail || ""}
+                />
+              </div>
               {errors?.saleEmail && (
                 <div className="flex justify-left mt-1 text-sm ">
                   <p className={" block  text-red-500 font-medium"}>
