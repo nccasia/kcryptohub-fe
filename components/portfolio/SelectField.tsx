@@ -26,15 +26,17 @@ export const SelectField = ({
       >
         {label}
       </label>
-      <div className="xs:w-fit w-full flex flex-col relative">
+      <div
+        className={`xs:max-w-[375px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary ${
+          errors && "bg-red-200"
+        }`}
+      >
         <select
           id={label.trim().toLowerCase().replace(/\s/g, "-")}
           {...register}
           autoComplete="off"
           defaultValue={defaultValue}
-          className={`xs:min-w-[350px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
-            errors && "bg-red-200"
-          }`}
+          className={`xs:min-w-[350px] w-full bg-transparent`}
         >
           <option value="" className="text-gray-500 bg-white xs:max-w-[200px]">
             {placeholder}
