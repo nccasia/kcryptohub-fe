@@ -76,6 +76,7 @@ const Portfolio = ({
                     src={PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)}
                     alt="portfolio"
                     layout="fill"
+                    objectFit={"contain"}
                   />
                 </div>
               ) : null}
@@ -102,14 +103,14 @@ const Portfolio = ({
               </div>
               <div className="w-full block md:hidden">
                 {portfolio?.imageUrl ? (
-                  <div className="mt-2 mb-3 relative">
+                  <div className="h-[200px] mt-2 mb-3 relative">
                     <Image
                       src={PortfolioApi.getPortfolioImageUrl(
                         portfolio.imageUrl
                       )}
                       alt="portfolio"
-                      width={400}
-                      height={200}
+                      layout="fill"
+                      objectFit={"contain"}
                     />
                   </div>
                 ) : null}
