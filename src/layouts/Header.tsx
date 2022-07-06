@@ -1,5 +1,6 @@
 import { useAppSelector } from "@/redux/hooks";
 import {
+  AccountCircleOutlined,
   AccountCircleRounded,
   BookmarkBorderOutlined,
   ChatOutlined,
@@ -60,22 +61,22 @@ export const Header = () => {
             <div
               className={`${
                 showMenu ? "flex" : "hidden"
-              } md:flex flex-col flex-1 w-full xxs:flex-col flex-col-reverse`}
+              } md:flex flex-1 w-full xxs:flex-col flex-col md:items-end md:justify-end items-start justify-start`}
             >
-              <div className="flex xxs:flex-row xxs:mt-0 mt-2 flex-col xxs:items-center items-start xs:justify-end justify-between text-white">
+              <div className="flex xxs:flex-row flex-col xxs:items-center items-start xs:justify-end justify-between text-white">
                 <div className="flex">
                   <input
                     type="text"
                     placeholder="Search"
-                    className="shadow appearance-none border xxs:mb-0 xxs:block hidden mb-2 w-full focus:outline-none focus:shadow-outline bg-transparent pl-2"
+                    className="shadow appearance-none border xxs:mb-0 md:block hidden mb-2 w-full focus:outline-none focus:shadow-outline bg-transparent pl-2"
                   />
                   <div className="ml-[-1.5rem]">
                     <Search fontSize="small" />
                   </div>
                 </div>
-                <div className="uppercase tracking-wider text-xs ml-2 hover:underline flex  items-center justify-center">
+                <div className="tracking-wider text-xs ml-2 hover:underline flex  items-center justify-center">
                   {user.username ? (
-                    <div className="flex xxs:flex-row flex-row-reverse justify-end items-center">
+                    <div className="flex md:flex-row flex-row-reverse justify-end items-center">
                       <div className="flex group relative">
                         <input
                           type="text"
@@ -86,30 +87,34 @@ export const Header = () => {
                           htmlFor="showDropdown"
                           className="cursor-pointer"
                         >
-                          <span className="block xxs:ml-0 ml-2">
-                            {user?.username || "anonymous"} <ArrowDropDown />
-                          </span>
+                          <span className="block xxs:ml-0 mx-2">ME</span>
                         </label>
                         <div
-                          className="invisible flex flex-col absolute z-10 top-6 border md:min-w-[130px] w-full bg-white text-cyan-800
+                          className="invisible flex flex-col absolute z-10 top-6 p-1 border min-w-[230px] w-full bg-white text-cyan-800 md:right-[-20px] 
                peer-focus:visible  peer-focus:z-20 peer-focus:animate-slide-in-up hover:visible"
                         >
+                          <div className="text-gray-900">
+                            <AccountCircleOutlined className="text-[20px] mr-1" />
+                            {user.username}
+                          </div>
                           <Link href="/profile">
-                            <div className="p-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer">
+                            <div
+                              className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer "
+                            >
                               <a>Profile</a>
                             </div>
                           </Link>
+                          <hr />
                           <Link href="/manage-teams">
                             <div
-                              className="p-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer relative
-                            before:w-full before:left-0 before:h-[1px] before:bg-cyan-800 before:absolute before:top-0"
+                              className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer "
                             >
                               <a>Manage Teams</a>
                             </div>
                           </Link>
+                          <hr />
                           <div
-                            className="p-1 border-l-2  border-white hover:border-red-700 hover:text-red-700 cursor-pointer relative
-                            before:w-full before:left-0 before:h-[1px] before:bg-cyan-800 before:absolute before:top-0"
+                            className="p-1 my-1 border-l-2  border-white hover:border-red-700 hover:text-red-700 cursor-pointer "
                             onClick={() => {
                               localStorage.removeItem("accessToken");
                               signOut({
@@ -123,18 +128,20 @@ export const Header = () => {
                       </div>
                       <Link href={"/profile"}>
                         <a>
-                          {userImage ? 
-                          <Image
-                            src={userImage || "/favicon.ico"}
-                            alt="avatar"
-                            className="w-8 h-8 rounded-full"
-                            width={32}
-                            height={32}
-                            onError={(e) => {
-                              setUserImage("/favicon.ico");
-                            }}
-                          />
-                          :<AccountCircleRounded className="text-thirdary"/>}
+                          {userImage ? (
+                            <Image
+                              src={userImage || "/favicon.ico"}
+                              alt="avatar"
+                              className="w-8 h-8 rounded-full"
+                              width={32}
+                              height={32}
+                              onError={(e) => {
+                                setUserImage("/favicon.ico");
+                              }}
+                            />
+                          ) : (
+                            <AccountCircleRounded className="text-thirdary" />
+                          )}
                         </a>
                       </Link>
                     </div>
@@ -142,15 +149,15 @@ export const Header = () => {
                     <div className="text-white font-semibold hover:text-cyan-400 text-right">
                       <Link href={`/login`}>
                         <a>
-                          <span>Sign in</span>
-                          <PersonOutline className="text-sm" />
+                          <span className="text-[16p] mx-2">Sign in</span>
+                          <PersonOutline className="text-[20px]" />
                         </a>
                       </Link>
                     </div>
                   )}
                 </div>
               </div>
-              <div className="flex xs:flex-row flex-col md:items-center items-start justify-end font-semibold xl:text-xl pt-4 px-4 lg:text-lg text-md ">
+              <div className="flex flex-row md:items-center items-start xxs:justify-end justify-start font-semibold xl:text-xl pt-4 px-4 lg:text-lg text-md ">
                 <div className="cursor-pointer group relative mr-2">
                   <div className="">
                     <Link href={"/teams"}>

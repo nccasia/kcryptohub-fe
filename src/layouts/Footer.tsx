@@ -2,11 +2,14 @@ export const Footer = () => {
   return (
     <footer
       className="w-full bg-primary relative 
-      sm:before:w-full before:w-0 before:h-[1px] before:bg-cyan-600 before:absolute lg:before:top-1/4 sm:before:top-1/2 before:top-1/3"
+      sm:before:w-full before:w-0 before:h-[1px] before:bg-cyan-600 before:absolute lg:before:mt-3 lg:before:top-1/4 sm:before:top-1/2 before:top-1/3"
     >
-      <div className="flex items-center justify-center w-full h-full sm:before:w-0 before:absolute before:w-full before:bg-cyan-600 before:h-[1px] before:top-14 before:left-0 ">
+      <div className="flex items-center justify-center w-full h-full 
+      sm:before:w-0 before:absolute before:w-full before:bg-cyan-600 before:h-[1px] before:top-14 before:left-0 ">
         <div className=" grid w-full 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-4 text-white container-xl h-full pl-8">
-          <div className="px-4 relative h-full min-h-fit sm:before:w-[1px] sm:before:h-full sm:before:absolute sm:before:right-[-5px] sm:before:bg-cyan-600 after:absolute after:bg-cyan-600 after:w-[1px] after:h-16 after:left-0 after:top-5 sm:after:w-0">
+          <div className="px-4 relative h-full min-h-fit 
+          sm:before:w-[1px] sm:before:h-full sm:before:absolute sm:before:right-[-5px] sm:before:bg-cyan-600 
+          after:absolute after:bg-cyan-600 after:w-[1px] after:h-16 after:left-0 after:top-5 sm:after:w-0">
             <div className="sm:mt-[17%] sm:mb-6 my-4 ">
               <h1 className="xl:text-3xl text-2xl">KryptoHub</h1>
             </div>
@@ -25,7 +28,9 @@ export const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="px-4 relative mt-5 sm:mt-0 mb-16 sm:before:w-[1px] sm:before:h-3/4 sm:before:absolute sm:before:right-[-5px] sm:before:top-[20%] sm:before:mt-4 sm:before:bg-cyan-600 before:w-0 after:absolute after:w-[1px] after:bg-cyan-600 after:h-full after:-bottom-48 after:left-0 sm:after:w-0 ">
+          <div className="px-4 relative mt-5 sm:mt-0 mb-16 
+          sm:before:w-[1px] sm:before:h-3/4 sm:before:absolute sm:before:right-[-5px] sm:before:top-[20%] sm:before:mt-4 sm:before:bg-cyan-600 before:w-0 
+          after:absolute after:w-[1px] after:bg-cyan-600 after:h-full after:-bottom-48 after:left-0 sm:after:w-0 ">
             <div className="sm:mt-[20%] sm:mb-6 text-gray-400 my-2">
               <h1 className="xl:text-2xl text-lg">About Kryptohub</h1>
             </div>
@@ -59,7 +64,7 @@ export const Footer = () => {
             </ul>
           </div>
           <div className="px-4 relative mb-16 sm:before:mt-4 sm:before:w-[1px] sm:before:h-3/4 sm:before:absolute sm:before:right-[-5px] sm:before:top-[20%] sm:before:bg-cyan-600 before:w-0 after:absolute after:w-full after:bg-cyan-600 after:h-[1px] after:top-0 after:-left-4 sm:after:w-0">
-            <div className="sm:mt-[20%] sm:mb-6 py-2 text-gray-400">
+            <div className="sm:mt-[20%] sm:mb-6 text-gray-400">
               <h1 className="xl:text-2xl text-lg">Buyers</h1>
             </div>
             <ul className="flex flex-col justify-around sm:h-3/4 w-full h-full lg:text-md xl:text-lg font-semibold">

@@ -238,19 +238,23 @@ export const CreateForm = (props: IProps) => {
                 <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                   Time Zone
                 </label>
-                <select
-                  {...register("timeZone")}
-                  className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
-                  defaultValue={team.timeZone || ""}
+                <div
+                  className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary"
                 >
-                  <option value="">- Select a value -</option>
-                  {timeZone &&
-                    timeZone.map((cur, index) => (
-                      <option key={index} value={cur}>
-                        {cur}
-                      </option>
-                    ))}
-                </select>
+                  <select
+                    {...register("timeZone")}
+                    className="w-full"
+                    defaultValue={team.timeZone || ""}
+                  >
+                    <option value="">- Select a value -</option>
+                    {timeZone &&
+                      timeZone.map((cur, index) => (
+                        <option key={index} value={cur}>
+                          {cur}
+                        </option>
+                      ))}
+                  </select>
+                </div>
                 {errors?.timeZone && (
                   <div className="flex justify-left mt-1 text-sm ">
                     <p className={"block  text-red-500 font-medium"}>
@@ -264,18 +268,21 @@ export const CreateForm = (props: IProps) => {
                 <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                   Total Employees
                 </label>
-                <select
-                  {...register("teamSize")}
-                  className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary hidden-arrow-input-number"
-                  defaultValue={team.teamSize || ""}
-                >
-                  <option value="">- Select a value -</option>
-                  {selectRange.totalEmployee.map((cur, index) => (
-                    <option key={index} value={cur}>
-                      {cur}
-                    </option>
-                  ))}
-                </select>
+                <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
+                  <select
+                    {...register("teamSize")}
+                    className="w-full hidden-arrow-input-number"
+                    defaultValue={team.teamSize || ""}
+             
+                  >
+                    <option value="">- Select a value -</option>
+                    {selectRange.totalEmployee.map((cur, index) => (
+                      <option key={index} value={cur}>
+                        {cur}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 {errors?.teamSize && (
                   <div className="flex justify-left mt-1  text-sm ">
                     <p className={" block text-red-500 font-medium"}>
@@ -288,21 +295,24 @@ export const CreateForm = (props: IProps) => {
                 <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                   Founding Year
                 </label>
-                <select
-                  {...register("founded")}
-                  className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
-                  defaultValue={team.founded || ""}
-                >
-                  <option className="text-sm" value="">
-                    - Select a value -
-                  </option>
-                  {founded &&
-                    founded.map((cur, index) => (
-                      <option className="text-sm" key={index} value={cur}>
-                        {cur}
-                      </option>
-                    ))}
-                </select>
+                <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
+                  <select
+                    {...register("founded")}
+                    className="w-full"
+                    defaultValue={team.founded || ""}
+                 
+                  >
+                    <option className="text-sm" value="">
+                      - Select a value -
+                    </option>
+                    {founded &&
+                      founded.map((cur, index) => (
+                        <option className="text-sm" key={index} value={cur}>
+                          {cur}
+                        </option>
+                      ))}
+                  </select>
+                </div>
                 {errors?.founded && (
                   <div className="flex justify-left mt-1 text-sm ">
                     <p className={"block  text-red-500 font-medium"}>

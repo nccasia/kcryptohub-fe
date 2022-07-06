@@ -80,7 +80,7 @@ const PortfolioDetail = () => {
           <div className="flex flex-col items-start border-r p-4">
             {portfolio.clientWebsite ? (
               <a
-              className="break-all"
+                className="break-all"
                 href={portfolio.clientWebsite}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -115,21 +115,23 @@ const PortfolioDetail = () => {
           </div>
         </div>
         {portfolio.imageUrl ? (
-          <div className="w-full flex items-center justify-center">
+          <div className="h-[200px] sm:h-[300px] relative">
             <Image
               src={
                 "https://kryptohub-be.herokuapp.com/api/portfolio/getImage/" +
                   portfolio.imageUrl || "/user1.png"
               }
               alt="img"
-              width={400}
-              height={200}
+              layout="fill"
+              objectFit={"contain"}
             />
           </div>
         ) : null}
         {portfolio.videoLink ? (
           <div className="w-full flex items-center justify-center">
-            <a className="break-all" href={portfolio.videoLink}>{portfolio.videoLink}</a>
+            <a className="break-all" href={portfolio.videoLink}>
+              {portfolio.videoLink}
+            </a>
           </div>
         ) : null}
         <div className="flex flex-col-reverse xs:flex-row items-center justify-between p-2">
