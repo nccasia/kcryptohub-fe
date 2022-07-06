@@ -122,7 +122,8 @@ const PortfolioDetail = () => {
                   portfolio.imageUrl || "/user1.png"
               }
               alt="img"
-              layout="fill"
+              width={400}
+              height={200}
             />
           </div>
         ) : null}

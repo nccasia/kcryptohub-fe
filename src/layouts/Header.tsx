@@ -1,5 +1,6 @@
 import { useAppSelector } from "@/redux/hooks";
 import {
+  AccountCircleRounded,
   BookmarkBorderOutlined,
   ChatOutlined,
   CreateOutlined,
@@ -122,6 +123,7 @@ export const Header = () => {
                       </div>
                       <Link href={"/profile"}>
                         <a>
+                          {userImage ? 
                           <Image
                             src={userImage || "/favicon.ico"}
                             alt="avatar"
@@ -132,6 +134,7 @@ export const Header = () => {
                               setUserImage("/favicon.ico");
                             }}
                           />
+                          :<AccountCircleRounded className="text-thirdary"/>}
                         </a>
                       </Link>
                     </div>
