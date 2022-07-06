@@ -102,13 +102,14 @@ const Portfolio = ({
               </div>
               <div className="w-full block md:hidden">
                 {portfolio?.imageUrl ? (
-                  <div className=" h-[300px] mt-2 mb-3 relative">
+                  <div className="mt-2 mb-3 relative">
                     <Image
                       src={PortfolioApi.getPortfolioImageUrl(
                         portfolio.imageUrl
                       )}
                       alt="portfolio"
-                      layout="fill"
+                      width={400}
+                      height={200}
                     />
                   </div>
                 ) : null}
