@@ -60,9 +60,9 @@ export const Header = () => {
             <div
               className={`${
                 showMenu ? "flex" : "hidden"
-              } md:flex flex-col flex-1 w-full xxs:flex-col flex-col-reverse`}
+              } md:flex flex-1 w-full xxs:flex-col flex-col`}
             >
-              <div className="flex xxs:flex-row xxs:mt-0 mt-2 flex-col xxs:items-center items-start xs:justify-end justify-between text-white">
+              <div className="flex xxs:flex-row flex-col xxs:items-center items-start xs:justify-end justify-between text-white">
                 <div className="flex">
                   <input
                     type="text"
@@ -150,7 +150,7 @@ export const Header = () => {
                   )}
                 </div>
               </div>
-              <div className="flex xs:flex-row flex-col md:items-center items-start justify-end font-semibold xl:text-xl pt-4 px-4 lg:text-lg text-md ">
+              <div className="flex flex-row md:items-center items-start xxs:justify-end justify-start font-semibold xl:text-xl pt-4 px-4 lg:text-lg text-md ">
                 <div className="cursor-pointer group relative mr-2">
                   <div className="">
                     <Link href={"/teams"}>
