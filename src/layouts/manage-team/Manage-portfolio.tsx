@@ -1,16 +1,12 @@
 import { PortfolioApi } from "@/api/portfolio-api";
-import { IPortfolio } from "@/type/team/team.type";
 import { KeyboardArrowDown, KeyboardArrowUp, PlaylistAddOutlined } from "@mui/icons-material";
 import { Collapse, Container, createTheme, ThemeProvider } from "@mui/material";
-import { configureStore, createSlice } from "@reduxjs/toolkit";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
-  useContext, useEffect, useState
+   useEffect, useState
 } from "react";
-import { Provider, useSelector } from "react-redux";
 import DashboardLayout from "../dashboard/Dashboard";
-import { Layout } from "../layout";
 
 const theme = createTheme({
   components: {

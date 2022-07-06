@@ -59,7 +59,7 @@ export const Header = () => {
             <div
               className={`${
                 showMenu ? "flex" : "hidden"
-              } md:flex flex-col flex-1 w-full`}
+              } md:flex flex-col flex-1 w-full xxs:flex-col flex-col-reverse`}
             >
               <div className="flex xxs:flex-row xxs:mt-0 mt-2 flex-col xxs:items-center items-start xs:justify-end justify-between text-white">
                 <div className="flex">
