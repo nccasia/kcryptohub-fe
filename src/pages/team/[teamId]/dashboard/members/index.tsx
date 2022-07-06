@@ -50,9 +50,6 @@ const theme = createTheme({
         },
       },
     },
-    // MuiContainer: {
-    //   styleOverrides: {
-    //     root: {
   },
 });
 
@@ -152,7 +149,7 @@ const Members = () => {
       setTags((tag) => {
         if (checkDuplicate(email)) {
           toast.warning(`${email} is already in the team`, {
-            position: "bottom-right",
+            position: "top-left",
             autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
@@ -165,7 +162,7 @@ const Members = () => {
 
         if (email === Owner.emailAddress) {
           toast.warning(`${email} is owner of the team`, {
-            position: "bottom-right",
+            position: "top-left",
             autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
@@ -178,7 +175,7 @@ const Members = () => {
 
         if (tags.find((tag) => tag.email === email)) {
           toast.warning(`${email} is already exist`, {
-            position: "bottom-right",
+            position: "top-left",
             autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
@@ -325,9 +322,9 @@ const Members = () => {
                           : "py-1 text-sm font-normal hidden"
                       }
                     >
-                      Add team members via email
+                      Add team members via email{" "}
                       <span className="opacity-50 ">
-                        ( separate emails with a enter if correct format):
+                        (separate emails with a enter if correct format):
                       </span>
                     </span>
                     <div
@@ -593,15 +590,15 @@ const Members = () => {
                       </div>
                       <div className="w-1/5 px-4 py-2 text-sm font-normal">
                         {item.inviteStatus === InviteStatus.PENDING ? (
-                          <div className="bg-[#cae0e7] rounded-3xl px-2 py-1 w-[110px] text-center">
+                          <div className="bg-[#cae0e7] rounded-3xl px-2 pb-1 -pt-1 w-[110px] text-center">
                             <span className="!text-xs">Invite Pending</span>
                           </div>
                         ) : item.inviteStatus === InviteStatus.ACCEPTED ? (
-                          <div className="bg-[#d51512] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
+                          <div className="bg-[#d51512] text-[#fff] rounded-3xl px-2 pb-1 -pt-1 w-[110px] text-center">
                             <span className="!text-xs">Accepted</span>
                           </div>
                         ) : (
-                          <div className="bg-[#ff3d2e] text-[#fff] rounded-3xl px-2 py-1 w-[110px] text-center">
+                          <div className="bg-[#ff3d2e] text-[#fff] rounded-3xl px-2 pb-1 -pt-1 w-[110px] text-center">
                             <span className="!text-xs">invite Expired</span>
                           </div>
                         )}
@@ -703,7 +700,7 @@ const Members = () => {
         </Container>
       </ThemeProvider>
 
-      <ToastContainer autoClose={2000} position="bottom-right" />
+      <ToastContainer autoClose={2000} position="top-left" />
     </DashboardLayout>
   );
 };
