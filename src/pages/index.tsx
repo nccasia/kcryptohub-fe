@@ -1,24 +1,10 @@
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getProfile } from "@/redux/profileSlice";
-import type { NextPage } from "next";
-import { Collapse, Modal } from "@mui/material";
-import { signOut, useSession } from "next-auth/react";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import React, { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import {
-  ArrowForwardIosOutlined,
-  ArrowForwardOutlined,
-  Code,
-} from "@mui/icons-material";
-import { Collapsor } from "../layouts/Collapsor";
-import { Header } from "../layouts/Header";
-import { Layout } from "../layouts/layout";
 import { TimeZone } from "@/type/enum/TimeZone";
+import { ArrowForwardIosOutlined, Code } from "@mui/icons-material";
+import SearchIcon from "@mui/icons-material/Search";
+import type { NextPage } from "next";
+import Link from "next/link";
+import { Collapsor } from "../layouts/Collapsor";
+import { Layout } from "../layouts/layout";
 
 const categoty: { [id: string]: string[] } = {
   Development: [
@@ -96,16 +82,23 @@ const Home: NextPage = () => {
               Choose the best-fit company for your business using 98,000+ client
               reviews from real people.
             </h2>
-            <div className="flex lg:flex-row flex-col items-start">
-              <h2 className="text-gray-600 mr-5">I am looking for</h2>
-              <div className="flex md:flex-row flex-col w-full">
-                <input
-                  className="appearance-none relative mr-3 block w-full px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="e.g.App Development, UX design..."
-                  type="search"
-                />
-                <h2 className="text-gray-600 mr-3">in</h2>
-                <select className="appearance-none mr-3 relative block w-full px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+            <div className="flex lg:flex-row flex-col items-start lg:items-center">
+              <h2 className="text-gray-600 mr-3 min-w-[115px]">
+                I am looking for
+              </h2>
+              <div className="flex md:flex-row flex-col w-full ">
+                <div className="w-full flex flex-col justify-center relative">
+                  <SearchIcon className="absolute left-2 bottom-[6px] text-[#08537e] " />
+                  <input
+                    className="appearance-none min-w-[300px] border-2 border-[#cae0e7] mr-3 block w-full pl-8 px-3 py-2 border-solid placeholder-gray-500 text-gray-900 focus:outline-none focus:border-black  md:mt-0 mt-4 sm:text-sm placeholder:text-xs"
+                    placeholder="e.g.App Development, UX design, IT services..."
+                    type="search"
+                  />
+                </div>
+                <h2 className="text-gray-600 mx-3 md:flex items-center hidden">
+                  in
+                </h2>
+                <select className="appearance-none mr-3 min-w-[190px] border-2 border-[#cae0e7] relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3 text-gray-900  focus:outline-none focus:border-black  focus:z-10 sm:text-sm">
                   <option value="">--Timezone--</option>
                   {Object.values(TimeZone).map((cur, index) => (
                     <option key={index} value={cur}>
@@ -114,7 +107,7 @@ const Home: NextPage = () => {
                   ))}
                 </select>
 
-                <button className="px-10 py-2 mr-2 bg-red-500 text-white mt-2 xxs:mt-0 rounded-sm w-full">
+                <button className="px-10 min-w-[150px] py-2 mr-2 bg-red-500 text-white mt-2 md:mt-0 rounded-sm w-full">
                   Find Team
                 </button>
               </div>

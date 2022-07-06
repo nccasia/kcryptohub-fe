@@ -11,7 +11,7 @@ export const authApi = {
   async register(payload: IRegisterForm, redirectToLogin: Function) {
     try {
       const response = await axiosClient.post("/auth/register", payload);
-      toast.success("Success!", {
+      toast.success("Register Successfully!", {
         position: "top-center",
       });
       await new Promise((resolve) => {

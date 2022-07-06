@@ -376,7 +376,7 @@ export const CreateForm = (props: IProps) => {
                 Sales Email
               </label>
               <div className="w-full flex flex-col justify-center relative">
-                <EmailOutlinedIcon className="absolute left-2 text-[#08537e] text-[20px]" />
+                <EmailOutlinedIcon className="absolute left-2 text-[#08537e] text-[20px] bottom-[11px]" />
                 <input
                   autoComplete="off"
                   {...register("saleEmail")}
