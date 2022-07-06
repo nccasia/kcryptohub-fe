@@ -28,6 +28,7 @@ const TeamDetail = () => {
   const [hash, setHash] = useState<string>(ESection[ESection["SUMMARY"]]);
   const { teamId } = router.query;
   const [ownerId, setOwnerId] = useState(NaN);
+
   useEffect(() => {
     const handleChangeHash = () => {
       const isSummaryVisibile = isInViewport(
@@ -49,6 +50,8 @@ const TeamDetail = () => {
           ESection[ESection["SKILL-DISTRIBUTION"]].toLowerCase();
       } else if (isPortfolioVisibile) {
         window.location.hash = ESection[ESection["PORTFOLIO"]].toLowerCase();
+      } else {
+        window.location.hash = '';
       }
       setHash(window.location.hash.substr(1).toUpperCase());
     };
@@ -101,7 +104,6 @@ const TeamDetail = () => {
         window.scrollTo(0, offsetTop);
         break;
       }
-
       default:
         break;
     }
