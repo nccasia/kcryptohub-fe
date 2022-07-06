@@ -157,7 +157,10 @@ const PortfolioEdit = () => {
   const onSubmit = async () => {
     
     const data = await PortfolioApi.updatePortfolio(
-      watch() as IPortfolio,
+      {
+        ...watch(),
+        imageUrl: imageUrl.length > 0 ? portfolio?.imageUrl : null,
+      } as IPortfolio,
       teamId,
       portfolioId
     );

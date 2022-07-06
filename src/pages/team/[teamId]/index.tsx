@@ -28,6 +28,7 @@ const TeamDetail = () => {
   const [hash, setHash] = useState<string>(ESection[ESection["SUMMARY"]]);
   const { teamId } = router.query;
   const [ownerId, setOwnerId] = useState(NaN);
+
   useEffect(() => {
     const handleChangeHash = () => {
       const isSummaryVisibile = isInViewport(
@@ -49,6 +50,8 @@ const TeamDetail = () => {
           ESection[ESection["SKILL-DISTRIBUTION"]].toLowerCase();
       } else if (isPortfolioVisibile) {
         window.location.hash = ESection[ESection["PORTFOLIO"]].toLowerCase();
+      } else {
+        window.location.hash = '';
       }
       setHash(window.location.hash.substr(1).toUpperCase());
     };
@@ -101,7 +104,6 @@ const TeamDetail = () => {
         window.scrollTo(0, offsetTop);
         break;
       }
-
       default:
         break;
     }
@@ -116,7 +118,7 @@ const TeamDetail = () => {
             className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
           >
             <div className="flex xs:w-auto w-full">
-              <div className="flex items-center justify-center p-2">
+              <div className="w-[100px] relative p-2">
                 <Image
                   src={
                     teamProfile.imageUrl
@@ -124,11 +126,11 @@ const TeamDetail = () => {
                       : "/user1.png"
                   }
                   alt="avatar"
-                  width={50}
-                  height={50}
+                  layout="fill"
+                  objectFit="contain"
                 />
               </div>
-              <h1 className="w-full bg-primary flex items-center">
+              <h1 className="w-full bg-primary flex items-center ml-1">
                 <Link href="#">
                   <a className="xxs:text-3xl text-xl text-white ml-2">
                     {teamProfile.teamName}
