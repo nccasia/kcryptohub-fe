@@ -575,14 +575,12 @@ const Members = () => {
                           <AccountCircleIcon className="w-5 h-5" />
                         </span>
                         <span>
-                          {item.user === null
-                            ? "-"
-                            : item.user?.username.trim()}
+                          {item.user === null ? "-" : item.user?.username}
                         </span>
                       </div>
                       <div className="w-1/5 px-4 py-2 text-sm font-normal">
                         <span className="text-[#17313b] w-full">
-                          {item.emailAddress.trim().replace(/\s/g, "")}
+                          {item.emailAddress}
                         </span>
                       </div>
                       <div className="w-1/5 px-4 py-2 text-sm font-normal">

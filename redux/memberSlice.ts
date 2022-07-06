@@ -86,13 +86,7 @@ export const memberSlice = createSlice({
     builder
       .addCase(getMemberList.rejected, (state, action) => {
         toast.error(action.error.message, {
-          position: "top-left",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          position: toast.POSITION.BOTTOM_RIGHT,
         });
       })
       .addCase(getMemberList.fulfilled, (state, action) => {
@@ -102,61 +96,31 @@ export const memberSlice = createSlice({
     builder
       .addCase(addMember.rejected, (state, action) => {
         toast.error(action.error.message, {
-          position: "top-left",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          position: toast.POSITION.BOTTOM_RIGHT,
         });
       })
       .addCase(addMember.fulfilled, (state, action) => {
         state.success = true
         toast.success("Members successfully invited", {
-          position: "top-left",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          position: toast.POSITION.BOTTOM_RIGHT,
         })
 
       })
     builder
       .addCase(removeMember.rejected, (state, action) => {
         toast.error(action.error.message, {
-          position: "top-left",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          position: toast.POSITION.BOTTOM_RIGHT,
         });
       })
       .addCase(removeMember.fulfilled, (state, action) => {
         state.success = true;
         toast.success("Delete Success!", {
-          position: "top-left",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          position: toast.POSITION.BOTTOM_RIGHT,
         })
       })
     builder.addCase(joinTeam.rejected, (state, action) => {
       toast.error(action.error.message, {
-        position: "top-left",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
     )
