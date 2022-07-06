@@ -24,6 +24,9 @@ export const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const router = useRouter();
+  useEffect(() => {
+    setUserImage(user.avatarPath);
+  },[user]);
   return (
     <>
       <div className="bg-primary text-white ">
@@ -91,24 +94,31 @@ export const Header = () => {
                         </label>
                         <div
                           className="invisible flex flex-col absolute z-10 top-6 p-1 border min-w-[230px] w-full bg-white text-cyan-800 md:right-[-20px] 
-               peer-focus:visible  peer-focus:z-20 peer-focus:animate-slide-in-up hover:visible"
+               peer-focus:visible  peer-focus:z-20 peer-focus:animate-slide-in-up hover:visible text-lg"
                         >
-                          <div className="text-gray-900">
-                            <AccountCircleOutlined className="text-[20px] mr-1" />
+                          <div className="text-gray-900 flex items-center">
+                            {userImage ? (
+                              <div className="w-[30px] h-[30px] relative">
+                                <Image
+                                  src={userImage}
+                                  alt="avatar"
+                                  layout="fill"
+                                  objectFit="contain"
+                                />
+                              </div>
+                            ) : (
+                              <AccountCircleOutlined className="text-3xl mr-1" />
+                            )}
                             {user.username}
                           </div>
                           <Link href="/profile">
-                            <div
-                              className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer "
-                            >
+                            <div className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer ">
                               <a>Profile</a>
                             </div>
                           </Link>
                           <hr />
                           <Link href="/manage-teams">
-                            <div
-                              className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer "
-                            >
+                            <div className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer ">
                               <a>Manage Teams</a>
                             </div>
                           </Link>
@@ -149,7 +159,7 @@ export const Header = () => {
                     <div className="text-white font-semibold hover:text-cyan-400 text-right">
                       <Link href={`/login`}>
                         <a>
-                          <span className="text-[16p] mx-2">Sign in</span>
+                          <span className="text-[16px] mx-2">Sign in</span>
                           <PersonOutline className="text-[20px]" />
                         </a>
                       </Link>
