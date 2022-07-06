@@ -575,14 +575,12 @@ const Members = () => {
                           <AccountCircleIcon className="w-5 h-5" />
                         </span>
                         <span>
-                          {item.user === null
-                            ? "-"
-                            : item.user?.username.trim()}
+                          {item.user === null ? "-" : item.user?.username}
                         </span>
                       </div>
                       <div className="w-1/5 px-4 py-2 text-sm font-normal">
                         <span className="text-[#17313b] w-full">
-                          {item.emailAddress.trim().replace(/\s/g, "")}
+                          {item.emailAddress}
                         </span>
                       </div>
                       <div className="w-1/5 px-4 py-2 text-sm font-normal">
@@ -590,16 +588,20 @@ const Members = () => {
                       </div>
                       <div className="w-1/5 px-4 py-2 text-sm font-normal">
                         {item.inviteStatus === InviteStatus.PENDING ? (
-                          <div className="bg-[#cae0e7] rounded-3xl px-2 pb-1 -pt-1 w-[110px] text-center">
-                            <span className="!text-xs">Invite Pending</span>
+                          <div className="bg-[#cae0e7] rounded-3xl px-2 py-2 w-[110px] text-center">
+                            <span className="!text-xs py-[1px]">
+                              Invite Pending
+                            </span>
                           </div>
                         ) : item.inviteStatus === InviteStatus.ACCEPTED ? (
-                          <div className="bg-[#d51512] text-[#fff] rounded-3xl px-2 pb-1 -pt-1 w-[110px] text-center">
-                            <span className="!text-xs">Accepted</span>
+                          <div className="bg-[#d51512] text-[#fff] rounded-3xl px-2 py-2 w-[110px] text-center">
+                            <span className="!text-xs py-[1px]">Accepted</span>
                           </div>
                         ) : (
-                          <div className="bg-[#ff3d2e] text-[#fff] rounded-3xl px-2 pb-1 -pt-1 w-[110px] text-center">
-                            <span className="!text-xs">invite Expired</span>
+                          <div className="bg-[#ff3d2e] text-[#fff] rounded-3xl px-2 py-2 w-[110px] text-center">
+                            <span className="!text-xs py-[1px]">
+                              invite Expired
+                            </span>
                           </div>
                         )}
                       </div>
