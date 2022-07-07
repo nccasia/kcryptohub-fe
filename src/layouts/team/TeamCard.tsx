@@ -67,7 +67,7 @@ export const TeamCard = (props: Props) => {
     <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col">
       <div className="xl:col-span-10 md:col-span-9 col-span-12">
         <div className="grid grid-cols-12 border-b relative">
-          <div className="md:col-span-1 col-span-12 flex items-center justify-start  p-2">
+          <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start  p-2">
             <div className="h-[50px] w-[50px] relative">
               <Image
                 key={team.id}
@@ -90,7 +90,7 @@ export const TeamCard = (props: Props) => {
               </Link>
             </div>
           </div>
-          <div className="md:col-span-11 col-span-12 px-2">
+          <div className="xl;col-span-11 md:col-span-10 col-span-12 px-2">
             <div className="w-full break-words">
               <Link href={`/team/${team.id}`}>
                 <a
@@ -101,7 +101,7 @@ export const TeamCard = (props: Props) => {
                   <span className="w-full break-words">{team.teamName}</span>
                 </a>
               </Link>
-              <p className="text-cyan-700 ml-2 text-ellipsis inline-block max-w-full">
+              <p className="text-cyan-700 px-2 text-ellipsis inline-block max-w-full">
                 {team.slogan}
               </p>
             </div>
