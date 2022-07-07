@@ -90,7 +90,7 @@ export const TeamCard = (props: Props) => {
               </Link>
             </div>
           </div>
-          <div className="xl;col-span-11 md:col-span-10 col-span-12 px-2">
+          <div className="xl;col-span-11 md:col-span-10 col-span-12 px-2 flex items-center justify-center">
             <div className="w-full break-words">
               <Link href={`/team/${team.id}`}>
                 <a

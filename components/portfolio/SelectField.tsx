@@ -36,7 +36,7 @@ export const SelectField = ({
           {...register}
           autoComplete="off"
           defaultValue={defaultValue}
-          className={`xs:min-w-[350px] w-full bg-transparent`}
+          className={`xs:min-w-[350px] w-full bg-transparent outline-none`}
         >
           <option value="" className="text-gray-500 bg-white xs:max-w-[200px]">
             {placeholder}

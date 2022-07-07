@@ -266,7 +266,7 @@ export const CreateForm = (props: IProps) => {
                 <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
                   <select
                     {...register("timeZone")}
-                    className="w-full"
+                    className="w-full outline-none"
                     defaultValue={team.timeZone || ""}
                   >
                     <option value="">- Select a value -</option>
@@ -294,7 +294,7 @@ export const CreateForm = (props: IProps) => {
                 <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
                   <select
                     {...register("teamSize")}
-                    className="w-full hidden-arrow-input-number"
+                    className="w-full hidden-arrow-input-number outline-none"
                     defaultValue={team.teamSize || ""}
                   >
                     <option value="">- Select a value -</option>
@@ -320,7 +320,7 @@ export const CreateForm = (props: IProps) => {
                 <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
                   <select
                     {...register("founded")}
-                    className="w-full"
+                    className="w-full outline-none"
                     defaultValue={team.founded || ""}
                   >
                     <option className="text-sm" value="">
@@ -444,7 +444,7 @@ export const CreateForm = (props: IProps) => {
               </label>
               <select
                 {...register("projectSize")}
-                className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary outline-none"
                 defaultValue={team.projectSize || "1-5"}
               >
                 <option value="">- Select a value -</option>
