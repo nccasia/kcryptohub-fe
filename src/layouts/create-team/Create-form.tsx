@@ -21,6 +21,8 @@ import { Dialog } from "../Dialog";
 import { UploadImage } from "./UploadImage";
 import { Team } from "@/type/team/team.type";
 import { teamApi } from "@/api/team-api";
+import { LoadingButton } from "@mui/lab";
+import { Save } from "@mui/icons-material";
 
 const schema = yub.object().shape({
   teamName: yub
@@ -518,12 +520,26 @@ export const CreateForm = (props: IProps) => {
             type="button"
             onClick={handleSubmit(handleSave)}
             className={
-              "py-3 md:text-md text-sm text-white px-3 flex items center bg-[red]"
+              "py-3 md:text-md text-sm text-white px-3 flex items center bg-[red] disabled:opacity-80 "
             }
             disabled={btnDisable}
           >
             {props.defaultTeamInfo ? (
-              "Save changes"
+              <>
+                {btnDisable ? (
+                  <LoadingButton
+                    className="md:text-md text-sm text-white flex items center border-0 opacity-80 p-0 px-2 "
+                    loading
+                    loadingPosition="start"
+                    startIcon={<Save />}
+                    variant="outlined"
+                  >
+                    Saving...
+                  </LoadingButton>
+                ) : (
+                  "Save changes"
+                )}
+              </>
             ) : (
               <>
                 Add Skill Distribution
