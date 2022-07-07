@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { LegacyRef, MutableRefObject } from "react";
+import React, { LegacyRef, MutableRefObject, useState } from "react";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import BadgeHover from "./BadgeHover";
 import { ITeamProfile } from "@/type/team/team.type";
@@ -11,13 +11,14 @@ export interface SummaryProps {
 
 const Summary = ({ summaryRef }: SummaryProps) => {
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
+  const [show, setShow] = useState(false);
 
   return (
     <section
       ref={summaryRef as LegacyRef<HTMLElement>}
       className="px-8 py-3 border-x border-[#cae0e7]"
     >
-      <h2 className="text-xl text-primary">{teamProfile.slogan}</h2>
+      <h2 className="text-xl sm:text-primary text-md mb-2 xs:max-w-[500px] max-w-[300px] break-words">{teamProfile.slogan}</h2>
       {teamProfile.status && (
         <div className="flex items-center gap-x-2 my-2">
           <div className="w-[10px] h-[10px] flex-none">
@@ -37,8 +38,22 @@ const Summary = ({ summaryRef }: SummaryProps) => {
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-2">
         <div>
-          <p className="text-sm text-[#6b7a7e] whitespace-pre-line">
-            {teamProfile.description}
+          {!show ? (
+            <p className="text-sm text-[#6b7a7e] h-auto max-h-[200px] overflow-hidden break-words whitespace-pre-line">
+              {teamProfile.description}
+            </p>
+          ) : (
+            <p className="text-sm text-[#6b7a7e] h-auto break-words whitespace-pre-line">
+              {teamProfile.description}
+            </p>
+          )}
+
+          <p
+            hidden={teamProfile.description?.length <= 650 || show}
+            className="text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
+            onClick={() => setShow(!show)}
+          >
+            READ MORE...
           </p>
         </div>
         <div className="grid grid-cols-2 mb-5  md:!flex md:flex-col">
