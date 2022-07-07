@@ -22,7 +22,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               >
                 <a
                   className={`block text-sm text-[#08537E] px-4 py-4 ${
-                    router.pathname.split("/")[4] === EDashboardNavbar.INFORMATION
+                    router.pathname.split("/")[4] ===
+                    EDashboardNavbar.INFORMATION
                       ? " text-secondary font-bold relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] after:bg-secondary"
                       : ""
                   }`}
@@ -100,6 +101,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 }}
               >
                 <a
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`block text-sm  px-4 py-4 ${" text-secondary font-normal relative"}`}
                 >
                   View team profile

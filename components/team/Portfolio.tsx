@@ -175,6 +175,7 @@ const Portfolio = ({
                       }
                       alt="portfolio"
                       className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
+                      layout="intrinsic"
                       width={400}
                       height={200}
                     />

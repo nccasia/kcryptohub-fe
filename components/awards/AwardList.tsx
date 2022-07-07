@@ -50,14 +50,17 @@ const AwardList = () => {
       <ul>
         {awards?.length > 0 &&
           awards.map((award: IAwardDetail) => (
-            <li key={award.id} className="py-2 border-t border-[#cae0e7]">
+            <li
+              key={award.id}
+              className="py-2 border-t border-[#cae0e7] truncate"
+            >
               <Link
                 href={{
                   pathname: `/team/[teamId]/dashboard/awards/[awardId]`,
                   query: { teamId, awardId: award.id },
                 }}
               >
-                <a className="text-sm text-[#08537e] cursor-pointer hover:underline">
+                <a className="text-sm text-[#08537e] cursor-pointer hover:underline ">
                   {award.awardsTitle}
                 </a>
               </Link>

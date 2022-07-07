@@ -64,10 +64,10 @@ export const TeamCard = (props: Props) => {
     }
   }, [team.imageUrl]);
   return (
-    <div className="flex md:flex-row w-full border-y my-4 shadow-md flex-col">
-      <div className="flex-1">
-        <div className="flex xs:flex-row flex-col items-start  xxs:items-center border-b relative">
-          <div className="flex items-center justify-center p-2">
+    <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col">
+      <div className="xl:col-span-10 md:col-span-9 col-span-12">
+        <div className="grid grid-cols-12 border-b relative">
+          <div className="md:col-span-1 col-span-12 flex items-center justify-start  p-2">
             <div className="h-[50px] w-[50px] relative">
               <Image
                 key={team.id}
@@ -78,24 +78,36 @@ export const TeamCard = (props: Props) => {
                 alt="logo"
               />
             </div>
-            <div className="xxs:hidden ml-2">
+            <div className="xxs:hidden ml-2 md:max-w-[300px] max-w-[250px] break-words ">
               <Link href={`/team/${team.id}`}>
-                <a className="text-3xl">{team.teamName}</a>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-3xl"
+                >
+                  {team.teamName}
+                </a>
               </Link>
             </div>
           </div>
-          <div className="flex flex-col w-full px-2">
-            <div className="flex flex-row">
-              <div className="flex items-end">
-                <Link href={`/team/${team.id}`}>
-                  <a className="text-3xl xxs:flex hidden">{team.teamName}</a>
-                </Link>
-                <span className="text-cyan-700 ml-2">{team.slogan}</span>
-              </div>
-              <div className="absolute top-0 right-0 flex-1 text-right">
-                <div className="absolute top-[-6px] right-6 group">
-                  <BookmarkBorderOutlined className="absolute " />
-                </div>
+          <div className="md:col-span-11 col-span-12 px-2">
+            <div className="w-full break-words">
+              <Link href={`/team/${team.id}`}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-3xl xxs:inline-block hidden break-words"
+                >
+                  <span className="w-full break-words">{team.teamName}</span>
+                </a>
+              </Link>
+              <p className="text-cyan-700 ml-2 text-ellipsis inline-block max-w-full">
+                {team.slogan}
+              </p>
+            </div>
+            <div className="absolute top-0 right-0 flex-1 text-right">
+              <div className="absolute top-[-6px] right-6 group">
+                <BookmarkBorderOutlined className="absolute " />
               </div>
             </div>
           </div>
@@ -163,13 +175,19 @@ export const TeamCard = (props: Props) => {
 
             <div className="">
               <span className="font-medium ">Description: </span>
-              <p className="max-h-[8rem] overflow-hidden text-ellipsis">
+              <p className=" overflow-hidden text-ellipsis break-words">
                 {team.description?.length > 100
                   ? team.description.slice(0, 100) + "..."
                   : team.description}
                 {team.description?.length > 100 ? (
                   <Link href={`/team/${team.id}`}>
-                    <span className="text-cyan-400 cursor-pointer">More</span>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-cyan-400 cursor-pointer"
+                    >
+                      More
+                    </a>
                   </Link>
                 ) : null}
               </p>
@@ -177,9 +195,9 @@ export const TeamCard = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-row-reverse md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-md">
+      <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-md">
         <a
-          className="sm:px-2 flex items-center justify-start h-1/3 flex-1 border"
+          className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white  border cursor-pointer "
           href={
             team.linkWebsite
               ? team.linkWebsite.includes("https")
@@ -189,26 +207,26 @@ export const TeamCard = (props: Props) => {
           }
         >
           <span
-            className="xs:p-4 p-2 px-[1px] w-full bg-red-500 font-semibold text-white flex justify-between cursor-pointer border-2 border-red-500
+            className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-red-500 border-2 border-red-500
            hover:bg-transparent hover:text-red-500"
           >
             Visit Website <LanguageOutlined />
           </span>
         </a>
         <Link href={`/team/${team.id}`}>
-          <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 xs:flex-1 xs:w-full w-1/4">
-            <span className="xs:p-4 p-2  w-full flex items-center xs:justify-between justify-center border-2 border-transparent">
-              <span className="hidden xs:block">View Profile</span>{" "}
-              <InfoOutlined />
-            </span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center border flex-1"
+          >
+            <span className="hidden xs:block mr-2">View Profile</span>
+            <InfoOutlined />
           </a>
         </Link>
         <Link href={`/team/${team.id}/contact`}>
-          <a className="px-2 flex items-center justify-start h-1/3 border cursor-pointer hover:text-red-500 xs:flex-1 xs:w-full w-1/4">
-            <span className="xs:p-4 p-2 w-full flex items-center xs:justify-between justify-center border-2 border-transparent">
-              <span className="hidden xs:block">Contact</span>{" "}
-              <ContactlessOutlined />
-            </span>
+          <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center border flex-1">
+            <span className="hidden xs:block mr-2">Contact</span>
+            <ContactlessOutlined />
           </a>
         </Link>
       </div>
