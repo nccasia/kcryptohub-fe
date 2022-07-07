@@ -21,8 +21,19 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               </Link>
             </li>
             <li>
-              <Link href="#">
-                <a className="block text-sm text-[#08537E] px-4 py-4">
+              <Link
+                href={{
+                  pathname: `/team/[teamId]/dashboard/skill-distribution`,
+                  query: { teamId: router.query.teamId },
+                }}
+              >
+                <a
+                  className={`block text-sm text-[#08537E] px-4 py-4 ${
+                    router.pathname.split("/")[4] === EDashboardNavbar.SKILLDISTRIBUTION
+                      ? " text-secondary font-bold relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] after:bg-secondary"
+                      : ""
+                  }`}
+                >
                   Skill Distribution
                 </a>
               </Link>

@@ -82,6 +82,7 @@ export const teamApi = {
       url: `/team/update/${team.id}`,
       data: team,
     });
+
     return response.data.data;
   },
 

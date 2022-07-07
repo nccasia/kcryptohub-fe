@@ -1,11 +1,8 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { createTeam, resetTeam } from "@/redux/teamSlice";
+import { createTeam, resetTeam, updateTeam } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { Skill } from "@/type/Skill";
-import {
-  ISkillDistribution,
-  ISkillDistributionValue,
-} from "@/type/skill/skill.types";
+import { ISkillDistribution } from "@/type/team/team.type";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import CloseIcon from "@mui/icons-material/Close";
@@ -13,7 +10,7 @@ import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import SaveIcon from "@mui/icons-material/Save";
 import { Slider, Typography } from "@mui/material";
-import { Chart as ChartJS, Legend, Title, Tooltip } from "chart.js";
+import { Chart as ChartJS, Legend, Title, Tooltip, ArcElement } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -27,7 +24,7 @@ import { toast } from "react-toastify";
 import { getProfile } from "@/redux/profileSlice";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-ChartJS.register(ChartDataLabels, Title, Tooltip, Legend);
+ChartJS.register(ChartDataLabels, Title, Tooltip, Legend, ArcElement);
 ChartJS.defaults.plugins.tooltip;
 
 const schema = yub.object().shape({
@@ -47,6 +44,8 @@ export interface IProps {
   imageFile?: File | null;
   setImageFile?: (imageFile: File | null) => void;
   title?: string;
+  skillDistribution?: ISkillDistribution[];
+  teamUpdate?: ICreateTeam;
 }
 
 const skillColor = [
@@ -87,6 +86,7 @@ export const SkillDis = (props: IProps) => {
     register,
     reset,
     handleSubmit,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(schema),
@@ -149,6 +149,21 @@ export const SkillDis = (props: IProps) => {
   ];
 
   const [skillDistribute, setDataSkillDistribute] = useState<IValue[]>([]);
+  const [skillName, setSkillName] = useState("");
+  const [skillId, setSkillId] = useState("");
+
+  useEffect(() => {
+    if (props.skillDistribution) {
+      setDataSkillDistribute(props.skillDistribution[0].skillDistributionValue);
+      setSkillName(props.skillDistribution[0].skillDistributionName);
+      setSkillId(props.skillDistribution[0].id as string);
+      setValue(
+        "skillDistributionName",
+        props.skillDistribution[0].skillDistributionName,
+        { shouldValidate: true }
+      );
+    }
+  }, [props.skillDistribution]);
 
   const [total, setTotal] = useState(0);
   const [show, setShow] = useState(false);
@@ -246,23 +261,24 @@ export const SkillDis = (props: IProps) => {
 
   const handleSaveCreateTeam = async () => {
     const formData = {
-      teamName: team.teamName,
-      description: team.description,
-      imageUrl: team.imageUrl,
-      skills: team.skills,
-      linkWebsite: team.linkWebsite,
-      founded: team.founded,
-      timeZone: team.timeZone,
-      projectSize: team.projectSize,
-      slogan: team.slogan,
-      teamSize: team.teamSize,
-      saleEmail: team.saleEmail,
-      awards: team.awards,
-      keyClients: team.keyClients,
-      portfolios: team.portfolios,
+      id: null || props.teamUpdate?.id,
+      teamName: team.teamName || props.teamUpdate?.teamName,
+      imageUrl: team.imageUrl || props.teamUpdate?.imageUrl,
+      description: team.description || props.teamUpdate?.description,
+      skills: team.skills || props.teamUpdate?.skills,
+      linkWebsite: team.linkWebsite || props.teamUpdate?.linkWebsite,
+      founded: team.founded || props.teamUpdate?.founded,
+      timeZone: team.timeZone || props.teamUpdate?.timeZone,
+      projectSize: team.projectSize || props.teamUpdate?.projectSize,
+      slogan: team.slogan || props.teamUpdate?.slogan,
+      teamSize: team.teamSize || props.teamUpdate?.teamSize,
+      saleEmail: team.saleEmail || props.teamUpdate?.saleEmail,
+      awards: team.awards || props.teamUpdate?.awards,
+      keyClients: team.keyClients || props.teamUpdate?.keyClients,
+      portfolios: team.portfolios || props.teamUpdate?.portfolios,
       skillDistribution: [
         {
-          id: null,
+          id: null || skillId,
           ...watch(),
           skillDistributionValue: skillDistribute,
         },
@@ -270,19 +286,26 @@ export const SkillDis = (props: IProps) => {
     };
     if (total === 100) {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
-      console.log(props.imageFile);
-      await dispatch(
-        createTeam({
-          team: formData as unknown as ICreateTeam,
-          file: props.imageFile || null,
-        })
-      ).then((res) => {
-        dispatch(resetTeam());
-      });
-      (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
-
-      dispatch(getProfile());
-      router.push("/manage-teams");
+      if (props.title === "Add") {
+        await dispatch(
+          createTeam({
+            team: formData as unknown as ICreateTeam,
+            file: props.imageFile || null,
+          })
+        ).then((res) => {
+          dispatch(resetTeam());
+        });
+        setLoading(true);
+        dispatch(getProfile());
+        router.push("/manage-teams");
+      } else {
+        await dispatch(updateTeam(formData as unknown as ICreateTeam));
+        setLoading(true);
+      }
+      setTimeout(() => {
+        (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
+        setLoading(false);
+      }, 1100);
     } else if (total > 100) {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       setLoading(true);
@@ -315,9 +338,11 @@ export const SkillDis = (props: IProps) => {
         <div className="md:flex-[50%] md:mr-5">
           <h2 className=" xl:text-3xl text-xl lg:text-2xl text-primary font-[400] font-['Roboto, sans-serif'] ">
             {props.title} Skill Distribution
-            <span className="md:hidden ml-1 text-gray-500">{`(${
-              props.step + 1
-            }/2)`}</span>
+            {props.title !== "Update" && (
+              <span className="md:hidden ml-1 text-gray-500">{`(${
+                props.step + 1
+              }/2)`}</span>
+            )}
           </h2>
           <p className="text-sm text-gray-600 py-5">
             Give buyers a sense of how you spend your time. You must add at
@@ -341,6 +366,8 @@ export const SkillDis = (props: IProps) => {
             <input
               placeholder="Enter name here"
               className="md:max-w-[500px] w-full mb-3 border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+              maxLength={30}
+              defaultValue={skillName || "" || props.teamUpdate?.teamName}
               {...register("skillDistributionName")}
             />
 
@@ -511,46 +538,74 @@ export const SkillDis = (props: IProps) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between md:min-h-[80px] my-5">
-        <button
-          onClick={() => {
-            if (props.step === 1 && (skillDistribute.length > 0 || isValid)) {
-              setOpenDialog(true);
-            } else {
-              props.setStep(0);
+      {props.title === "Add" && (
+        <div className="flex items-center justify-between md:min-h-[80px] my-5">
+          <button
+            onClick={() => {
+              if (props.step === 1 && (skillDistribute.length > 0 || isValid)) {
+                setOpenDialog(true);
+              } else {
+                props.setStep(0);
+              }
+            }}
+            className="text-cyan-700 flex items center"
+          >
+            <span className="text-red-600 font-medium">
+              <ChevronLeftIcon />
+            </span>
+            Back
+          </button>
+
+          <LoadingButton
+            className={!loading ? "hidden" : "py-3 px-3 flex items center"}
+            loading
+            loadingPosition="start"
+            startIcon={<SaveIcon />}
+            variant="outlined"
+          >
+            Save Changes
+          </LoadingButton>
+
+          <button
+            type="button"
+            onClick={handleSubmit(handleSaveCreateTeam)}
+            className={
+              +loading
+                ? "hidden"
+                : "py-3 text-white px-3 flex items center bg-[red]"
             }
-          }}
-          className="text-cyan-700 flex items center"
-        >
-          <span className="text-red-600 font-medium">
-            <ChevronLeftIcon />
-          </span>
-          Back
-        </button>
+            ref={buttonRef}
+          >
+            Save Changes
+          </button>
+        </div>
+      )}
 
-        <LoadingButton
-          className={!loading ? "hidden" : "py-3 px-3 flex items center"}
-          loading
-          loadingPosition="start"
-          startIcon={<SaveIcon />}
-          variant="outlined"
-        >
-          Save Changes
-        </LoadingButton>
-
-        <button
-          type="button"
-          onClick={handleSubmit(handleSaveCreateTeam)}
-          className={
-            +loading
-              ? "hidden"
-              : "py-3 text-white px-3 flex items center bg-[red]"
-          }
-          ref={buttonRef}
-        >
-          Save Changes
-        </button>
-      </div>
+      {props.title === "Update" && (
+        <div className="flex justify-end items-center">
+          <LoadingButton
+            className={!loading ? "hidden" : "py-3 px-3 flex items center"}
+            loading
+            loadingPosition="start"
+            startIcon={<SaveIcon />}
+            variant="outlined"
+          >
+            Save Changes
+          </LoadingButton>
+          <button
+            type="button"
+            onClick={handleSubmit(handleSaveCreateTeam)}
+            className={
+              +loading
+                ? "hidden"
+                : "py-3 text-white px-3 flex items center bg-[red]"
+            }
+            ref={buttonRef}
+          >
+            Save Changes
+          </button>
+        </div>
+      )}
       <Dialog
         open={openDialog}
         setOpen={setOpenDialog}
