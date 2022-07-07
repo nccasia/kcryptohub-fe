@@ -160,12 +160,14 @@ export const CreateForm = (props: IProps) => {
       (e.target as HTMLInputElement).value = "";
     }
   };
-
+  const [btnDisable, setBtnDisable] = useState(false);
   const handleSave = async () => {
     if (props.defaultTeamInfo) {
+      const data = watch();
+      setBtnDisable(true);
       dispatch(
         updateTeam({
-          ...watch(),
+          ...data,
           id: props.defaultTeamInfo.id.toString(),
           imageUrl:
             createObjectURL.length > 0 ? props.defaultTeamInfo.imageUrl : null,
@@ -175,7 +177,10 @@ export const CreateForm = (props: IProps) => {
       if (image) {
         await teamApi.postImage(image, props.defaultTeamInfo.id);
       }
-      
+      const to = setTimeout(() => {
+        setBtnDisable(false);
+      }, 1000);
+      return () => clearTimeout(to);
     } else {
       const formSave = {
         ...watch(),
@@ -515,6 +520,7 @@ export const CreateForm = (props: IProps) => {
             className={
               "py-3 md:text-md text-sm text-white px-3 flex items center bg-[red]"
             }
+            disabled={btnDisable}
           >
             {props.defaultTeamInfo ? (
               "Save changes"
