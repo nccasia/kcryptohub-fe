@@ -31,7 +31,7 @@ export const Header = () => {
     <>
       <div className="bg-primary text-white ">
         <div className="flex flex-col items-center justify-center w-full border-b border-cyan-700">
-          <div className="flex md:flex-row flex-col md:items-center items-start justify-center w-full md:w-4/5 px-2 pt-2 py-2">
+          <div className="flex md:flex-row flex-col md:items-center items-start justify-center w-full md:w-11/12 lg:w-5/6 px-2 pt-2 py-2">
             <div className="flex justify-between w-full md:w-auto">
               <div className="md:hidden">
                 <Menu
@@ -98,7 +98,7 @@ export const Header = () => {
                         >
                           <div className="text-gray-900 flex items-center">
                             {userImage ? (
-                              <div className="w-[30px] h-[30px] relative">
+                              <div className="w-[30px] h-[30px] relative mr-1">
                                 <Image
                                   src={userImage}
                                   alt="avatar"

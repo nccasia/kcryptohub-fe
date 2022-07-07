@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
-import { saveTeam } from "@/redux/teamSlice";
+import { saveTeam, updateTeam } from "@/redux/teamSlice";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { TimeZone } from "@/type/enum/TimeZone";
 import { Skill } from "@/type/Skill";
@@ -19,6 +19,10 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import * as yub from "yup";
 import { Dialog } from "../Dialog";
 import { UploadImage } from "./UploadImage";
+import { Team } from "@/type/team/team.type";
+import { teamApi } from "@/api/team-api";
+import { LoadingButton } from "@mui/lab";
+import { Save } from "@mui/icons-material";
 
 const schema = yub.object().shape({
   teamName: yub
@@ -68,8 +72,20 @@ export interface IProps {
   setStep: (step: number) => void;
   imageFile: File | null;
   setImageFile: (file: File | null) => void;
+  defaultTeamInfo?: Team;
 }
-
+const selectRange = {
+  totalEmployee: [
+    "Freelance",
+    "2-9",
+    "10-49",
+    "50-249",
+    "250-499",
+    "1,000-9,999",
+    "10,000+",
+  ],
+  projectSize: ["1-5"],
+};
 export const CreateForm = (props: IProps) => {
   const {
     register,
@@ -83,23 +99,20 @@ export const CreateForm = (props: IProps) => {
 
   const [createObjectURL, setCreateObjectURL] = useState("");
   const [image, setImage] = useState(props.imageFile);
-  const [count, setCount] = useState(0);
   const [dataSkill, setData] = useState<Skill[]>([]);
   const skills = useAppSelector(getSkillsSelector);
   const timeZone = Object.values(TimeZone);
   const [open, setOpen] = useState(false);
-  const selectRange = {
-    totalEmployee: [
-      "Freelance",
-      "2-9",
-      "10-49",
-      "50-249",
-      "250-499",
-      "1,000-9,999",
-      "10,000+",
-    ],
-    projectSize: ["1-5"],
-  };
+
+  useEffect(() => {
+    if (props.defaultTeamInfo) {
+      reset({ ...props.defaultTeamInfo, skills: [] });
+      setData(props.defaultTeamInfo.skills || []);
+      setCreateObjectURL(
+        teamApi.getTeamImageUrl(props.defaultTeamInfo.imageUrl)
+      );
+    }
+  }, [props.defaultTeamInfo]);
 
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -149,16 +162,37 @@ export const CreateForm = (props: IProps) => {
       (e.target as HTMLInputElement).value = "";
     }
   };
+  const [btnDisable, setBtnDisable] = useState(false);
+  const handleSave = async () => {
+    if (props.defaultTeamInfo) {
+      const data = watch();
+      setBtnDisable(true);
+      dispatch(
+        updateTeam({
+          ...data,
+          id: props.defaultTeamInfo.id.toString(),
+          imageUrl:
+            createObjectURL.length > 0 ? props.defaultTeamInfo.imageUrl : null,
+            skills: dataSkill,
+        } as ICreateTeam)
+      );
+      if (image) {
+        await teamApi.postImage(image, props.defaultTeamInfo.id);
+      }
+      const to = setTimeout(() => {
+        setBtnDisable(false);
+      }, 1000);
+      return () => clearTimeout(to);
+    } else {
+      const formSave = {
+        ...watch(),
+        skills: dataSkill,
+      } as unknown as ICreateTeam;
 
-  const handleSave = () => {
-    const formSave = {
-      ...watch(),
-      skills: dataSkill,
-    } as unknown as ICreateTeam;
+      dispatch(saveTeam(formSave));
 
-    dispatch(saveTeam(formSave));
-
-    props.nextStep();
+      props.nextStep();
+    }
   };
 
   const handleBack = () => {
@@ -173,9 +207,6 @@ export const CreateForm = (props: IProps) => {
   const to = Array.from(Array(new Date().getFullYear() + 1).keys());
   const founded = to.filter((i) => !from.includes(i));
 
-  useEffect(() => {
-    setCount(watch("description").length);
-  }, [watch("description")]);
   return (
     <div>
       {" "}
@@ -242,7 +273,7 @@ export const CreateForm = (props: IProps) => {
                 <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
                   <select
                     {...register("timeZone")}
-                    className="w-full"
+                    className="w-full outline-none"
                     defaultValue={team.timeZone || ""}
                   >
                     <option value="">- Select a value -</option>
@@ -270,7 +301,7 @@ export const CreateForm = (props: IProps) => {
                 <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
                   <select
                     {...register("teamSize")}
-                    className="w-full hidden-arrow-input-number"
+                    className="w-full hidden-arrow-input-number outline-none"
                     defaultValue={team.teamSize || ""}
                   >
                     <option value="">- Select a value -</option>
@@ -296,7 +327,7 @@ export const CreateForm = (props: IProps) => {
                 <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
                   <select
                     {...register("founded")}
-                    className="w-full"
+                    className="w-full outline-none"
                     defaultValue={team.founded || ""}
                   >
                     <option className="text-sm" value="">
@@ -323,16 +354,16 @@ export const CreateForm = (props: IProps) => {
                 <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                   Tagline
                 </label>
-                <div className="flex items-center relative">
+                <div className="flex items-center relative md:max-w-[500px] w-full">
                   <input
                     {...register("slogan")}
                     autoComplete="off"
-                    className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 pr-16 outline-none focus:shadow-3xl focus:border-primary"
+                    className="w-full border-2 border-[#cae0e7] px-3 py-2 pr-16 outline-none focus:shadow-3xl focus:border-primary"
                     placeholder="Enter Tagline"
                     maxLength={200}
                     defaultValue={team.slogan || ""}
                   />
-                  <div className=" absolute right-14 b-2 p-2 text-gray-400 text-sm font-normal">
+                  <div className=" absolute right-2 text-gray-400 text-sm font-normal">
                     {watch("slogan") ? watch("slogan").trim().length : 0}/{200}
                   </div>
                 </div>
@@ -371,7 +402,9 @@ export const CreateForm = (props: IProps) => {
                       </p>
                     </div>
                   )}
-                  <span className="text-sm text-gray-500">{count}/2000</span>
+                  <span className="text-sm text-gray-500">
+                    {watch("description")?.length | 0}/2000
+                  </span>
                 </div>
               </div>
             </div>
@@ -418,7 +451,7 @@ export const CreateForm = (props: IProps) => {
               </label>
               <select
                 {...register("projectSize")}
-                className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary "
+                className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary outline-none"
                 defaultValue={team.projectSize || "1-5"}
               >
                 <option value="">- Select a value -</option>
@@ -467,30 +500,54 @@ export const CreateForm = (props: IProps) => {
 
         <hr className="w-full h-[1px] border border-[#cae0e7]"></hr>
         <div className="flex items-center justify-between md:min-h-[80px] my-5">
-          <button
-            type="button"
-            className="text-cyan-700 flex items center"
-            onClick={handleBack}
-          >
-            <a>
-              <span className="text-red-600 font-medium">
-                <ChevronLeftIcon />
-              </span>
-              Back
-            </a>
-          </button>
-
+          {props.defaultTeamInfo ? (
+            <div className=""></div>
+          ) : (
+            <button
+              type="button"
+              className="text-cyan-700 flex items center"
+              onClick={handleBack}
+            >
+              <a>
+                <span className="text-red-600 font-medium">
+                  <ChevronLeftIcon />
+                </span>
+                Back
+              </a>
+            </button>
+          )}
           <button
             type="button"
             onClick={handleSubmit(handleSave)}
             className={
-              "py-3 md:text-md text-sm text-white px-3 flex items center bg-[red]"
+              "py-3 md:text-md text-sm text-white px-3 flex items center bg-[red] disabled:opacity-80 "
             }
+            disabled={btnDisable}
           >
-            Add Skill Distribution
-            <span className=" font-medium">
-              <ChevronRightIcon />
-            </span>
+            {props.defaultTeamInfo ? (
+              <>
+                {btnDisable ? (
+                  <LoadingButton
+                    className="md:text-md text-sm text-white flex items center border-0 opacity-80 p-0 px-2 "
+                    loading
+                    loadingPosition="start"
+                    startIcon={<Save />}
+                    variant="outlined"
+                  >
+                    Saving...
+                  </LoadingButton>
+                ) : (
+                  "Save changes"
+                )}
+              </>
+            ) : (
+              <>
+                Add Skill Distribution
+                <span className=" font-medium">
+                  <ChevronRightIcon />
+                </span>
+              </>
+            )}
           </button>
         </div>
       </form>
@@ -503,3 +560,4 @@ export const CreateForm = (props: IProps) => {
     </div>
   );
 };
+

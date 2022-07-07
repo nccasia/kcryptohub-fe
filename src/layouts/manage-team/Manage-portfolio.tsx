@@ -58,11 +58,9 @@ export const ManagePortfolio = (props: Props) => {
       <ThemeProvider theme={theme}>
         <div className="w-full h-full bg-thirdary py-4">
           <Container maxWidth="xl" className="h-full">
-            <div className="flex  lg:flex-row flex-col h-full">
-              <div className="lg:max-w-[280px] w-full lg:min-h-full bg-white flex flex-col p-2 lg:mr-4 lg:mb-0 mb-4">
-                <div
-                  className="mb-2 lg:flex hidden items-center justify-between"
-                >
+            <div className="grid grid-cols-12 gap-5  h-full">
+              <div className="md:col-span-3 col-span-12 lg:min-h-full bg-white flex flex-col p-2 lg:mr-4 lg:mb-0 mb-4">
+                <div className="mb-2 lg:flex hidden items-center justify-between">
                   <h1 className="text-3xl font-normal">My portfolio</h1>
                 </div>
                 <div
@@ -98,7 +96,7 @@ export const ManagePortfolio = (props: Props) => {
                     </Link>
                   </div>
                   <hr />
-                  <div className="">
+                  <div className="break-words">
                     {portfolios.map((portfolio, i) => (
                       <div
                         key={i}
@@ -114,7 +112,7 @@ export const ManagePortfolio = (props: Props) => {
                   </div>
                 </Collapse>
               </div>
-              <div className="bg-white h-full w-full p-4">{props.children}</div>
+              <div className="bg-white h-full col-span-12 md:col-span-9 p-4">{props.children}</div>
             </div>
           </Container>
         </div>
