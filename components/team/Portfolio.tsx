@@ -125,7 +125,7 @@ const Portfolio = ({
                   />
                 )}
               </div>
-              <p className="text-sm text-[#6A797D] whitespace-pre-line mb-2">
+              <p className="text-sm text-[#6A797D] whitespace-pre-line mb-2 break-words">
                 {portfolio?.description}
               </p>
             </div>
