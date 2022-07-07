@@ -163,7 +163,7 @@ export const Footer = () => {
             <div className="sm:mt-[20%] sm:mb-6 my-2 text-gray-400">
               <h1 className="text-lg xl:text-2xl ">Contact</h1>
             </div>
-            <ul className="flex flex-col justify-around sm:h-1/3 w-full h-full text-sm font-semibold">
+            <ul className="flex flex-col justify-around sm:h-1/3 w-full h-full text-sm lg:mt-10 mt-0 font-semibold">
               <li>
                 <a
                   href="https://help.kryptohub.co/contact-us"
