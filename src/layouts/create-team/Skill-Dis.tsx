@@ -378,26 +378,29 @@ export const SkillDis = (props: IProps) => {
                 </p>
               </div>
             )}
-
-            {skillDistribute &&
-              skillDistribute.map((cur, index) => (
-                <div
-                  className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-cyan-600 cursor-pointer"
-                  key={index}
-                  onClick={() => {
-                    setDataSkillDistribute(
-                      skillDistribute.filter((item) => item.field !== cur.field)
-                    );
-                  }}
-                >
-                  <div className="flex justify-between items-center">
-                    {cur.field}
-                    <span className="text-xs text-cyan-600">
-                      <CloseIcon className="text-base" />
-                    </span>
+            <div className="">
+              {skillDistribute &&
+                skillDistribute.map((cur, index) => (
+                  <div
+                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-cyan-600 cursor-pointer"
+                    key={index}
+                    onClick={() => {
+                      setDataSkillDistribute(
+                        skillDistribute.filter(
+                          (item) => item.field !== cur.field
+                        )
+                      );
+                    }}
+                  >
+                    <div className="flex justify-between items-center">
+                      {cur.field}
+                      <span className="text-xs text-cyan-600">
+                        <CloseIcon className="text-base" />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
           <h2 className="text-xl py-2">All Available Skills</h2>
           <h2 className="text-base py-2 text-gray-600">

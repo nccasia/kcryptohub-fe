@@ -347,16 +347,16 @@ export const CreateForm = (props: IProps) => {
                 <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                   Tagline
                 </label>
-                <div className="flex items-center relative">
+                <div className="flex items-center relative md:max-w-[500px] w-full">
                   <input
                     {...register("slogan")}
                     autoComplete="off"
-                    className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 pr-16 outline-none focus:shadow-3xl focus:border-primary"
+                    className="w-full border-2 border-[#cae0e7] px-3 py-2 pr-16 outline-none focus:shadow-3xl focus:border-primary"
                     placeholder="Enter Tagline"
                     maxLength={200}
                     defaultValue={team.slogan || ""}
                   />
-                  <div className=" absolute right-14 b-2 p-2 text-gray-400 text-sm font-normal">
+                  <div className=" absolute right-2 text-gray-400 text-sm font-normal">
                     {watch("slogan") ? watch("slogan").trim().length : 0}/{200}
                   </div>
                 </div>

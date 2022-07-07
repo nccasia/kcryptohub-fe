@@ -214,7 +214,7 @@ export const Teams = () => {
                         <div className="cursor-pointer flex items-center justify-center mr-2">
                           <ComboboxSelect
                             label="Skills"
-                            items={SkillSelect.map((sk) => sk.skillName)}
+                            items={SkillSelect?.map((sk) => sk.skillName)}
                             selected={filter.skill}
                             setSelected={handleSkillSelect}
                           />
@@ -371,7 +371,7 @@ export const Teams = () => {
             <div className="w-full">
               <ComboboxSelect
                 label={"Skills"}
-                items={SkillSelect.map((sk) => sk.skillName)}
+                items={SkillSelect?.map((sk) => sk.skillName)}
                 selected={filter.skill}
                 setSelected={handleSkillSelect}
                 isCollapsor={true}
