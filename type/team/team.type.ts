@@ -1,5 +1,6 @@
 import { IProfile } from "../profile/profile.type";
 import { Skill } from "../Skill";
+import { ISkillDistributionValue } from "../skill/skill.types";
 export type Team = {
   id: number;
   teamName: string;
@@ -18,6 +19,7 @@ export type Team = {
   status: boolean;
   projectSize: string;
   linkWebsite: string;
+  skillDistribution: ISkillDistribution[];
   founded: string;
 };
 
@@ -44,12 +46,9 @@ export interface ISkill {
 }
 
 export interface ISkillDistribution {
-  id: null | number;
+  id: string | null;
   skillDistributionName: string;
-  skillDistributionValue: {
-    field: string;
-    quantity: number;
-  }[];
+  skillDistributionValue: ISkillDistributionValue[];
 }
 
 export interface IPortfolio {
@@ -87,9 +86,8 @@ export interface ITeamProfile {
   portfolios: IPortfolio[];
 }
 
-
 export enum EPrivacy {
-  "SHOW_ALL" = 1 ,
+  "SHOW_ALL" = 1,
   "CONFIDENTAL" = 2,
   "HIDDEN" = 3,
 }
