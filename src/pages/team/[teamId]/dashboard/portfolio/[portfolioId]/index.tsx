@@ -76,8 +76,8 @@ const PortfolioDetail = () => {
             <LockOutlined className="text-sm" /> {EPrivacy[portfolio.privacy]}
           </span>
         </div>
-        <div className="flex sm:flex-row flex-col border-b">
-          <div className="flex flex-col items-start border-r p-4">
+        <div className="grid grid-cols-12 border-b">
+          <div className="md:col-span-3 sm:col-span-4 col-span-12 flex flex-col items-start border-r p-4 ">
             {portfolio.clientWebsite ? (
               <a
                 className="break-all"
@@ -110,7 +110,7 @@ const PortfolioDetail = () => {
               </span>
             ) : null}
           </div>
-          <div className="p-4 break-words sm:w-1/2 w-full">
+          <div className="md:col-span-9 sm:col-span-8 col-span-12 p-4 break-words w-full">
             <p className="break-words">{portfolio.description}</p>
           </div>
         </div>

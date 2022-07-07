@@ -190,7 +190,7 @@ export const Teams = () => {
                 </div>
                 <div className="flex-1 bg-white">
                   <div className="flex flex-col sm:flex-row p-2 items-end sm:items-center  justify-center text-sm md:text-md w-full h-full">
-                    <div className="flex flex-row items-center justify-center flex-1 w-full relative md:mb-0 mb-2">
+                    <div className="flex flex-row items-center justify-center flex-1 w-full relative sm:mb-0 mb-2">
                       <input
                         type="text"
                         placeholder="Search here..."

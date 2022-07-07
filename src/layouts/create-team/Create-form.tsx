@@ -57,8 +57,7 @@ const schema = yub.object().shape({
   slogan: yub
     .string()
     .required("Tagline is required")
-    .trim("Tagline is required")
-    .max(200, "Max length is 200 characters!"),
+    .trim("Tagline is required"),
   description: yub
     .string()
     .required("Description is required")
@@ -224,6 +223,7 @@ export const CreateForm = (props: IProps) => {
                   autoComplete="off"
                   className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                   placeholder="Team Name"
+                  maxLength={30}
                   defaultValue={team.teamName || ""}
                 />
                 {errors?.teamName && (
@@ -244,6 +244,7 @@ export const CreateForm = (props: IProps) => {
                   <input
                     {...register("linkWebsite")}
                     autoComplete="off"
+                    maxLength={200}
                     placeholder="https://team-name.com/"
                     className="md:max-w-[500px] w-full border-2 border-[#cae0e7] pl-10 px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
                     defaultValue={team.linkWebsite || ""}
@@ -346,13 +347,20 @@ export const CreateForm = (props: IProps) => {
                 <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
                   Tagline
                 </label>
-                <input
-                  {...register("slogan")}
-                  autoComplete="off"
-                  className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                  placeholder="Enter Tagline"
-                  defaultValue={team.slogan || ""}
-                />
+                <div className="flex items-center relative">
+                  <input
+                    {...register("slogan")}
+                    autoComplete="off"
+                    className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 pr-16 outline-none focus:shadow-3xl focus:border-primary"
+                    placeholder="Enter Tagline"
+                    maxLength={200}
+                    defaultValue={team.slogan || ""}
+                  />
+                  <div className=" absolute right-14 b-2 p-2 text-gray-400 text-sm font-normal">
+                    {watch("slogan") ? watch("slogan").trim().length : 0}/{200}
+                  </div>
+                </div>
+
                 {errors?.slogan && (
                   <div className="flex justify-left mt-1 text-sm ">
                     <p className={" block  text-red-500 font-medium"}>
@@ -370,7 +378,7 @@ export const CreateForm = (props: IProps) => {
                   autoComplete="off"
                   placeholder="Short description about your Team"
                   className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 md:min-h-[100px] outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
-                  maxLength={200}
+                  maxLength={2000}
                   defaultValue={team.description || ""}
                   {...register("description")}
                 />
@@ -388,7 +396,7 @@ export const CreateForm = (props: IProps) => {
                     </div>
                   )}
                   <span className="text-sm text-gray-500">
-                    {watch("description")?.length || 0}/200
+                    {watch("description")?.length | 0}/2000
                   </span>
                 </div>
               </div>
@@ -414,6 +422,7 @@ export const CreateForm = (props: IProps) => {
                   {...register("saleEmail")}
                   className="md:max-w-[400px] w-full border-2 border-[#cae0e7] pl-10 px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
                   placeholder="email@email.com"
+                  maxLength={50}
                   defaultValue={team.saleEmail || ""}
                 />
               </div>
