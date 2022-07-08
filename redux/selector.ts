@@ -4,4 +4,10 @@ export const getUserInfoSelector = (state: RootState) => state.ProfileReducer.us
 
 export const getSkillsSelector = (state: RootState) => state.SkillReducer.value;
 
+export const getDashboardInformationSelector = (state: RootState) => state.DashboardReducer.team;
 
+export const getDashboardSkillDistributionSelector = (state: RootState) => state.DashboardReducer.team.skillDistribution;
+
+export const getDashboardPortfolioSelector = (state: RootState) => state.DashboardReducer.team.portfolios;
+
+export const getDashboardAwardsSelector = (state: RootState) => state.DashboardReducer.team.awards;

@@ -6,23 +6,14 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { teamApi } from "@/api/team-api";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
+import { getDashboardInformationSelector } from "@/redux/selector";
 const SkillDistribution = () => {
   const router = useRouter();
 
-  const [team, setTeam] = useState<Team>({} as Team);
+  const team = useAppSelector(getDashboardInformationSelector);
   const [teamId, setTeamId] = useState(router.query.teamId as string);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (router.query.teamId) {
-      setTeamId(router.query.teamId as string);
-      teamApi.getTeam(parseInt(router.query.teamId as string)).then((resp) => {
-        if (resp.data) {
-          setTeam(resp.data);
-        }
-      });
-    }
-  }, [router.query]);
 
   return (
     <DashboardLayout>

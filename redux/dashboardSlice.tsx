@@ -1,19 +1,20 @@
+import { ITeamProfile } from "@/type/team/team.type";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  teamId: "",
+  team: {} as ITeamProfile,
 };
 
 export const dashboardSlice = createSlice({
   name: "dashboard",
   initialState,
   reducers: {
-    setTeamId: (state, action) => {
-      state.teamId = action.payload;
+    setTeam: (state, action) => {
+      state.team = action.payload;
     },
   },
 });
 
-export const { setTeamId } = dashboardSlice.actions;
+export const { setTeam } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

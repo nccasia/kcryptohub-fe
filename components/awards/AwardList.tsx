@@ -6,17 +6,14 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getAwards } from "@/redux/awardSlice";
 import { IAwardDetail } from "@/type/awards/awards.type";
 import { useRouter } from "next/router";
-import { setTeamId } from "@/redux/dashboardSlice";
 
 const AwardList = () => {
   const router = useRouter();
   const { userInfo } = useAppSelector((state) => state.ProfileReducer);
   const { awards } = useAppSelector((state) => state.AwardsReducer);
-  const { teamId } = useAppSelector((state) => state.DashboardReducer);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (router.query.teamId && userInfo?.team?.length) {
-      dispatch(setTeamId(router.query.teamId));
       dispatch(getAwards(parseInt(router.query.teamId as string)));
     }
   }, [dispatch, userInfo, router.query.teamId]);
@@ -30,7 +27,7 @@ const AwardList = () => {
         <Link
           href={{
             pathname: `/team/[teamId]/dashboard/awards/new`,
-            query: { teamId },
+            query: { teamId: router.query.teamId },
           }}
         >
           <a className="text-sm text-[#08537e] cursor-pointer hover:underline">
@@ -57,7 +54,7 @@ const AwardList = () => {
               <Link
                 href={{
                   pathname: `/team/[teamId]/dashboard/awards/[awardId]`,
-                  query: { teamId, awardId: award.id },
+                  query: { teamId: router.query.teamId, awardId: award.id },
                 }}
               >
                 <a className="text-sm text-[#08537e] cursor-pointer hover:underline ">

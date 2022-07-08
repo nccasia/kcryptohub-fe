@@ -21,6 +21,9 @@ export type Team = {
   linkWebsite: string;
   skillDistribution: ISkillDistribution[];
   founded: string;
+  saleEmail?: string;
+  portfolios?: string[];
+  awards?: string[];
 };
 
 export enum ESection {
@@ -52,6 +55,7 @@ export interface ISkillDistribution {
 }
 
 export interface IPortfolio {
+  id: number;
   companyName: string;
   imageUrl?: string | null;
   videoLink?: string | null;
@@ -68,7 +72,7 @@ export interface IPortfolio {
 export interface ITeamProfile {
   createAt: string;
   updateAt: string;
-  id: 1;
+  id: number;
   teamName: string;
   teamSize: string;
   timeZone: string;
@@ -84,6 +88,8 @@ export interface ITeamProfile {
   skills: ISkill[];
   skillDistribution: ISkillDistribution[];
   portfolios: IPortfolio[];
+  keyClients?: string[];
+  awards?: string[];
 }
 
 export enum EPrivacy {

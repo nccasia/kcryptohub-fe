@@ -10,7 +10,7 @@ export const getAwardById = createAsyncThunk(
       const response = await axiosClient.get(`/awards/get/${id}`);
       return response.data;
     } catch (err) {
-      console.error(err);
+
     }
   }
 );

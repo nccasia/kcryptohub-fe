@@ -1,4 +1,6 @@
 import { PortfolioApi } from "@/api/portfolio-api";
+import { useAppSelector } from "@/redux/hooks";
+import { getDashboardPortfolioSelector } from "@/redux/selector";
 import { KeyboardArrowDown, KeyboardArrowUp, PlaylistAddOutlined } from "@mui/icons-material";
 import { Collapse, Container, createTheme, ThemeProvider } from "@mui/material";
 import Link from "next/link";
@@ -34,20 +36,12 @@ interface Props {
 }
 
 export const ManagePortfolio = (props: Props) => {
-  const [portfolios, setPortfolios] = useState<any[]>([]);
+  const portfolios = useAppSelector(getDashboardPortfolioSelector);
   
   const router = useRouter();
   const [teamId, setTeamId] = useState<string>(router.query.teamId as string);
   const [show, setShow] = useState(true);
-  useEffect(() => {
-    if (router.query.teamId) {
-      PortfolioApi.getAll(parseInt(router.query.teamId as string)).then(
-        (res) => {
-          setPortfolios(res);
-        }
-      );
-    }
-  }, [router.query.teamId]);
+
   useEffect(() => {
     if(router.query.teamId){
       setTeamId(router.query.teamId as string);

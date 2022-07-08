@@ -61,11 +61,12 @@ const Portfolio = ({
       className="px-8 py-3 border-x border-b border-[#cae0e7] "
     >
       <h2 className="text-xl text-[#154369] mb-5">Portfolio</h2>
-      {handleRenderClientKey() && (
-        <p className="text-sm text-[#6b7a7e] w-4/5 mb-5">
-          Key client: {handleRenderClientKey()}
-        </p>
-      )}
+      <p className="text-sm text-[#6b7a7e] w-4/5 mb-5">
+        Key client:{" "}
+        {teamProfile.keyClients && teamProfile.keyClients.length>0
+          ? (teamProfile.keyClients[0] as any).keyName.join(", ")
+          : ""}
+      </p>
       {portfolio && (
         <div className="md:w-5/6 w-full">
           <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-3 mb-5">
