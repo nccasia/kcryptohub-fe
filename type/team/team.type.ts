@@ -91,3 +91,7 @@ export enum EPrivacy {
   "CONFIDENTAL" = 2,
   "HIDDEN" = 3,
 }
+
+export interface IKeyClient {
+  keyName: string[];
+}

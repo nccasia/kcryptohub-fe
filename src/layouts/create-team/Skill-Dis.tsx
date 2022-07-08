@@ -304,11 +304,12 @@ export const SkillDis = (props: IProps) => {
         await dispatch(updateTeam(formData as unknown as ICreateTeam));
         setLoading(true);
       }
+
       const to = setTimeout(() => {
-        (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
         setLoading(false);
       }, 1500);
       return () => clearTimeout(to);
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
     } else if (total > 100) {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       setLoading(true);
