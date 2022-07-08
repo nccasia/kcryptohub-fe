@@ -311,14 +311,14 @@ const PortfolioEdit = () => {
                       id="descripton"
                       {...register("description")}
                       placeholder="Tell a great story about this Portfolio Item."
-                      maxLength={300}
+                      maxLength={2000}
                       className={`sm:min-w-[400px] lg:min-w-[600px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
                         errors.description && "bg-red-200"
                       }`}
                     />
                     <div className="absolute right-0 bottom-0  m-2 text-gray-400 text-sm font-normal">
                       {watch("description") ? watch("description").length : 0}/
-                      {300}
+                      {2000}
                     </div>
                   </div>
                   {errors.description && (

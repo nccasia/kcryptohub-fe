@@ -178,7 +178,7 @@ export const Teams = () => {
       </div>
       <div className="relative">
         <div className="flex flex-col items-center justify-center px-1 ">
-          <div className="container-lg relative border-x-2  xl:w-3/4 md:w-11/12 lg:w-5/6 w-full  shadow-xl">
+          <div className="container-lg relative border-x-2   md:w-11/12 lg:w-5/6 w-full  shadow-xl">
             <div className="sticky top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
               <div className="flex flex-col sm:flex-row border-b ">
                 <div className="flex flex-row items-center justify-between">
@@ -190,7 +190,7 @@ export const Teams = () => {
                 </div>
                 <div className="flex-1 bg-white">
                   <div className="flex flex-col sm:flex-row p-2 items-end sm:items-center  justify-center text-sm md:text-md w-full h-full">
-                    <div className="flex flex-row items-center justify-center flex-1 w-full relative md:mb-0 mb-2">
+                    <div className="flex flex-row items-center justify-center flex-1 w-full relative sm:mb-0 mb-2">
                       <input
                         type="text"
                         placeholder="Search here..."
@@ -214,7 +214,7 @@ export const Teams = () => {
                         <div className="cursor-pointer flex items-center justify-center mr-2">
                           <ComboboxSelect
                             label="Skills"
-                            items={SkillSelect.map((sk) => sk.skillName)}
+                            items={SkillSelect?.map((sk) => sk.skillName)}
                             selected={filter.skill}
                             setSelected={handleSkillSelect}
                           />
@@ -371,7 +371,7 @@ export const Teams = () => {
             <div className="w-full">
               <ComboboxSelect
                 label={"Skills"}
-                items={SkillSelect.map((sk) => sk.skillName)}
+                items={SkillSelect?.map((sk) => sk.skillName)}
                 selected={filter.skill}
                 setSelected={handleSkillSelect}
                 isCollapsor={true}
