@@ -10,6 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
@@ -22,6 +23,7 @@ const schemaValidation = Yup.object({
 
 const NewAward = () => {
   const router = useRouter();
+  const buttonRef = useRef(null);
   const dispatch = useAppDispatch();
   const { awards } = useAppSelector((state) => state.AwardsReducer);
   const { teamId } = useAppSelector((state) => state.DashboardReducer);
@@ -44,10 +46,12 @@ const NewAward = () => {
   const handleAddAward = () => {
     handleSubmit(async (value) => {
       const award = { teamId: parseInt(teamId), ...value };
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       await dispatch(
         createAward({ award, handler: handleRedirectToAwardDetail })
       );
-      await dispatch(getAwards(parseInt(teamId)));
+      dispatch(getAwards(parseInt(teamId)));
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
     })();
   };
 
@@ -138,6 +142,7 @@ const NewAward = () => {
                 type="submit"
                 onClick={handleAddAward}
                 className="bg-secondary text-white px-10 py-4 border-2 border-transparent transition duration-300 hover:border-secondary hover:bg-white hover:text-secondary"
+                ref={buttonRef}
               >
                 Add Award
               </button>

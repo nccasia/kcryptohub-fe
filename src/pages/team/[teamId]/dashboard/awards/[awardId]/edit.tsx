@@ -1,4 +1,3 @@
-import AwardList from "@/components/awards/AwardList";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import {
   deleteAward,
@@ -17,7 +16,7 @@ import Modal from "@mui/material/Modal";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
@@ -78,14 +77,19 @@ const EditAwardDetail = () => {
 
   const handleUpdateAward = () => {
     handleSubmit(async (value) => {
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       await dispatch(editAward({ award: value, handler: () => {} }));
-      await dispatch(getAwards(parseInt(teamId)));
+      dispatch(getAwards(parseInt(teamId)));
+
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
+      router.push(`/team/${teamId}/dashboard/awards/${awardDetail.id}`);
     })();
   };
   const handleRedirect = async () => {
     router.push(`/team/${teamId}/dashboard/awards`);
   };
 
+  const buttonRef = useRef(null);
   const handleDeleteAward = async () => {
     setOpenConfirmModal(false);
     await dispatch(
@@ -196,6 +200,7 @@ const EditAwardDetail = () => {
             <button
               onClick={handleUpdateAward}
               className="bg-secondary text-white px-10 py-4 border-2 border-transparent transition duration-300 hover:border-secondary hover:bg-white hover:text-secondary"
+              ref={buttonRef}
             >
               Update Award
             </button>

@@ -302,10 +302,11 @@ export const SkillDis = (props: IProps) => {
         await dispatch(updateTeam(formData as unknown as ICreateTeam));
         setLoading(true);
       }
-      setTimeout(() => {
+      const to = setTimeout(() => {
         (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
         setLoading(false);
-      }, 1100);
+      }, 1500);
+      return () => clearTimeout(to);
     } else if (total > 100) {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       setLoading(true);
@@ -382,7 +383,7 @@ export const SkillDis = (props: IProps) => {
             {skillDistribute &&
               skillDistribute.map((cur, index) => (
                 <div
-                  className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-cyan-600 cursor-pointer"
+                  className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#cae0e7] cursor-pointer"
                   key={index}
                   onClick={() => {
                     setDataSkillDistribute(
@@ -392,7 +393,7 @@ export const SkillDis = (props: IProps) => {
                 >
                   <div className="flex justify-between items-center">
                     {cur.field}
-                    <span className="text-xs text-cyan-600">
+                    <span className="text-xs text-cyan-700">
                       <CloseIcon className="text-base" />
                     </span>
                   </div>
@@ -445,7 +446,7 @@ export const SkillDis = (props: IProps) => {
                     ></div>
 
                     <div className="px-3">
-                      <Typography className="text-indigo-700 border rounded-md border-indigo-600 px-3">
+                      <Typography className="text-indigo-800 border rounded-md border-[#cae0e7] px-3">
                         {cur.field}
                       </Typography>
                     </div>
@@ -491,7 +492,7 @@ export const SkillDis = (props: IProps) => {
 
                     <input
                       maxLength={3}
-                      className="w-[65px] px-3 py-1 border"
+                      className="w-[65px] px-3 py-1 border-2 border-[#cae0e7]"
                       value={cur.quantity}
                       onChange={(event) => {
                         if (parseInt(event.target.value) > 100) return;
@@ -583,26 +584,24 @@ export const SkillDis = (props: IProps) => {
 
       {props.title === "Update" && (
         <div className="flex justify-end items-center">
-          <LoadingButton
-            className={!loading ? "hidden" : "py-3 px-3 flex items center"}
-            loading
-            loadingPosition="start"
-            startIcon={<SaveIcon />}
-            variant="outlined"
-          >
-            Save Changes
-          </LoadingButton>
           <button
             type="button"
             onClick={handleSubmit(handleSaveCreateTeam)}
-            className={
-              +loading
-                ? "hidden"
-                : "py-3 text-white px-3 flex items center bg-[red]"
-            }
+            className={"py-3 text-white px-3 flex items-center bg-[red]"}
             ref={buttonRef}
           >
-            Save Changes
+            {loading ? (
+              <LoadingButton
+                className="capitalize px-2 rounded-none p-0 text-white flex items-center bg-[red]"
+                loading
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+              >
+                Saving...
+              </LoadingButton>
+            ) : (
+              "Save Changes"
+            )}
           </button>
         </div>
       )}
