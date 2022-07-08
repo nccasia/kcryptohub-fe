@@ -68,12 +68,12 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <div className="bg-cyan-700 flex items-center justify-center">
-        <h1 className=" p-2 md:w-4/5 text-white  font-bold">
+        <h1 className=" p-2 md:w-11/12 lg:w-5/6 text-white  font-bold">
           Welcome to KryptoHub <ArrowForwardIosOutlined className="text-sm" />
         </h1>
       </div>
       <div>
-        <div className="p-4 flex items-center justify-center py-24 bg-gradient-to-b from-white to-cyan-50 border border-cyan-300 shadow-lg shadow-gray-200">
+        <div className="p-4 flex items-center justify-center py-24 bg-gradient-to-b from-white to-[#3e839e2b] border border-[#3e839e2b] shadow-lg shadow-gray-200">
           <div className="">
             <h1 className="text-4xl font-700 mb-5">
               The only resource you need to find the right company.

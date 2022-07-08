@@ -97,7 +97,7 @@ const Portfolio = ({
                   className="float-right cursor-pointer text-3xl mt-1"
                   onClick={() => setPortfolio(null)}
                 />
-                <h2 className="text-primary text-2xl mb-10">
+                <h2 className="text-primary text-2xl mb-10 break-words">
                   {portfolio?.title}
                 </h2>
               </div>
@@ -125,7 +125,7 @@ const Portfolio = ({
                   />
                 )}
               </div>
-              <p className="text-sm text-[#6A797D] whitespace-pre-line mb-2">
+              <p className="text-sm text-[#6A797D] whitespace-pre-line mb-2 break-words">
                 {portfolio?.description}
               </p>
             </div>
@@ -175,6 +175,7 @@ const Portfolio = ({
                       }
                       alt="portfolio"
                       className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
+                      layout="intrinsic"
                       width={400}
                       height={200}
                     />
@@ -184,7 +185,7 @@ const Portfolio = ({
                       }
                       className="px-5 opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                     >
-                      {item.title}
+                      <span className="w-full break-words">{item.title}</span>
                     </span>
                   </div>
                 );

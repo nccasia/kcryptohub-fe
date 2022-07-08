@@ -26,7 +26,7 @@ export const ComboboxSelect = ({
     setFilteredItems(items);
   }, [items]);
   useEffect(() => {
-    setFilteredItems(items.filter((item) => item.toLowerCase().includes(searchText.toLowerCase())));
+    setFilteredItems(items?.filter((item) => item.toLowerCase().includes(searchText.toLowerCase())));
   }, [searchText, items]);
   const handleItemsSelect = (
     event: FormEvent<HTMLInputElement>,
@@ -44,7 +44,7 @@ export const ComboboxSelect = ({
   };
 
   return (
-    <div className={`${className} bg-white`} key={items[0]}>
+    <div className={`${className} bg-white`}>
       <div
         className={`cursor-pointer  py-1 
          flex items-center justify-center w-full`}
@@ -97,9 +97,9 @@ export const ComboboxSelect = ({
             isCollapsor ? "" : "max-h-[150px]"
           }`}
         >
-          {filteredItems.length === 0
+          {filteredItems?.length === 0
             ? "No items"
-            : filteredItems.map((item, index) => (
+            : filteredItems?.map((item, index) => (
                 <label
                   htmlFor={`${label}cb${index}${isCollapsor ? 0 : 1}`}
                   key={index}

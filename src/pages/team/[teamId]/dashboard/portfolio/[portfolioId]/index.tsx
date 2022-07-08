@@ -69,15 +69,15 @@ const PortfolioDetail = () => {
   };
   return (
     <ManagePortfolio>
-      <div className="">
+      <div className="w-full">
         <div className="flex items-center justify-between border-b ">
-          <h1 className="text-2xl font-medium">{portfolio.title}</h1>
+          <h1 className="text-2xl font-medium break-all">{portfolio.title}</h1>
           <span className="text-cyan-900 text-xs ">
             <LockOutlined className="text-sm" /> {EPrivacy[portfolio.privacy]}
           </span>
         </div>
-        <div className="flex sm:flex-row flex-col border-b">
-          <div className="flex flex-col items-start border-r p-4">
+        <div className="grid grid-cols-12 border-b">
+          <div className="md:col-span-3 sm:col-span-4 col-span-12 flex flex-col items-start border-r p-4 ">
             {portfolio.clientWebsite ? (
               <a
                 className="break-all"
@@ -110,8 +110,8 @@ const PortfolioDetail = () => {
               </span>
             ) : null}
           </div>
-          <div className="p-4">
-            <p>{portfolio.description}</p>
+          <div className="md:col-span-9 sm:col-span-8 col-span-12 p-4 break-words w-full">
+            <p className="break-words">{portfolio.description}</p>
           </div>
         </div>
         {portfolio.imageUrl ? (

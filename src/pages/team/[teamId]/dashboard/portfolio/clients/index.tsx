@@ -22,49 +22,8 @@ export const Clients = () => {
     mode: "all",
   });
 
+  const onSubmit = () => {};
 
-
-
-
-  const onSubmit = () =>{
-
-  }
-
-  const Input = () => {
-    return (
-      <div className="border-b pb-4 ">
-        <div className="items-center my-4 font-medium w-fit pl-16">
-          <label
-            htmlFor="keyClient"
-            className="text-primary flex justify-between py-2 md:py-0"
-          >
-            Key Clients
-            <span className="text-sm text-gray-300">optional</span>
-          </label>
-          <div className="w-fit flex flex-col relative">
-            <input
-              id="keyClient"
-              type="text"
-              {...register("keyName")}
-              maxLength={30}
-              autoComplete="off"
-              className={` border-2 border-[#cae0e7] xs:min-w-[400px] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
-                errors.startDate && "bg-red-200"
-              }`}
-            />
-            <div className="absolute right-0 p-2 text-gray-400 text-sm font-normal">
-              {watch("keyName") ? watch("keyName").length : 0}/{30}
-            </div>
-          </div>
-          {errors.startDate && (
-            <span className="text-red-500 text-left text-sm font-normal mt-1">
-              {errors.startDate?.message}
-            </span>
-          )}
-        </div>
-      </div>
-    );
-  }
   return (
     <ManagePortfolio>
       <div>
@@ -85,7 +44,37 @@ export const Clients = () => {
             visual storytelling and case studies.
           </p>
           <form className="">
-            <Input />
+            <div className="border-b pb-4 ">
+              <div className="items-center my-4 font-medium w-fit pl-16">
+                <label
+                  htmlFor="keyClient"
+                  className="text-primary flex justify-between py-2 md:py-0"
+                >
+                  Key Clients
+                  <span className="text-sm text-gray-300">optional</span>
+                </label>
+                <div className="w-fit flex flex-col relative">
+                  <input
+                    id="keyClient"
+                    type="text"
+                    {...register("keyName")}
+                    maxLength={30}
+                    autoComplete="off"
+                    className={` border-2 border-[#cae0e7] xs:min-w-[400px] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
+                      errors.startDate && "bg-red-200"
+                    }`}
+                  />
+                  <div className="absolute right-0 p-2 text-gray-400 text-sm font-normal">
+                    {watch("keyName") ? watch("keyName").length : 0}/{30}
+                  </div>
+                </div>
+                {errors.startDate && (
+                  <span className="text-red-500 text-left text-sm font-normal mt-1">
+                    {errors.startDate?.message}
+                  </span>
+                )}
+              </div>
+            </div>
             <div className="flex items-center justify-end p-4">
               <button className="bg-white px-16 py-3 hover:text-cyan-600 ">
                 Cancel
