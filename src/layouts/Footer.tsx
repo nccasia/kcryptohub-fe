@@ -16,7 +16,7 @@ export const Footer = () => {
         >
           <Link href="/">
             <a
-              aria-label="Clutch logotype"
+              aria-label="kryptohub logotype"
               className="block h-[36px] sm:mb-[49px] sm:mt-[-15px] w-[128px]"
             >
               <span className="lg:text-3xl md:text-2xl sm:text-xl text-2xl font-semibold text-white cursor-pointer flex items-center">
@@ -25,7 +25,7 @@ export const Footer = () => {
             </a>
           </Link>
           <ul className="text-thirdary text-xs sm:block hidden">
-            <li className="my-[11px]">&copy; 2022 Clutch</li>
+            <li className="my-[11px]">&copy; 2022 kryptohub</li>
             <li className="my-[11px]">
               <a href="/terms">Terms of Service</a>
             </li>
@@ -41,7 +41,7 @@ export const Footer = () => {
         </div>
         <div className="md:mt-[110px] sm:mt-[80px] sm:mb-[100px] relative w-full sm:pl-0 pl-4">
           <div className="text-[#6b7a7e] inline-block font-normal leading-[30px] mb-[38px] capitalize text-xl">
-            About Clutch
+            About kryptohub
           </div>
           <ul className="">
             <li className="mb-[20px]">
@@ -101,7 +101,7 @@ export const Footer = () => {
             </li>
             <li className="mb-[20px]">
               <a
-                href="https://help.clutch.co/knowledge/for-buyers"
+                href="https://help.kryptohub.co/knowledge/for-buyers"
                 title="Buyer FAQs"
               >
                 Buyer FAQs
@@ -144,7 +144,7 @@ export const Footer = () => {
             </li>
             <li className="mb-[20px]">
               <a
-                href="https://help.clutch.co/knowledge/for-service-providers"
+                href="https://help.kryptohub.co/knowledge/for-service-providers"
                 title="Service Provider FAQs"
               >
                 Service Provider FAQs
@@ -161,7 +161,7 @@ export const Footer = () => {
           </div>
           <ul className="text-sm">
             <li className="mb-[20px]">
-              <a href="https://help.clutch.co/contact-us" title="Contact Us">
+              <a href="https://help.kryptohub.co/contact-us" title="Contact Us">
                 Contact Us
               </a>
             </li>
@@ -189,7 +189,7 @@ export const Footer = () => {
         before:absolute before:bg-cyan-600 before:top-0 before:h-[1px] before:right-[-23px] before:w-[101vw] "
         >
           <ul className="flex items-center justify-center mb-4 flex-wrap">
-            <li className="mx-8 mt-6">&copy; 2022 Clutch</li>
+            <li className="mx-8 mt-6">&copy; 2022 kryptohub</li>
             <li className="mx-8 mt-6">
               <a href="/terms">Terms of Service</a>
             </li>
