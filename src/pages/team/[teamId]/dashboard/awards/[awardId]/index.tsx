@@ -29,7 +29,7 @@ const theme = createTheme({
 const AwardDetail = () => {
   const router = useRouter();
   const { awardDetail } = useAppSelector((state) => state.AwardsReducer);
-  const { teamId } = useAppSelector((state) => state.DashboardReducer);
+  const teamId = useAppSelector((state) => state.DashboardReducer.team.id.toString());
   const dispatch = useAppDispatch();
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
