@@ -1,35 +1,22 @@
 import { teamApi } from "@/api/team-api";
-import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
-import { TeamCard } from "@/src/layouts/team/TeamCard";
-import { IColors, Team } from "@/type/team/team.type";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import Image from "next/image";
-import {
-  ApartmentOutlined,
-  AvTimerOutlined,
-  BookmarkBorderOutlined,
-  BusinessCenterOutlined,
-  CheckCircleOutlined,
-  Circle,
-  CircleRounded,
-  ContactlessOutlined,
-  Delete,
-  Edit,
-  EmailOutlined,
-  EmojiEventsOutlined,
-  GroupsOutlined,
-  InfoOutlined,
-  LabelOutlined,
-  LanguageOutlined,
-} from "@mui/icons-material";
-import { IconHover } from "@/src/layouts/team/IconHover";
+import { IconMap } from "@/components/IconSVG/IconMap";
 import { ServiceLineIcon } from "@/components/IconSVG/serviceLineIcon";
 import BadgeHover from "@/components/team/BadgeHover";
 import { useAppSelector } from "@/redux/hooks";
 import { getDashboardInformationSelector } from "@/redux/selector";
+import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
+import { IColors } from "@/type/team/team.type";
+import {
+  AvTimerOutlined, BusinessCenterOutlined,
+  CalendarMonthOutlined,
+  CheckCircleOutlined, CircleRounded, Delete, EmailOutlined,
+  EmojiEventsOutlined, FlagOutlined, LanguageOutlined, People, PeopleOutline
+} from "@mui/icons-material";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 const skillColor = [
   "bg-red-500",
   "bg-orange-500",
@@ -137,21 +124,30 @@ const Dashboard = () => {
                 <div className="px-2 py-1 border rounded-lg w-fit text-gray-400">
                   <span>Basic Profile</span>
                 </div>
-                <div className="text-cyan-900 cursor-pointer hover:text-secondary" onClick={handleDeleteTeam}>
+                <div
+                  className="text-cyan-900 cursor-pointer hover:text-secondary"
+                  onClick={handleDeleteTeam}
+                >
                   Delete team <Delete className="text-secondary" />
                 </div>
               </div>
-              <div className="xs:flex grid grid-cols-2 flex-col text-sm py-2  text-[#83a8be]">
+              <div className="md:flex grid grid-cols-2 flex-col text-sm py-2  text-[#83a8be]">
                 {team.status ? (
                   <span className="text-red-500 py-1">
                     <CheckCircleOutlined /> Verified
                   </span>
                 ) : (
-                  <span className="text-gray-500 py-1">
+                  <span className="text-gray-400 py-1">
                     <CircleRounded className="text-secondary" /> Profile Not
                     Verified
                   </span>
                 )}
+                <span className="py-1">
+                  <CalendarMonthOutlined />
+                  <span className="text-left ml-1 text-gray-400">
+                    Last Update: {new Date(team.updateAt).toDateString()}
+                  </span>
+                </span>
                 {
                   <a href={team.linkWebsite} className="py-1 break-all">
                     {<LanguageOutlined />}
@@ -164,29 +160,39 @@ const Dashboard = () => {
                 </span>
                 <span className="py-1">
                   <AvTimerOutlined />
-                  TimeZone:
-                  <span className="text-left ml-1">{team.timeZone}</span>
+                  <span className="text-left ml-1">
+                    TimeZone: {team.timeZone}
+                  </span>
+                </span>
+                <span className="py-1">
+                  <PeopleOutline />
+                  <span className="text-left ml-1">
+                    TeamSize: {team.teamSize}
+                  </span>
+                </span>
+                <span className="py-1">
+                  <FlagOutlined />
+                  <span className="text-left ml-1">
+                    Founded: {team.founded}
+                  </span>
                 </span>
 
                 <span className="py-1">
                   <ServiceLineIcon className="inline-block mx-1" />
                   <span className="text-left ml-1">
-                    Distribution:
-                    {team.skillDistribution?.length | 0}
+                    Distribution: {team.skillDistribution?.length | 0}
                   </span>
                 </span>
                 <span className="py-1">
                   <BusinessCenterOutlined />
                   <span className="text-left ml-1">
-                    Portfolio:
-                    {team.portfolios ? team.portfolios?.length | 0 : 0}
+                    Portfolio: {team.portfolios ? team.portfolios?.length | 0 : 0}
                   </span>
                 </span>
                 <span className="py-1">
                   <EmojiEventsOutlined />
                   <span className="text-left ml-1">
-                    Awards:
-                    {team.awards ? team.awards?.length | 0 : 0}
+                    Awards: {team.awards ? team.awards?.length | 0 : 0}
                   </span>
                 </span>
               </div>

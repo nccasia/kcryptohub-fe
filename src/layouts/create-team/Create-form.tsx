@@ -171,7 +171,7 @@ export const CreateForm = (props: IProps) => {
     if (props.defaultTeamInfo) {
       const data = watch();
       setBtnDisable(true);
-      dispatch(
+      await dispatch(
         updateTeam({
           ...data,
           id: props.defaultTeamInfo.id.toString(),
