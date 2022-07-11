@@ -15,18 +15,20 @@ const Information = () => {
 
   return (
     <DashboardLayout>
-      <div className="flex items-center justify-center py-8 lg:px-20 md:px-6 px-2 bg-thirdary">
-        <div className="bg-white w-full p-8">
-          <CreateForm
-            nextStep={() => {}}
-            defaultTeamInfo={{ ...team } as unknown as Team}
-            step={0}
-            setStep={function (step: number): void {
-              throw new Error("Function not implemented.");
-            }}
-            imageFile={image}
-            setImageFile={setImage}
-          />
+      <div className="w-full h-full bg-thirdary">
+        <div className="container mx-auto pt-4">
+          <div className="bg-white w-full p-8">
+            <CreateForm
+              nextStep={() => {}}
+              defaultTeamInfo={{ ...team } as unknown as Team}
+              step={0}
+              setStep={function (step: number): void {
+                throw new Error("Function not implemented.");
+              }}
+              imageFile={image}
+              setImageFile={setImage}
+            />
+          </div>
         </div>
       </div>
     </DashboardLayout>

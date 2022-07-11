@@ -17,17 +17,19 @@ const SkillDistribution = () => {
 
   return (
     <DashboardLayout>
-      <div className="flex items-center justify-center py-8 lg:px-20 bg-thirdary md:px-6 px-2">
-        <div className="bg-white w-full p-8">
-          <SkillDis
-            step={0}
-            setStep={function (step: number): void {
-              throw new Error("Function not implemented.");
-            }}
-            title={"Update"}
-            skillDistribution={team.skillDistribution}
-            teamUpdate={team as unknown as ICreateTeam}
-          />
+      <div className="w-full h-full bg-thirdary">
+        <div className="container mx-auto pt-4">
+          <div className="bg-white w-full p-8">
+            <SkillDis
+              step={0}
+              setStep={function (step: number): void {
+                throw new Error("Function not implemented.");
+              }}
+              title={"Update"}
+              skillDistribution={team.skillDistribution}
+              teamUpdate={team as unknown as ICreateTeam}
+            />
+          </div>
         </div>
       </div>
     </DashboardLayout>
