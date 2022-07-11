@@ -39,7 +39,7 @@ export const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="md:mt-[110px] sm:mt-[80px] sm:mb-[100px] relative w-full sm:pl-0 pl-4">
+        <div className="lg:mt-[110px] sm:mt-[80px] sm:mb-[100px] relative w-full sm:pl-0 pl-4">
           <div className="text-[#6b7a7e] inline-block font-normal leading-[30px] mb-[38px] capitalize text-xl">
             About kryptohub
           </div>
