@@ -11,6 +11,38 @@ import { Layout } from "../layout";
 interface DashboardLayoutProps {
   children: ReactNode;
 }
+const route =[
+  {
+    path:'',
+    name:"Dashboard",
+    match:EDashboardNavbar.DASHBOARD
+  },
+  {
+    path:'information',
+    name:"Information",
+    match:EDashboardNavbar.INFORMATION
+  },
+  {
+    path:'skill-distribution',
+    name:"Skill Distribution",
+    match:EDashboardNavbar.SKILLDISTRIBUTION
+  },
+  {
+    path:'portfolio',
+    name:"Portfolio",
+    match:EDashboardNavbar.PORTFOLIO
+  },
+  {
+    path:'awards',
+    name:"Awards",
+    match:EDashboardNavbar.AWARDS
+  },
+  {
+    path:'members',
+    name:"Members",
+    match:EDashboardNavbar.MEMBERS
+  }
+]
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const router = useRouter();
   const team = useAppSelector(getDashboardInformationSelector);
@@ -34,117 +66,29 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       <Layout>
         <div className="container mx-auto">
           <ul className="flex justify-start items-center gap-x-10 md:overflow-x-hidden overflow-x-scroll">
-            <li>
-              <Link
-                href={{
-                  pathname: `/team/[teamId]/dashboard`,
-                  query: { teamId: router.query.teamId },
-                }}
-              >
-                <a
-                  className={`block text-sm text-[#08537E] px-4 py-4 ${
-                    router.pathname.split("/")[3] ===
-                      EDashboardNavbar.DASHBOARD && !router.pathname.split("/")[4]
-                      ? " text-secondary font-bold relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] after:bg-secondary"
-                      : ""
-                  }`}
-                >
-                  Dashboard
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={{
-                  pathname: `/team/[teamId]/dashboard/information`,
-                  query: { teamId: router.query.teamId },
-                }}
-              >
-                <a
-                  className={`block text-sm text-[#08537E] px-4 py-4 ${
-                    router.pathname.split("/")[4] ===
-                    EDashboardNavbar.INFORMATION
-                      ? " text-secondary font-bold relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] after:bg-secondary"
-                      : ""
-                  }`}
-                >
-                  Information
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={{
-                  pathname: `/team/[teamId]/dashboard/skill-distribution`,
-                  query: { teamId: router.query.teamId },
-                }}
-              >
-                <a
-                  className={`block text-sm text-[#08537E] px-4 py-4 ${
-                    router.pathname.split("/")[4] ===
-                    EDashboardNavbar.SKILLDISTRIBUTION
-                      ? " text-secondary font-bold relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] after:bg-secondary"
-                      : ""
-                  }`}
-                >
-                  Skill Distribution
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={{
-                  pathname: `/team/[teamId]/dashboard/portfolio`,
-                  query: { teamId: router.query.teamId },
-                }}
-              >
-                <a
-                  className={`block text-sm text-[#08537E] px-4 py-4 ${
-                    router.pathname.split("/")[4] === EDashboardNavbar.PORTFOLIO
-                      ? " text-secondary font-bold relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] after:bg-secondary"
-                      : ""
-                  }`}
-                >
-                  Portfolio
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={{
-                  pathname: `/team/[teamId]/dashboard/awards`,
-                  query: { teamId: router.query.teamId },
-                }}
-              >
-                <a
-                  className={`block text-sm text-[#08537E] px-4 py-4 ${
-                    router.pathname.split("/")[4] === EDashboardNavbar.AWARDS
-                      ? " text-secondary font-bold relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] after:bg-secondary"
-                      : ""
-                  }`}
-                >
-                  Awards
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={{
-                  pathname: `/team/[teamId]/dashboard/members`,
-                  query: { teamId: router.query.teamId },
-                }}
-              >
-                <a
-                  className={`block text-sm text-[#08537E] px-4 py-4 ${
-                    router.pathname.split("/")[4] === EDashboardNavbar.MEMBERS
-                      ? " text-secondary font-bold relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] after:bg-secondary"
-                      : ""
-                  }`}
-                >
-                  Members
-                </a>
-              </Link>
-            </li>
+            {route.map((item, index) => {
+              return (
+                <li key={index}>
+                  <Link
+                    href={{
+                      pathname: `/team/[teamId]/dashboard/${item.path}`,
+                      query: { teamId: router.query.teamId },
+                    }}
+                  >
+                    <a
+                      className={`block text-sm text-[#08537E] ${
+                        router.pathname.split("/")[4] ===
+                          item.match || !router.pathname.split("/")[4] && item.match === EDashboardNavbar.DASHBOARD
+                          ? " text-secondary relative overflow-hidden after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-[2px] after:w-[calc(100%+10px)] after:bg-secondary"
+                          : ""
+                      }`}
+                    >
+                      {item.name}
+                    </a>
+                  </Link>
+                </li>
+              )
+            })}
             <li>
               <Link
                 href={{
@@ -155,7 +99,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`block text-sm  px-4 py-4 ${" text-secondary font-normal relative"}`}
+                  className={`block text-sm py-4 ${" text-secondary font-normal relative"}`}
                 >
                   View team profile
                 </a>
