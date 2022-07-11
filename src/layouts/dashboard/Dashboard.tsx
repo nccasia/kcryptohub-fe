@@ -64,50 +64,53 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
     <div className="bg-thirdary h-full">
       <Layout>
-        <div className="container mx-auto">
-          <ul className="flex justify-start items-center gap-x-10 md:overflow-x-hidden overflow-x-scroll">
-            {route.map((item, index) => {
-              return (
-                <li key={index}>
-                  <Link
-                    href={{
-                      pathname: `/team/[teamId]/dashboard/${item.path}`,
-                      query: { teamId: router.query.teamId },
-                    }}
-                  >
-                    <a
-                      className={`block text-sm text-[#08537E] ${
-                        router.pathname.split("/")[4] ===
-                          item.match || !router.pathname.split("/")[4] && item.match === EDashboardNavbar.DASHBOARD
-                          ? " text-secondary relative overflow-hidden after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-[2px] after:w-[calc(100%+10px)] after:bg-secondary"
-                          : ""
-                      }`}
+        <div className="px-8">
+          <div className="container mx-auto ">
+            <ul className="flex justify-start items-center gap-x-10 md:overflow-x-hidden overflow-x-scroll">
+              {route.map((item, index) => {
+                return (
+                  <li key={index}>
+                    <Link
+                      href={{
+                        pathname: `/team/[teamId]/dashboard/${item.path}`,
+                        query: { teamId: router.query.teamId },
+                      }}
                     >
-                      {item.name}
-                    </a>
-                  </Link>
-                </li>
-              )
-            })}
-            <li>
-              <Link
-                href={{
-                  pathname: `/team/[teamId]`,
-                  query: { teamId: router.query.teamId },
-                }}
-              >
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`block text-sm py-4 ${" text-secondary font-normal relative"}`}
+                      <a
+                        className={`block text-sm text-[#08537E] ${
+                          router.pathname.split("/")[4] === item.match ||
+                          (!router.pathname.split("/")[4] &&
+                            item.match === EDashboardNavbar.DASHBOARD)
+                            ? " text-secondary relative overflow-hidden after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-[2px] after:w-[calc(100%+10px)] after:bg-secondary"
+                            : ""
+                        }`}
+                      >
+                        {item.name}
+                      </a>
+                    </Link>
+                  </li>
+                );
+              })}
+              <li>
+                <Link
+                  href={{
+                    pathname: `/team/[teamId]`,
+                    query: { teamId: router.query.teamId },
+                  }}
                 >
-                  View team profile
-                </a>
-              </Link>
-            </li>
-          </ul>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`block text-sm py-4 ${" text-secondary font-normal relative"}`}
+                  >
+                    View team profile
+                  </a>
+                </Link>
+              </li>
+            </ul>
+          </div>
+          {children}
         </div>
-        {children}
       </Layout>
     </div>
   );

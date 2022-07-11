@@ -43,7 +43,7 @@ export const Footer = () => {
           <div className="text-[#6b7a7e] inline-block font-normal leading-[30px] mb-[38px] capitalize text-xl">
             About kryptohub
           </div>
-          <ul className="">
+          <ul className="text-lg">
             <li className="mb-[20px]">
               <a href="/about-us" title="Our Story">
                 Our Story
@@ -73,7 +73,7 @@ export const Footer = () => {
           <div className="text-[#6b7a7e] inline-block font-normal leading-[30px] mb-[38px] capitalize text-xl">
             Buyers
           </div>
-          <ul className="">
+          <ul className="text-lg">
             <li className="mb-[20px]">
               <a href="/sitemap" title="Browse All Directories">
                 Browse All Directories
@@ -118,7 +118,7 @@ export const Footer = () => {
           <div className="text-[#6b7a7e] inline-block font-normal leading-[30px] mb-[38px] capitalize text-xl">
             Service Providers
           </div>
-          <ul className="">
+          <ul className="text-lg">
             <li className="mb-[20px]">
               <a href="/service-providers" title="Service Provider Guide">
                 Service Provider Guide
