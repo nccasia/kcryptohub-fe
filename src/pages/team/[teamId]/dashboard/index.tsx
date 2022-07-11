@@ -115,7 +115,7 @@ const Dashboard = () => {
                           rel="noopener noreferrer"
                           className="break-words"
                         >
-                          <span className=" break-words block">
+                          <span className="text-2xl break-words block">
                             {team.teamName}
                           </span>
                         </a>
@@ -309,7 +309,7 @@ const Dashboard = () => {
                     : `${team.description.slice(0, 650)}...` : team.description}
                   {showAll ? (
                     <span
-                      className="text-cyan-600 cursor-pointer"
+                      className="text-cyan-600 cursor-pointer ml-2"
                       onClick={() => setShowAll(false)}
                     >
                       Less
