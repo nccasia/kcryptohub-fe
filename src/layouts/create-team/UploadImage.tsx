@@ -65,6 +65,7 @@ export const UploadImage = ({
                   event.preventDefault();
                   uploadToClient({ target: { files: files } });
                 }}
+                frame={this}
               >
                 <div className="md:text-xs lg:text-base  absolute top-0 left-0 w-full h-1/2 flex items-center justify-center">
                   Upload Image

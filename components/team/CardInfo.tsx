@@ -22,7 +22,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
         <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center px-4 py-2 md:py-4 cursor-pointer border-r border-[#cae0e7] md:border-0">
           <Link
             href={{
-              pathname: `/team/[teamId]/dashboard/information`,
+              pathname: `/team/[teamId]/dashboard`,
               query: { teamId: router.query.teamId },
             }}
           >

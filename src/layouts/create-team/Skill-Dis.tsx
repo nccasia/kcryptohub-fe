@@ -23,6 +23,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { getProfile } from "@/redux/profileSlice";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { teamApi } from "@/api/team-api";
+import { setTeam } from "@/redux/dashboardSlice";
 
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend, ArcElement);
 ChartJS.defaults.plugins.tooltip;
@@ -301,6 +303,11 @@ export const SkillDis = (props: IProps) => {
       } else {
         await dispatch(updateTeam(formData as unknown as ICreateTeam));
         setLoading(true);
+        if (formData.id){
+          teamApi.getTeam(+formData.id).then((res) => {
+            dispatch(setTeam(res.data));
+          });
+        }
       }
       setTimeout(() => {
         (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
@@ -323,6 +330,7 @@ export const SkillDis = (props: IProps) => {
         setLoading(false);
       }, 3100);
     }
+    
   };
 
   useEffect(() => {
