@@ -5,14 +5,16 @@ import { Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { KeyClientApi } from "@/api/keyClients-api";
 import { IKeyClient } from "@/type/team/team.type";
 import { toast } from "react-toastify";
 import { useAppSelector } from "@/redux/hooks";
+import { getDashboardInformationSelector } from "@/redux/selector";
 export interface IKeyClients {
+  id: number;
   keyName: string[];
 }
 const schemaValidation = yup.object().shape({
@@ -31,27 +33,24 @@ export const Clients = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
-  const [teamId, setTeamId] = React.useState<number>(NaN);
-  const [keyClientInfo, setKeyClientInfo] = React.useState<any[]>([""]);
-  const [team, setTeam] = useState<any>({});
-  const [keyClientId, setKeyClientId] = useState(null);
-  const router = useRouter();
-  React.useEffect(() => {
-    if (router.query.teamId) {
-      setTeamId(Number(router.query.teamId));
-      KeyClientApi.getAll(+router.query.teamId).then((resp) => {
-        if (resp) {
-          setTeam(resp);
-          if (resp.keyClients.length > 0) {
-            setKeyClientInfo(resp.keyClients[0].keyName);
-            setKeyClientId(resp.keyClients[0].id);
-          }
-        }
-      });
-    }
-  }, [router.query]);
+  const [teamId, setTeamId] = useState<number>(
+    useAppSelector(getDashboardInformationSelector).id
+  );
 
-  const [count, setCount] = React.useState(0);
+  const keyClient = useAppSelector(getDashboardInformationSelector).keyClients;
+  const [keyClientInfo, setKeyClientInfo] = useState<string[]>([]);
+  const [team, setTeam] = useState<any>(
+    useAppSelector(getDashboardInformationSelector)
+  );
+  const [keyClientId, setKeyClientId] = useState<number>(NaN);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (keyClient) {
+      setKeyClientInfo(keyClient[0]?.keyName || []);
+      setKeyClientId(keyClient[0]?.id);
+    }
+  }, [keyClient]);
 
   const handleAdd = () => {
     setKeyClientInfo([...keyClientInfo, ""]);

@@ -1,3 +1,4 @@
+import { IKeyClients } from "@/src/pages/team/[teamId]/dashboard/portfolio/clients";
 import { IProfile } from "../profile/profile.type";
 import { Skill } from "../Skill";
 import { ISkillDistributionValue } from "../skill/skill.types";
@@ -88,7 +89,7 @@ export interface ITeamProfile {
   skills: ISkill[];
   skillDistribution: ISkillDistribution[];
   portfolios: IPortfolio[];
-  keyClients?: string[];
+  keyClients?: IKeyClients[];
   awards?: string[];
 }
 

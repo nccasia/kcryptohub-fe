@@ -1,6 +1,8 @@
+import { teamApi } from "@/api/team-api";
 import AwardList from "@/components/awards/AwardList";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import { createAward, getAwards } from "@/redux/awardSlice";
+import { setTeam } from "@/redux/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import AwardLayout from "@/src/layouts/awards/AwardLayout";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
@@ -26,7 +28,9 @@ const NewAward = () => {
   const buttonRef = useRef(null);
   const dispatch = useAppDispatch();
   const { awards } = useAppSelector((state) => state.AwardsReducer);
-  const teamId = useAppSelector((state) => state.DashboardReducer.team.id.toString());
+  const teamId = useAppSelector((state) =>
+    state.DashboardReducer.team.id.toString()
+  );
   const {
     register,
     handleSubmit,
@@ -51,6 +55,9 @@ const NewAward = () => {
         createAward({ award, handler: handleRedirectToAwardDetail })
       );
       dispatch(getAwards(parseInt(teamId)));
+      teamApi.getTeam(+teamId).then((data) => {
+        dispatch(setTeam(data.data));
+      });
       (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
     })();
   };
@@ -130,9 +137,7 @@ const NewAward = () => {
               </div>
             </div>
             <div className="flex flex-col-reverse sm:flex-row justify-between md:justify-end gap-x-5 pt-5 mt-5 border-t border-[#cae0e7]">
-              <Link href={
-                `/team/${teamId}/dashboard/awards`
-              } passHref>
+              <Link href={`/team/${teamId}/dashboard/awards`} passHref>
                 <button
                   type="button"
                   className="bg-white text-[#08537E] px-10 py-4 hover:underline"

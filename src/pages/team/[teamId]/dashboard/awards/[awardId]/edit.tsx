@@ -1,3 +1,4 @@
+import { teamApi } from "@/api/team-api";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import {
   deleteAward,
@@ -5,6 +6,7 @@ import {
   getAwardById,
   getAwards,
 } from "@/redux/awardSlice";
+import { setTeam } from "@/redux/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import AwardLayout from "@/src/layouts/awards/AwardLayout";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
@@ -44,7 +46,9 @@ const EditAwardDetail = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { awardDetail } = useAppSelector((state) => state.AwardsReducer);
-  const teamId = useAppSelector((state) => state.DashboardReducer.team.id.toString());
+  const teamId = useAppSelector((state) =>
+    state.DashboardReducer.team.id.toString()
+  );
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const {
     register,
@@ -96,6 +100,10 @@ const EditAwardDetail = () => {
       deleteAward({ award: awardDetail, handler: handleRedirect })
     );
     await dispatch(getAwards(parseInt(teamId)));
+
+    teamApi.getTeam(+teamId).then((data) => {
+      dispatch(setTeam(data.data));
+    });
   };
   if (router.isFallback) {
     return (
