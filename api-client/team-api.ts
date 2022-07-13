@@ -69,11 +69,16 @@ export const teamApi = {
   },
 
   async deleteTeam(id: string) {
-    const response = await axiosClient({
+    try{
+      const response = await axiosClient({
       method: "delete",
       url: `/team/delete/${id}`,
     });
     return { id };
+    } catch (err) {
+      return err;
+    }
+    
   },
 
   async updateTeam(team: ICreateTeam) {
@@ -98,6 +103,6 @@ export const teamApi = {
       url: `/team/${teamid}/image`,
       data: formData,
     });
-    return response.data.data;
+    return response;
   },
 };

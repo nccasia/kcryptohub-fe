@@ -44,7 +44,7 @@ const EditAwardDetail = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { awardDetail } = useAppSelector((state) => state.AwardsReducer);
-  const { teamId } = useAppSelector((state) => state.DashboardReducer);
+  const teamId = useAppSelector((state) => state.DashboardReducer.team.id.toString());
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const {
     register,

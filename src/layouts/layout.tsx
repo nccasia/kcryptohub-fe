@@ -31,7 +31,6 @@ const Layout = (props: IHeaderProps) => {
           }
         })
         .catch((err) => {
-          console.error(err);
           localStorage.removeItem("accessToken");
           signOut({
             callbackUrl: "/",

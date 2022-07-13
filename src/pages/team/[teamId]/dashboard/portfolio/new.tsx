@@ -1,7 +1,9 @@
 import { PortfolioApi } from "@/api/portfolio-api";
+import { teamApi } from "@/api/team-api";
 import { InputFieldCol } from "@/components/portfolio/InputFieldCol";
 import { SelectField } from "@/components/portfolio/SelectField";
-import { useAppSelector } from "@/redux/hooks";
+import { setTeam } from "@/redux/dashboardSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { UploadImage } from "@/src/layouts/create-team/UploadImage";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
@@ -117,6 +119,7 @@ const NewPortfolio = () => {
   const router = useRouter();
   const [imageUrl, setImageUrl] = useState<string>("");
   const [image, setImage] = useState<File>();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (router.query.teamId) {
       setTeamId(Number(router.query.teamId));
@@ -145,6 +148,12 @@ const NewPortfolio = () => {
     } else {
       toast.error("Portfolio creation failed!");
     }
+
+    teamApi.getTeam(teamId).then((res) => {
+      if (res.data.id) {
+        dispatch(setTeam(res.data));
+      }
+    })
   };
 
   const handleCancel = () => {

@@ -23,6 +23,7 @@ import { Team } from "@/type/team/team.type";
 import { teamApi } from "@/api/team-api";
 import { LoadingButton } from "@mui/lab";
 import { Save } from "@mui/icons-material";
+import { setTeam } from "@/redux/dashboardSlice";
 
 const schema = yub.object().shape({
   teamName: yub
@@ -105,12 +106,15 @@ export const CreateForm = (props: IProps) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (props.defaultTeamInfo) {
+    
+    if (props.defaultTeamInfo && props.defaultTeamInfo.id !== watch("id")) {
       reset({ ...props.defaultTeamInfo, skills: [] });
       setData(props.defaultTeamInfo.skills || []);
-      setCreateObjectURL(
-        teamApi.getTeamImageUrl(props.defaultTeamInfo.imageUrl)
-      );
+      if (props.defaultTeamInfo.imageUrl){
+        setCreateObjectURL(
+          teamApi.getTeamImageUrl(props.defaultTeamInfo.imageUrl)
+        );
+      }
     }
   }, [props.defaultTeamInfo]);
 
@@ -167,7 +171,7 @@ export const CreateForm = (props: IProps) => {
     if (props.defaultTeamInfo) {
       const data = watch();
       setBtnDisable(true);
-      dispatch(
+      await dispatch(
         updateTeam({
           ...data,
           id: props.defaultTeamInfo.id.toString(),
@@ -177,8 +181,11 @@ export const CreateForm = (props: IProps) => {
         } as ICreateTeam)
       );
       if (image) {
-        await teamApi.postImage(image, props.defaultTeamInfo.id);
+        const res = await teamApi.postImage(image, props.defaultTeamInfo.id);
       }
+      teamApi.getTeam(data.id).then(res => {
+        dispatch(setTeam(res.data));
+      })
       const to = setTimeout(() => {
         setBtnDisable(false);
       }, 1000);

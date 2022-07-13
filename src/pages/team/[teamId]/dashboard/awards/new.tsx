@@ -26,7 +26,7 @@ const NewAward = () => {
   const buttonRef = useRef(null);
   const dispatch = useAppDispatch();
   const { awards } = useAppSelector((state) => state.AwardsReducer);
-  const { teamId } = useAppSelector((state) => state.DashboardReducer);
+  const teamId = useAppSelector((state) => state.DashboardReducer.team.id.toString());
   const {
     register,
     handleSubmit,
@@ -130,7 +130,9 @@ const NewAward = () => {
               </div>
             </div>
             <div className="flex flex-col-reverse sm:flex-row justify-between md:justify-end gap-x-5 pt-5 mt-5 border-t border-[#cae0e7]">
-              <Link href="/manage-teams/awards" passHref>
+              <Link href={
+                `/team/${teamId}/dashboard/awards`
+              } passHref>
                 <button
                   type="button"
                   className="bg-white text-[#08537E] px-10 py-4 hover:underline"
