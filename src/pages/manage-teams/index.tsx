@@ -59,11 +59,10 @@ const ManageTeam = () => {
           className="flex justify-center mb-1"
           count={
             parseInt((profile.team?.length / 8).toString()) -
-            parseInt(profile.team?.length % 8)
+            parseInt((profile.team?.length % 8).toString())
           }
           page={page}
           onChange={(e, value) => {
-            console.log(value);
             setPrev(value * 9 - 8);
             setNext(value * 8 + value);
             setPage(value);
