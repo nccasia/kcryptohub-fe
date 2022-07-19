@@ -186,8 +186,11 @@ export const SkillDis = (props: IProps) => {
     return [...labels, "Allocate a percentage"];
   };
   const getData = () => {
-    const data = skillDistribute.map((data) => data.quantity);
-    const sum = skillDistribute.reduce((acc, cur) => acc + cur.quantity, 0);
+    const data = skillDistribute.map((data) => Number(data.quantity));
+    const sum = skillDistribute.reduce(
+      (acc, cur) => acc + Number(cur.quantity),
+      0
+    );
     const extra = 100 - sum;
     if (extra < 0) {
       return [sum];
@@ -199,7 +202,10 @@ export const SkillDis = (props: IProps) => {
     const data = getData();
     const colors = skillColor.slice(0, data.length);
     const labels = getLabel();
-    const sum = skillDistribute.reduce((acc, cur) => acc + cur.quantity, 0);
+    const sum = skillDistribute.reduce(
+      (acc, cur) => acc + Number(cur.quantity),
+      0
+    );
 
     const extra = 100 - sum;
     if (
@@ -305,7 +311,7 @@ export const SkillDis = (props: IProps) => {
       } else {
         await dispatch(updateTeam(formData as unknown as ICreateTeam));
         setLoading(true);
-        if (formData.id){
+        if (formData.id) {
           teamApi.getTeam(+formData.id).then((res) => {
             dispatch(setTeam(res.data));
           });
@@ -334,7 +340,6 @@ export const SkillDis = (props: IProps) => {
         setLoading(false);
       }, 3100);
     }
-    
   };
 
   useEffect(() => {
@@ -469,7 +474,7 @@ export const SkillDis = (props: IProps) => {
                     <div className="px-3 w-full">
                       <Slider
                         aria-label="Temperature"
-                        value={cur.quantity}
+                        value={Number(cur.quantity)}
                         valueLabelDisplay="auto"
                         step={5}
                         marks
@@ -479,7 +484,7 @@ export const SkillDis = (props: IProps) => {
                           const newSkillDistribute = [...skillDistribute];
                           newSkillDistribute[index] = {
                             ...newSkillDistribute[index],
-                            quantity: value as IValue["quantity"] | 0,
+                            quantity: Number(value) as IValue["quantity"] | 0,
                           };
                           setDataSkillDistribute(newSkillDistribute);
                           setShow(true);
@@ -507,7 +512,7 @@ export const SkillDis = (props: IProps) => {
                     <input
                       maxLength={3}
                       className="w-[65px] px-3 py-1 border-2 border-[#cae0e7]"
-                      value={cur.quantity}
+                      value={Number(cur.quantity)}
                       onChange={(event) => {
                         if (parseInt(event.target.value) > 100) return;
                         const newSkillDistribute = [...skillDistribute];
