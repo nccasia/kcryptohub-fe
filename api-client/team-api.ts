@@ -69,16 +69,15 @@ export const teamApi = {
   },
 
   async deleteTeam(id: string) {
-    try{
+    try {
       const response = await axiosClient({
-      method: "delete",
-      url: `/team/delete/${id}`,
-    });
-    return { id };
+        method: "delete",
+        url: `/team/delete/${id}`,
+      });
+      return { id };
     } catch (err) {
       return err;
     }
-    
   },
 
   async updateTeam(team: ICreateTeam) {
@@ -92,6 +91,9 @@ export const teamApi = {
   },
 
   getTeamImageUrl(path: string) {
+    if (path.includes("http")) {
+      return path;
+    }
     return process.env.API_URL + "/api/team/getImage/" + path;
   },
 

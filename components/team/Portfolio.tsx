@@ -64,7 +64,7 @@ const Portfolio = ({
       <p className="text-sm text-[#6b7a7e] w-4/5 mb-5">
         Key client:{" "}
         {teamProfile.keyClients && teamProfile.keyClients.length>0
-          ? (teamProfile.keyClients[0] as any).keyName.join(", ")
+          ? (teamProfile.keyClients[0] as any).keyName?.join(", ")
           : ""}
       </p>
       {portfolio && (

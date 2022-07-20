@@ -67,6 +67,86 @@ const skillColor = [
   "#4BA98B",
   "#3ACC61",
   "#6A957D",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
+  "#1B85CE",
+  "#08537E",
+  "#267C87",
+  "#62BA56",
+  "#5D997E",
+  "#4BA98B",
+  "#3ACC61",
+  "#6A957D",
 ];
 
 const skillColorBG = [
@@ -303,7 +383,7 @@ export const SkillDis = (props: IProps) => {
       } else {
         await dispatch(updateTeam(formData as unknown as ICreateTeam));
         setLoading(true);
-        if (formData.id){
+        if (formData.id) {
           teamApi.getTeam(+formData.id).then((res) => {
             dispatch(setTeam(res.data));
           });
@@ -330,7 +410,6 @@ export const SkillDis = (props: IProps) => {
         setLoading(false);
       }, 3100);
     }
-    
   };
 
   useEffect(() => {
