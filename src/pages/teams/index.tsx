@@ -88,13 +88,14 @@ export const Teams = () => {
     setIsReady(true);
   }, [router.isReady]);
   useEffect(() => {
-    if (isReady && SkillSelect.length > 0) {
+
+    if (isReady && SkillSelect) {
       setTeams([]);
       teamApi
         .getListTeamsQuery(
           filter.search,
           currentPage,
-          10,
+          30,
           filter.sortBy.toString(),
           filter.skill
             .map(
