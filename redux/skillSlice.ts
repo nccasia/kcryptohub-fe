@@ -10,7 +10,7 @@ export const getListSkill = createAsyncThunk("getListSkill", async () => {
 });
 
 const initialState = {
-  value: [] as Skill[],
+  value: null,
 };
 
 export const skillSlice = createSlice({

@@ -118,8 +118,7 @@ const PortfolioDetail = () => {
           <div className="h-[200px] sm:h-[300px] relative">
             <Image
               src={
-                "https://kryptohub-be.herokuapp.com/api/portfolio/getImage/" +
-                  portfolio.imageUrl || "/user1.png"
+                PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl) || "/user1.png"
               }
               alt="img"
               layout="fill"

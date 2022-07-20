@@ -26,7 +26,7 @@ export const Header = () => {
   const router = useRouter();
   useEffect(() => {
     setUserImage(user.avatarPath);
-  },[user]);
+  }, [user]);
   return (
     <>
       <div className="bg-primary text-white ">
@@ -93,8 +93,8 @@ export const Header = () => {
                           <span className="block xxs:ml-0 mx-2">ME</span>
                         </label>
                         <div
-                          className="invisible flex flex-col absolute z-10 top-6 p-1 border min-w-[230px] w-full bg-white text-cyan-800 md:right-[-20px] 
-               peer-focus:visible  peer-focus:z-20 peer-focus:animate-slide-in-up hover:visible text-lg"
+                          className="invisible flex flex-col absolute z-[100] top-6 p-1 border min-w-[230px] w-full bg-white text-cyan-800 md:right-[-20px] 
+               peer-focus:visible  peer-focus:animate-slide-in-up hover:visible text-lg"
                         >
                           <div className="text-gray-900 flex items-center">
                             {userImage ? (
