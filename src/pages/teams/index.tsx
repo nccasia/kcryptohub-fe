@@ -1,6 +1,6 @@
 import { teamApi } from "@/api/team-api";
 import { useAppSelector } from "@/redux/hooks";
-import { getSkillsSelector } from "@/redux/selector";
+import { getSkillsIsLoadedSelector, getSkillsSelector } from "@/redux/selector";
 import { Layout } from "@/src/layouts/layout";
 import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
@@ -32,6 +32,7 @@ export const Teams = () => {
   const router = useRouter();
   const [teams, setTeams] = useState([] as Team[]);
   const SkillSelect = useAppSelector(getSkillsSelector);
+  const SkillSelectIsLoaded = useAppSelector(getSkillsIsLoadedSelector);
   const [filter, setFilter] = useState({
     search: "",
     sortBy: 0,
@@ -88,8 +89,7 @@ export const Teams = () => {
     setIsReady(true);
   }, [router.isReady]);
   useEffect(() => {
-
-    if (isReady && SkillSelect) {
+    if (isReady && SkillSelectIsLoaded) {
       setTeams([]);
       teamApi
         .getListTeamsQuery(
@@ -134,7 +134,7 @@ export const Teams = () => {
       });
       setIsReady(true);
     }
-  }, [filter, currentPage, SkillSelect]);
+  }, [filter, currentPage, SkillSelect, SkillSelectIsLoaded]);
 
   const handleSearch = (event: any) => {
     setFilter({ ...filter, search: event.target.value });
