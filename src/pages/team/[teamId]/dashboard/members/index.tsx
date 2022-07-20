@@ -3,11 +3,17 @@ import {
   addMember,
   getMemberList,
   removeMember,
-  resetSuccess,
+  resetSuccess
 } from "@/redux/memberSlice";
 import { getUserInfoSelector } from "@/redux/selector";
+import { RootState } from "@/redux/store";
+import iconchecked from "@/src/assets/image/icon-check.svg";
+import iconToolip from "@/src/assets/image/icon-tooltip.svg";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
-import { emails, IMember, IMemberAddRequest } from "@/type/member/member.type";
+import { emails, IMemberAddRequest } from "@/type/member/member.type";
+import { yupResolver } from "@hookform/resolvers/yup";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import {
   Chip,
   ClickAwayListener,
@@ -16,22 +22,16 @@ import {
   FormControl,
   Pagination,
   ThemeProvider,
-  Tooltip,
+  Tooltip
 } from "@mui/material";
-import React, { SyntheticEvent, useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Image from "next/image";
-import iconchecked from "@/src/assets/image/icon-check.svg";
-import iconToolip from "@/src/assets/image/icon-tooltip.svg";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { ParsedUrlQueryInput } from "querystring";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import * as yup from "yup";
 
 const theme = createTheme({
   components: {
