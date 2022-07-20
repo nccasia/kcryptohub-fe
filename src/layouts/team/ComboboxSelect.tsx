@@ -77,7 +77,7 @@ export const ComboboxSelect = ({
             ? ""
             : ` ${
                 show ? "block border-cyan-900" : "hidden"
-              } absolute bg-white border-2 z-10 
+              } absolute bg-white border-2 z-[100] 
            max-h-[200px] `
         }`}
         ref={subNodeRef as Ref<unknown>}
