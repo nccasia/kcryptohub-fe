@@ -4,7 +4,7 @@ export const Footer = () => {
   return (
     <footer
       id="common-footer"
-      className={`bg-primary border-t border-thirdary text-white relative z-50
+      className={`bg-primary border-t border-thirdary text-white relative z-auto
     before:bg-cyan-600 before:h-[1px] before:absolute before:left-0 before:top-[155px] before:w-full sm:before:block before:hidden`}
     >
       <div className="grid sm:grid-cols-5 grid-cols-1 sm:gap-x-[35px] sm:pl-[35px] sm:pr-[10px] sm:container mx-auto sm:px-0 px-8">
