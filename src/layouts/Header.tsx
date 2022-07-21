@@ -17,15 +17,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { profileApi } from "@/api/profile-api";
 
 export const Header = () => {
   const user = useAppSelector((state) => state.ProfileReducer.userInfo);
-  const [userImage, setUserImage] = useState(user.avatarPath);
+  const [userImage, setUserImage] = useState(
+    profileApi.getImageUrl(user.avatarPath)
+  );
   const [showMenu, setShowMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const router = useRouter();
   useEffect(() => {
-    setUserImage(user.avatarPath);
+    setUserImage(profileApi.getImageUrl(user.avatarPath));
   }, [user]);
   return (
     <>

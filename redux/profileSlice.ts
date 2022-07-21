@@ -24,6 +24,20 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
+export const uploadAvatar = createAsyncThunk(
+  "uploadAvatar",
+  async ({avatar, userId}:{avatar: File, userId: number}) => {
+    const formData = new FormData();
+    formData.append("file", avatar);
+    const response = await axiosClient.post(`/profile/${userId}/image`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  }
+);
+
 export const getSkills = createAsyncThunk(
   "getSkills",
   async (keyword: string) => {
@@ -72,6 +86,11 @@ export const profileSlice = createSlice({
           draggable: true,
           progress: undefined,
         });
+      })
+      .addCase(uploadAvatar.rejected, (state, action) => {
+        toast.error("Can't upload avatar!");
+      })
+      .addCase(uploadAvatar.fulfilled, (state, action) => {
       });
   },
 });
