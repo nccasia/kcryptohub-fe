@@ -1,5 +1,9 @@
 import { useAppSelector } from "@/redux/hooks";
-import { KeyboardArrowDownOutlined, KeyboardArrowUpOutlined, Search } from "@mui/icons-material";
+import {
+  KeyboardArrowDownOutlined,
+  KeyboardArrowUpOutlined,
+  Search,
+} from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 import { useOutsideClick } from "hook/OuterClick";
 import { FormEvent, LegacyRef, Ref, useEffect, useState } from "react";
@@ -26,7 +30,11 @@ export const ComboboxSelect = ({
     setFilteredItems(items);
   }, [items]);
   useEffect(() => {
-    setFilteredItems(items?.filter((item) => item.toLowerCase().includes(searchText.toLowerCase())));
+    setFilteredItems(
+      items?.filter((item) =>
+        item.toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
   }, [searchText, items]);
   const handleItemsSelect = (
     event: FormEvent<HTMLInputElement>,
@@ -37,14 +45,13 @@ export const ComboboxSelect = ({
     } else {
       setSelected(selected.filter((item) => item !== value));
     }
-    
   };
   const hanleSearchItems = (event: FormEvent<HTMLInputElement>) => {
     setSearchText(event.currentTarget.value);
   };
 
   return (
-    <div className={`${className} bg-white`}>
+    <div className={`${className} bg-white `}>
       <div
         className={`cursor-pointer  py-1 
          flex items-center justify-center w-full`}

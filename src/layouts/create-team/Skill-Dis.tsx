@@ -235,8 +235,10 @@ export const SkillDis = (props: IProps) => {
   const [skillId, setSkillId] = useState("");
 
   useEffect(() => {
-    if (props.skillDistribution) {
-      setDataSkillDistribute(props.skillDistribution[0].skillDistributionValue);
+    if (props.skillDistribution && props.skillDistribution?.length > 0) {
+      setDataSkillDistribute(
+        props.skillDistribution[0]?.skillDistributionValue
+      );
       setSkillName(props.skillDistribution[0].skillDistributionName);
       setSkillId(props.skillDistribution[0].id as string);
       setValue(
@@ -264,8 +266,11 @@ export const SkillDis = (props: IProps) => {
     return [...labels, "Allocate a percentage"];
   };
   const getData = () => {
-    const data = skillDistribute.map((data) => data.quantity);
-    const sum = skillDistribute.reduce((acc, cur) => acc + cur.quantity, 0);
+    const data = skillDistribute.map((data) => Number(data.quantity));
+    const sum = skillDistribute.reduce(
+      (acc, cur) => acc + Number(cur.quantity),
+      0
+    );
     const extra = 100 - sum;
     if (extra < 0) {
       return [sum];
@@ -277,7 +282,10 @@ export const SkillDis = (props: IProps) => {
     const data = getData();
     const colors = skillColor.slice(0, data.length);
     const labels = getLabel();
-    const sum = skillDistribute.reduce((acc, cur) => acc + cur.quantity, 0);
+    const sum = skillDistribute.reduce(
+      (acc, cur) => acc + Number(cur.quantity),
+      0
+    );
 
     const extra = 100 - sum;
     if (
@@ -389,10 +397,12 @@ export const SkillDis = (props: IProps) => {
           });
         }
       }
-      setTimeout(() => {
-        (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
+
+      const to = setTimeout(() => {
         setLoading(false);
-      }, 1100);
+      }, 1500);
+      return () => clearTimeout(to);
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
     } else if (total > 100) {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       setLoading(true);
@@ -465,11 +475,11 @@ export const SkillDis = (props: IProps) => {
                 </p>
               </div>
             )}
-            <div className="">
+            <div>
               {skillDistribute &&
                 skillDistribute.map((cur, index) => (
                   <div
-                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-cyan-600 cursor-pointer"
+                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#cae0e7] cursor-pointer"
                     key={index}
                     onClick={() => {
                       setDataSkillDistribute(
@@ -481,7 +491,7 @@ export const SkillDis = (props: IProps) => {
                   >
                     <div className="flex justify-between items-center">
                       {cur.field}
-                      <span className="text-xs text-cyan-600">
+                      <span className="text-xs text-cyan-700">
                         <CloseIcon className="text-base" />
                       </span>
                     </div>
@@ -535,7 +545,7 @@ export const SkillDis = (props: IProps) => {
                     ></div>
 
                     <div className="px-3">
-                      <Typography className="text-indigo-700 border rounded-md border-indigo-600 px-3">
+                      <Typography className="text-indigo-800 border rounded-md border-[#cae0e7] px-3">
                         {cur.field}
                       </Typography>
                     </div>
@@ -544,7 +554,7 @@ export const SkillDis = (props: IProps) => {
                     <div className="px-3 w-full">
                       <Slider
                         aria-label="Temperature"
-                        value={cur.quantity}
+                        value={Number(cur.quantity)}
                         valueLabelDisplay="auto"
                         step={5}
                         marks
@@ -554,7 +564,7 @@ export const SkillDis = (props: IProps) => {
                           const newSkillDistribute = [...skillDistribute];
                           newSkillDistribute[index] = {
                             ...newSkillDistribute[index],
-                            quantity: value as IValue["quantity"] | 0,
+                            quantity: Number(value) as IValue["quantity"] | 0,
                           };
                           setDataSkillDistribute(newSkillDistribute);
                           setShow(true);
@@ -581,8 +591,8 @@ export const SkillDis = (props: IProps) => {
 
                     <input
                       maxLength={3}
-                      className="w-[65px] px-3 py-1 border"
-                      value={cur.quantity}
+                      className="w-[65px] px-3 py-1 border-2 border-[#cae0e7]"
+                      value={Number(cur.quantity)}
                       onChange={(event) => {
                         if (parseInt(event.target.value) > 100) return;
                         const newSkillDistribute = [...skillDistribute];
@@ -673,26 +683,24 @@ export const SkillDis = (props: IProps) => {
 
       {props.title === "Update" && (
         <div className="flex justify-end items-center">
-          <LoadingButton
-            className={!loading ? "hidden" : "py-3 px-3 flex items center"}
-            loading
-            loadingPosition="start"
-            startIcon={<SaveIcon />}
-            variant="outlined"
-          >
-            Save Changes
-          </LoadingButton>
           <button
             type="button"
             onClick={handleSubmit(handleSaveCreateTeam)}
-            className={
-              +loading
-                ? "hidden"
-                : "py-3 text-white px-3 flex items center bg-[red]"
-            }
+            className={"py-3 text-white px-3 flex items-center bg-[red]"}
             ref={buttonRef}
           >
-            Save Changes
+            {loading ? (
+              <LoadingButton
+                className="capitalize px-2 rounded-none p-0 text-white flex items-center bg-[red]"
+                loading
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+              >
+                Saving...
+              </LoadingButton>
+            ) : (
+              "Save Changes"
+            )}
           </button>
         </div>
       )}

@@ -11,60 +11,60 @@ import { Layout } from "../layout";
 interface DashboardLayoutProps {
   children: ReactNode;
 }
-const route =[
+const route = [
   {
-    path:'',
-    name:"Dashboard",
-    match:EDashboardNavbar.DASHBOARD
+    path: "",
+    name: "Dashboard",
+    match: EDashboardNavbar.DASHBOARD,
   },
   {
-    path:'information',
-    name:"Information",
-    match:EDashboardNavbar.INFORMATION
+    path: "information",
+    name: "Information",
+    match: EDashboardNavbar.INFORMATION,
   },
   {
-    path:'skill-distribution',
-    name:"Skill Distribution",
-    match:EDashboardNavbar.SKILLDISTRIBUTION
+    path: "skill-distribution",
+    name: "Skill Distribution",
+    match: EDashboardNavbar.SKILLDISTRIBUTION,
   },
   {
-    path:'portfolio',
-    name:"Portfolio",
-    match:EDashboardNavbar.PORTFOLIO
+    path: "portfolio",
+    name: "Portfolio",
+    match: EDashboardNavbar.PORTFOLIO,
   },
   {
-    path:'awards',
-    name:"Awards",
-    match:EDashboardNavbar.AWARDS
+    path: "awards",
+    name: "Awards",
+    match: EDashboardNavbar.AWARDS,
   },
   {
-    path:'members',
-    name:"Members",
-    match:EDashboardNavbar.MEMBERS
-  }
-]
+    path: "members",
+    name: "Members",
+    match: EDashboardNavbar.MEMBERS,
+  },
+];
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const router = useRouter();
   const team = useAppSelector(getDashboardInformationSelector);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if(router.isReady && router.query.teamId){
-      if(!team.id || team.id !== +router.query.teamId){
+    if (router.isReady && router.query.teamId) {
+      if (!team.id || team.id !== +router.query.teamId) {
         teamApi.getTeam(+router.query.teamId).then((res) => {
-          if(res){
+          if (res) {
             dispatch(setTeam(res.data));
           } else {
             toast.error("Team not found");
             router.push("/manage-teams");
           }
-        })
+        });
       }
     }
-  })
+  });
   return (
     <div className="bg-thirdary h-full">
       <Layout>
-        <div className="px-8">
+        <div className="px-8 bg-thirdary">
           <div className="container mx-auto ">
             <ul className="flex justify-start items-center gap-x-10 md:overflow-x-hidden overflow-x-scroll">
               {route.map((item, index) => {

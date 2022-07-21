@@ -38,7 +38,7 @@ export const SkillCollapse = (props: IProps) => {
                   return cur.field === data.field;
                 }) ? (
                   <div
-                    className="  mb-3 px-3 mr-2 text-indigo-800 border-[1px] rounded-md border-cyan-600"
+                    className="  mb-3 px-3 mr-2 text-indigo-800 border-2 rounded-md border-[#cae0e7]"
                     onClick={() => {
                       if (
                         props.skillDistribute.find((data) => {
@@ -67,7 +67,7 @@ export const SkillCollapse = (props: IProps) => {
                   </div>
                 ) : (
                   <div
-                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-cyan-600"
+                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#cae0e7]"
                     onClick={() => {
                       props.setDataSkillDistribute(
                         props.skillDistribute.filter(
@@ -78,7 +78,7 @@ export const SkillCollapse = (props: IProps) => {
                   >
                     <div className="flex justify-between items-center">
                       {cur.field}
-                      <span className="text-xs text-cyan-600">
+                      <span className="text-xs text-cyan-700">
                         <CloseIcon className="text-base" />
                       </span>
                     </div>
