@@ -706,8 +706,6 @@ const Members = () => {
         </div>
         
       </ThemeProvider>
-
-      <ToastContainer autoClose={2000} position="top-left" />
     </DashboardLayout>
   );
 };
