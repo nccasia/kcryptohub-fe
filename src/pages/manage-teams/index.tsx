@@ -5,25 +5,33 @@ import { deleteTeam, resetTeam } from "redux/teamSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
 import { ICreateTeam } from "@/type/createTeam/createTeam.type";
-import { Team } from "@/type/team/team.type";
+import { ITeamProfile, Team } from "@/type/team/team.type";
 import React, { useEffect, useState } from "react";
 import { Pagination, PaginationItem } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { IProfile } from "@/type/profile/profile.type";
+import { profileApi } from "@/api/profile-api";
 const ManageTeam = () => {
   const dispatch = useAppDispatch();
-  const profile = useAppSelector((state) => state.ProfileReducer.userInfo);
-
-  const [imageFile, setImageFile] = React.useState<File | null>(null);
+  const [userTeam, setUserTeam] = useState<ICreateTeam[]>([]);
   const [pageItem, setPageItem] = useState<ICreateTeam[]>([]);
   const [page, setPage] = React.useState(1);
   const [prev, setPrev] = React.useState(1);
   const [next, setNext] = React.useState(9);
 
   useEffect(() => {
-    setPageItem(profile.team);
-  }, [profile]);
+    profileApi.getProfileTeam().then((res) => {
+      if (res) {
+        
+        setUserTeam(res as ICreateTeam[]);
+      }
+    });
+  }, [setUserTeam]);
+
+  useEffect(() => {
+    setPageItem(userTeam);
+  }, [userTeam]);
 
   return (
     <Layout>
@@ -58,8 +66,8 @@ const ManageTeam = () => {
         <Pagination
           className="flex justify-center mb-1"
           count={
-            parseInt((profile.team?.length / 8).toString()) -
-            parseInt((profile.team?.length % 8).toString())
+            parseInt((userTeam?.length / 8).toString()) -
+            parseInt((userTeam?.length % 8).toString())
           }
           page={page}
           onChange={(e, value) => {
