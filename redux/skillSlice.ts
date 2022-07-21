@@ -11,6 +11,7 @@ export const getListSkill = createAsyncThunk("getListSkill", async () => {
 
 const initialState = {
   value: [] as Skill[],
+  isLoaded: false,
 };
 
 export const skillSlice = createSlice({
@@ -32,6 +33,7 @@ export const skillSlice = createSlice({
     });
     builder.addCase(getListSkill.fulfilled, (state, action) => {
       state.value = action.payload.content;
+      state.isLoaded = true;
     });
   },
 });

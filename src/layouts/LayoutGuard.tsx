@@ -9,9 +9,9 @@ export const LayoutGuard = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const currentUrl = router.asPath;
     const isPrivate = privateRoute.some((url) => currentUrl.includes(url));
-    /*  if (isPrivate && !localStorage.getItem("accessToken")) {
-          router.push(`/login?redirectUrl=${currentUrl}`, "/login");
-        } */
+    if (isPrivate && !localStorage.getItem("accessToken")) {
+      router.push(`/login?url=${currentUrl}`, "/login");
+    }
   }, [router]);
   return <>{children}</>;
 };

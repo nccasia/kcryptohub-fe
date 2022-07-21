@@ -1,6 +1,6 @@
 import { teamApi } from "@/api/team-api";
 import { useAppSelector } from "@/redux/hooks";
-import { getSkillsSelector } from "@/redux/selector";
+import { getSkillsIsLoadedSelector, getSkillsSelector } from "@/redux/selector";
 import { Layout } from "@/src/layouts/layout";
 import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
@@ -8,10 +8,10 @@ import { TimeZone } from "@/type/enum/TimeZone";
 import { Team } from "@/type/team/team.type";
 import { CancelOutlined, Close } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
-import { Pagination } from "@mui/material";
+import { debounce, Pagination } from "@mui/material";
 import { useOutsideClick } from "hook/OuterClick";
 import { useRouter } from "next/router";
-import { FormEvent, LegacyRef, useEffect, useState } from "react";
+import { FormEvent, LegacyRef, useCallback, useEffect, useState } from "react";
 
 const SortBy = ["none"];
 interface PageResponse {
@@ -32,6 +32,7 @@ export const Teams = () => {
   const router = useRouter();
   const [teams, setTeams] = useState([] as Team[]);
   const SkillSelect = useAppSelector(getSkillsSelector);
+  const SkillSelectIsLoaded = useAppSelector(getSkillsIsLoadedSelector);
   const [filter, setFilter] = useState({
     search: "",
     sortBy: 0,
@@ -88,13 +89,13 @@ export const Teams = () => {
     setIsReady(true);
   }, [router.isReady]);
   useEffect(() => {
-    if (isReady && SkillSelect.length > 0) {
+    if (isReady && SkillSelectIsLoaded) {
       setTeams([]);
       teamApi
         .getListTeamsQuery(
           filter.search,
           currentPage,
-          10,
+          30,
           filter.sortBy.toString(),
           filter.skill
             .map(
@@ -133,10 +134,12 @@ export const Teams = () => {
       });
       setIsReady(true);
     }
-  }, [filter, currentPage, SkillSelect]);
-
+  }, [filter, currentPage, SkillSelect, SkillSelectIsLoaded]);
+  const debounceSearch = useCallback(debounce((value: string) => {setFilter({ ...filter, search: value })}, 1000),[setFilter]);
+  const [keyword, setKeyword] = useState("");
   const handleSearch = (event: any) => {
-    setFilter({ ...filter, search: event.target.value });
+    setKeyword(event.target.value);
+    debounceSearch(event.target.value);
   };
 
   const handleSkillSelect = (selected: string[]) => {
@@ -154,6 +157,7 @@ export const Teams = () => {
 
   const handleClearAll = () => {
     setFilter(initFilter);
+    setKeyword("");
   };
 
   const handlePageChange = (value: number) => {
@@ -196,13 +200,13 @@ export const Teams = () => {
                         placeholder="Search here..."
                         className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
                         name="search"
-                        value={filter.search}
+                        value={keyword}
                         onChange={handleSearch}
                       />
                       <div className="absolute right-2">
                         {filter.search.length > 0 ? (
                           <Close
-                            onClick={() => setFilter({ ...filter, search: "" })}
+                            onClick={() => {setFilter({ ...filter, search: "" }); setKeyword("")}}
                           />
                         ) : (
                           <SearchIcon />
@@ -354,13 +358,13 @@ export const Teams = () => {
                 className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
                 name="search"
                 onChange={handleSearch}
-                value={filter.search}
+                value={keyword}
               />
 
               <div className="absolute right-2">
                 {filter.search.length > 0 ? (
                   <Close
-                    onClick={() => setFilter({ ...filter, search: "" })}
+                    onClick={() => {setFilter({ ...filter, search: "" });setKeyword("")}}
                     className="cursor-pointer"
                   />
                 ) : (
