@@ -40,8 +40,7 @@ const Portfolio = ({
     }
 
     if (video_id) {
-      var thumbnail =
-        "http://img.youtube.com/vi/" + video_id + "/maxresdefault.jpg";
+      var thumbnail = "http://img.youtube.com/vi/" + video_id + "/hqdefault.jpg";
       return thumbnail;
     }
   };
