@@ -1,4 +1,5 @@
-import { ITeamProfile } from "@/type/team/team.type";
+
+import { ITeam } from "@/type/team/team.type";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -21,7 +22,7 @@ const initialState = {
     portfolios: [],
     keyClients: [],
     awards: [],
-  } as unknown as ITeamProfile,
+  } as unknown as ITeam,
 };
 
 export const dashboardSlice = createSlice({

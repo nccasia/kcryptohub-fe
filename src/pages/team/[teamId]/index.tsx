@@ -6,7 +6,7 @@ import Summary from "@/components/team/Summary";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setTeamProfile } from "@/redux/teamProfileSlice";
 import { Layout } from "@/src/layouts/layout";
-import { ESection, ITeamProfile } from "@/type/team/team.type";
+import { ESection, ITeam } from "@/type/team/team.type";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -14,7 +14,7 @@ import { MutableRefObject, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { teamApi } from "@/api/team-api";
 interface ITeamDetailProps {
-  teamProfileInfo: ITeamProfile;
+  teamProfileInfo: ITeam;
 }
 const TeamDetail = () => {
   const router = useRouter();

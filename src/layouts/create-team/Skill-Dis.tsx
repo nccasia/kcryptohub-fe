@@ -1,8 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createTeam, resetTeam, updateTeam } from "@/redux/teamSlice";
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
-import { Skill } from "@/type/Skill";
-import { ISkillDistribution } from "@/type/team/team.type";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import CloseIcon from "@mui/icons-material/Close";
@@ -25,6 +22,8 @@ import { getProfile } from "@/redux/profileSlice";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { teamApi } from "@/api/team-api";
 import { setTeam } from "@/redux/dashboardSlice";
+import { ISkillDistribution } from "@/type/skill/skill.types";
+import { ICreateTeam } from "@/type/team/team.type";
 
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend, ArcElement);
 ChartJS.defaults.plugins.tooltip;

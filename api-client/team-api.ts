@@ -1,4 +1,5 @@
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
+
+import { ICreateTeam } from "@/type/team/team.type";
 import axiosClient from "./axios-client";
 
 export const teamApi = {

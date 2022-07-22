@@ -1,5 +1,5 @@
-export interface ISkills {
-  id: string | null;
+export interface ISkill {
+  id: number | null;
   skillName: string;
 }
 

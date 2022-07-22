@@ -1,5 +1,5 @@
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
-import { IKeyClient } from "@/type/team/team.type";
+
+import { ICreateTeam, IKeyClient } from "@/type/team/team.type";
 import axiosClient from "./axios-client";
 import { teamApi } from "./team-api";
 
