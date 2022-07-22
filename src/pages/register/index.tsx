@@ -63,7 +63,12 @@ const Register = () => {
   };
 
   const handleRedirectToLogin = () => {
-    router.push("/login");
+    const query = new URLSearchParams(router.asPath);
+    const url = query.has("/login?url")
+      ? (query.get("/login?url") as string)
+      : "/login";
+    console.log(url);
+    router.push(url);
   };
 
   const handleRegister = async () => {
