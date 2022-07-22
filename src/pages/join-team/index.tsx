@@ -40,18 +40,22 @@ const JoinTeamID = () => {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
+    const teamToken = localStorage.getItem("teamId") || null;
+    if (!accessToken || teamToken === null) {
       if (router.isReady) {
         router.push({
           pathname: "/login",
           query: { url: router.asPath },
         });
+        localStorage.setItem("teamId", teamId as string);
       }
     }
-
     (async () => {
       if (accessToken) {
-        await dispatch(joinTeam(parseInt(teamId as string)));
+        setTimeout(() => {
+          dispatch(joinTeam(parseInt(teamId as string)));
+        }, 1000);
+        localStorage.removeItem("teamId");
       }
     })();
   }, [dispatch, router.isReady, teamId]);
