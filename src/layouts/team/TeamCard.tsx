@@ -74,6 +74,7 @@ export const TeamCard = (props: Props) => {
   const [teamImgSrc, setTeamImgSrc] = useState(
     team.imageUrl ? teamApi.getTeamImageUrl(team.imageUrl) : "/user1.png"
   );
+  const [showAllSkill, setShowAllSkill] = useState(false);
   useEffect(() => {
     if (team.imageUrl) {
       setTeamImgSrc(teamApi.getTeamImageUrl(team.imageUrl));
@@ -163,26 +164,35 @@ export const TeamCard = (props: Props) => {
             <div className="flex w-full">
               <div className="text-cyan-900 w-full break-normal">
                 {team.skills &&
-                  team.skills.map((skill, i) => (
-                    <div
-                      key={i}
-                      className="inline-block p-1 pt-3"
+                  (showAllSkill ? team.skills : team.skills.slice(0, 7)).map(
+                    (skill, i) => (
+                      <div key={i} className="inline-block p-1 pt-3">
+                        <span
+                          className={`px-2 py-1 block rounded-2xl  md:max-w-[175px] max-w-[140px] hover:max-w-none hover:scale-110 cursor-default truncate  ${
+                            skillColor[
+                              skill.id
+                                ? skill.id % skillColor.length
+                                : Math.round(
+                                    Math.random() * (skillColor.length - 1)
+                                  )
+                            ]
+                          } text-white ml-2 mt-2 font-medium`}
+                        >
+                          {skill.skillName}
+                        </span>
+                      </div>
+                    )
+                  )}
+                {team.skills.length > 7 && !showAllSkill ? (
+                  <div className="inline-block p-1 pt-3">
+                    <span
+                      className={`px-2 py-1 block rounded-2xl border md:max-w-[175px] max-w-[140px] truncate   cursor-pointer text-black ml-2 mt-2 font-medium`}
+                      onClick={() => setShowAllSkill(true)}
                     >
-                      <span
-                        className={`px-2 py-1 block rounded-2xl  max-w-[130px] truncate  ${
-                          skillColor[
-                            skill.id
-                              ? skill.id % skillColor.length
-                              : Math.round(
-                                  Math.random() * (skillColor.length - 1)
-                                )
-                          ]
-                        } text-white ml-2 mt-2 font-medium`}
-                      >
-                        {skill.skillName}
-                      </span>
-                    </div>
-                  ))}
+                      More
+                    </span>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
