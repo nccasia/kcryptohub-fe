@@ -31,23 +31,39 @@ const skillColor = [
   "bg-teal-500",
   "bg-cyan-500",
   "bg-lime-500",
-  "bg-indigo-700",
-  "bg-pink-700",
-  "bg-gray-700",
-  "bg-teal-700",
-  "bg-cyan-700",
-  "bg-lime-700",
+  "bg-fuchsia-500",
+  "bg-rose-500",
+  "bg-stone-500",
   "bg-red-700",
   "bg-orange-700",
   "bg-yellow-700",
   "bg-green-700",
   "bg-blue-700",
-  "bg-lime-300",
-  "bg-indigo-300",
-  "bg-pink-300",
-  "bg-gray-300",
-  "bg-teal-300",
-  "bg-cyan-300",
+  "bg-indigo-700",
+  "bg-purple-700",
+  "bg-pink-700",
+  "bg-gray-700",
+  "bg-teal-700",
+  "bg-cyan-700",
+  "bg-lime-700",
+  "bg-fuchsia-700",
+  "bg-rose-700",
+  "bg-stone-700",
+  "bg-red-900",
+  "bg-orange-900",
+  "bg-yellow-900",
+  "bg-green-900",
+  "bg-blue-900",
+  "bg-indigo-900",
+  "bg-purple-900",
+  "bg-pink-900",
+  "bg-gray-900",
+  "bg-teal-900",
+  "bg-cyan-900",
+  "bg-lime-900",
+  "bg-fuchsia-900",
+  "bg-rose-900",
+  "bg-stone-900",
 ];
 interface Props {
   team: Team;
@@ -148,9 +164,12 @@ export const TeamCard = (props: Props) => {
               <div className="text-cyan-900 w-full break-normal">
                 {team.skills &&
                   team.skills.map((skill, i) => (
-                    <div key={i} className="inline-block p-1 pt-3">
+                    <div
+                      key={i}
+                      className="inline-block p-1 pt-3"
+                    >
                       <span
-                        className={`px-2 py-1  rounded-2xl ${
+                        className={`px-2 py-1 block rounded-2xl  max-w-[130px] truncate  ${
                           skillColor[
                             skill.id
                               ? skill.id % skillColor.length

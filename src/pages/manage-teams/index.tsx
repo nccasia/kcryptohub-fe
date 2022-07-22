@@ -16,6 +16,7 @@ const ManageTeam = () => {
   const dispatch = useAppDispatch();
   const [userTeam, setUserTeam] = useState<ICreateTeam[]>([]);
   const [pageItem, setPageItem] = useState<ICreateTeam[]>([]);
+  const profile = useAppSelector((state) => state.ProfileReducer);
   const [page, setPage] = React.useState(1);
   const [prev, setPrev] = React.useState(1);
   const [next, setNext] = React.useState(9);
@@ -23,11 +24,10 @@ const ManageTeam = () => {
   useEffect(() => {
     profileApi.getProfileTeam().then((res) => {
       if (res) {
-        
         setUserTeam(res as ICreateTeam[]);
       }
     });
-  }, [setUserTeam]);
+  }, [setUserTeam, profile]);
 
   useEffect(() => {
     setPageItem(userTeam);
@@ -66,8 +66,9 @@ const ManageTeam = () => {
         <Pagination
           className="flex justify-center mb-1"
           count={
-            parseInt((userTeam?.length / 8).toString()) -
-            parseInt((userTeam?.length % 8).toString())
+            parseInt((userTeam?.length % 9).toString()) === 0
+              ? parseInt((userTeam?.length / 9).toString())
+              : parseInt((userTeam?.length / 9).toString()) + 1
           }
           page={page}
           onChange={(e, value) => {
