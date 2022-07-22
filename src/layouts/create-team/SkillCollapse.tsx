@@ -67,7 +67,7 @@ export const SkillCollapse = (props: IProps) => {
                   </div>
                 ) : (
                   <div
-                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#cae0e7]"
+                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#08537e]"
                     onClick={() => {
                       props.setDataSkillDistribute(
                         props.skillDistribute.filter(
