@@ -6,7 +6,7 @@ import MemberReducer from "@/redux/memberSlice";
 import TeamProfileReducer from "@/redux/teamProfileSlice";
 import AwardsReducer from "@/redux/awardSlice";
 import DashboardReducer from "@/redux/dashboardSlice";
-
+import ShortListReducer from "@/redux/shortListSlice";
 const reducer = {
   ProfileReducer,
   SkillReducer,
@@ -15,6 +15,7 @@ const reducer = {
   AwardsReducer,
   DashboardReducer,
   MemberReducer,
+  ShortListReducer
 };
 
 const store = configureStore({ reducer });

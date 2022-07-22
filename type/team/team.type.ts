@@ -27,6 +27,23 @@ export type Team = {
   awards?: string[];
 };
 
+export interface ITeamShortList {
+  id: number,
+  teamName: string,
+  teamSize: string,
+  timeZone: string,
+  workingTime: string,
+  saleEmail?: string,
+  description: string,
+  imageUrl: string,
+  slogan?: string,
+  founded: string,
+  linkWebsite: string,
+  projectSize: string,
+  status: boolean,
+}
+
+
 export enum ESection {
   "SUMMARY",
   "SKILL-DISTRIBUTION",
