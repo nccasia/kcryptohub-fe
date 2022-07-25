@@ -1,17 +1,13 @@
 import { Layout } from "@/src/layouts/layout";
 import Link from "next/link";
-import { deleteTeam, resetTeam } from "redux/teamSlice";
+import { resetTeam } from "redux/teamSlice";
 
+import { profileApi } from "@/api/profile-api";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
-import { ITeamProfile, Team } from "@/type/team/team.type";
+import { ICreateTeam, ITeam } from "@/type/team/team.type";
+import { Pagination } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Pagination, PaginationItem } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { IProfile } from "@/type/profile/profile.type";
-import { profileApi } from "@/api/profile-api";
 const ManageTeam = () => {
   const dispatch = useAppDispatch();
   const [userTeam, setUserTeam] = useState<ICreateTeam[]>([]);
@@ -59,7 +55,7 @@ const ManageTeam = () => {
           pageItem
             .slice(prev - 1, next)
             .map((item, index) => (
-              <TeamCard team={item as unknown as Team} key={index} />
+              <TeamCard team={item as unknown as ITeam} key={index} />
             ))}
       </div>
       {pageItem && pageItem.length > 0 && (

@@ -3,6 +3,7 @@ import { joinTeam, resetSuccess } from "@/redux/memberSlice";
 import { getUserInfoSelector } from "@/redux/selector";
 import { RootState } from "@/redux/store";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
+import { Layout } from "@/src/layouts/layout";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -70,13 +71,13 @@ const JoinTeamID = () => {
   }, [actionSuccess, dispatch, router, teamId]);
 
   return (
-    <DashboardLayout>
+    <Layout>
       <ThemeProvider theme={theme}>
         <Container>
           <h1>Joining team...</h1>
         </Container>
       </ThemeProvider>
-    </DashboardLayout>
+    </Layout>
   );
 };
 

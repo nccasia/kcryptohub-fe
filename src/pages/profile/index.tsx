@@ -4,20 +4,18 @@ import InputField from "@/components/profile/InputField";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getProfile, getSkills, updateProfile, uploadAvatar } from "@/redux/profileSlice";
 import { DragDropField } from "@/src/layouts/create-team/DragDropField";
-import { UploadImage } from "@/src/layouts/create-team/UploadImage";
 import { Layout } from "@/src/layouts/layout";
 import { ELoginProvider } from "@/type/auth/login.type";
 import { IProfile } from "@/type/profile/profile.type";
-import { ISkills } from "@/type/skill/skill.types";
+import { ISkill } from "@/type/skill/skill.types";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Autocomplete, Box, Container, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
 
 const theme = createTheme({
@@ -75,7 +73,7 @@ const UpdateProfilePage = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
-  const [userSkills, setUserSkills] = useState<ISkills[]>(
+  const [userSkills, setUserSkills] = useState<ISkill[]>(
     userInfo.skills || []
   );
   const [imageUrl, setImageUrl] = useState<string>("");

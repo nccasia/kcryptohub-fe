@@ -2,6 +2,7 @@ import { useAppSelector } from "@/redux/hooks";
 import {
   AccountCircleOutlined,
   AccountCircleRounded,
+  Bookmark,
   BookmarkBorderOutlined,
   ChatOutlined,
   CreateOutlined,
@@ -29,7 +30,7 @@ export const Header = () => {
   const router = useRouter();
   useEffect(() => {
     setUserImage(profileApi.getImageUrl(user.avatarPath));
-  }, [user]);
+  }, [user.avatarPath]);
   return (
     <>
       <div className="bg-primary text-white ">
@@ -181,13 +182,20 @@ export const Header = () => {
                   </div>
                 </div>
                 <div className="border-l border-cyan-700 px-2 cursor-pointer">
-                  <span>
-                    0 <BookmarkBorderOutlined className="text-red-800" />
-                  </span>
+                  <Link href={"/short-list"}>
+                    <span>
+                      {user.shortList?.length || 0}{" "}
+                      {user.shortList?.length > 0 ? (
+                        <Bookmark className="text-secondary" />
+                      ) : (
+                        <BookmarkBorderOutlined className="text-secondary" />
+                      )}
+                    </span>
+                  </Link>
                 </div>
                 <div className="border-l border-cyan-700 px-2 cursor-pointer">
                   <span>
-                    0 <ChatOutlined className="text-red-800" />
+                    0 <ChatOutlined className="text-secondary" />
                   </span>
                 </div>
               </div>

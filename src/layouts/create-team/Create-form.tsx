@@ -1,9 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { saveTeam, updateTeam } from "@/redux/teamSlice";
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { TimeZone } from "@/type/enum/TimeZone";
-import { Skill } from "@/type/Skill";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -19,11 +17,12 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import * as yub from "yup";
 import { Dialog } from "../Dialog";
 import { UploadImage } from "./UploadImage";
-import { Team } from "@/type/team/team.type";
 import { teamApi } from "@/api/team-api";
 import { LoadingButton } from "@mui/lab";
 import { Save } from "@mui/icons-material";
 import { setTeam } from "@/redux/dashboardSlice";
+import { ICreateTeam, ITeam } from "@/type/team/team.type";
+import { ISkill } from "@/type/skill/skill.types";
 
 const schema = yub.object().shape({
   teamName: yub
@@ -73,7 +72,7 @@ export interface IProps {
   setStep: (step: number) => void;
   imageFile: File | null;
   setImageFile: (file: File | null) => void;
-  defaultTeamInfo?: Team;
+  defaultTeamInfo?: ITeam;
 }
 const selectRange = {
   totalEmployee: [
@@ -100,7 +99,7 @@ export const CreateForm = (props: IProps) => {
 
   const [createObjectURL, setCreateObjectURL] = useState("");
   const [image, setImage] = useState(props.imageFile);
-  const [dataSkill, setData] = useState<Skill[]>([]);
+  const [dataSkill, setData] = useState<ISkill[]>([]);
   const skills = useAppSelector(getSkillsSelector);
   const timeZone = Object.values(TimeZone);
   const [open, setOpen] = useState(false);

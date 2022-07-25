@@ -1,8 +1,9 @@
-import { ITeamProfile } from "@/type/team/team.type";
+
+import { ITeam } from "@/type/team/team.type";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  teamProfile: {} as ITeamProfile,
+  teamProfile: {} as ITeam,
 };
 
 export const teamProfileSlice = createSlice({

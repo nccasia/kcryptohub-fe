@@ -1,5 +1,7 @@
-import { useAppSelector } from "@/redux/hooks";
-import { Edit } from "@mui/icons-material";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addToShortList, removeFromShortList } from "@/redux/profileSlice";
+import { getUserInfoSelector } from "@/redux/selector";
+import { Bookmark, BookmarkBorderOutlined, BookmarkOutlined, Edit } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -8,9 +10,18 @@ import { IconMap } from "../IconSVG/IconMap";
 
 const CardInfo = ({ editable }: { editable: boolean }) => {
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
+  const userProfile = useAppSelector(getUserInfoSelector);
   const router = useRouter();
   const handleVisitWebsite = (url: string) => {
     if (typeof window !== "undefined") window.open(url, "_blank")?.focus();
+  };
+  const dispatch = useAppDispatch();
+  
+  const handleAddToShortList = () => {
+    dispatch(addToShortList(teamProfile.id));
+  };
+  const handleRemoveFromShortList = () => {
+    dispatch(removeFromShortList(teamProfile.id));
   };
 
   return (
@@ -49,33 +60,49 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
         </div>
       </div>
       <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center px-4 py-2 md:py-4 cursor-pointer border-x border-[#cae0e7] md:border-0">
-        <span className="hidden xs:block text-sm md:text-base text-[#08537e] hover:underline">
-          Add to Shortlist
-        </span>
-        <div className="w-[16px] h-[20px] flex-none relative">
-          <Image
-            width="16"
-            height="20"
-            src={IconMap.Bookmark.src}
-            alt="bookmark"
-            layout="responsive"
-          />
-        </div>
+        {userProfile.shortList?.includes(teamProfile.id) ? (
+          <div
+            className="w-full flex justify-between"
+            onClick={handleRemoveFromShortList}
+          >
+            <span className="hidden xs:inline-block text-sm md:text-base text-[#08537e] hover:underline">
+              In to Shortlist
+            </span>
+            <Bookmark className="text-cyan-700" />
+          </div>
+        ) : (
+          <div
+            className="w-full flex justify-between"
+            onClick={handleAddToShortList}
+          >
+            <span className="hidden xs:inline-block text-sm md:text-base text-[#08537e] hover:underline">
+              Add to Shortlist
+            </span>
+            <BookmarkBorderOutlined className="text-cyan-700" />
+          </div>
+        )}
       </div>
-      <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center px-4 py-2 md:py-4 cursor-pointer">
-        <span className="hidden xs:block text-sm md:text-base text-[#08537e] hover:underline">
-          Send Message
-        </span>
-        <div className="w-[16px] h-[20px] flex-none relative">
-          <Image
-            width="16"
-            height="20"
-            src={IconMap.Message.src}
-            alt="message"
-            layout="responsive"
-          />
+      <Link
+        href={{
+          pathname: `/team/[teamId]/contact`,
+          query: { teamId: router.query.teamId },
+        }}
+      >
+        <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center px-4 py-2 md:py-4 cursor-pointer">
+          <span className="hidden xs:block text-sm md:text-base text-[#08537e] hover:underline">
+            Send Message
+          </span>
+          <div className="w-[16px] h-[20px] flex-none relative">
+            <Image
+              width="16"
+              height="20"
+              src={IconMap.Message.src}
+              alt="message"
+              layout="responsive"
+            />
+          </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

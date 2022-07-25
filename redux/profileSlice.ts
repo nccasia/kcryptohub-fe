@@ -1,6 +1,7 @@
 import axiosClient from "@/api/axios-client";
+import { shortListApi } from "@/api/shortList-api";
 import { IProfile } from "@/type/profile/profile.type";
-import { ISkills } from "@/type/skill/skill.types";
+import { ISkill } from "@/type/skill/skill.types";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
@@ -47,9 +48,26 @@ export const getSkills = createAsyncThunk(
     return response.data.content;
   }
 );
+export const addToShortList = createAsyncThunk(
+  "addToShortList",
+  async (teamId: number) => {
+    if (isNaN(teamId)) return;
+    const res = await shortListApi.addToShortList(teamId);
+    return teamId;
+  }
+);
+
+export const removeFromShortList = createAsyncThunk(
+  "removeFromShortList",
+  async (id: number) => {
+    if (isNaN(id)) return;
+    const res = await shortListApi.removeFromShortList(id);
+    return id;
+  }
+);
 const initialState = {
   userInfo: {} as IProfile,
-  skills: [] as ISkills[],
+  skills: [] as ISkill[],
 };
 
 export const profileSlice = createSlice({
@@ -91,6 +109,25 @@ export const profileSlice = createSlice({
         toast.error("Can't upload avatar!");
       })
       .addCase(uploadAvatar.fulfilled, (state, action) => {
+      })
+      .addCase(addToShortList.rejected, (state, action) => {
+        toast.error("Can't add to short list!");
+      })
+      .addCase(addToShortList.fulfilled, (state, action) => {
+        if(!state.userInfo.shortList) state.userInfo.shortList = [];
+        if(action.payload){
+          state.userInfo.shortList = [
+            ...state.userInfo.shortList,action.payload,
+          ];
+        }
+      })
+      .addCase(removeFromShortList.rejected, (state, action) => {
+        toast.error("Can't remove from short list!");
+      })
+      .addCase(removeFromShortList.fulfilled, (state, action) => {
+        if(action.payload){
+          state.userInfo.shortList = state.userInfo.shortList.filter(item => item !== action.payload);
+        }
       });
   },
 });
