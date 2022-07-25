@@ -30,7 +30,7 @@ export const Header = () => {
   const router = useRouter();
   useEffect(() => {
     setUserImage(profileApi.getImageUrl(user.avatarPath));
-  }, [user]);
+  }, [user.avatarPath]);
   return (
     <>
       <div className="bg-primary text-white ">
