@@ -14,7 +14,7 @@ export const profileApi = {
   },
 
   getProfileTeam: async () => {
-    const profile = await axiosClient.get(`${process.env.API_URL}api/profile/get-profile-team`);
+    const profile = await axiosClient.get(`${process.env.API_URL}/api/profile/get-profile-team`);
     return profile.data.team;
   }
 };
