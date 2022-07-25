@@ -114,6 +114,7 @@ export const profileSlice = createSlice({
         toast.error("Can't add to short list!");
       })
       .addCase(addToShortList.fulfilled, (state, action) => {
+        if(!state.userInfo.shortList) state.userInfo.shortList = [];
         if(action.payload){
           state.userInfo.shortList = [
             ...state.userInfo.shortList,action.payload,
