@@ -22,6 +22,7 @@ export type ITeam = {
   portfolios: IPortfolio[];
   keyClients?: IKeyClients[];
   awards?: string[];
+  userId?: number;
 };
 export interface ICreateTeam {
   teamName: string;

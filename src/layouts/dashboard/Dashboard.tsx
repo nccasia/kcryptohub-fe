@@ -1,7 +1,10 @@
 import { teamApi } from "@/api/team-api";
 import { setTeam } from "@/redux/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getDashboardInformationSelector } from "@/redux/selector";
+import {
+  getDashboardInformationSelector,
+  getUserInfoSelector,
+} from "@/redux/selector";
 import { EDashboardNavbar } from "@/type/dashboard/dashboard.type";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -46,13 +49,14 @@ const route = [
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const router = useRouter();
   const team = useAppSelector(getDashboardInformationSelector);
+  const userProfile = useAppSelector(getUserInfoSelector);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (router.isReady && router.query.teamId) {
       if (!team.id || team.id !== +router.query.teamId) {
         teamApi.getTeam(+router.query.teamId).then((res) => {
           if (res) {
-            dispatch(setTeam(res.data));
+            dispatch(setTeam({ ...res.data, userId: res.userId }));
           } else {
             toast.error("Team not found");
             router.push("/manage-teams");
@@ -61,6 +65,17 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       }
     }
   });
+
+  useEffect(() => {
+    if (
+      userProfile.id &&
+      team.userId &&
+      (!team.userId || team.userId !== userProfile.id)
+    ) {
+      toast.error("You are not authorized to access this team dashboard");
+      //router.push("/manage-teams");
+    }
+  }, [team, userProfile]);
   return (
     <div className="bg-thirdary h-full">
       <Layout>

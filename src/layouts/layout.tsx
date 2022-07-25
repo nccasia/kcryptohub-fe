@@ -8,15 +8,17 @@ import { ArrowForwardIosOutlined } from "@mui/icons-material";
 import { Modal } from "@mui/material";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
-import { getUserInfoSelector, getSkillsSelector } from "@/redux/selector";
+import { getUserInfoSelector, getDataSkillDisSelector, getSkillsIsLoadedSelector } from "@/redux/selector";
 import { signOut } from "next-auth/react";
+import { getDataSkillDis } from "@/redux/skillDistributionSlice";
 type IHeaderProps = {
   children: ReactNode;
 };
 
 const Layout = (props: IHeaderProps) => {
   const userInfo = useAppSelector(getUserInfoSelector);
-  const skills = useAppSelector(getSkillsSelector);
+  const skillsIsLoaded = useAppSelector(getSkillsIsLoadedSelector);
+  const skillDis = useAppSelector(getDataSkillDisSelector);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [openWarning, setOpenWarning] = useState<boolean>(false);
@@ -39,8 +41,14 @@ const Layout = (props: IHeaderProps) => {
     }
   }, [userInfo, dispatch]);
   useEffect(() => {
-    if (!skills || skills.length === 0) {
+    if (!skillsIsLoaded) {
       dispatch(getListSkill());
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if(!skillDis.isLoaded){
+      dispatch(getDataSkillDis);
     }
   }, [dispatch]);
 

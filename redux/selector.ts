@@ -13,3 +13,5 @@ export const getDashboardSkillDistributionSelector = (state: RootState) => state
 export const getDashboardPortfolioSelector = (state: RootState) => state.DashboardReducer.team.portfolios;
 
 export const getDashboardAwardsSelector = (state: RootState) => state.DashboardReducer.team.awards;
+
+export const getDataSkillDisSelector = (state: RootState) => state.SkillDistributionReducer;

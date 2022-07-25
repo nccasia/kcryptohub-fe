@@ -62,20 +62,27 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
           />
         </div>
       </div>
-      <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center px-4 py-2 md:py-4 cursor-pointer">
-        <span className="hidden xs:block text-sm md:text-base text-[#08537e] hover:underline">
-          Send Message
-        </span>
-        <div className="w-[16px] h-[20px] flex-none relative">
-          <Image
-            width="16"
-            height="20"
-            src={IconMap.Message.src}
-            alt="message"
-            layout="responsive"
-          />
+      <Link
+        href={{
+          pathname: `/team/[teamId]/contact`,
+          query: { teamId: router.query.teamId },
+        }}
+      >
+        <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center px-4 py-2 md:py-4 cursor-pointer">
+          <span className="hidden xs:block text-sm md:text-base text-[#08537e] hover:underline">
+            Send Message
+          </span>
+          <div className="w-[16px] h-[20px] flex-none relative">
+            <Image
+              width="16"
+              height="20"
+              src={IconMap.Message.src}
+              alt="message"
+              layout="responsive"
+            />
+          </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };
