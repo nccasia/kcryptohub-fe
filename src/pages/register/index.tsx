@@ -105,7 +105,7 @@ const Register = () => {
         setRedirectUrl(router.query.url as string);
       }
     }
-  }, [router.isReady]);
+  }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {

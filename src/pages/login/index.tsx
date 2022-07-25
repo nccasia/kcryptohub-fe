@@ -101,7 +101,7 @@ const Login = () => {
   const handleRegister = () => {
     router.push({
       pathname: "/register",
-      query: router.query || "/",
+      query: router.query || { url: "/" },
     });
   };
 
