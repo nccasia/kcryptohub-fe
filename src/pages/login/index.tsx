@@ -98,6 +98,13 @@ const Login = () => {
     await authApi.logInGoogle(payload, handleRedirectHomePage);
   };
 
+  const handleRegister = () => {
+    router.push({
+      pathname: "/register",
+      query: router.query || { url: "/" },
+    });
+  };
+
   const handleRedirectHomePage = () => {
     const query = new URLSearchParams(router.asPath);
     const url = query.has("/login?url")
@@ -221,13 +228,13 @@ const Login = () => {
                   </a>
                 </Link>
               </form>
-              <div className="block text-black text-center text-sm mt-3">
-                {"Don't have an account? "}
-                <Link href="/register">
+              <div className="inline-flex w-full mx-auto text-black justify-center text-sm mt-3">
+                <span>{"Don't have an account? "}</span>
+                <div onClick={handleRegister} className="px-2">
                   <a className="text-cyan-500 underline cursor-pointer">
                     Register
                   </a>
-                </Link>
+                </div>
               </div>
             </Collapse>
             <div className="text-xs mt-8">

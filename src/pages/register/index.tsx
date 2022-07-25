@@ -56,6 +56,7 @@ const Register = () => {
   });
   const [validateEmail, setValidate] = React.useState(false);
   const [validateUsername, setValidateUsername] = React.useState(false);
+  const [redirectUrl, setRedirectUrl] = React.useState("/login");
   const onNext = () => {
     if (step === 0) {
       setStep((cur) => cur + 1);
@@ -66,7 +67,8 @@ const Register = () => {
     const query = new URLSearchParams(router.asPath);
     const url = query.has("/login?url")
       ? (query.get("/login?url") as string)
-      : "/login";
+      : redirectUrl;
+
     router.push(url);
   };
 
@@ -97,6 +99,13 @@ const Register = () => {
       });
     }
   };
+  useEffect(() => {
+    if (router.isReady) {
+      if (router.query && router.query.url) {
+        setRedirectUrl(router.query.url as string);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -139,12 +148,12 @@ const Register = () => {
         >
           <div>
             {step === 0 && (
-              <div>
-                <Link href="/login">
+              <div className="cursor-pointer">
+                <div onClick={() => router.back()}>
                   <a>
                     <ArrowBackIosNewIcon />
                   </a>
-                </Link>
+                </div>
               </div>
             )}
             <h1 className="mt-1 text-center text-3xl font-bold text-[#944C00]">
