@@ -44,11 +44,8 @@ const Layout = (props: IHeaderProps) => {
     if (!skillsIsLoaded) {
       dispatch(getListSkill());
     }
-  }, [dispatch]);
-
-  useEffect(() => {
-    if(!skillDis.isLoaded){
-      dispatch(getDataSkillDis);
+    if (!skillDis.isLoaded) {
+      dispatch(getDataSkillDis());
     }
   }, [dispatch]);
 

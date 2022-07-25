@@ -73,7 +73,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       (!team.userId || team.userId !== userProfile.id)
     ) {
       toast.error("You are not authorized to access this team dashboard");
-      //router.push("/manage-teams");
+      router.push("/manage-teams");
     }
   }, [team, userProfile]);
   return (

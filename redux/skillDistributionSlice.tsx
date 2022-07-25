@@ -1,4 +1,5 @@
 import { skillDisApi } from "@/api/skildis-api";
+import { ISkillDisData } from "@/type/skill/skill.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
@@ -8,7 +9,7 @@ export const getDataSkillDis = createAsyncThunk("getDataSkillDis", async () => {
 });
 
 const initialState = {
-  dataSkillDis: [],
+  dataSkillDis: [] as ISkillDisData[],
   isLoaded: false,
 };
 
@@ -29,7 +30,7 @@ export const skillDistributionSlice = createSlice({
       });
     });
     builder.addCase(getDataSkillDis.fulfilled, (state, action) => {
-      state.dataSkillDis = action.payload.content;
+      state.dataSkillDis = action.payload;
       state.isLoaded = true;
     });
   },
