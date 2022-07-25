@@ -9,13 +9,13 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { KeyClientApi } from "@/api/keyClients-api";
-import { IKeyClient } from "@/type/team/team.type";
+import { ICreateTeam, IKeyClient } from "@/type/team/team.type";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getDashboardInformationSelector } from "@/redux/selector";
 import { teamApi } from "@/api/team-api";
 import { setTeam } from "@/redux/dashboardSlice";
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
+
 export interface IKeyClients {
   id: number;
   keyName: string[];

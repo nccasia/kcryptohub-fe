@@ -1,8 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createTeam, resetTeam, updateTeam } from "@/redux/teamSlice";
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
-import { Skill } from "@/type/Skill";
-import { ISkillDistribution } from "@/type/team/team.type";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import CloseIcon from "@mui/icons-material/Close";
@@ -25,6 +22,9 @@ import { getProfile } from "@/redux/profileSlice";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { teamApi } from "@/api/team-api";
 import { setTeam } from "@/redux/dashboardSlice";
+import { ISkillDistribution } from "@/type/skill/skill.types";
+import { ICreateTeam } from "@/type/team/team.type";
+import { getDataSkillDisSelector } from "@/redux/selector";
 
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend, ArcElement);
 ChartJS.defaults.plugins.tooltip;
@@ -175,60 +175,7 @@ export const SkillDis = (props: IProps) => {
     mode: "all",
   });
   const buttonRef = useRef(null);
-  const dataSkillDis: ISkillDistribution[] = [
-    {
-      id: null,
-      skillDistributionName: "Marketing",
-      skillDistributionValue: [
-        {
-          field: "Advertising",
-          quantity: 0,
-        },
-        {
-          field: "Branding",
-          quantity: 0,
-        },
-        {
-          field: "Content",
-          quantity: 0,
-        },
-        {
-          field: "Copywriting",
-          quantity: 0,
-        },
-      ],
-    },
-    {
-      id: null,
-      skillDistributionName: "Digital Marketing",
-      skillDistributionValue: [
-        {
-          field: "Digital Strategy",
-          quantity: 0,
-        },
-        {
-          field: "Social Media Marketing",
-          quantity: 0,
-        },
-        {
-          field: "Content Marketing",
-          quantity: 0,
-        },
-        {
-          field: "Pay Per Click",
-          quantity: 0,
-        },
-        {
-          field: "HR Marketing",
-          quantity: 0,
-        },
-        {
-          field: "SEO",
-          quantity: 0,
-        },
-      ],
-    },
-  ];
+  const dataSkillDis = useAppSelector(getDataSkillDisSelector);
 
   const [skillDistribute, setDataSkillDistribute] = useState<IValue[]>([]);
   const [skillName, setSkillName] = useState("");
@@ -506,8 +453,8 @@ export const SkillDis = (props: IProps) => {
           </h2>
 
           <div>
-            {dataSkillDis &&
-              dataSkillDis.map((cur, index) => (
+            {dataSkillDis.isLoaded &&
+              dataSkillDis.dataSkillDis.map((cur, index) => (
                 <SkillCollapse
                   key={index}
                   item={cur}

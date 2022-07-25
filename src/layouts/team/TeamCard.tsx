@@ -1,6 +1,6 @@
 import { teamApi } from "@/api/team-api";
+import { ITeam } from "@/type/team/team.type";
 
-import { Team } from "@/type/team/team.type";
 import {
   AccessAlarmOutlined,
   ApartmentOutlined,
@@ -66,7 +66,7 @@ const skillColor = [
   "bg-stone-900",
 ];
 interface Props {
-  team: Team;
+  team: ITeam;
 }
 
 export const TeamCard = (props: Props) => {
@@ -136,12 +136,7 @@ export const TeamCard = (props: Props) => {
                 <CheckCircleOutlined /> Verified
               </span>
             ) : null}
-            {
-              <span className="text-cyan-900">
-                <IconHover icon={<LabelOutlined />} hoverText="Project Size" />
-                <span className="text-left ml-1">{team.projectSize}</span>
-              </span>
-            }
+
             <span className="text-cyan-900">
               <IconHover icon={<GroupsOutlined />} hoverText="Team size" />
               <span className="text-left ml-1">{team.teamSize}</span> members
@@ -150,15 +145,6 @@ export const TeamCard = (props: Props) => {
               <IconHover icon={<AvTimerOutlined />} hoverText="Timezone" />
               <span className="text-left ml-1">{team.timeZone}</span>
             </span>
-            {team.organization ? (
-              <span className="text-cyan-900">
-                <IconHover
-                  icon={<ApartmentOutlined />}
-                  hoverText="Organization"
-                />
-                <span className="text-left ml-1">{team.organization}</span>
-              </span>
-            ) : null}
           </div>
           <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
             <div className="flex w-full">

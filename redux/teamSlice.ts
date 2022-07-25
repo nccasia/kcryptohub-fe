@@ -1,12 +1,12 @@
 import axiosClient from "@/api/axios-client";
 import { teamApi } from "@/api/team-api";
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
+import { ISkill } from "@/type/skill/skill.types";
+import { ICreateTeam } from "@/type/team/team.type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { ISkills } from "./../type/skill/skill.types";
 
 export const getAllSkill = createAsyncThunk("getAllSkill", async () => {
-  const response = await axiosClient.get("/skill/list?size=100");
+  const response = await axiosClient.get("/skill/list?size=1000");
   return response.data.content;
 });
 export const getAllTeam = createAsyncThunk("getAllTeam", async () => {
@@ -68,7 +68,7 @@ export const resetTeam = createAsyncThunk("resetTeam", async () => {
 
 const initialState = {
   value: {} as ICreateTeam,
-  skillInfo: [] as ISkills[],
+  skillInfo: [] as ISkill[],
 };
 
 export const TeamSlice = createSlice({
