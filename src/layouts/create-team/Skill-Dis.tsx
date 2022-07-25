@@ -478,7 +478,7 @@ export const SkillDis = (props: IProps) => {
               {skillDistribute &&
                 skillDistribute.map((cur, index) => (
                   <div
-                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#cae0e7] cursor-pointer"
+                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#08537e] cursor-pointer"
                     key={index}
                     onClick={() => {
                       setDataSkillDistribute(

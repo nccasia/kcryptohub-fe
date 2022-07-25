@@ -77,11 +77,11 @@ export interface IProps {
 const selectRange = {
   totalEmployee: [
     "Freelance",
-    "2-9",
-    "10-49",
-    "50-249",
-    "250-499",
-    "1,000-9,999",
+    "2 - 9",
+    "10 - 49",
+    "50 - 249",
+    "250 - 499",
+    "1,000 - 9,999",
     "10,000+",
   ],
   projectSize: ["1-5"],
@@ -105,11 +105,10 @@ export const CreateForm = (props: IProps) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    
     if (props.defaultTeamInfo && props.defaultTeamInfo.id !== watch("id")) {
       reset({ ...props.defaultTeamInfo, skills: [] });
       setData(props.defaultTeamInfo.skills || []);
-      if (props.defaultTeamInfo.imageUrl){
+      if (props.defaultTeamInfo.imageUrl) {
         setCreateObjectURL(
           teamApi.getTeamImageUrl(props.defaultTeamInfo.imageUrl)
         );
@@ -176,15 +175,15 @@ export const CreateForm = (props: IProps) => {
           id: props.defaultTeamInfo.id.toString(),
           imageUrl:
             createObjectURL.length > 0 ? props.defaultTeamInfo.imageUrl : null,
-            skills: dataSkill,
+          skills: dataSkill,
         } as ICreateTeam)
       );
       if (image) {
         const res = await teamApi.postImage(image, props.defaultTeamInfo.id);
       }
-      teamApi.getTeam(data.id).then(res => {
+      teamApi.getTeam(data.id).then((res) => {
         dispatch(setTeam(res.data));
-      })
+      });
       const to = setTimeout(() => {
         setBtnDisable(false);
       }, 1000);
@@ -566,4 +565,3 @@ export const CreateForm = (props: IProps) => {
     </div>
   );
 };
-
