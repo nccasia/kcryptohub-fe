@@ -1,4 +1,7 @@
 import { teamApi } from "@/api/team-api";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addToShortList, removeFromShortList } from "@/redux/profileSlice";
+import { getUserInfoSelector } from "@/redux/selector";
 
 import { Team } from "@/type/team/team.type";
 import {
@@ -6,6 +9,7 @@ import {
   ApartmentOutlined,
   ApiOutlined,
   AvTimerOutlined,
+  Bookmark,
   BookmarkBorderOutlined,
   CheckCircleOutlined,
   ContactlessOutlined,
@@ -71,15 +75,24 @@ interface Props {
 
 export const TeamCard = (props: Props) => {
   const team = props.team;
+  const userProfile = useAppSelector(getUserInfoSelector);
   const [teamImgSrc, setTeamImgSrc] = useState(
     team.imageUrl ? teamApi.getTeamImageUrl(team.imageUrl) : "/user1.png"
   );
   const [showAllSkill, setShowAllSkill] = useState(false);
+  const dispath = useAppDispatch();
   useEffect(() => {
     if (team.imageUrl) {
       setTeamImgSrc(teamApi.getTeamImageUrl(team.imageUrl));
     }
   }, [team.imageUrl]);
+
+  const handleAddToShortList = () => {
+    dispath(addToShortList(team.id))
+  };
+  const hadnleRemoveFromShortList = () => {
+    dispath(removeFromShortList(team.id))
+  };
   return (
     <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col">
       <div className="xl:col-span-10 md:col-span-9 col-span-12">
@@ -124,7 +137,11 @@ export const TeamCard = (props: Props) => {
             </div>
             <div className="absolute top-0 right-0 flex-1 text-right">
               <div className="absolute top-[-6px] right-6 group">
-                <BookmarkBorderOutlined className="absolute " />
+                {userProfile.shortList?.includes(team.id) ? (
+                  <Bookmark className="absolute text-cyan-700 cursor-pointer" onClick={hadnleRemoveFromShortList}/>
+                ) : (
+                  <BookmarkBorderOutlined className="absolute text-cyan-700 cursor-pointer" onClick={handleAddToShortList} />
+                )}
               </div>
             </div>
           </div>

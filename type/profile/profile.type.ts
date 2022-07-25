@@ -13,4 +13,5 @@ export interface IProfile {
   status: string;
   skills: ISkills[];
   team: ICreateTeam[];
+  shortList: number[];
 }
