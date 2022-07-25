@@ -1,5 +1,5 @@
 import { ISkill } from "../skill/skill.types";
-import { ITeam } from "../team/team.type";
+import { ICreateTeam, ITeam } from "../team/team.type";
 
 
 export interface IProfile {
@@ -13,5 +13,6 @@ export interface IProfile {
   provider: string;
   status: string;
   skills: ISkill[];
-  team: ITeam[];
+  team: ICreateTeam[];
+  shortList: number[];
 }

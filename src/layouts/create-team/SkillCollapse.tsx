@@ -25,7 +25,13 @@ export const SkillCollapse = (props: IProps) => {
         className="w-full flex justify-between items-center "
         onClick={handleChange}
       >
-        {props.item.name}
+        <div
+          className={`hover:text-[#ff2305] ${
+            isOpenState ? "text-[#ff2305]" : ""
+          }`}
+        >
+          {props.item.name}
+        </div>
         <span className="text-red-600">
           {isOpenState ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </span>

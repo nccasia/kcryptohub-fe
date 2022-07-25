@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
 
-const privateRoute = ["/profile", "/contact", "/manage-teams"];
+const privateRoute = ["/profile", "/contact", "/manage-teams", "/dashboard"];
 
 export const LayoutGuard = ({ children }: { children: ReactNode }) => {
   const router = useRouter();

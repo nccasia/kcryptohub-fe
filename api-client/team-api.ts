@@ -1,4 +1,3 @@
-
 import { ICreateTeam } from "@/type/team/team.type";
 import axiosClient from "./axios-client";
 
@@ -92,6 +91,7 @@ export const teamApi = {
   },
 
   getTeamImageUrl(path: string) {
+    if (!path) return "/user1.png";
     if (path.includes("http")) {
       return path;
     }
