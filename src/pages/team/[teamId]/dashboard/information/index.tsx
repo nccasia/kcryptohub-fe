@@ -2,7 +2,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { getDashboardInformationSelector } from "@/redux/selector";
 import { CreateForm } from "@/src/layouts/create-team/Create-form";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
-import { Team } from "@/type/team/team.type";
+import { ITeam } from "@/type/team/team.type";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -18,7 +18,7 @@ const Information = () => {
           <div className="bg-white w-full p-8">
             <CreateForm
               nextStep={() => {}}
-              defaultTeamInfo={{ ...team } as unknown as Team}
+              defaultTeamInfo={{ ...team } as unknown as ITeam}
               step={0}
               setStep={function (step: number): void {
                 throw new Error("Function not implemented.");

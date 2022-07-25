@@ -27,11 +27,7 @@ const SkillDistribution = ({
 
     return Math.round((100 * quantity) / totalPercent);
   };
-  useEffect(() => {
-    teamProfile.skillDistribution?.map((item) => {
-      console.log(item);
-    });
-  });
+
   return (
     <section
       ref={skillDistributionRef}

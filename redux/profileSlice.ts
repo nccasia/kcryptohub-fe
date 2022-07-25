@@ -1,7 +1,7 @@
 import axiosClient from "@/api/axios-client";
 import { shortListApi } from "@/api/shortList-api";
 import { IProfile } from "@/type/profile/profile.type";
-import { ISkills } from "@/type/skill/skill.types";
+import { ISkill } from "@/type/skill/skill.types";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
@@ -67,7 +67,7 @@ export const removeFromShortList = createAsyncThunk(
 );
 const initialState = {
   userInfo: {} as IProfile,
-  skills: [] as ISkills[],
+  skills: [] as ISkill[],
 };
 
 export const profileSlice = createSlice({

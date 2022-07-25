@@ -1,12 +1,11 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { SkillDis } from "@/src/layouts/create-team/Skill-Dis";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
-import { Team } from "@/type/team/team.type";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { teamApi } from "@/api/team-api";
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { getDashboardInformationSelector } from "@/redux/selector";
+import { ICreateTeam } from "@/type/team/team.type";
 const SkillDistribution = () => {
   const router = useRouter();
 

@@ -1,5 +1,5 @@
-export interface ISkills {
-  id: string | null;
+export interface ISkill {
+  id: number | null;
   skillName: string;
 }
 
@@ -17,4 +17,10 @@ export interface ISkillDistribution {
 export interface IReponseSkill<T> {
   content: T;
   pagable: { total: number; page: number; size: number };
+}
+
+
+export interface ISkillDisData {
+  name: string;
+  value: string[];
 }

@@ -1,6 +1,6 @@
 import axiosClient from "@/api/axios-client";
 import { skillApi } from "@/api/skill-api";
-import { Skill } from "@/type/Skill";
+import { ISkill } from "@/type/skill/skill.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
@@ -10,7 +10,7 @@ export const getListSkill = createAsyncThunk("getListSkill", async () => {
 });
 
 const initialState = {
-  value: [] as Skill[],
+  value: [] as ISkill[],
   isLoaded: false,
 };
 

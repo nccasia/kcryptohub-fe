@@ -3,17 +3,10 @@ import { getSkillsSelector } from "@/redux/selector";
 import { CreateForm } from "@/src/layouts/create-team/Create-form";
 import { SkillDis } from "@/src/layouts/create-team/Skill-Dis";
 import { Layout } from "@/src/layouts/layout";
-import { Skill } from "@/type/Skill";
-import {
-  ISkillDistribution,
-  ISkillDistributionValue,
-} from "@/type/skill/skill.types";
 import { Container } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "chart.js/auto";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 const theme = createTheme({
   components: {

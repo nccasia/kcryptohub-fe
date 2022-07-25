@@ -5,7 +5,7 @@ import { Layout } from "@/src/layouts/layout";
 import { ComboboxSelect } from "@/src/layouts/team/ComboboxSelect";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
 import { TimeZone } from "@/type/enum/TimeZone";
-import { Team } from "@/type/team/team.type";
+import { ITeam } from "@/type/team/team.type";
 import { CancelOutlined, Close } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { debounce, Pagination } from "@mui/material";
@@ -15,7 +15,7 @@ import { FormEvent, LegacyRef, useCallback, useEffect, useState } from "react";
 
 const SortBy = ["none"];
 interface PageResponse {
-  content: Team[];
+  content: ITeam[];
   pageable: {
     total: number;
     page: number;
@@ -30,7 +30,7 @@ const initFilter = {
 };
 export const Teams = () => {
   const router = useRouter();
-  const [teams, setTeams] = useState([] as Team[]);
+  const [teams, setTeams] = useState([] as ITeam[]);
   const SkillSelect = useAppSelector(getSkillsSelector);
   const SkillSelectIsLoaded = useAppSelector(getSkillsIsLoadedSelector);
   const [filter, setFilter] = useState({
@@ -317,7 +317,7 @@ export const Teams = () => {
             </div>
             <div className="flex flex-col items-center justify-center w-full">
               {teams.map((item, index) => (
-                <TeamCard team={item as Team} key={index} />
+                <TeamCard team={item as ITeam} key={index} />
               ))}
             </div>
             <div className="flex items-center justify-center pb-2">

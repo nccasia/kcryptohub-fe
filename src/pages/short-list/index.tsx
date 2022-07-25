@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Layout } from "@/src/layouts/layout";
-import { Team } from "@/type/team/team.type";
+import { ITeam } from "@/type/team/team.type";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -21,6 +21,7 @@ import { shortListApi } from "@/api/shortList-api";
 import { useRouter } from "next/router";
 import { getUserInfoSelector } from "@/redux/selector";
 import { teamApi } from "@/api/team-api";
+import { removeFromShortList } from "@/redux/profileSlice";
 
 const theme = createTheme({
   components: {
@@ -47,15 +48,18 @@ const ShortList = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const userProfile = useAppSelector(getUserInfoSelector);
-  const [shortList, setShortList] = useState<Team[]>([]);
+  const [shortList, setShortList] = useState<ITeam[]>([]);
 
   useEffect(() => {
     shortListApi.getShortList().then((res) => {
       if (res) {
-        setShortList(res as Team[]);
+        setShortList(res as ITeam[]);
       }
     });
   }, [userProfile.shortList]);
+  const handleRemoveFromShortList = (teamId: number) => {
+    dispatch(removeFromShortList(teamId));
+  };
   return (
     <Layout>
       <ThemeProvider theme={theme}>
@@ -73,7 +77,7 @@ const ShortList = () => {
                     </span>
                   </div>
                   <div className="px-1">
-                    <span className="text-sm">{"total"} Companies</span>
+                    <span className="text-sm">{userProfile.shortList?.length || 0} Companies</span>
                   </div>
                 </div>
               </div>
@@ -110,7 +114,7 @@ const ShortList = () => {
           </div>
           <div className="flex flex-col items-center justify-center w-full">
             {shortList.map((team, index) => (
-              <div key={index}>
+              <div key={index} className="w-full">
                 <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col">
                   <div className="xl:col-span-10 md:col-span-9 col-span-12">
                     <div className="grid grid-cols-12 border-b relative">
@@ -155,7 +159,7 @@ const ShortList = () => {
                         </div>
                         <div className="absolute top-0 right-0 flex-1 text-right">
                           <div className="absolute top-[-6px] right-6 group">
-                            <BookmarkIcon className="absolute text-[#08537e]" />
+                            <BookmarkIcon className="absolute text-[#08537e]" onClick={()=>handleRemoveFromShortList(team.id)} />
                           </div>
                         </div>
                       </div>

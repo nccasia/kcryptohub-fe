@@ -67,7 +67,6 @@ const Register = () => {
     const url = query.has("/login?url")
       ? (query.get("/login?url") as string)
       : "/login";
-    console.log(url);
     router.push(url);
   };
 

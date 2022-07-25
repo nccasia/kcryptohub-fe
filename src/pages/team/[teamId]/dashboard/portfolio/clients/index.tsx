@@ -9,10 +9,13 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { KeyClientApi } from "@/api/keyClients-api";
-import { IKeyClient } from "@/type/team/team.type";
+import { ICreateTeam, IKeyClient } from "@/type/team/team.type";
 import { toast } from "react-toastify";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getDashboardInformationSelector } from "@/redux/selector";
+import { teamApi } from "@/api/team-api";
+import { setTeam } from "@/redux/dashboardSlice";
+
 export interface IKeyClients {
   id: number;
   keyName: string[];
@@ -33,24 +36,35 @@ export const Clients = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
-  const [teamId, setTeamId] = useState<number>(
-    useAppSelector(getDashboardInformationSelector).id
-  );
+  const [teamId, setTeamId] = useState<number>(NaN);
 
   const keyClient = useAppSelector(getDashboardInformationSelector).keyClients;
-  const [keyClientInfo, setKeyClientInfo] = useState<string[]>([]);
-  const [team, setTeam] = useState<any>(
-    useAppSelector(getDashboardInformationSelector)
-  );
+  const [keyClientInfo, setKeyClientInfo] = useState<string[]>([""]);
+  const team = useAppSelector(getDashboardInformationSelector);
+
   const [keyClientId, setKeyClientId] = useState<number>(NaN);
   const router = useRouter();
 
+  const [stringArr, setStringArr] = useState("");
+
+  const [dis, setDis] = useState(false);
+
+  const [disUpdate, setDisUpdate] = useState(false);
+
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    if (keyClient) {
-      setKeyClientInfo(keyClient[0]?.keyName || []);
-      setKeyClientId(keyClient[0]?.id);
+    if (router.isReady) {
+      setTeamId(parseInt(router.query.teamId as string));
     }
-  }, [keyClient]);
+
+    if (keyClient) {
+      setKeyClientInfo(keyClient[0]?.keyName || [""]);
+      setKeyClientId(keyClient[0]?.id);
+      if (keyClient[0]?.keyName) {
+        setStringArr(Array.from(keyClient[0]?.keyName).join(""));
+      }
+    }
+  }, [keyClient, router]);
 
   const handleAdd = () => {
     setKeyClientInfo([...keyClientInfo, ""]);
@@ -60,24 +74,65 @@ export const Clients = () => {
     setKeyClientInfo(keyClientInfo.filter((items, i) => i !== index));
   };
 
+  useEffect(() => {
+    if (
+      keyClientInfo &&
+      keyClientInfo.filter((items, index) => items.length !== 0).length ===
+        keyClientInfo.length
+    ) {
+      setDisUpdate(true);
+      setDis(true);
+    } else {
+      setDis(false);
+      setDisUpdate(false);
+    }
+
+    if (
+      keyClientInfo.join("") === stringArr ||
+      !(
+        keyClientInfo &&
+        keyClientInfo.filter((items, index) => items.length !== 0).length ===
+          keyClientInfo.length
+      )
+    ) {
+      setDisUpdate(false);
+    } else setDisUpdate(true);
+  }, [keyClientInfo]);
+
   const onSubmit = () => {
     if (keyClientId) {
       KeyClientApi.updateKeyClient(
         keyClientInfo,
         teamId,
         keyClientId,
-        team
+        team as unknown as ICreateTeam
       ).then((resp) => {
         if (resp) {
           toast.success("Update key clients successfully!!!");
+          teamApi.getTeam(teamId).then((res) => {
+            dispatch(setTeam(res.data));
+          });
         }
       });
+      setTimeout(() => {
+        router.push(`/team/${teamId}/dashboard/portfolio`);
+      }, 2000);
     } else {
-      KeyClientApi.createKeyClient(keyClientInfo, teamId, team).then((resp) => {
+      KeyClientApi.createKeyClient(
+        keyClientInfo,
+        teamId,
+        team as unknown as ICreateTeam
+      ).then((resp) => {
         if (resp) {
           toast.success("Create key clients successfully!!!");
+          teamApi.getTeam(teamId).then((res) => {
+            dispatch(setTeam(res.data));
+          });
         }
       });
+      setTimeout(() => {
+        router.push(`/team/${teamId}/dashboard/portfolio`);
+      }, 2000);
     }
   };
   return (
@@ -130,6 +185,7 @@ export const Clients = () => {
                                 const array = [...keyClientInfo];
                                 array[index] = e.target.value;
                                 setKeyClientInfo(array);
+                                setDis(true);
                               }}
                             />
                             <div className="absolute right-0 mt-1 p-2 text-gray-400 text-sm font-normal">
@@ -170,16 +226,37 @@ export const Clients = () => {
             </div>
 
             <div className="flex items-center justify-end p-4">
-              <button className="bg-white px-16 py-3 hover:text-cyan-600 ">
+              <button
+                type="button"
+                className="bg-white px-16 py-3 hover:text-cyan-600 "
+              >
                 Cancel
               </button>
-              <button
-                className="px-4 py-2 w-fit bg-secondary text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
-               hover:bg-transparent hover:text-secondary"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
+              {keyClientId ? (
+                <button
+                  disabled={!disUpdate}
+                  type="submit"
+                  className={`px-4 py-2 w-fit bg-secondary text-white  flex justify-center items-center border-2 border-secondary
+               hover:bg-transparent hover:text-secondary ${
+                 disUpdate ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+               } `}
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  Update key clients
+                </button>
+              ) : (
+                <button
+                  disabled={!dis}
+                  type="submit"
+                  className={`px-4 py-2 w-fit bg-secondary text-white  flex justify-center items-center border-2 border-secondary
+               hover:bg-transparent hover:text-secondary ${
+                 dis ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+               } `}
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  Save changes
+                </button>
+              )}
             </div>
           </form>
         </div>
