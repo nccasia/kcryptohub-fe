@@ -2,17 +2,23 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Layout } from "@/src/layouts/layout";
 import { ITeam } from "@/type/team/team.type";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import { Container, createTheme, ThemeProvider } from "@mui/material";
+import {
+  Container,
+  createTheme,
+  Pagination,
+  ThemeProvider,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 
 import {
   ArrowBackIos,
-  AvTimerOutlined, CheckCircleOutlined,
+  AvTimerOutlined,
+  CheckCircleOutlined,
   ContactlessOutlined,
   GroupsOutlined,
   InfoOutlined,
   LabelOutlined,
-  LanguageOutlined
+  LanguageOutlined,
 } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,6 +28,7 @@ import { useRouter } from "next/router";
 import { getUserInfoSelector } from "@/redux/selector";
 import { teamApi } from "@/api/team-api";
 import { removeFromShortList } from "@/redux/profileSlice";
+import React from "react";
 
 const theme = createTheme({
   components: {
@@ -50,6 +57,11 @@ const ShortList = () => {
   const userProfile = useAppSelector(getUserInfoSelector);
   const [shortList, setShortList] = useState<ITeam[]>([]);
 
+  const [pageItem, setPageItem] = useState<ITeam[]>([]);
+  const [page, setPage] = useState(1);
+  const [prev, setPrev] = useState(1);
+  const [next, setNext] = useState(9);
+
   useEffect(() => {
     shortListApi.getShortList().then((res) => {
       if (res) {
@@ -57,6 +69,10 @@ const ShortList = () => {
       }
     });
   }, [userProfile.shortList]);
+
+  useEffect(() => {
+    setPageItem(shortList);
+  }, [shortList]);
   const handleRemoveFromShortList = (teamId: number) => {
     dispatch(removeFromShortList(teamId));
   };
@@ -77,7 +93,9 @@ const ShortList = () => {
                     </span>
                   </div>
                   <div className="px-1">
-                    <span className="text-sm">{userProfile.shortList?.length || 0} Companies</span>
+                    <span className="text-sm">
+                      {userProfile.shortList?.length || 0} Companies
+                    </span>
                   </div>
                 </div>
               </div>
@@ -91,7 +109,9 @@ const ShortList = () => {
                 <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#cae0e7] after:absolute after:h-11 after:w-[1px] after:bottom-0 after:right-0">
                   <button
                     className="text-red-500 pr-2 text-base relative "
-                    onClick={()=>{router.back();}}
+                    onClick={() => {
+                      router.back();
+                    }}
                   >
                     <span className="hover:underline !text-[#104f79]">
                       <ArrowBackIos />
@@ -113,7 +133,7 @@ const ShortList = () => {
             </nav>
           </div>
           <div className="flex flex-col items-center justify-center w-full">
-            {shortList.map((team, index) => (
+            {shortList.slice(prev - 1, next).map((team, index) => (
               <div key={index} className="w-full">
                 <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col">
                   <div className="xl:col-span-10 md:col-span-9 col-span-12">
@@ -159,7 +179,10 @@ const ShortList = () => {
                         </div>
                         <div className="absolute top-0 right-0 flex-1 text-right">
                           <div className="absolute top-[-6px] right-6 group">
-                            <BookmarkIcon className="absolute text-[#08537e]" onClick={()=>handleRemoveFromShortList(team.id)} />
+                            <BookmarkIcon
+                              className="absolute text-[#08537e]"
+                              onClick={() => handleRemoveFromShortList(team.id)}
+                            />
                           </div>
                         </div>
                       </div>
@@ -276,6 +299,22 @@ const ShortList = () => {
               </div>
             ))}
           </div>
+          {pageItem && pageItem.length > 0 && (
+            <Pagination
+              className="flex justify-center mb-1"
+              count={
+                parseInt((shortList?.length % 9).toString()) === 0
+                  ? parseInt((shortList?.length / 9).toString())
+                  : parseInt((shortList?.length / 9).toString()) + 1
+              }
+              page={page}
+              onChange={(e, value) => {
+                setPrev(value * 9 - 8);
+                setNext(value * 8 + value);
+                setPage(value);
+              }}
+            />
+          )}
         </Container>
       </ThemeProvider>
     </Layout>
