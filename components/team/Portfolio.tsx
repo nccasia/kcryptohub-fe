@@ -133,8 +133,8 @@ const Portfolio = ({
           </div>
         </div>
       )}
-      {!teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length ||
-        (editable && (
+      {teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length > 0 &&
+        editable && (
           <div className="flex items-center gap-x-2">
             <Link
               href={{
@@ -156,76 +156,76 @@ const Portfolio = ({
               />
             </div>
           </div>
-        ))}
-      {teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length > 0 ||
-        (editable && (
-          <div className="md:w-5/6 w-full">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5">
-              {teamProfile.portfolios.map((item, index) => {
-                if (index <= 5) {
-                  return (
-                    <div
-                      key={index}
-                      className="relative cursor-pointer overflow-hidden group"
-                      onClick={() => setPortfolio(item)}
+        )}
+      {(teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length > 0 ||
+        editable) && (
+        <div className="md:w-5/6 w-full">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5">
+            {teamProfile.portfolios.map((item, index) => {
+              if (index <= 5) {
+                return (
+                  <div
+                    key={index}
+                    className="relative cursor-pointer overflow-hidden group"
+                    onClick={() => setPortfolio(item)}
+                  >
+                    <Image
+                      src={
+                        item?.imageUrl
+                          ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
+                          : handleYoutubeThumbnail(item.videoLink!) ||
+                            "/user1.png"
+                      }
+                      alt="portfolio"
+                      className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
+                      layout="intrinsic"
+                      width={400}
+                      height={200}
+                    />
+                    <span
+                      onClick={() =>
+                        handleScrollToSection(ESection["PORTFOLIO"])
+                      }
+                      className="px-5 opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                     >
-                      <Image
-                        src={
-                          item?.imageUrl
-                            ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
-                            : handleYoutubeThumbnail(item.videoLink!) ||
-                              "/user1.png"
-                        }
-                        alt="portfolio"
-                        className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
-                        layout="intrinsic"
-                        width={400}
-                        height={200}
-                      />
-                      <span
-                        onClick={() =>
-                          handleScrollToSection(ESection["PORTFOLIO"])
-                        }
-                        className="px-5 opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                      >
-                        <span className="w-full break-words">{item.title}</span>
-                      </span>
-                    </div>
-                  );
-                } else if (isShowAll) {
-                  return (
-                    <div
-                      key={index}
-                      className="relative cursor-pointer overflow-hidden group"
-                      onClick={() => setPortfolio(item)}
+                      <span className="w-full break-words">{item.title}</span>
+                    </span>
+                  </div>
+                );
+              } else if (isShowAll) {
+                return (
+                  <div
+                    key={index}
+                    className="relative cursor-pointer overflow-hidden group"
+                    onClick={() => setPortfolio(item)}
+                  >
+                    <Image
+                      src={
+                        item?.imageUrl
+                          ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
+                          : handleYoutubeThumbnail(item.videoLink!) || ""
+                      }
+                      alt="portfolio"
+                      className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
+                      width={400}
+                      height={200}
+                    />
+                    <span
+                      onClick={() =>
+                        handleScrollToSection(ESection["PORTFOLIO"])
+                      }
+                      className="opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                     >
-                      <Image
-                        src={
-                          item?.imageUrl
-                            ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
-                            : handleYoutubeThumbnail(item.videoLink!) || ""
-                        }
-                        alt="portfolio"
-                        className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
-                        width={400}
-                        height={200}
-                      />
-                      <span
-                        onClick={() =>
-                          handleScrollToSection(ESection["PORTFOLIO"])
-                        }
-                        className="opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                      >
-                        {item.title}
-                      </span>
-                    </div>
-                  );
-                }
-                return null;
-              })}
-            </div>
+                      {item.title}
+                    </span>
+                  </div>
+                );
+              }
+              return null;
+            })}
           </div>
-        ))}
+        </div>
+      )}
 
       {teamProfile.portfolios?.length > 6 && editable && !isShowAll && (
         <span
