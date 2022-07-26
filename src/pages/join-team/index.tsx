@@ -38,6 +38,9 @@ const JoinTeamID = () => {
   const actionSuccess = useSelector(
     (state: RootState) => state.MemberReducer.success
   );
+  // const InviteNotExist = useSelector(
+  //   (state: RootState) => state.MemberReducer.error
+  // );
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -56,15 +59,13 @@ const JoinTeamID = () => {
   }, [dispatch, teamId]);
 
   useEffect(() => {
-    if (actionSuccess) {
+    if (actionSuccess === true) {
+      router.push(`/team/${teamId}`);
       setTimeout(() => {
         dispatch(resetSuccess());
-        router.push(`/team/${teamId}`);
-      }, 2000);
-    } else {
-      router.push("/");
+      }, 1500);
     }
-  }, [actionSuccess]);
+  }, [actionSuccess, dispatch, teamId]);
 
   return (
     <Layout>
