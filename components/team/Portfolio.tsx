@@ -133,7 +133,7 @@ const Portfolio = ({
           </div>
         </div>
       )}
-      {!teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length && (
+      {!teamProfile.portfolios?.length && (
         <div className="flex items-center gap-x-2">
           <Link
             href={{
@@ -156,8 +156,7 @@ const Portfolio = ({
           </div>
         </div>
       )}
-      {teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length >
-        0 && (
+      {teamProfile.portfolios?.length > 0 && (
         <div className="md:w-5/6 w-full">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5">
             {teamProfile.portfolios.map((item, index) => {
