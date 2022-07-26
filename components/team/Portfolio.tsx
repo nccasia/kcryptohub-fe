@@ -227,26 +227,23 @@ const Portfolio = ({
           </div>
         ))}
 
-      {teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length > 6 &&
-        editable &&
-        !isShowAll && (
-          <span
-            className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
-            onClick={() => setIsShowAll(true)}
-          >
-            SHOW ALL +
-          </span>
-        )}
-      {teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length > 6 &&
-        editable &&
-        isShowAll && (
-          <span
-            className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
-            onClick={() => setIsShowAll(false)}
-          >
-            SHOW LESS -
-          </span>
-        )}
+      {teamProfile.portfolios?.length > 6 && editable && !isShowAll && (
+        <span
+          className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
+          onClick={() => setIsShowAll(true)}
+        >
+          SHOW ALL +
+        </span>
+      )}
+
+      {teamProfile.portfolios?.length > 6 && editable && isShowAll && (
+        <span
+          className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
+          onClick={() => setIsShowAll(false)}
+        >
+          SHOW LESS -
+        </span>
+      )}
     </section>
   );
 };
