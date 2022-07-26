@@ -59,7 +59,7 @@ const JoinTeamID = () => {
   }, [dispatch, teamId]);
 
   useEffect(() => {
-    if (actionSuccess === true) {
+    if (actionSuccess) {
       router.push(`/team/${teamId}`);
       setTimeout(() => {
         dispatch(resetSuccess());

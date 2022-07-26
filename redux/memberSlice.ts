@@ -28,7 +28,7 @@ export const joinTeam = createAsyncThunk(
       return response;
     }
     catch (error) {
-      return [];
+      return (error as any).response.data;
     }
   }
 )
@@ -62,6 +62,10 @@ interface initialState {
   member: IMember[];
   pageable: IMemberPageAble;
   success: boolean;
+  error: {
+    message: string;
+    statusCode: number;
+  }
 }
 
 const initialState: initialState = {
@@ -71,7 +75,11 @@ const initialState: initialState = {
     size: 0,
     total: 0,
   },
-  success: false
+  success: false,
+  error: {
+    message: "",
+    statusCode: 0,
+  }
 }
 
 export const memberSlice = createSlice({
@@ -126,10 +134,8 @@ export const memberSlice = createSlice({
     }
     )
     builder.addCase(joinTeam.fulfilled, (state, action) => {
-      if (action.payload?.inviteStatus === "accepted") {
+      if (action.payload?.statusCode === 201) {
         state.success = true;
-      } else {
-        state.success = false;
       }
     })
   },
