@@ -5,6 +5,21 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import { Collapsor } from "../layouts/Collapsor";
 import { Layout } from "../layouts/layout";
+import * as yub from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useAppSelector } from "@/redux/hooks";
+import { getSkillsIsLoadedSelector, getSkillsSelector } from "@/redux/selector";
+import { useRouter } from "next/router";
+import { Autocomplete, Collapse, TextField } from "@mui/material";
+import React, { FormEvent, LegacyRef, Ref } from "react";
+import { useOutsideClick } from "hook/OuterClick";
+import CloseIcon from "@mui/icons-material/Close";
+import { InputSelect } from "../layouts/team/InputSelect";
+const schema = yub.object().shape({
+  skill: yub.string(),
+  timeZone: yub.string(),
+});
 
 const categoty: { [id: string]: string[] } = {
   Development: [
@@ -65,6 +80,42 @@ const color = [
   "border-cyan-500",
 ];
 const Home: NextPage = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    resetField,
+    formState: { errors, isDirty, isValid },
+  } = useForm({ resolver: yupResolver(schema), mode: "all" });
+
+  const router = useRouter();
+
+  const skill = useAppSelector(getSkillsSelector);
+  const SkillSelectIsLoaded = useAppSelector(getSkillsIsLoadedSelector);
+
+  const [skillList, setSkillList] = React.useState(skill);
+
+  const [searchText, setSearchText] = React.useState("");
+
+  const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
+
+  React.useEffect(() => {
+    if (SkillSelectIsLoaded) {
+      setSkillList(skill);
+    }
+
+    setSkillList(
+      skill?.filter((item) =>
+        item.skillName.toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
+  }, [searchText, skill, SkillSelectIsLoaded]);
+
+  const handleSearchItems = (event: FormEvent<HTMLInputElement>) => {
+    setSearchText(event.currentTarget.value);
+  };
+
   return (
     <Layout>
       <div className="bg-cyan-700 flex items-center justify-center">
@@ -88,17 +139,74 @@ const Home: NextPage = () => {
               </h2>
               <div className="flex md:flex-row flex-col w-full ">
                 <div className="w-full flex flex-col justify-center relative">
-                  <SearchIcon className="absolute left-2 bottom-[6px] text-[#08537e] " />
-                  <input
-                    className="appearance-none min-w-[300px] border-2 border-[#cae0e7] mr-3 block w-full pl-8 px-3 py-2 border-solid placeholder-gray-500 text-gray-900 focus:outline-none focus:border-black  md:mt-0 mt-4 sm:text-sm placeholder:text-xs"
-                    placeholder="e.g.App Development, UX design, IT services..."
-                    type="search"
-                  />
+                  <div
+                    className="relative"
+                    ref={nodeRef as LegacyRef<HTMLDivElement>}
+                  >
+                    <SearchIcon className="absolute left-2 bottom-[6px] text-[#08537e] " />
+                    <input
+                      className=" appearance-none min-w-[300px] border-2 border-[#cae0e7] mr-3 block w-full pl-8 px-3 py-2 pr-8 border-solid placeholder-gray-500 text-gray-900 focus:outline-none focus:border-black  md:mt-0 mt-4 sm:text-sm placeholder:text-xs custom-scrollbar"
+                      placeholder="e.g. App Development, UX design, IT services..."
+                      autoComplete="off"
+                      onClick={() => setShow(true)}
+                      {...register("skill")}
+                      onChange={handleSearchItems}
+                    />
+                    {searchText.length > 0 && (
+                      <CloseIcon
+                        onClick={() => {
+                          resetField("skill");
+                          setSearchText("");
+                          if (SkillSelectIsLoaded) {
+                            setSkillList(skill);
+                          }
+                        }}
+                        className="absolute right-2 bottom-[8px] text-[#08537e] text-[20px]"
+                      />
+                    )}
+
+                    <Collapse
+                      in={show}
+                      className={`${
+                        show ? "absolute" : "hidden"
+                      } bg-white border-2 border-black max-h-[250px] w-full overflow-auto z-[100] custom-scrollbar shadow-lg`}
+                      ref={subNodeRef as Ref<unknown>}
+                    >
+                      <h1
+                        className={`text-xs pl-2 px-1 text-[#08537e] mt-1 mb-1 ${
+                          SkillSelectIsLoaded && skillList?.length === 0
+                            ? "hidden"
+                            : "block"
+                        }`}
+                      >
+                        Popular Skill
+                      </h1>
+                      {SkillSelectIsLoaded && skillList?.length === 0 ? (
+                        <div className="text-[#08537e] text-sm pl-1 py-1 mb-1">
+                          No matching results
+                        </div>
+                      ) : (
+                        SkillSelectIsLoaded &&
+                        skillList?.map((item, index) => (
+                          <InputSelect
+                            key={index}
+                            item={item}
+                            setShow={() => setShow(false)}
+                            setValue={() => setValue("skill", item.skillName)}
+                            setSearchText={setSearchText}
+                          />
+                        ))
+                      )}
+                    </Collapse>
+                  </div>
                 </div>
                 <h2 className="text-gray-600 mx-3 md:flex items-center hidden">
                   in
                 </h2>
-                <select className="appearance-none mr-3 min-w-[190px] border-2 border-[#cae0e7] relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3 text-gray-900  focus:outline-none focus:border-black  focus:z-10 sm:text-sm">
+                <select
+                  className="appearance-none mr-3 min-w-[190px] border-2 border-[#cae0e7] relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3 text-gray-900  focus:outline-none focus:border-black  focus:z-10 sm:text-sm"
+                  {...register("timeZone")}
+                >
                   <option value="">--Timezone--</option>
                   {Object.values(TimeZone).map((cur, index) => (
                     <option key={index} value={cur}>
@@ -107,7 +215,16 @@ const Home: NextPage = () => {
                   ))}
                 </select>
 
-                <button className="px-10 min-w-[150px] py-2 mr-2 bg-red-500 text-white mt-2 md:mt-0 rounded-sm w-full">
+                <button
+                  className="px-10 min-w-[150px] py-2 mr-2 bg-red-500 text-white mt-2 md:mt-0 rounded-sm w-full"
+                  onClick={() => {
+                    router.push(
+                      `teams?skill=${watch("skill")}&timezone=${watch(
+                        "timeZone"
+                      )}`
+                    );
+                  }}
+                >
                   Find Team
                 </button>
               </div>

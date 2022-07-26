@@ -40,7 +40,8 @@ const Portfolio = ({
     }
 
     if (video_id) {
-      var thumbnail = "http://img.youtube.com/vi/" + video_id + "/hqdefault.jpg";
+      var thumbnail =
+        "http://img.youtube.com/vi/" + video_id + "/hqdefault.jpg";
       return thumbnail;
     }
   };
@@ -62,7 +63,7 @@ const Portfolio = ({
       <h2 className="text-xl text-[#154369] mb-5">Portfolio</h2>
       <p className="text-sm text-[#6b7a7e] w-4/5 mb-5">
         Key client:{" "}
-        {teamProfile.keyClients && teamProfile.keyClients.length>0
+        {teamProfile.keyClients && teamProfile.keyClients.length > 0
           ? (teamProfile.keyClients[0] as any).keyName?.join(", ")
           : ""}
       </p>
@@ -132,30 +133,32 @@ const Portfolio = ({
           </div>
         </div>
       )}
-      {!teamProfile.portfolios?.length && editable && (
-        <div className="flex items-center gap-x-2">
-          <Link
-            href={{
-              pathname: `/team/[teamId]/dashboard/portfolio`,
-              query: { teamId: router.query.teamId },
-            }}
-          >
-            <a className="text-sm text-[#3e839e] hover:underline">
-              Add Portfolio
-            </a>
-          </Link>
-          <div className="w-4 h-4 flex-none relative">
-            <Image
-              width="16"
-              height="16"
-              src={IconMap.Pen.src}
-              alt="avatar"
-              layout="responsive"
-            />
+      {!teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length &&
+        editable && (
+          <div className="flex items-center gap-x-2">
+            <Link
+              href={{
+                pathname: `/team/[teamId]/dashboard/portfolio`,
+                query: { teamId: router.query.teamId },
+              }}
+            >
+              <a className="text-sm text-[#3e839e] hover:underline">
+                Add Portfolio
+              </a>
+            </Link>
+            <div className="w-4 h-4 flex-none relative">
+              <Image
+                width="16"
+                height="16"
+                src={IconMap.Pen.src}
+                alt="avatar"
+                layout="responsive"
+              />
+            </div>
           </div>
-        </div>
-      )}
-      {teamProfile.portfolios?.length > 0 && (
+        )}
+      {teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length >
+        0 && (
         <div className="md:w-5/6 w-full">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5">
             {teamProfile.portfolios.map((item, index) => {
@@ -224,22 +227,24 @@ const Portfolio = ({
         </div>
       )}
 
-      {teamProfile.portfolios?.length > 6 && !isShowAll && (
-        <span
-          className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
-          onClick={() => setIsShowAll(true)}
-        >
-          SHOW ALL +
-        </span>
-      )}
-      {teamProfile.portfolios?.length > 6 && isShowAll && (
-        <span
-          className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
-          onClick={() => setIsShowAll(false)}
-        >
-          SHOW LESS -
-        </span>
-      )}
+      {teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length > 6 &&
+        !isShowAll && (
+          <span
+            className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
+            onClick={() => setIsShowAll(true)}
+          >
+            SHOW ALL +
+          </span>
+        )}
+      {teamProfile.portfolios?.filter((cur) => cur.privacy !== 3).length > 6 &&
+        isShowAll && (
+          <span
+            className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
+            onClick={() => setIsShowAll(false)}
+          >
+            SHOW LESS -
+          </span>
+        )}
     </section>
   );
 };
