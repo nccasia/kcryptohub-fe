@@ -44,7 +44,16 @@ export const memberApi = {
       });
       return response.data;
     } catch (error) {
-      return []
+      toast.error("Failed to join team", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return [];
     }
   },
   async removeMember({ teamId, memberId }: IRemoveMember) {
