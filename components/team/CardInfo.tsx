@@ -1,7 +1,12 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToShortList, removeFromShortList } from "@/redux/profileSlice";
 import { getUserInfoSelector } from "@/redux/selector";
-import { Bookmark, BookmarkBorderOutlined, BookmarkOutlined, Edit } from "@mui/icons-material";
+import {
+  Bookmark,
+  BookmarkBorderOutlined,
+  BookmarkOutlined,
+  Edit,
+} from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -16,7 +21,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
     if (typeof window !== "undefined") window.open(url, "_blank")?.focus();
   };
   const dispatch = useAppDispatch();
-  
+
   const handleAddToShortList = () => {
     dispatch(addToShortList(teamProfile.id));
   };
@@ -66,7 +71,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
             onClick={handleRemoveFromShortList}
           >
             <span className="hidden xs:inline-block text-sm md:text-base text-[#08537e] hover:underline">
-              In to Shortlist
+              In Shortlist
             </span>
             <Bookmark className="text-cyan-700" />
           </div>

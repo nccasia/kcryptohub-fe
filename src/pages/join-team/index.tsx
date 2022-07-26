@@ -56,15 +56,14 @@ const JoinTeamID = () => {
   }, [dispatch, teamId]);
 
   useEffect(() => {
-    if (actionSuccess) {
-      setTimeout(() => {
-        dispatch(resetSuccess());
-        router.push(`/team/${teamId}`);
-      }, 2000);
-    } else {
+    if (actionSuccess === true) {
+      dispatch(resetSuccess());
+      router.push(`/team/${teamId}`);
+    }
+    if (actionSuccess === false) {
       router.push("/");
     }
-  }, [actionSuccess]);
+  }, [actionSuccess, dispatch, teamId]);
 
   return (
     <Layout>
