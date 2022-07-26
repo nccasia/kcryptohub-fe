@@ -122,10 +122,15 @@ export const memberSlice = createSlice({
       toast.error(action.error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+
     }
     )
     builder.addCase(joinTeam.fulfilled, (state, action) => {
-      state.success = true;
+      if (action.payload?.inviteStatus === "accepted") {
+        state.success = true;
+      } else {
+        state.success = false;
+      }
     })
   },
 })

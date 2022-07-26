@@ -41,25 +41,19 @@ const JoinTeamID = () => {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    const teamToken = localStorage.getItem("teamId") || null;
-    if (!accessToken || teamToken === null) {
+    if (!accessToken) {
       if (router.isReady) {
         router.push({
           pathname: "/login",
           query: { url: router.asPath },
         });
-        localStorage.setItem("teamId", teamId as string);
       }
+    } else {
+      (async () => {
+        await dispatch(joinTeam(parseInt(teamId as string)));
+      })();
     }
-    (async () => {
-      if (accessToken) {
-        setTimeout(() => {
-          dispatch(joinTeam(parseInt(teamId as string)));
-        }, 1000);
-        localStorage.removeItem("teamId");
-      }
-    })();
-  }, [dispatch, router.isReady, teamId]);
+  }, [dispatch, teamId]);
 
   useEffect(() => {
     if (actionSuccess) {
@@ -67,8 +61,10 @@ const JoinTeamID = () => {
         dispatch(resetSuccess());
         router.push(`/team/${teamId}`);
       }, 2000);
+    } else {
+      router.push("/");
     }
-  }, [actionSuccess, dispatch, router, teamId]);
+  }, [actionSuccess]);
 
   return (
     <Layout>
