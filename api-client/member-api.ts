@@ -42,7 +42,7 @@ export const memberApi = {
         draggable: true,
         progress: undefined,
       });
-      return response;
+      return response.data;
     } catch (error) {
       toast.error("Failed to join team", {
         position: "bottom-right",
