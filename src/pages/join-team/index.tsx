@@ -38,9 +38,6 @@ const JoinTeamID = () => {
   const actionSuccess = useSelector(
     (state: RootState) => state.MemberReducer.success
   );
-  // const InviteNotExist = useSelector(
-  //   (state: RootState) => state.MemberReducer.error
-  // );
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -65,6 +62,7 @@ const JoinTeamID = () => {
         dispatch(resetSuccess());
       }, 1500);
     }
+    router.push("/");
   }, [actionSuccess, dispatch, teamId]);
 
   return (

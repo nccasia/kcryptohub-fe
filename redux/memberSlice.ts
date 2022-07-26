@@ -134,9 +134,7 @@ export const memberSlice = createSlice({
     }
     )
     builder.addCase(joinTeam.fulfilled, (state, action) => {
-      if (action.payload?.statusCode === 201) {
-        state.success = true;
-      }
+      state.success = true;
     })
   },
 })
