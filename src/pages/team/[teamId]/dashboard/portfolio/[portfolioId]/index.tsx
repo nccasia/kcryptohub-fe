@@ -14,6 +14,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Image from "next/image";
+import { teamApi } from "@/api/team-api";
+import { useAppDispatch } from "@/redux/hooks";
+import { setTeam } from "@/redux/dashboardSlice";
 
 const PortfolioDetail = () => {
   const [teamId, setTeamId] = useState<number>(NaN);
@@ -21,6 +24,7 @@ const PortfolioDetail = () => {
   const [portfolio, setPortfolio] = useState<IPortfolio>({} as IPortfolio);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (router.query.teamId) {
       setTeamId(Number(router.query.teamId));
@@ -52,7 +56,10 @@ const PortfolioDetail = () => {
         .then((res) => {
           if (res) {
             toast.success("Portfolio delete successfull");
-            router.push(`/team/${teamId}/dashboard/portfolio`);
+            teamApi.getTeam(teamId).then((team) => {
+              dispatch(setTeam(team.data));
+              router.push(`/team/${teamId}/dashboard/portfolio`);
+            });
           } else {
             toast.error("Failed delete portfolio");
             setIsDeleting(false);
