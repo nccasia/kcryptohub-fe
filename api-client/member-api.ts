@@ -42,7 +42,6 @@ export const memberApi = {
         draggable: true,
         progress: undefined,
       });
-      if (response?.status === 400) return;
       return response.data;
     } catch (error) {
       toast.error((error as any).response.data.message, {
