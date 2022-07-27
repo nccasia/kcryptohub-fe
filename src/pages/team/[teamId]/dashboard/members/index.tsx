@@ -149,7 +149,7 @@ const Members = () => {
       setTags((tag) => {
         if (checkDuplicate(email)) {
           toast.warning(`${email} is already in the team`, {
-            position: "top-left",
+            position: "bottom-right",
             autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
@@ -162,7 +162,7 @@ const Members = () => {
 
         if (email === Owner.emailAddress) {
           toast.warning(`${email} is owner of the team`, {
-            position: "top-left",
+            position: "bottom-right",
             autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
@@ -175,7 +175,7 @@ const Members = () => {
 
         if (tags.find((tag) => tag.email === email)) {
           toast.warning(`${email} is already exist`, {
-            position: "top-left",
+            position: "bottom-right",
             autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,

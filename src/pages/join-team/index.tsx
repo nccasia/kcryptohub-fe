@@ -1,14 +1,8 @@
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { joinTeam, resetSuccess } from "@/redux/memberSlice";
-import { getUserInfoSelector } from "@/redux/selector";
-import { RootState } from "@/redux/store";
-import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
+import { memberApi } from "@/api/member-api";
 import { Layout } from "@/src/layouts/layout";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 
 const theme = createTheme({
   components: {
@@ -34,10 +28,6 @@ const theme = createTheme({
 const JoinTeamID = () => {
   const router = useRouter();
   const { teamId } = router.query;
-  const dispatch = useAppDispatch();
-  const actionSuccess = useSelector(
-    (state: RootState) => state.MemberReducer.success
-  );
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -50,20 +40,17 @@ const JoinTeamID = () => {
       }
     } else {
       (async () => {
-        await dispatch(joinTeam(parseInt(teamId as string)));
+        await memberApi.joinTeam(parseInt(teamId as string)).then((res) => {
+          if (res.status === 404) {
+            router.push("/404");
+            return;
+          } else {
+            router.push(`/team/${teamId}`);
+          }
+        });
       })();
     }
-  }, [dispatch, teamId]);
-
-  useEffect(() => {
-    if (actionSuccess) {
-      router.push(`/team/${teamId}`);
-      setTimeout(() => {
-        dispatch(resetSuccess());
-      }, 1500);
-    }
-    router.push("/");
-  }, [actionSuccess, dispatch, teamId]);
+  }, [router, teamId]);
 
   return (
     <Layout>
