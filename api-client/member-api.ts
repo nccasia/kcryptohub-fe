@@ -42,9 +42,10 @@ export const memberApi = {
         draggable: true,
         progress: undefined,
       });
+      if (response?.status === 400) return;
       return response.data;
     } catch (error) {
-      toast.error("Failed to join team", {
+      toast.error((error as any).response.data.message, {
         position: "bottom-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -53,7 +54,8 @@ export const memberApi = {
         draggable: true,
         progress: undefined,
       });
-      return [];
+
+      return (error as any).response;
     }
   },
   async removeMember({ teamId, memberId }: IRemoveMember) {
