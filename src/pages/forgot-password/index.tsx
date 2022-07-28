@@ -4,31 +4,48 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { FormEvent, useEffect, useState } from "react";
-import { ArrowBackIos } from "@mui/icons-material";
+import { ArrowBackIos, Done, Save } from "@mui/icons-material";
 import { authApi } from "@/api/auth-api";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { LoadingButton } from "@mui/lab";
 
 const schemaValidation = Yup.object({
-  usernameOrEmail: Yup.string()
-    .required("Email or username is required!")
-    .trim("Username or email is required!")
-    .max(50, "Email or username dose not exceed 50 character!")
+  email: Yup.string()
+    .required("Email is required!")
+    .trim("Email is required!")
+    .matches(
+      /^[a-zA-Z0-9.]+@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      "Please enter a valid email format!"
+    )
+    .max(50, "Email dose not exceed 50 character!"),
 });
 
 const ForgotPassword = () => {
   const router = useRouter();
-  
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    watch,
   } = useForm<any>({
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
 
-  const onSubmit = (values: FormEvent) => {
-    reset();
+  const onSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      await authApi.resetPassword(watch("email"));
+      toast.success("Email has been sent!");
+      setIsSubmitting(false);
+      reset();
+    } catch (err: any) { 
+      toast.error(err.response.data.message);
+      setIsSubmitting(false);
+    }
   };
   return (
     <div className="h-auto min-h-full bg-primary flex justify-center xs:items-center px-2 xxs:px-0  py-4 ">
@@ -57,26 +74,39 @@ const ForgotPassword = () => {
           >
             <div className="flex flex-col py-2">
               <div className="flex flex-col justify-start items-start ">
-                <label className="font-medium">Email or username</label>
+                <label className="font-medium">Email</label>
                 <input
                   type="text"
                   className="border-solid  w-full  border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                  {...register("usernameOrEmail")}
+                  {...register("email")}
                   autoComplete="off"
                 />
               </div>
-              {errors?.usernameOrEmail && (
+              {errors?.email && (
                 <span className="text-red-500 text-left text-sm mt-2">
-                  {errors?.usernameOrEmail?.message}
+                  {errors?.email?.message}
                 </span>
               )}
             </div>
-            <button
-              type="submit"
-              className="bg-red-500 text-white block text-center py-2 px-5 w-full shadow-lg mt-4 mx-auto"
-            >
-              Reset Password
-            </button>
+            {isSubmitting ? (
+              <button type="button" className="bg-red-500 text-white block text-center py-2 px-5 w-full shadow-lg mt-4 mx-auto">
+                <LoadingButton
+                  loading
+                  loadingPosition="start"
+                  startIcon={<Save />}
+                  className="text-white text-sm uppercase p-0"
+                >
+                  Sending
+                </LoadingButton>
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="bg-red-500 text-white block text-center py-2 px-5 w-full shadow-lg mt-4 mx-auto"
+              >
+                Reset Password
+              </button>
+            )}
           </form>
         </div>
       </div>

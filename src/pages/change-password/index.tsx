@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { FormEvent, useEffect, useState } from "react";
-import { ArrowBackIos } from "@mui/icons-material";
+import { ArrowBackIos, Done } from "@mui/icons-material";
 import { authApi } from "@/api/auth-api";
+import { toast } from "react-toastify";
 
 const schemaValidation = Yup.object().shape({
   password: Yup.string()
@@ -29,23 +30,29 @@ const RePassword = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    watch
   } = useForm<any>({
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
-  const [isTokenVerified, setIsTokenVerified] = useState(false);
-
-  useEffect(()=>{
-    if (router.isReady && router.query.token && !isTokenVerified) {
-      const token = router.query.token as string;
-
-      setTimeout(()=>{
-        setIsTokenVerified(true);
-      },2000);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submited, setSubmited] = useState(false);
+  const onSubmit = async () => {
+    setIsSubmitting(true);
+    if(router.query.token) {
+      try{
+        await authApi.changePassword(watch("password"), router.query.token as string);
+        toast.success("Password changed successfully!");
+        setSubmited(true);
+        router.push("/login");
+      } catch(err: any){
+        setIsSubmitting(false);
+        toast.error(err.response.data.message);
+      }
+    } else {
+      setIsSubmitting(false);
+      toast.error("Invalid token!");
     }
-  }, [router.isReady, router.query.token]);
-  const onSubmit = (values: FormEvent) => {
-    reset();
   };
   return (
     <div className="h-auto min-h-full bg-primary flex justify-center xs:items-center px-2 xxs:px-0  py-4">
@@ -62,7 +69,7 @@ const RePassword = () => {
           >
             <ArrowBackIos /> Back
           </div>
-          {isTokenVerified ? (
+          {!isSubmitting ? (
             <div className="">
               <h3 className="text-cyan-900 text-md py-4">
                 <b className="text-2xl font-normal">Change </b>
@@ -114,8 +121,8 @@ const RePassword = () => {
             </div>
           ) : (
             <div className="w-full flex items-center justify-center relative">
-              <div className="h-32 w-32 border-4 rounded-full border-primary border-t-secondary animate-spin duration-1000 flex items-center justify-center "></div>
-              <span className="absolute">Verifying</span>
+              <div className={`h-32 w-32 border-4 rounded-full ${submited? "border-green-600":"border-primary border-t-secondary"} animate-spin duration-1000 flex items-center justify-center `}></div>
+              <span className={`absolute ${submited? "text-green-600 animate-ping":""}`}>{submited?<Done className="text-6xl"/>:"Changing"}</span>
             </div>
           )}
         </div>
