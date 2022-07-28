@@ -41,9 +41,9 @@ const JoinTeamID = () => {
     } else {
       (async () => {
         await memberApi.joinTeam(parseInt(teamId as string)).then((res) => {
-          if (res.status === 404) {
+          if (res?.status === 400) return;
+          if (res?.status === 404) {
             router.push("/404");
-            return;
           } else {
             router.push(`/team/${teamId}`);
           }
