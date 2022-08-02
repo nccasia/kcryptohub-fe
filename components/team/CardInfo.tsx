@@ -60,7 +60,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
       rounded-full transition-all ${show ? "md:block" : "hidden"}`}
       >
         {editable ? (
-          <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center px-4 py-2 md:py-4 cursor-pointer border-r border-[#cae0e7] md:border-0">
+          <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center cursor-pointer border-r border-[#cae0e7] md:border-0">
             <Link
               href={{
                 pathname: `/team/[teamId]/dashboard`,
@@ -128,15 +128,15 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
             <div
               className="w-full flex justify-center relative"
               onClick={handleAddToShortList}
-              onMouseEnter={() => setHover(true)}
+              onMouseEnter={() => setHover2(true)}
               onMouseLeave={() => {
-                setHover(false);
+                setHover2(false);
               }}
             >
               <BookmarkBorderOutlined className="text-[#404040] text-[20px] hover:text-[#5ca7db]" />
               <div
                 className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#5ca7db] text-white after:content-['']  after:border-[#5ca7db] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
-                  hover ? "" : "hidden"
+                  hover2 ? "" : "hidden"
                 }`}
               >
                 Shortlist

@@ -1,19 +1,62 @@
+import { teamApi } from "@/api/team-api";
 import CardInfo from "@/components/team/CardInfo";
 import Portfolio from "@/components/team/Portfolio";
-import Separate from "@/components/team/Separate";
 import SkillDistribution from "@/components/team/SkillDistribution";
-import Summary from "@/components/team/Summary";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setTeamProfile } from "@/redux/teamProfileSlice";
 import { Layout } from "@/src/layouts/layout";
 import { ESection, ITeam } from "@/type/team/team.type";
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
-import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { teamApi } from "@/api/team-api";
-import { profileApi } from "@/api/profile-api";
+
+const skillColor = [
+  "bg-red-500",
+  "bg-orange-500",
+  "bg-yellow-500",
+  "bg-green-500",
+  "bg-blue-500",
+  "bg-indigo-500",
+  "bg-purple-500",
+  "bg-pink-500",
+  "bg-gray-500",
+  "bg-teal-500",
+  "bg-cyan-500",
+  "bg-lime-500",
+  "bg-fuchsia-500",
+  "bg-rose-500",
+  "bg-stone-500",
+  "bg-red-700",
+  "bg-orange-700",
+  "bg-yellow-700",
+  "bg-green-700",
+  "bg-blue-700",
+  "bg-indigo-700",
+  "bg-purple-700",
+  "bg-pink-700",
+  "bg-gray-700",
+  "bg-teal-700",
+  "bg-cyan-700",
+  "bg-lime-700",
+  "bg-fuchsia-700",
+  "bg-rose-700",
+  "bg-stone-700",
+  "bg-red-900",
+  "bg-orange-900",
+  "bg-yellow-900",
+  "bg-green-900",
+  "bg-blue-900",
+  "bg-indigo-900",
+  "bg-purple-900",
+  "bg-pink-900",
+  "bg-gray-900",
+  "bg-teal-900",
+  "bg-cyan-900",
+  "bg-lime-900",
+  "bg-fuchsia-900",
+  "bg-rose-900",
+  "bg-stone-900",
+];
 interface ITeamDetailProps {
   teamProfileInfo: ITeam;
 }
@@ -21,6 +64,7 @@ const TeamDetail = () => {
   const router = useRouter();
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const userProfile = useAppSelector((state) => state.ProfileReducer);
+  const [read, setRead] = useState(false);
   const dispatch = useAppDispatch();
   const headerRef = useRef(null);
   const summaryRef = useRef(null);
@@ -29,6 +73,7 @@ const TeamDetail = () => {
   const [hash, setHash] = useState<string>(ESection[ESection["SUMMARY"]]);
   const { teamId } = router.query;
   const [ownerId, setOwnerId] = useState(NaN);
+  const [showAllSkill, setShowAllSkill] = useState(false);
 
   useEffect(() => {
     if (teamId) {
@@ -44,75 +89,77 @@ const TeamDetail = () => {
   }, [dispatch, teamId]);
 
   const handleScrollToSection = (section: number) => {
-    /*  const headerHeight = (headerRef.current! as HTMLElement).offsetHeight;
+    const headerHeight = (headerRef.current! as HTMLElement).offsetHeight;
     switch (section) {
-      case ESection["SUMMARY"]: {
-        const offsetTop =
-          (summaryRef.current! as HTMLElement).offsetTop - headerHeight;
-        window.scrollTo(0, offsetTop);
-        break;
-      }
-      case ESection["SKILL-DISTRIBUTION"]: {
-        const offsetTop =
-          (skillDistributionRef.current! as HTMLElement).offsetTop -
-          headerHeight;
-        window.scrollTo(0, offsetTop);
-        break;
-      }
       case ESection["PORTFOLIO"]: {
-        const offsetTop =
-          (portfolioRef.current! as HTMLElement).offsetTop - headerHeight;
-        window.scrollTo(0, offsetTop);
+        const offsetTop = (portfolioRef.current! as HTMLElement).offsetTop;
+        window.scroll({
+          top: offsetTop,
+          behavior: "smooth",
+          left: 0,
+        });
         break;
       }
       default:
         break;
-    } */
+    }
   };
 
   return (
     <Layout>
       <div className="">
         <div className="block font-nunito">
-          <div className="h-[95vh] w-full bg-[#5ca7db11] border-[1px] border-[#5ca7db11]">
-            <div className="flex md:flex-row lg:px-32 xs:px-10 px-1 md:py-32 flex-col-reverse items-center">
-              <div className="md:flex-1 relative">
-                <div className="">
-                  <div className="md:text-[40px] text-[32px] leading-10 font-semibold text-[#404040] whitespace-normal">
+          <div
+            className="h-[95vh] w-full bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
+            ref={headerRef}
+          >
+            <div
+              className="flex md:flex-row lg:px-32 xs:px-10 px-1 md:py-32 py-10 flex-col-reverse  items-center"
+              ref={summaryRef}
+            >
+              <div className="md:flex-1 relative md:mr-3">
+                <div className="md:block flex flex-col justify-center items-center">
+                  <div className="md:text-[40px] sm:text-[30px] text-[26px] md:leading-10 font-semibold text-[#404040] md:text-left text-center whitespace-normal">
                     We&apos;re {teamProfile.teamName}
                   </div>
-                  <div className="my-6 text-[26px] leading-9 font-normal">
+                  <div className="my-6 md:text-[26px] sm:text-[22px] text-[18px] leading-9 font-normal">
                     {teamProfile.slogan}
                   </div>
-
-                  <button className="mt-4 px-3 py-2 text-[14px] rounded-full text-white bg-[#5ca7db] uppercase">
+                  <button
+                    type="button"
+                    className="mt-4 px-3 py-2 text-[14px] rounded-full text-white bg-[#5ca7db] uppercase"
+                    onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
+                  >
                     See my work
                   </button>
                 </div>
               </div>
-              <div className="md:flex-1 w-[300px] max-h-[500px] md:h-[500px] h-[350px] relative whitespace-normal text-[#404040]">
+              <div className="md:flex-1 w-[300px] max-h-[500px] md:h-[500px] h-[350px] mb-5 relative whitespace-normal text-[#404040]">
                 <Image
-                  className="rounded-full"
+                  className="rounded-full object-fit"
                   alt=""
                   src={
-                    profileApi.getImageUrl(teamProfile.imageUrl) || "/user.png"
+                    teamProfile.imageUrl
+                      ? teamApi.getTeamImageUrl(teamProfile.imageUrl)
+                      : "/user1.png"
                   }
                   layout="fill"
-                  objectFit="contain"
                 />
               </div>
             </div>
           </div>
-          <div className="lg:px-32 xs:px-10 px-1 py-32 bg-[#f9fafb] border-[1px] border-[#f9fafb]">
+          <div
+            className="lg:px-32 xs:px-10 px-1 py-32 bg-[#f9fafb] border-[1px] border-[#f9fafb]"
+            ref={skillDistributionRef}
+          >
             <div className="flex md:flex-row mb-20 flex-col items-center">
               <div className="md:w-1/3 relative">
-                <div className="m-auto w-fit text-[#606060]">
+                <div className="text-[#606060]">
                   <div className="md:text-[30px] text-[24px] leading-4 text-[#404040] mb-6">
                     What I do?
                   </div>
-                  <div className="md:text-[26px] text-[20px] leading-9 font-normal">
-                    I specialize in web, mobile, brand {"&"} product design. I
-                    love to turn ideas into beautiful things.
+                  <div className="md:text-[24px] h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[18px] font-normal">
+                    {teamProfile.description}
                   </div>
                 </div>
               </div>
@@ -123,14 +170,54 @@ const TeamDetail = () => {
                 />
               </div>
             </div>
-            <div className="">
+            <div className="lg:w-full xs:w-2/3 w-full">
               <h3 className="md:text-[30px] text-[24px] leading-4 text-[#404040] mb-6 font-medium">
                 Tags
               </h3>
+              <div className="flex flex-col items-start justify-start xs:w-full">
+                <div className="flex w-full">
+                  <div className="text-cyan-900 w-full break-normal">
+                    {teamProfile.skills &&
+                      (showAllSkill
+                        ? teamProfile.skills
+                        : teamProfile.skills.slice(0, 7)
+                      ).map((skill, i) => (
+                        <div key={i} className="inline-block p-1 pt-3">
+                          <span
+                            className={`px-3 py-1 block rounded-2xl  md:max-w-[250px] max-w-[140px] hover:max-w-none hover:scale-110 cursor-default truncate  ${
+                              skillColor[
+                                skill.id
+                                  ? skill.id % skillColor.length
+                                  : Math.round(
+                                      Math.random() * (skillColor.length - 1)
+                                    )
+                              ]
+                            } text-white ml-2 mt-2 font-medium`}
+                          >
+                            {skill.skillName}
+                          </span>
+                        </div>
+                      ))}
+                    {teamProfile.skills?.length > 7 && !showAllSkill ? (
+                      <div className="inline-block p-1 pt-3">
+                        <span
+                          className={`px-2 py-1 block rounded-2xl border md:max-w-[175px] max-w-[140px] truncate   cursor-pointer text-black ml-2 mt-2 font-medium`}
+                          onClick={() => setShowAllSkill(true)}
+                        >
+                          More
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="lg:px-28 xs:px-10 px-1 bg-[#5ca7db11] border-[1px] border-[#5ca7db11]">
+          <div
+            className="lg:px-32 xs:px-10 px-1 bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
+            ref={portfolioRef}
+          >
             <Portfolio
               portfolioRef={portfolioRef}
               handleScrollToSection={handleScrollToSection}

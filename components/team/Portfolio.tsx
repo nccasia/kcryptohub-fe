@@ -34,6 +34,7 @@ const Portfolio = ({
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const [isShowAll, setIsShowAll] = useState<boolean>(false);
   const [portfolio, setPortfolio] = useState<IPortfolio | null>(null);
+  const [show, setShow] = useState(false);
 
   const handleRenderClientKey = () => {
     if (teamProfile.portfolios) {
@@ -73,7 +74,7 @@ const Portfolio = ({
       <h2 className="md:text-[30px] text-[24px] text-[#154369] mb-5">
         Portfolio
       </h2>
-      <p className="md:text-[26px] text-[20px] text-[#6b7a7e] w-4/5 mb-5">
+      <p className="md:text-[22px] text-[18px] text-[#6b7a7e] w-4/5 mb-5">
         Key client:{" "}
         {teamProfile.keyClients && teamProfile.keyClients.length > 0
           ? (teamProfile.keyClients[0] as any).keyName?.join(", ")
@@ -143,8 +144,26 @@ const Portfolio = ({
                     />
                   )}
                 </div>
-                <p className="md:text-[26px] text-[20px] text-[#6A797D] whitespace-pre-line mb-2 break-words">
-                  Description: {portfolio?.description}
+                <p className="md:text-[26px] text-[20px] max-h-[100px] text-[#6A797D] whitespace-pre-line mb-2 break-words ">
+                  <div className={`${show ? "overflow-hidden" : ""}`}>
+                    {!show ? (
+                      <p className="text-sm text-[#6b7a7e] h-auto max-h-[200px] overflow-hidden break-words whitespace-pre-line">
+                        Description: {teamProfile.description}
+                      </p>
+                    ) : (
+                      <p className="text-sm text-[#6b7a7e] h-auto break-words whitespace-pre-line">
+                        Description: {teamProfile.description}
+                      </p>
+                    )}
+
+                    <p
+                      hidden={teamProfile.description?.length <= 650 || show}
+                      className="text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
+                      onClick={() => setShow(!show)}
+                    >
+                      READ MORE...
+                    </p>
+                  </div>
                 </p>
               </div>
             </div>
@@ -176,7 +195,7 @@ const Portfolio = ({
       )}
       {teamProfile.portfolios?.length > 0 && (
         <div className="w-full">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-5">
             {teamProfile.portfolios.map((item, index) => {
               if (index <= 5) {
                 return (
@@ -198,7 +217,7 @@ const Portfolio = ({
                           className="w-full h-full "
                           layout="intrinsic"
                           width={400}
-                          height={450}
+                          height={420}
                         />
                         <span
                           onClick={() =>
@@ -212,7 +231,7 @@ const Portfolio = ({
                         </span>
                       </div>
                       <div className="text-center font-jost p-4">
-                        <h3 className="w-full break-words text-2xl font-semibold ">
+                        <h3 className="w-full break-words md:max-h-[200px] text-2xl font-semibold ">
                           {item.title}
                         </h3>
                         <span>{item.category}</span>
