@@ -200,7 +200,7 @@ const Portfolio = ({
       )}
       {teamProfile.portfolios?.length > 0 && (
         <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-5">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-5">
             {teamProfile.portfolios.map((item, index) => {
               if (index <= 5) {
                 return (
@@ -236,7 +236,7 @@ const Portfolio = ({
                         </span>
                       </div>
                       <div className="text-center font-jost p-4">
-                        <h3 className="w-full break-words md:max-h-[200px] text-2xl font-semibold ">
+                        <h3 className="w-full break-words md:max-h-[200px] text-xl font-medium">
                           {item.title}
                         </h3>
                         <span>{item.category}</span>

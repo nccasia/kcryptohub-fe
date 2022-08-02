@@ -9,6 +9,7 @@ import { ESection, ITeam } from "@/type/team/team.type";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const skillColor = [
   "bg-red-500",
@@ -110,14 +111,14 @@ const TeamDetail = () => {
       <div className="">
         <div className="block font-nunito">
           <div
-            className="h-[95vh] w-full bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
+            className="lg:h-[95vh] w-full bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
             ref={headerRef}
           >
             <div
-              className="flex md:flex-row lg:px-32 xs:px-10 px-1 md:py-20 py-10 flex-col-reverse  items-center"
+              className="flex md:flex-row lg:px-32 xs:px-10 px-2 md:py-20 xs:py-10 py-1 flex-col-reverse  items-center"
               ref={summaryRef}
             >
-              <div className="md:flex-1 relative md:mr-3">
+              <div className="md:flex-1 relative md:mr-3 mb-6">
                 <div className="md:block flex flex-col justify-center items-center">
                   <div className="md:text-[40px] sm:text-[30px] text-[26px] md:leading-10 font-semibold text-[#404040] md:text-left text-center whitespace-normal">
                     We&apos;re {teamProfile.teamName}
@@ -134,7 +135,7 @@ const TeamDetail = () => {
                   </button>
                 </div>
               </div>
-              <div className="md:flex-1 w-[300px] max-h-[500px] md:h-[500px] h-[350px] mb-5 relative whitespace-normal text-[#404040]">
+              <div className="md:flex-1 xs:w-[200px] mt-5 max-h-[500px] lg:h-[450px] lg:w-[450px] md:h-[300px] md:w-[300px] xs:h-[200px] h-[100px] w-[100px] mb-5 relative whitespace-normal text-[#404040]">
                 <Image
                   className="rounded-full object-fit"
                   alt=""
@@ -149,13 +150,13 @@ const TeamDetail = () => {
             </div>
           </div>
           <div
-            className="lg:px-32 xs:px-10 px-1 py-32 bg-[#f9fafb] border-[1px] border-[#f9fafb]"
+            className="lg:px-32 xs:px-10 px-2 py-32 bg-[#f9fafb] border-[1px] border-[#f9fafb]"
             ref={skillDistributionRef}
           >
             <div className="flex md:flex-row mb-20 flex-col items-center">
               <div className="md:w-1/3 relative">
                 <div className="text-[#606060]">
-                  <div className="md:text-[30px] text-[24px] leading-4 text-[#404040] mb-6">
+                  <div className="md:text-[30px] text-[24px] leading-4 text-[#404040] xs:text-left text-center mb-6">
                     What I do?
                   </div>
                   <div
@@ -171,7 +172,7 @@ const TeamDetail = () => {
                     className="text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
                     onClick={() => setRead(!read)}
                   >
-                    READ MORE...
+                    READ MORE <ArrowForwardIcon className="text-xs" />
                   </p>
                 </div>
               </div>
@@ -232,7 +233,7 @@ const TeamDetail = () => {
           </div>
 
           <div
-            className="lg:px-32 xs:px-10 px-1 bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
+            className="lg:px-32 xs:px-10 px-2 bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
             ref={portfolioRef}
           >
             <Portfolio

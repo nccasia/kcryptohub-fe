@@ -153,7 +153,7 @@ const NewPortfolio = () => {
       if (res.data.id) {
         dispatch(setTeam(res.data));
       }
-    })
+    });
   };
 
   const handleCancel = () => {
@@ -171,7 +171,7 @@ const NewPortfolio = () => {
 
   return (
     <ManagePortfolio>
-      <div>
+      <div className="font-jost">
         <div className="lg:border-b-0 border-b mb-2 pb-2">
           <h1 className="text-3xl">Add a New Portfolio Item</h1>
           <Typography className="text-xl my-3">
@@ -246,9 +246,7 @@ const NewPortfolio = () => {
                         id="startDate"
                         type="month"
                         {...register("startDate")}
-                        className={` border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
-                          errors.startDate && "bg-red-200"
-                        }`}
+                        className={` bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none `}
                       />
                     </div>
                     {errors.startDate && (
@@ -272,9 +270,7 @@ const NewPortfolio = () => {
                         {...register("endDate")}
                         autoComplete="off"
                         placeholder={"MM/YYYY"}
-                        className={` border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
-                          errors.endDate && "bg-red-200"
-                        }`}
+                        className={` bg-[#0000000d] text-[#606060] rounded-3xl mt-1 pl-3 pr-8 py-2 outline-none `}
                       />
                     </div>
                     {errors.endDate && (
@@ -297,9 +293,7 @@ const NewPortfolio = () => {
                       {...register("description")}
                       placeholder="Tell a great story about this Portfolio Item."
                       maxLength={2000}
-                      className={`sm:min-w-[400px] lg:min-w-[600px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
-                        errors.description && "bg-red-200"
-                      }`}
+                      className={`sm:min-w-[400px] lg:min-w-[600px] text-[#606060] w-full h-[100px] pl-5 pr-8 py-3 bg-[#0000000d] rounded-3xl outline-none`}
                     />
                     <div className="absolute right-0 bottom-0  m-2 text-gray-400 text-sm font-normal">
                       {watch("description") ? watch("description").length : 0}/
