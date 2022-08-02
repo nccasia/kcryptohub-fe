@@ -76,6 +76,7 @@ interface Props {
 export const TeamCard = (props: Props) => {
   const team = props.team;
   const userProfile = useAppSelector(getUserInfoSelector);
+  const [show, setShow] = useState(false);
   const [teamImgSrc, setTeamImgSrc] = useState(
     team.imageUrl ? teamApi.getTeamImageUrl(team.imageUrl) : "/user1.png"
   );
@@ -93,6 +94,7 @@ export const TeamCard = (props: Props) => {
   const handleRemoveFromShortList = () => {
     dispatch(removeFromShortList(team.id));
   };
+
   return (
     <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col">
       <div className="xl:col-span-10 md:col-span-9 col-span-12">
@@ -136,17 +138,89 @@ export const TeamCard = (props: Props) => {
               </p>
             </div>
             <div className="absolute top-0 right-0 flex-1 text-right">
-              <div className="absolute top-[-6px] right-6 group">
+              <div className="absolute top-[-6px] right-6 group ">
                 {userProfile.shortList?.includes(team.id) ? (
-                  <Bookmark
-                    className="absolute text-cyan-700 cursor-pointer"
-                    onClick={handleRemoveFromShortList}
-                  />
+                  <div>
+                    {show ? (
+                      <div
+                        className="relative"
+                        onMouseEnter={() => setShow(true)}
+                        onMouseLeave={() => setShow(false)}
+                      >
+                        <Bookmark
+                          className={`absolute text-cyan-700 cursor-pointer ${
+                            show ? "bg-cyan-800 text-white" : ""
+                          }`}
+                        ></Bookmark>
+                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-cyan-900 top-[24px] right-[-24px]">
+                          <div className="text-left px-2">
+                            <li className="list-none py-1 cursor-pointer border-b-[1px]  ">
+                              <a
+                                className="text-cyan-800 font-medium"
+                                onClick={handleRemoveFromShortList}
+                              >
+                                Remove from Shortlist
+                              </a>
+                            </li>
+
+                            <Link href={`/short-list`}>
+                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer">
+                                View Shortlist {">"}
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <Bookmark
+                        className={`absolute text-cyan-700 cursor-pointer hover:bg-cyan-800 hover:text-white ${
+                          show ? "hidden" : ""
+                        }`}
+                        onMouseEnter={() => setShow(true)}
+                      ></Bookmark>
+                    )}
+                  </div>
                 ) : (
-                  <BookmarkBorderOutlined
-                    className="absolute text-cyan-700 cursor-pointer"
-                    onClick={handleAddToShortList}
-                  />
+                  <div className="relative">
+                    {show ? (
+                      <div
+                        className="relative"
+                        onMouseEnter={() => setShow(true)}
+                        onMouseLeave={() => setShow(false)}
+                      >
+                        <Bookmark
+                          className={`absolute text-cyan-700 cursor-pointer ${
+                            show ? "bg-cyan-800 text-white" : ""
+                          }`}
+                        ></Bookmark>
+                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-cyan-900 top-[24px] right-[-24px]">
+                          <div className="text-left px-2">
+                            <li className="list-none py-1 cursor-pointer border-b-[1px]  ">
+                              <a
+                                className="text-cyan-800 font-medium"
+                                onClick={handleAddToShortList}
+                              >
+                                Add to Shortlist
+                              </a>
+                            </li>
+
+                            <Link href={`/short-list`}>
+                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer">
+                                View Shortlist {">"}
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <BookmarkBorderOutlined
+                        className={`absolute text-cyan-700 cursor-pointer hover:bg-cyan-800 hover:text-white ${
+                          show ? "hidden" : ""
+                        }`}
+                        onMouseEnter={() => setShow(true)}
+                      ></BookmarkBorderOutlined>
+                    )}
+                  </div>
                 )}
               </div>
             </div>

@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { teamApi } from "@/api/team-api";
+import { profileApi } from "@/api/profile-api";
 interface ITeamDetailProps {
   teamProfileInfo: ITeam;
 }
@@ -30,36 +31,6 @@ const TeamDetail = () => {
   const [ownerId, setOwnerId] = useState(NaN);
 
   useEffect(() => {
-    const handleChangeHash = () => {
-      const isSummaryVisibile = isInViewport(
-        (summaryRef.current! as HTMLElement).offsetHeight,
-        summaryRef
-      );
-      const isSkillDistributionVisibile = isInViewport(
-        (skillDistributionRef.current! as HTMLElement).offsetHeight,
-        skillDistributionRef
-      );
-      const isPortfolioVisibile = isInViewport(
-        (portfolioRef.current! as HTMLElement).offsetHeight,
-        portfolioRef
-      );
-      if (isSummaryVisibile) {
-        window.location.hash = ESection[ESection["SUMMARY"]].toLowerCase();
-      } else if (isSkillDistributionVisibile) {
-        window.location.hash =
-          ESection[ESection["SKILL-DISTRIBUTION"]].toLowerCase();
-      } else if (isPortfolioVisibile) {
-        window.location.hash = ESection[ESection["PORTFOLIO"]].toLowerCase();
-      } else {
-        window.location.hash = '';
-      }
-      setHash(window.location.hash.substr(1).toUpperCase());
-    };
-    document.addEventListener("scroll", handleChangeHash);
-    return () => document.removeEventListener("scroll", handleChangeHash);
-  }, []);
-
-  useEffect(() => {
     if (teamId) {
       teamApi.getTeam(parseInt(teamId as string)).then((res) => {
         if (res) {
@@ -72,18 +43,8 @@ const TeamDetail = () => {
     }
   }, [dispatch, teamId]);
 
-  const isInViewport = (
-    offsetHeight: number,
-    ref: MutableRefObject<null | Element>
-  ) => {
-    if (!ref.current) return false;
-    const headerHeight = (headerRef.current! as HTMLElement).offsetHeight;
-    const top = ref.current.getBoundingClientRect().top - headerHeight;
-    return top + offsetHeight >= 0 && top - offsetHeight <= window.innerHeight;
-  };
-
   const handleScrollToSection = (section: number) => {
-    const headerHeight = (headerRef.current! as HTMLElement).offsetHeight;
+    /*  const headerHeight = (headerRef.current! as HTMLElement).offsetHeight;
     switch (section) {
       case ESection["SUMMARY"]: {
         const offsetTop =
@@ -106,111 +67,78 @@ const TeamDetail = () => {
       }
       default:
         break;
-    }
+    } */
   };
 
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center md:block">
-        <div className="container mx-auto">
-          <section
-            ref={headerRef}
-            className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
-          >
-            <div className="flex xs:w-auto w-full">
-              <div className="w-[100px] relative p-2">
+      <div className="">
+        <div className="block font-nunito">
+          <div className="h-[95vh] w-full bg-[#5ca7db11] border-[1px] border-[#5ca7db11]">
+            <div className="flex md:flex-row lg:px-32 xs:px-10 px-1 md:py-32 flex-col-reverse items-center">
+              <div className="md:flex-1 relative">
+                <div className="">
+                  <div className="md:text-[40px] text-[32px] leading-10 font-semibold text-[#404040] whitespace-normal">
+                    We&apos;re {teamProfile.teamName}
+                  </div>
+                  <div className="my-6 text-[26px] leading-9 font-normal">
+                    {teamProfile.slogan}
+                  </div>
+
+                  <button className="mt-4 px-3 py-2 text-[14px] rounded-full text-white bg-[#5ca7db] uppercase">
+                    See my work
+                  </button>
+                </div>
+              </div>
+              <div className="md:flex-1 w-[300px] max-h-[500px] md:h-[500px] h-[350px] relative whitespace-normal text-[#404040]">
                 <Image
+                  className="rounded-full"
+                  alt=""
                   src={
-                    teamProfile.imageUrl
-                      ? teamApi.getTeamImageUrl(teamProfile.imageUrl)
-                      : "/user1.png"
+                    profileApi.getImageUrl(teamProfile.imageUrl) || "/user.png"
                   }
-                  alt="avatar"
                   layout="fill"
                   objectFit="contain"
                 />
               </div>
-              <h1 className="w-full bg-primary flex items-center">
-                <Link href="#">
-                  <a className="xxs:text-3xl text-xl text-white ml-2">
-                    {teamProfile.teamName}
-                  </a>
-                </Link>
-              </h1>
             </div>
-            <ul className="hidden md:flex">
-              <li
-                className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
-                  hash === ESection[ESection["SUMMARY"]]
-                    ? "!text-secondary"
-                    : ""
-                }`}
-                onClick={() => handleScrollToSection(ESection["SUMMARY"])}
-              >
-                <span
-                  className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
-                    hash === ESection[ESection["SUMMARY"]]
-                      ? "after:!bg-[#FF3D2D]"
-                      : ""
-                  }`}
-                >
-                  Summary
-                </span>
-              </li>
-              <li
-                className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
-                  hash === ESection[ESection["SKILL-DISTRIBUTION"]]
-                    ? "!text-secondary"
-                    : ""
-                }`}
-                onClick={() =>
-                  handleScrollToSection(ESection["SKILL-DISTRIBUTION"])
-                }
-              >
-                <span
-                  className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
-                    hash === ESection[ESection["SKILL-DISTRIBUTION"]]
-                      ? "after:!bg-[#FF3D2D]"
-                      : ""
-                  }`}
-                >
-                  Skill Distribution
-                </span>
-              </li>
-              <li
-                className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
-                  hash === ESection[ESection["PORTFOLIO"]]
-                    ? "!text-secondary"
-                    : ""
-                }`}
-                onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
-              >
-                <span
-                  className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
-                    hash === ESection[ESection["PORTFOLIO"]]
-                      ? "after:!bg-[#FF3D2D]"
-                      : ""
-                  }`}
-                >
-                  Portfolio
-                </span>
-              </li>
-            </ul>
-          </section>
-          <Summary summaryRef={summaryRef} />
-          <Separate />
-          <SkillDistribution
-            skillDistributionRef={skillDistributionRef}
-            editable={userProfile.userInfo.id === ownerId}
-          />
-          <Separate />
-          <Portfolio
-            portfolioRef={portfolioRef}
-            handleScrollToSection={handleScrollToSection}
-            editable={userProfile.userInfo.id === ownerId}
-          />
+          </div>
+          <div className="lg:px-32 xs:px-10 px-1 py-32 bg-[#f9fafb] border-[1px] border-[#f9fafb]">
+            <div className="flex md:flex-row mb-20 flex-col items-center">
+              <div className="md:w-1/3 relative">
+                <div className="m-auto w-fit text-[#606060]">
+                  <div className="md:text-[30px] text-[24px] leading-4 text-[#404040] mb-6">
+                    What I do?
+                  </div>
+                  <div className="md:text-[26px] text-[20px] leading-9 font-normal">
+                    I specialize in web, mobile, brand {"&"} product design. I
+                    love to turn ideas into beautiful things.
+                  </div>
+                </div>
+              </div>
+              <div className="md:flex-1">
+                <SkillDistribution
+                  skillDistributionRef={skillDistributionRef}
+                  editable={userProfile.userInfo.id === ownerId}
+                />
+              </div>
+            </div>
+            <div className="">
+              <h3 className="md:text-[30px] text-[24px] leading-4 text-[#404040] mb-6 font-medium">
+                Tags
+              </h3>
+            </div>
+          </div>
+
+          <div className="lg:px-28 xs:px-10 px-1 bg-[#5ca7db11] border-[1px] border-[#5ca7db11]">
+            <Portfolio
+              portfolioRef={portfolioRef}
+              handleScrollToSection={handleScrollToSection}
+              editable={userProfile.userInfo.id === ownerId}
+            />
+          </div>
+          <CardInfo editable={userProfile.userInfo.id === ownerId} />
         </div>
-        <CardInfo editable={userProfile.userInfo.id === ownerId} />
       </div>
     </Layout>
   );
