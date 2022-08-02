@@ -222,7 +222,7 @@ const Login = () => {
                 >
                   Log In
                 </button>
-                <Link href="/login">
+                <Link href="/forgot-password">
                   <a className="inline-block text-cyan-500 text-sm mt-3 cursor-pointer">
                     Forgot your password?
                   </a>

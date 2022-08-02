@@ -31,8 +31,12 @@ const schemaValidation = yup.object().shape({
     .matches(
       /(^$)|(^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$)/,
       "Please enter a valid website format! URL must contain http:// or https:// prefix."
-    ),
-  title: yup.string().required("Title is required").max(50,"Title must be less than 50 characters"),
+    )
+    .nullable(),
+  title: yup
+    .string()
+    .required("Title is required")
+    .max(50, "Title must be less than 50 characters"),
   category: yup.string().required("Category is required"),
   estimate: yup.string().required("Project size is required"),
   startDate: yup
@@ -53,29 +57,33 @@ const schemaValidation = yup.object().shape({
           return true;
         }
       }
-    ),
-  endDate: yup.string().when("startDate", {
-    is: (startDate: string) => startDate,
-    then: yup
-      .string()
-      .test(
-        "minDate",
-        "Please choose a date after start date",
-        (value, ctx) => {
-          const { path, createError } = ctx;
-          if (!value) return true;
-          const date = new Date(value);
-          if (date.getTime() - new Date(ctx.parent.startDate).getTime() < 0) {
-            return createError({
-              path,
-              message: `Please choose a date after ${ctx.parent.startDate}`,
-            });
-          } else {
-            return true;
+    )
+    .nullable(),
+  endDate: yup
+    .string()
+    .when("startDate", {
+      is: (startDate: string) => startDate,
+      then: yup
+        .string()
+        .test(
+          "minDate",
+          "Please choose a date after start date",
+          (value, ctx) => {
+            const { path, createError } = ctx;
+            if (!value) return true;
+            const date = new Date(value);
+            if (date.getTime() - new Date(ctx.parent.startDate).getTime() < 0) {
+              return createError({
+                path,
+                message: `Please choose a date after ${ctx.parent.startDate}`,
+              });
+            } else {
+              return true;
+            }
           }
-        }
-      ),
-  }),
+        ),
+    })
+    .nullable(),
   description: yup.string().required("Description is required"),
   imageUrl: yup.string().nullable(),
   videoLink: yup
@@ -83,7 +91,8 @@ const schemaValidation = yup.object().shape({
     .matches(
       /(^$)|(^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$)/,
       "Please enter a valid website format! URL must contain http:// or https:// prefix."
-    ).nullable(),
+    )
+    .nullable(),
   privacy: yup
     .number()
     .nullable()
