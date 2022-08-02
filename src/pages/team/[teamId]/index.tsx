@@ -114,7 +114,7 @@ const TeamDetail = () => {
             ref={headerRef}
           >
             <div
-              className="flex md:flex-row lg:px-32 xs:px-10 px-1 md:py-32 py-10 flex-col-reverse  items-center"
+              className="flex md:flex-row lg:px-32 xs:px-10 px-1 md:py-20 py-10 flex-col-reverse  items-center"
               ref={summaryRef}
             >
               <div className="md:flex-1 relative md:mr-3">
@@ -158,9 +158,21 @@ const TeamDetail = () => {
                   <div className="md:text-[30px] text-[24px] leading-4 text-[#404040] mb-6">
                     What I do?
                   </div>
-                  <div className="md:text-[24px] h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[18px] font-normal">
+                  <div
+                    className={`md:text-[24px] h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[18px] font-normal ${
+                      read ? "hidden" : ""
+                    }`}
+                  >
                     {teamProfile.description}
                   </div>
+
+                  <p
+                    hidden={teamProfile.description?.length <= 200 || read}
+                    className="text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
+                    onClick={() => setRead(!read)}
+                  >
+                    READ MORE...
+                  </p>
                 </div>
               </div>
               <div className="md:flex-1">
@@ -170,6 +182,11 @@ const TeamDetail = () => {
                 />
               </div>
             </div>
+            {read && (
+              <div className="mt-[-100px] mb-10 text-[#404040] md:text-left text-center md:text-[22px] text-[16px] leading-9">
+                {teamProfile.description}
+              </div>
+            )}
             <div className="lg:w-full xs:w-2/3 w-full">
               <h3 className="md:text-[30px] text-[24px] leading-4 text-[#404040] mb-6 font-medium">
                 Tags

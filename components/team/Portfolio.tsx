@@ -87,12 +87,17 @@ const Portfolio = ({
           disableAutoFocus
           open={portfolio ? true : false}
           onClose={() => setPortfolio(null)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <div className="w-2/3 m-auto bg-white p-8 translate-y-[18%] rounded-2xl shadow">
+          <div className="w-2/3 m-auto bg-white p-8 rounded-2xl shadow">
             <div className="">
               <div className="hidden md:block w-full">
                 {portfolio?.imageUrl ? (
-                  <div className="w-full h-[400px] mt-2 mb-3 relative">
+                  <div className="w-full md:h-[400px] mt-2 mb-3 relative">
                     <Image
                       src={PortfolioApi.getPortfolioImageUrl(
                         portfolio.imageUrl
@@ -147,7 +152,7 @@ const Portfolio = ({
                 <p className="md:text-[26px] text-[20px] max-h-[100px] text-[#6A797D] whitespace-pre-line mb-2 break-words ">
                   <div className={`${show ? "overflow-hidden" : ""}`}>
                     {!show ? (
-                      <p className="text-sm text-[#6b7a7e] h-auto max-h-[200px] overflow-hidden break-words whitespace-pre-line">
+                      <p className="text-sm text-[#6b7a7e] h-auto max-h-[100px] md:max-h-[200px] overflow-hidden break-words whitespace-pre-line">
                         Description: {teamProfile.description}
                       </p>
                     ) : (
