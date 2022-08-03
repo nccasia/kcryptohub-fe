@@ -149,7 +149,7 @@ const Portfolio = ({
                     />
                   )}
                 </div>
-                <p className="md:text-[26px] text-[20px] max-h-[100px] text-[#6A797D] whitespace-pre-line mb-5 break-words ">
+                <p className="md:text-[26px] text-[20px] text-[#6A797D] whitespace-pre-line mb-5 break-words ">
                   <div className={`${show ? "overflow-hidden" : ""}`}>
                     {!show ? (
                       <p className="text-sm text-[#6b7a7e] text-justify h-auto max-h-[100px] md:max-h-[200px] overflow-hidden break-words whitespace-pre-line">
@@ -162,7 +162,7 @@ const Portfolio = ({
                     )}
 
                     <p
-                      hidden={portfolio.description?.length <= 250 || show}
+                      hidden={portfolio.description?.length <= 650 || show}
                       className="text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
                       onClick={() => setShow(!show)}
                     >
