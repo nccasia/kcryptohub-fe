@@ -93,18 +93,18 @@ const Portfolio = ({
             justifyContent: "center",
           }}
         >
-          <div className="w-2/3 m-auto bg-white p-8 rounded-2xl shadow">
+          <div className="xs:w-2/3 w-full m-auto bg-white p-8 rounded-2xl shadow">
             <div className="">
               <div className="hidden md:block w-full">
                 {portfolio?.imageUrl ? (
-                  <div className="w-full md:h-[400px] mt-2 mb-3 relative">
+                  <div className="w-full h-[400px] mt-2 relative">
                     <Image
+                      className="object-fit"
                       src={PortfolioApi.getPortfolioImageUrl(
                         portfolio.imageUrl
                       )}
                       alt="portfolio"
                       layout="fill"
-                      objectFit={"contain"}
                     />
                   </div>
                 ) : null}
@@ -121,7 +121,7 @@ const Portfolio = ({
               </div>
               <div className="relative">
                 <div className="">
-                  <h2 className="md:text-[30px] text-[24px] text-center text-2xl my-5 break-words">
+                  <h2 className="md:text-[30px] sm:text-[24px] xs:text-[18px] text-[16px] text-center my-5 break-words">
                     {portfolio?.title}
                   </h2>
                 </div>
@@ -129,12 +129,12 @@ const Portfolio = ({
                   {portfolio?.imageUrl ? (
                     <div className="h-[200px] mt-2 mb-3 relative">
                       <Image
+                        className="object-fit"
                         src={PortfolioApi.getPortfolioImageUrl(
                           portfolio.imageUrl
                         )}
                         alt="portfolio"
                         layout="fill"
-                        objectFit={"contain"}
                       />
                     </div>
                   ) : null}
@@ -145,11 +145,11 @@ const Portfolio = ({
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
-                      className="mb-3 w-full h-[600px]"
+                      className="mb-3 w-full h-[300px]"
                     />
                   )}
                 </div>
-                <p className="md:text-[26px] text-[20px] max-h-[100px] text-[#6A797D] whitespace-pre-line mb-2 break-words ">
+                <p className="md:text-[26px] text-[20px]  text-[#6A797D] whitespace-pre-line mb-5 break-words ">
                   <div className={`${show ? "overflow-hidden" : ""}`}>
                     {!show ? (
                       <p className="text-sm text-[#6b7a7e] text-justify h-auto max-h-[100px] md:max-h-[200px] overflow-hidden break-words whitespace-pre-line">
@@ -222,12 +222,7 @@ const Portfolio = ({
                           className="object-fit"
                           layout="fill"
                         />
-                        <span
-                          onClick={() =>
-                            handleScrollToSection(ESection["PORTFOLIO"])
-                          }
-                          className="px-5 opacity-0 hover:opacity-100 transition duration-1000 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                        >
+                        <span className="px-5 opacity-0 hover:opacity-100 transition duration-1000 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                           <span className="w-full break-words text-center">
                             <Add className="text-2xl" />
                           </span>
@@ -260,12 +255,7 @@ const Portfolio = ({
                       width={400}
                       height={200}
                     />
-                    <span
-                      onClick={() =>
-                        handleScrollToSection(ESection["PORTFOLIO"])
-                      }
-                      className="opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                    >
+                    <span className="opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                       {item.title}
                     </span>
                   </div>
