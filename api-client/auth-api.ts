@@ -91,4 +91,18 @@ export const authApi = {
     });
     return response;
   },
+  
+  resetPassword(email:string) {
+    return axiosClient.post(`/auth/reset-password`, {
+      email: email,
+    });
+
+  },
+  
+  changePassword(password:string, token:string) {
+    return axiosClient.put(`/auth/change-password?token=${token}`, {
+      password: password,
+    });
+
+  }
 };
