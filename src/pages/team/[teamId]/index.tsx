@@ -157,13 +157,13 @@ const TeamDetail = () => {
             ref={skillDistributionRef}
           >
             <div className="flex md:flex-row mb-20 flex-col items-center">
-              <div className="md:w-1/3 relative">
+              <div className="md:w-1/3 mr-2 relative">
                 <div className="text-[#606060]">
                   <div className="md:text-[30px] text-[24px] leading-4 text-[#404040] xs:text-left text-center mb-6">
                     What I do?
                   </div>
                   <div
-                    className={`md:text-[24px] text-justify h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[16px] font-normal ${
+                    className={`md:text-[24px] h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[16px] font-normal ${
                       read ? "hidden" : ""
                     }`}
                   >
@@ -179,7 +179,7 @@ const TeamDetail = () => {
                   </p>
                 </div>
               </div>
-              <div className="md:flex-1">
+              <div className="md:flex-1 md:pl-4">
                 <SkillDistribution
                   skillDistributionRef={skillDistributionRef}
                   editable={userProfile.userInfo.id === ownerId}
