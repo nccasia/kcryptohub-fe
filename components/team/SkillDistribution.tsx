@@ -59,7 +59,7 @@ const SkillDistribution = ({
             </div>
 
             <div className="w-full md:w-4/5 mb-6">
-              <div className="h-4 flex">
+              <div className="h-6 flex">
                 {item.skillDistributionValue.map(
                   (skillDistributionValue, index) =>
                     Number(skillDistributionValue.quantity) > 0 && (

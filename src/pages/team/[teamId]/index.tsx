@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const skillColor = [
   "bg-red-500",
   "bg-orange-500",
@@ -163,7 +163,7 @@ const TeamDetail = () => {
                     What I do?
                   </div>
                   <div
-                    className={`md:text-[24px] h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[18px] font-normal ${
+                    className={`md:text-[24px] text-justify h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[16px] font-normal ${
                       read ? "hidden" : ""
                     }`}
                   >
@@ -187,8 +187,14 @@ const TeamDetail = () => {
               </div>
             </div>
             {read && (
-              <div className="mt-[-100px] mb-10 text-[#404040] md:text-left text-center md:text-[22px] text-[16px] leading-9">
+              <div className="mt-[-100px] text-justify mb-10 text-[#404040] lg:text-left md:text-[22px] text-[16px] leading-9">
                 {teamProfile.description}
+                <span
+                  className="text-ellipsis ml-2 overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
+                  onClick={() => setRead(!read)}
+                >
+                  SEE LESS <ArrowBackIcon className="text-xs" />
+                </span>
               </div>
             )}
             <div className="lg:w-full xs:w-2/3 w-full">
