@@ -163,7 +163,7 @@ const TeamDetail = () => {
                     What I do?
                   </div>
                   <div
-                    className={`md:text-[24px] h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[16px] font-normal ${
+                    className={`md:text-[24px] h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[18px] font-normal ${
                       read ? "hidden" : ""
                     }`}
                   >
