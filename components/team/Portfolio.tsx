@@ -210,7 +210,7 @@ const Portfolio = ({
                       className="relative cursor-pointer overflow-hidden group shadow-lg rounded-md"
                       onClick={() => setPortfolio(item)}
                     >
-                      <div className="relative">
+                      <div className="relative w-full h-[420px]">
                         <Image
                           src={
                             item?.imageUrl
@@ -219,10 +219,8 @@ const Portfolio = ({
                                 "/user1.png"
                           }
                           alt="portfolio"
-                          className="w-full h-full "
-                          layout="intrinsic"
-                          width={400}
-                          height={420}
+                          className="object-fit"
+                          layout="fill"
                         />
                         <span
                           onClick={() =>
