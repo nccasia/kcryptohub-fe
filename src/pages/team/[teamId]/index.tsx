@@ -115,7 +115,7 @@ const TeamDetail = () => {
             ref={headerRef}
           >
             <div
-              className="flex  lg:px-32 xs:px-10 px-2 md:py-20 xs:py-10 py-1 flex-col items-center"
+              className="flex  lg:px-32 xs:px-10 px-2 md:py-16 xs:py-10 py-1 flex-col items-center"
               ref={summaryRef}
             >
               <div className="md:flex-1 relative md:mr-3 mb-6">
@@ -153,7 +153,7 @@ const TeamDetail = () => {
             </div>
           </div>
           <div
-            className="lg:px-32 xs:px-10 px-2 py-32 bg-[#f9fafb] border-[1px] border-[#f9fafb]"
+            className="lg:px-32 xs:px-10 px-2 py-28 bg-[#f9fafb] border-[1px] border-[#f9fafb]"
             ref={skillDistributionRef}
           >
             <div className="flex md:flex-row mb-20 flex-col items-center">

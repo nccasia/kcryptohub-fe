@@ -210,7 +210,7 @@ const Portfolio = ({
                       className="relative cursor-pointer overflow-hidden group shadow-lg rounded-md"
                       onClick={() => setPortfolio(item)}
                     >
-                      <div className="relative w-full h-[420px]">
+                      <div className="relative w-full h-[350px]">
                         <Image
                           src={
                             item?.imageUrl
