@@ -179,7 +179,7 @@ const TeamDetail = () => {
                   </div>
 
                   <p
-                    hidden={teamProfile.description?.length <= 200 || read}
+                    hidden={teamProfile.description?.length <= 200 || !read}
                     className="text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
                     onClick={() => setRead(!read)}
                   >

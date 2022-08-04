@@ -376,7 +376,7 @@ export const Teams = () => {
                 setShow(false);
               }}
             >
-              <CancelOutlined />
+              <CancelOutlined className="text-[#606060]" />
             </div>
             <span className="text-xl text-[#606060]">All filter</span>
           </div>
