@@ -154,13 +154,13 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <header
-        className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden bg-center bg-cover w-full h-screen"
+        className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden bg-center bg-cover w-full h-screen "
         style={{
           backgroundImage:
             "url('https://mdbcdn.b-cdn.net/img/new/slides/146.webp')",
         }}
       >
-        <div className="relative top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed bg-[#000000bf]">
+        <div className="relative top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed bg-[#000000bf] font-jost">
           <div className="flex justify-center flex-col  h-full">
             <div className="text-center text-white px-6 pt-16 md:px-12">
               <h1 className="text-xl md:text-4xl font-semibold mt-6 mb-3 cursor-pointer">
@@ -286,7 +286,7 @@ const Home: NextPage = () => {
           paddingTop: "calc(100vh  - 50px)",
         }}
       >
-        <div className="block relative w-full h-fit md-2:h-screen py-10">
+        <div className="block relative w-full h-fit md-2:h-screen py-10 font-jost">
           <div className="w-full text-center my-[70px]">
             <h2 className="text-3xl font-normal mb-6 text-black">
               Start Your Search With Our Most Popular Services

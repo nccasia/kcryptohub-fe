@@ -8,11 +8,7 @@ import { ArrowForwardIosOutlined } from "@mui/icons-material";
 import { Modal } from "@mui/material";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
-import {
-  getUserInfoSelector,
-  getDataSkillDisSelector,
-  getSkillsIsLoadedSelector,
-} from "@/redux/selector";
+import { getUserInfoSelector, getDataSkillDisSelector, getSkillsIsLoadedSelector } from "@/redux/selector";
 import { signOut } from "next-auth/react";
 import { getDataSkillDis } from "@/redux/skillDistributionSlice";
 type IHeaderProps = {
@@ -61,7 +57,7 @@ const Layout = (props: IHeaderProps) => {
     <div className="flex flex-col h-full">
       <Header />
 
-      <div className="flex-1 bg-[#eef4f9]">{props.children}</div>
+      <div className="flex-1 ">{props.children}</div>
 
       <Footer />
 

@@ -97,16 +97,17 @@ export const Header = () => {
               : ""
           }`}
         ></div>
-        <nav className=" flex items-center justify-between px-[15px] pt-[15px]">
+        <nav className=" flex items-center justify-between px-[15px] pt-[15px] font-jost">
           <div className="py-5 relative">
-            <a
-              href="/"
-              className={`text-3xl font-bold text-center ${
-                router.pathname === "/" ? "text-white" : "text-black "
-              }`}
-            >
-              <span>Kryptohub</span>
-            </a>
+            <Link href="/">
+              <span
+                className={`text-3xl font-bold text-center cursor-pointer ${
+                  router.pathname === "/" ? "text-white" : "text-black "
+                }`}
+              >
+                Kryptohub
+              </span>
+            </Link>
           </div>
           <div className="px-5 hidden md-2:block">
             <div
@@ -170,28 +171,33 @@ export const Header = () => {
                 onClick={handleHamburger}
               >
                 <span
-                  className={`block w-6 h-1 bg-white ${
+                  className={`block w-6 h-1 ${
+                    router.pathname === "/" ? "bg-white" : "bg-black"
+                  } ${
                     isOpenHamburger
                       ? "transform transition duration-500 ease-in-out rotate-45 translate-y-2"
                       : "transform transition duration-500 ease-in-out "
                   }`}
                 />
                 <span
-                  className={`block w-6 h-1 bg-white	${
+                  className={`block w-6 h-1 ${
+                    router.pathname === "/" ? "bg-white" : "bg-black"
+                  }	${
                     isOpenHamburger
                       ? "transform transition duration-500 ease-in-out opacity-0"
                       : "transform transition duration-500 ease-in-out "
                   }`}
                 />
                 <span
-                  className={`block w-6 h-1 bg-white ${
+                  className={`block w-6 h-1 ${
+                    router.pathname === "/" ? "bg-white" : "bg-black"
+                  } ${
                     isOpenHamburger
                       ? "transform  transition duration-500 ease-in-out -rotate-45  -translate-y-2"
                       : "transform transition duration-500 ease-in-out "
                   }`}
                 />
               </div>
-<<<<<<< HEAD
               <div className="hidden px-[5px] md-2:block">
                 <svg
                   className={`w-6 h-6 ${
@@ -255,7 +261,7 @@ export const Header = () => {
                                 disableTouchListener
                                 title={
                                   <div
-                                    className={`flex flex-col absolute z-[900] top-7 p-1 border min-w-[230px] w-full h-fit bg-white text-cyan-800 md:right-[-20px] 
+                                    className={`flex flex-col font-jost absolute z-[900] top-7 p-1 border min-w-[230px] w-full h-fit bg-white text-cyan-800 md:right-[-20px] 
                               ${
                                 !showPopUp ? "invisible" : "visible"
                               }  animate-slide-in-up hover:visible text-lg`}
@@ -336,22 +342,6 @@ export const Header = () => {
               <a
                 href="index.html"
                 className="text-3xl font-bold text-center text-white"
-=======
-              <Link href="/">
-                <a className="text-2xl font-semibold text-white cursor-pointer flex items-center">
-                  KryptoHub
-                </a>
-              </Link>
-              
-              <label
-                className="md:hidden"
-                onClick={() => {
-                  setShowSearch(!showSearch);
-                  if (showMenu) {
-                    setShowMenu(false);
-                  }
-                }}
->>>>>>> develop
               >
                 <span>Kryptohub</span>
               </a>
@@ -374,7 +364,7 @@ export const Header = () => {
               </svg>
             </div>
             <div>
-              <div>
+              <div className="font-jost">
                 {user?.username ? (
                   <Accordion
                     className={`bg-[#1e2228] shadow-none w-full relative ${
@@ -422,7 +412,9 @@ export const Header = () => {
                       </div>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <div className={`text-white flex flex-col w-full`}>
+                      <div
+                        className={`text-white flex flex-col w-full font-jost`}
+                      >
                         <Link href="/profile">
                           <div className="pr-1 py-2 my-1 cursor-pointer">
                             <a className="text-lg font-medium">Profile</a>
@@ -458,7 +450,7 @@ export const Header = () => {
                 )}
               </div>
               <div>
-                <div className="w-full text-white flex flex-col">
+                <div className="w-full text-white flex flex-col font-jost">
                   <Link href="/teams">
                     <span className="pr-2 py-4 mr-4 cursor-pointer text-lg font-medium">
                       List Team
