@@ -266,6 +266,7 @@ export const Teams = () => {
                               items={SkillSelect?.map((sk) => sk.skillName)}
                               selected={filter.skill}
                               setSelected={handleSkillSelect}
+                              isSwitched={switchValue === "Skills"}
                             />
                           </div>
                         </div>
@@ -288,6 +289,7 @@ export const Teams = () => {
                               items={Object.values(TimeZone)}
                               selected={filter.timezone}
                               setSelected={handleTimezoneSelect}
+                              isSwitched={switchValue === "Timezone"}
                             />
                           </div>
                         </div>

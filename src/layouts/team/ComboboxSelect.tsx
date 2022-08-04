@@ -15,6 +15,7 @@ export const ComboboxSelect = ({
   setSelected,
   className,
   isCollapsor,
+  isSwitched,
 }: {
   label: string;
   items: string[];
@@ -22,6 +23,7 @@ export const ComboboxSelect = ({
   setSelected: (selected: string[]) => void;
   className?: string;
   isCollapsor?: boolean;
+  isSwitched?: boolean;
 }) => {
   const [filteredItems, setFilteredItems] = useState(items);
   const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
@@ -66,7 +68,9 @@ export const ComboboxSelect = ({
           } flex items-center justify-between px-1 w-full`}
         >
           <label
-            className={`${isCollapsor ? "text-lg" : ""} pointer-events-none`}
+            className={`${isCollapsor ? "text-lg" : ""} pointer-events-none ${
+              isSwitched ? "text-[#848abd]" : ""
+            }`}
           >
             {label}
           </label>
