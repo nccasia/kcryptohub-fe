@@ -162,11 +162,11 @@ const Portfolio = ({
                 <p className="md:text-[26px] text-[20px] text-[#6A797D] whitespace-pre-line mb-5 break-words ">
                   <div className={`${show ? "overflow-hidden" : ""}`}>
                     {!show ? (
-                      <p className="text-sm text-[#6b7a7e] text-justify h-auto max-h-[100px] md:max-h-[200px] overflow-hidden break-words whitespace-pre-line">
+                      <p className="text-sm text-[#6b7a7e] text-left  h-auto max-h-[100px] md:max-h-[200px] overflow-hidden break-words whitespace-pre-line">
                         Description: {portfolio.description}
                       </p>
                     ) : (
-                      <p className="text-sm text-[#6b7a7e] text-justify overflow-auto lg:max-h-[240px] max-h-[300px] break-words whitespace-pre-line">
+                      <p className="text-sm text-[#6b7a7e] overflow-auto text-left lg:max-h-[240px] max-h-[300px] break-all whitespace-pre-line">
                         Description: {portfolio.description}
                       </p>
                     )}

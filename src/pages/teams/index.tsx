@@ -33,6 +33,7 @@ export const Teams = () => {
   const [teams, setTeams] = useState([] as ITeam[]);
   const SkillSelect = useAppSelector(getSkillsSelector);
   const SkillSelectIsLoaded = useAppSelector(getSkillsIsLoadedSelector);
+  const [switchValue, setSwitchValue] = useState("All Filter");
   const [filter, setFilter] = useState({
     search: "",
     sortBy: 0,
@@ -221,55 +222,75 @@ export const Teams = () => {
                         )}
                       </div>
                     </div>
-                    <div className="flex flex-1 justify-end items-center font-jost">
-                      <div className="xxs:flex hidden">
-                        <div className="cursor-pointer flex items-center justify-center mr-2">
-                          {/*  <ComboboxSelect
-                            label="Skills"
-                            items={SkillSelect?.map((sk) => sk.skillName)}
-                            selected={filter.skill}
-                            setSelected={handleSkillSelect}
-                          /> */}
-                        </div>
-                        <div className="cursor-pointer flex items-center justify-center mr-2">
-                          {/* <ComboboxSelect
-                            label="Timezone"
-                            items={Object.values(TimeZone)}
-                            selected={filter.timezone}
-                            setSelected={handleTimezoneSelect}
-                          /> */}
-                        </div>
-                      </div>
-                      <div className="cursor-pointer flex items-center justify-center mr-2">
-                        {/*  <div
-                          className={`border-2 flex items-center justify-between w-full px-1 py-[0.125rem] `}
-                          onClick={() => {
+                    <div className="flex flex-1 justify-center items-center font-jost">
+                      <div className="xxs:flex hidden text-[#606060] text-[18px]">
+                        <div
+                          className="cursor-pointer flex items-center justify-center mr-5 hover:text-[#848abd]"
+                          id="All Filter"
+                          onClick={(e) => {
                             setShow(!show);
+                            setSwitchValue(e.currentTarget.id);
                           }}
                           ref={nodeRef as LegacyRef<HTMLDivElement>}
                         >
-                          <label className={`pointer-events-none min-w-[50px]`}>
-                            All filter
-                          </label>
-                        </div> */}
-                      </div>
-                      <div className="flex flex-row items-center justify-center border-l pl-2">
-                        {/*  <select
-                          name="sort"
-                          id=""
-                          value={filter.sortBy === 0 ? " " : filter.sortBy}
-                          className="bg-transparent border-2 "
-                          onChange={handleSortBySelect}
+                          <div
+                            className={` flex items-center text-center justify-between w-full ${
+                              switchValue === "All Filter"
+                                ? "px-2 py-2 rounded-full shadow border-none text-[#848abd]"
+                                : ""
+                            }  `}
+                          >
+                            <label
+                              className={`pointer-events-none min-w-[50px]`}
+                            >
+                              All Filter
+                            </label>
+                          </div>
+                        </div>
+                        <div
+                          className="cursor-pointer flex items-center justify-center mr-5"
+                          id="Skills"
+                          onClick={(e) => {
+                            setSwitchValue(e.currentTarget.id);
+                          }}
                         >
-                          <option hidden value="">
-                            Sort by
-                          </option>
-                          {SortBy.map((key, index) => (
-                            <option key={index} value={index}>
-                              {key}
-                            </option>
-                          ))}
-                        </select> */}
+                          <div
+                            className={` flex w-full ${
+                              switchValue === "Skills"
+                                ? "px-2 py-2 rounded-full shadow border-none"
+                                : ""
+                            }  `}
+                          >
+                            <ComboboxSelect
+                              label="Skills"
+                              items={SkillSelect?.map((sk) => sk.skillName)}
+                              selected={filter.skill}
+                              setSelected={handleSkillSelect}
+                            />
+                          </div>
+                        </div>
+                        <div
+                          className="cursor-pointer flex items-center justify-center mr-5 "
+                          id="Timezone"
+                          onClick={(e) => {
+                            setSwitchValue(e.currentTarget.id);
+                          }}
+                        >
+                          <div
+                            className={` flex w-full ${
+                              switchValue === "Timezone"
+                                ? "px-2 py-2 rounded-full shadow border-none"
+                                : ""
+                            }  `}
+                          >
+                            <ComboboxSelect
+                              label="Timezone"
+                              items={Object.values(TimeZone)}
+                              selected={filter.timezone}
+                              setSelected={handleTimezoneSelect}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -363,7 +384,7 @@ export const Teams = () => {
               <input
                 type="text"
                 placeholder="Search here..."
-                className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
+                className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  rounded-full"
                 name="search"
                 onChange={handleSearch}
                 value={keyword}
