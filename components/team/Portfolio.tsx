@@ -104,7 +104,7 @@ const Portfolio = ({
                 </button>
               </div>
             )}
-            <div className="">
+            <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-5 mb-5">
               <div className="hidden md:block w-full">
                 {portfolio?.imageUrl ? (
                   <div className=" w-full h-[350px]  mt-2 relative">

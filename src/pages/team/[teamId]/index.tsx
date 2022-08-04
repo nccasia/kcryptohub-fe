@@ -143,7 +143,7 @@ const TeamDetail = () => {
                   </div>
                   <button
                     type="button"
-                    className="mt-4 px-3 py-2 text-[14px] rounded-full text-white bg-[#5ca7db] uppercase"
+                    className="mt-4 px-4 py-3 text-[14px] rounded-full text-white bg-[#5ca7db] uppercase hover:shadow hover:shadow-[#5ca7db]"
                     onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
                   >
                     See my work
@@ -156,10 +156,18 @@ const TeamDetail = () => {
             className="lg:px-32 xs:px-10 px-2 py-28 bg-[#f9fafb] border-[1px] border-[#f9fafb]"
             ref={skillDistributionRef}
           >
-            <div className="flex md:flex-row mb-20 flex-col items-center">
+            <div
+              className={`flex flex-col mb-20 items-center ${
+                read ? "justify-center" : "md:flex-row"
+              }`}
+            >
               <div className="md:w-1/3 mr-2 relative">
                 <div className="text-[#606060]">
-                  <div className="md:text-[30px] text-[24px] leading-4 text-[#404040] xs:text-left text-center mb-6">
+                  <div
+                    className={`md:text-[30px] text-[24px] leading-4 text-[#404040]  text-center mb-6 ${
+                      read ? "" : "xs:text-left"
+                    }`}
+                  >
                     What I do?
                   </div>
                   <div
@@ -179,7 +187,7 @@ const TeamDetail = () => {
                   </p>
                 </div>
               </div>
-              <div className="md:flex-1 md:pl-4">
+              <div className={`md:flex-1 w-full ${read ? "" : "md:ml-8"}`}>
                 <SkillDistribution
                   skillDistributionRef={skillDistributionRef}
                   editable={userProfile.userInfo.id === ownerId}

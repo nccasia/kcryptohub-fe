@@ -96,10 +96,10 @@ export const TeamCard = (props: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col">
+    <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-lg">
       <div className="xl:col-span-10 md:col-span-9 col-span-12">
         <div className="grid grid-cols-12 border-b relative">
-          <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start  p-2">
+          <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start p-2">
             <div className="h-[50px] w-[50px] relative">
               <Image
                 key={team.id}
@@ -148,7 +148,7 @@ export const TeamCard = (props: Props) => {
                         onMouseLeave={() => setShow(false)}
                       >
                         <Bookmark
-                          className={`absolute text-cyan-700 cursor-pointer ${
+                          className={`absolute cursor-pointer ${
                             show ? "bg-cyan-800 text-white" : ""
                           }`}
                         ></Bookmark>
@@ -189,7 +189,7 @@ export const TeamCard = (props: Props) => {
                         onMouseLeave={() => setShow(false)}
                       >
                         <Bookmark
-                          className={`absolute text-cyan-700 cursor-pointer ${
+                          className={`absolute cursor-pointer ${
                             show ? "bg-cyan-800 text-white" : ""
                           }`}
                         ></Bookmark>

@@ -135,7 +135,12 @@ export const Teams = () => {
       setIsReady(true);
     }
   }, [filter, currentPage, SkillSelect, SkillSelectIsLoaded]);
-  const debounceSearch = useCallback(debounce((value: string) => {setFilter({ ...filter, search: value })}, 1000),[setFilter]);
+  const debounceSearch = useCallback(
+    debounce((value: string) => {
+      setFilter({ ...filter, search: value });
+    }, 1000),
+    [setFilter]
+  );
   const [keyword, setKeyword] = useState("");
   const handleSearch = (event: any) => {
     setKeyword(event.target.value);
@@ -180,14 +185,14 @@ export const Teams = () => {
           </div>
         </div>
       </div>
-      <div className="relative">
+      <div className="relative font-nunito">
         <div className="flex flex-col items-center justify-center px-1 ">
-          <div className="container-lg relative border-x-2   md:w-11/12 lg:w-5/6 w-full  shadow-xl">
-            <div className="sticky top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
-              <div className="flex flex-col sm:flex-row border-b ">
+          <div className="container-lg relative border-x-2 rounded-lg md:w-11/12 lg:w-5/6 w-full shadow-xl">
+            <div className="sticky border-b p-2 top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
+              <div className="flex flex-col sm:flex-row ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
-                    <div className="p-1 xs:p-4 bg-primary text-white font-semibold border-2 border-cyan-900 mr-2 max-w-[10rem] hidden sm:block">
+                    <div className="p-1 xs:p-4 bg-[#5ca7db] rounded-lg text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
                       <span>{totalTeam} Teams</span>
                     </div>
                   </div>
@@ -198,7 +203,7 @@ export const Teams = () => {
                       <input
                         type="text"
                         placeholder="Search here..."
-                        className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
+                        className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  rounded-full"
                         name="search"
                         value={keyword}
                         onChange={handleSearch}
@@ -206,34 +211,37 @@ export const Teams = () => {
                       <div className="absolute right-2">
                         {filter.search.length > 0 ? (
                           <Close
-                            onClick={() => {setFilter({ ...filter, search: "" }); setKeyword("")}}
+                            onClick={() => {
+                              setFilter({ ...filter, search: "" });
+                              setKeyword("");
+                            }}
                           />
                         ) : (
-                          <SearchIcon />
+                          <SearchIcon className="text-[#606060]" />
                         )}
                       </div>
                     </div>
-                    <div className="flex flex-1 justify-end items-center">
+                    <div className="flex flex-1 justify-end items-center font-jost">
                       <div className="xxs:flex hidden">
                         <div className="cursor-pointer flex items-center justify-center mr-2">
-                          <ComboboxSelect
+                          {/*  <ComboboxSelect
                             label="Skills"
                             items={SkillSelect?.map((sk) => sk.skillName)}
                             selected={filter.skill}
                             setSelected={handleSkillSelect}
-                          />
+                          /> */}
                         </div>
                         <div className="cursor-pointer flex items-center justify-center mr-2">
-                          <ComboboxSelect
+                          {/* <ComboboxSelect
                             label="Timezone"
                             items={Object.values(TimeZone)}
                             selected={filter.timezone}
                             setSelected={handleTimezoneSelect}
-                          />
+                          /> */}
                         </div>
                       </div>
                       <div className="cursor-pointer flex items-center justify-center mr-2">
-                        <div
+                        {/*  <div
                           className={`border-2 flex items-center justify-between w-full px-1 py-[0.125rem] `}
                           onClick={() => {
                             setShow(!show);
@@ -243,10 +251,10 @@ export const Teams = () => {
                           <label className={`pointer-events-none min-w-[50px]`}>
                             All filter
                           </label>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="flex flex-row items-center justify-center border-l pl-2">
-                        <select
+                        {/*  <select
                           name="sort"
                           id=""
                           value={filter.sortBy === 0 ? " " : filter.sortBy}
@@ -261,7 +269,7 @@ export const Teams = () => {
                               {key}
                             </option>
                           ))}
-                        </select>
+                        </select> */}
                       </div>
                     </div>
                   </div>
@@ -364,7 +372,10 @@ export const Teams = () => {
               <div className="absolute right-2">
                 {filter.search.length > 0 ? (
                   <Close
-                    onClick={() => {setFilter({ ...filter, search: "" });setKeyword("")}}
+                    onClick={() => {
+                      setFilter({ ...filter, search: "" });
+                      setKeyword("");
+                    }}
                     className="cursor-pointer"
                   />
                 ) : (
