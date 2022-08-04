@@ -23,7 +23,7 @@ import { Save } from "@mui/icons-material";
 import { setTeam } from "@/redux/dashboardSlice";
 import { ICreateTeam, ITeam } from "@/type/team/team.type";
 import { ISkill } from "@/type/skill/skill.types";
-
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 const schema = yub.object().shape({
   teamName: yub
     .string()
@@ -86,6 +86,47 @@ const selectRange = {
   ],
   projectSize: ["1-5"],
 };
+
+const theme = createTheme({
+  components: {
+    // MuiAutocomplete: {
+    //   styleOverrides: {
+    //     root: {
+    //       "&:hover": {
+    //         background: "transparent",
+    //         border: "none !important",
+    //       },
+    //     },
+    //   },
+    // },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: "1.5rem",
+          text: "#606060 !important",
+          // border: "2px solid #ecedee",
+          background: "white",
+
+          "&:hover": {
+            border: "none !important",
+            outline: "none !important",
+          },
+        },
+      },
+    },
+    // MuiFormControl: {
+    //   styleOverrides: {
+    //     root: {
+    //       "&:hover": {
+    //         background: "transparent",
+    //         border: "none",
+    //       },
+    //     },
+    //   },
+    // },
+  },
+});
+
 export const CreateForm = (props: IProps) => {
   const {
     register,
@@ -213,355 +254,360 @@ export const CreateForm = (props: IProps) => {
   const founded = to.filter((i) => !from.includes(i));
 
   return (
-    <div>
-      {" "}
-      <h2 className=" xl:text-3xl text-xl lg:text-2xl text-primary font-[400] font-['Roboto, sans-serif'] ">
-        Enter Team Information
-        <span className="md:hidden ml-1 text-gray-500">{`(${
-          props.step + 1
-        }/2)`}</span>
-      </h2>
-      <form>
-        <div className="md:flex w-full">
-          <div className="md:flex-[50%] md:mr-5">
-            <div className="">
-              <div className="my-5">
-                <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                  Team Name
-                </label>
+    <ThemeProvider theme={theme}>
+      <div className="font-jost">
+        {" "}
+        <h2 className=" xl:text-3xl text-xl lg:text-2xl text-[#606060] font-[400] ">
+          Enter Team Information
+          <span className="md:hidden ml-1 text-gray-500">{`(${
+            props.step + 1
+          }/2)`}</span>
+        </h2>
+        <form>
+          <div className="md:flex w-full ">
+            <div className="md:flex-[50%] md:mr-5">
+              <div className="">
+                <div className="my-5">
+                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
+                    Team Name
+                  </label>
 
-                <input
-                  {...register("teamName")}
-                  autoComplete="off"
-                  className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                  placeholder="Team Name"
-                  maxLength={30}
-                  defaultValue={team.teamName || ""}
-                />
-                {errors?.teamName && (
-                  <div className="flex justify-left mt-1 text-sm ">
-                    <p className={"block text-red-500 font-medium"}>
-                      {errors?.teamName?.message}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-5 mb-5">
-                <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                  Team Website
-                </label>
-                <div className="w-full flex flex-col justify-center relative">
-                  <LanguageOutlinedIcon className="absolute left-2 text-[#08537e] text-[20px]" />
                   <input
-                    {...register("linkWebsite")}
+                    {...register("teamName")}
                     autoComplete="off"
-                    maxLength={200}
-                    placeholder="https://team-name.com/"
-                    className="md:max-w-[500px] w-full border-2 border-[#cae0e7] pl-10 px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
-                    defaultValue={team.linkWebsite || ""}
+                    className="md:max-w-[500px] w-full border-2 border-[#ecedee] rounded-3xl  placeholder:text-[#606060] px-3 py-2 outline-none focus:shadow-xl focus:border-[#ecedee]"
+                    placeholder="Team Name"
+                    maxLength={30}
+                    defaultValue={team.teamName || ""}
                   />
+                  {errors?.teamName && (
+                    <div className="flex justify-left mt-1 text-sm ">
+                      <p className={"block text-red-500 font-medium"}>
+                        {errors?.teamName?.message}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
-                {errors?.linkWebsite && (
-                  <div className="flex justify-left mt-1 text-sm ">
-                    <p className={" block text-red-500 font-medium"}>
-                      {errors?.linkWebsite?.message}
-                    </p>
+                <div className="mt-5 mb-5">
+                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
+                    Team Website
+                  </label>
+                  <div className="w-full flex flex-col justify-center relative">
+                    <LanguageOutlinedIcon className="absolute left-2 text-[#606060] text-[20px]" />
+                    <input
+                      {...register("linkWebsite")}
+                      autoComplete="off"
+                      maxLength={200}
+                      placeholder="https://team-name.com/"
+                      className="md:max-w-[500px] w-full border-2 border-[#ecedee] rounded-3xl pl-10 px-3 py-2 outline-none placeholder:text-[#606060] focus:shadow-xl focus:border-[#ecedee]"
+                      defaultValue={team.linkWebsite || ""}
+                    />
                   </div>
-                )}
-              </div>
-              <div className="my-5">
-                <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                  Time Zone
-                </label>
-                <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
-                  <select
-                    {...register("timeZone")}
-                    className="w-full outline-none"
-                    defaultValue={team.timeZone || ""}
-                  >
-                    <option value="">- Select a value -</option>
-                    {timeZone &&
-                      timeZone.map((cur, index) => (
+
+                  {errors?.linkWebsite && (
+                    <div className="flex justify-left mt-1 text-sm ">
+                      <p className={" block text-red-500 font-medium"}>
+                        {errors?.linkWebsite?.message}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className="my-5">
+                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
+                    Time Zone
+                  </label>
+                  <div className="md:max-w-[200px] w-full border-2 border-[#ecedee] bg-white rounded-3xl px-3 py-2 outline-none focus-within:shadow-xl   focus-within:border-[#ecedee]">
+                    <select
+                      {...register("timeZone")}
+                      className="w-full outline-none"
+                      defaultValue={team.timeZone || ""}
+                    >
+                      <option value="" className="text-[#606060]">
+                        - Select a value -
+                      </option>
+                      {timeZone &&
+                        timeZone.map((cur, index) => (
+                          <option key={index} value={cur}>
+                            {cur}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                  {errors?.timeZone && (
+                    <div className="flex justify-left mt-1 text-sm ">
+                      <p className={"block  text-red-500 font-medium"}>
+                        {errors?.timeZone?.message}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-5 mb-5">
+                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
+                    Total Employees
+                  </label>
+                  <div className="md:max-w-[200px] w-full border-2 border-[#ecedee] bg-white rounded-3xl  px-3 py-2 outline-none focus-within:shadow-xl  focus-within:border-[#ecedee]">
+                    <select
+                      {...register("teamSize")}
+                      className="w-full hidden-arrow-input-number outline-none"
+                      defaultValue={team.teamSize || ""}
+                    >
+                      <option value="">- Select a value -</option>
+                      {selectRange.totalEmployee.map((cur, index) => (
                         <option key={index} value={cur}>
                           {cur}
                         </option>
                       ))}
-                  </select>
-                </div>
-                {errors?.timeZone && (
-                  <div className="flex justify-left mt-1 text-sm ">
-                    <p className={"block  text-red-500 font-medium"}>
-                      {errors?.timeZone?.message}
-                    </p>
+                    </select>
                   </div>
-                )}
-              </div>
-
-              <div className="mt-5 mb-5">
-                <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                  Total Employees
-                </label>
-                <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
-                  <select
-                    {...register("teamSize")}
-                    className="w-full hidden-arrow-input-number outline-none"
-                    defaultValue={team.teamSize || ""}
-                  >
-                    <option value="">- Select a value -</option>
-                    {selectRange.totalEmployee.map((cur, index) => (
-                      <option key={index} value={cur}>
-                        {cur}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                {errors?.teamSize && (
-                  <div className="flex justify-left mt-1  text-sm ">
-                    <p className={" block text-red-500 font-medium"}>
-                      {errors?.teamSize?.message}
-                    </p>
-                  </div>
-                )}
-              </div>
-              <div className="my-5">
-                <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                  Founding Year
-                </label>
-                <div className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary">
-                  <select
-                    {...register("founded")}
-                    className="w-full outline-none"
-                    defaultValue={team.founded || ""}
-                  >
-                    <option className="text-sm" value="">
-                      - Select a value -
-                    </option>
-                    {founded &&
-                      founded.map((cur, index) => (
-                        <option className="text-sm" key={index} value={cur}>
-                          {cur}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                {errors?.founded && (
-                  <div className="flex justify-left mt-1 text-sm ">
-                    <p className={"block  text-red-500 font-medium"}>
-                      {errors?.founded?.message}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <div className="my-5">
-                <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                  Tagline
-                </label>
-                <div className="flex items-center relative md:max-w-[500px] w-full">
-                  <input
-                    {...register("slogan")}
-                    autoComplete="off"
-                    className="w-full border-2 border-[#cae0e7] px-3 py-2 pr-16 outline-none focus:shadow-3xl focus:border-primary"
-                    placeholder="Enter Tagline"
-                    maxLength={200}
-                    defaultValue={team.slogan || ""}
-                  />
-                  <div className=" absolute right-2 text-gray-400 text-sm font-normal">
-                    {watch("slogan") ? watch("slogan").trim().length : 0}/{200}
-                  </div>
-                </div>
-
-                {errors?.slogan && (
-                  <div className="flex justify-left mt-1 text-sm ">
-                    <p className={" block  text-red-500 font-medium"}>
-                      {errors?.slogan?.message}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <div className="my-5">
-                <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                  Description
-                </label>
-                <textarea
-                  autoComplete="off"
-                  placeholder="Short description about your Team"
-                  className="md:max-w-[500px] w-full border-2 border-[#cae0e7] px-3 py-2 md:min-h-[100px] outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
-                  maxLength={2000}
-                  defaultValue={team.description || ""}
-                  {...register("description")}
-                />
-                <div
-                  className={
-                    "flex md:max-w-[500px] " +
-                    (errors?.description ? "justify-between" : "justify-end")
-                  }
-                >
-                  {errors?.description && (
-                    <div className="flex justify-left text-sm ">
-                      <p className={" block  text-red-500 font-medium"}>
-                        {errors?.description?.message}
+                  {errors?.teamSize && (
+                    <div className="flex justify-left mt-1  text-sm ">
+                      <p className={" block text-red-500 font-medium"}>
+                        {errors?.teamSize?.message}
                       </p>
                     </div>
                   )}
-                  <span className="text-sm text-gray-500">
-                    {watch("description")?.length | 0}/2000
-                  </span>
+                </div>
+                <div className="my-5">
+                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
+                    Founding Year
+                  </label>
+                  <div className="md:max-w-[200px] w-full border-2 border-[#ecedee] bg-white rounded-3xl  px-3 py-2 outline-non focus-within:shadow-xl focus-within:border-[#ecedee]">
+                    <select
+                      {...register("founded")}
+                      className="w-full outline-none"
+                      defaultValue={team.founded || ""}
+                    >
+                      <option className="text-sm text-[#606060]" value="">
+                        - Select a value -
+                      </option>
+                      {founded &&
+                        founded.map((cur, index) => (
+                          <option className="text-sm" key={index} value={cur}>
+                            {cur}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                  {errors?.founded && (
+                    <div className="flex justify-left mt-1 text-sm ">
+                      <p className={"block  text-red-500 font-medium"}>
+                        {errors?.founded?.message}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="my-5">
+                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
+                    Tagline
+                  </label>
+                  <div className="flex items-center relative md:max-w-[500px] w-full">
+                    <input
+                      {...register("slogan")}
+                      autoComplete="off"
+                      className="w-full border-2 border-[#ecedee]  bg-white rounded-3xl px-3 py-2 pr-16 outline-none placeholder:text-[#606060] focus:shadow-xl focus:border-[#ecedee]"
+                      placeholder="Enter Tagline"
+                      maxLength={200}
+                      defaultValue={team.slogan || ""}
+                    />
+                    <div className=" absolute right-2 text-gray-400 text-sm font-normal">
+                      {watch("slogan") ? watch("slogan").trim().length : 0}/
+                      {200}
+                    </div>
+                  </div>
+
+                  {errors?.slogan && (
+                    <div className="flex justify-left mt-1 text-sm ">
+                      <p className={" block  text-red-500 font-medium"}>
+                        {errors?.slogan?.message}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="my-5">
+                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
+                    Description
+                  </label>
+                  <textarea
+                    autoComplete="off"
+                    placeholder="Short description about your Team"
+                    className="md:max-w-[500px] w-full border-2 border-[#ecedee] resize-none  rounded-3xl px-3 py-2 md:min-h-[100px] outline-none placeholder:text-[#606060] focus:shadow-xl focus:border-[#ecedee]"
+                    maxLength={2000}
+                    defaultValue={team.description || ""}
+                    {...register("description")}
+                  />
+                  <div
+                    className={
+                      "flex md:max-w-[500px] " +
+                      (errors?.description ? "justify-between" : "justify-end")
+                    }
+                  >
+                    {errors?.description && (
+                      <div className="flex justify-left text-sm ">
+                        <p className={" block  text-red-500 font-medium"}>
+                          {errors?.description?.message}
+                        </p>
+                      </div>
+                    )}
+                    <span className="text-sm text-gray-500">
+                      {watch("description")?.length | 0}/2000
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="md:flex-[50%]  max-w-[1/2]">
-            <UploadImage
-              uploadToClient={uploadToClient}
-              createObjectURL={createObjectURL}
-              setImage={setImage}
-              setCreateObjectURL={setCreateObjectURL}
-              image={props.imageFile || image || undefined}
-            />
+            <div className="md:flex-[50%]  max-w-[1/2]">
+              <UploadImage
+                uploadToClient={uploadToClient}
+                createObjectURL={createObjectURL}
+                setImage={setImage}
+                setCreateObjectURL={setCreateObjectURL}
+                image={props.imageFile || image || undefined}
+              />
 
-            <div className="my-5">
-              <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                Sales Email
-              </label>
-              <div className="w-full flex flex-col justify-center relative">
-                <EmailOutlinedIcon className="absolute left-2 text-[#08537e] text-[20px] bottom-[11px]" />
-                <input
-                  autoComplete="off"
-                  {...register("saleEmail")}
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] pl-10 px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
-                  placeholder="email@email.com"
-                  maxLength={50}
-                  defaultValue={team.saleEmail || ""}
+              <div className="my-5">
+                <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
+                  Sales Email
+                </label>
+                <div className="w-full flex flex-col justify-center relative">
+                  <EmailOutlinedIcon className="absolute left-2 text-[#606060] text-[20px] bottom-[11px]" />
+                  <input
+                    autoComplete="off"
+                    {...register("saleEmail")}
+                    className="md:max-w-[400px] w-full border-2 border-[#ecedee] rounded-3xl pl-10 px-3 py-2 outline-none focus:shadow-xl focus:border-[#ecedee]"
+                    placeholder="email@email.com"
+                    maxLength={50}
+                    defaultValue={team.saleEmail || ""}
+                  />
+                </div>
+                {errors?.saleEmail && (
+                  <div className="flex justify-left mt-1 text-sm ">
+                    <p className={" block  text-red-500 font-medium"}>
+                      {errors?.saleEmail?.message}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <h2 className=" xl:text-3xl text-xl lg:text-2xl mt-5 text-[#606060] font-[400] font-['Roboto, sans-serif'] ">
+                Project Information
+              </h2>
+              <div className="my-5 hidden">
+                <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
+                  Minimum Project Size
+                </label>
+                <select
+                  {...register("projectSize")}
+                  className="md:max-w-[200px] w-full border-2 border-[#ecedee] rounded-3xl px-3 py-2 outline-none focus:shadow-3xl focus:border-primary outline-none"
+                  defaultValue={team.projectSize || "1-5"}
+                >
+                  <option value="">- Select a value -</option>
+                  {selectRange.projectSize.map((cur, index) => (
+                    <option key={index} value={cur}>
+                      {cur}
+                    </option>
+                  ))}
+                </select>
+                {errors?.projectSize && (
+                  <div className="flex justify-left mt-1 text-sm ">
+                    <p className={"block  text-red-500 font-medium"}>
+                      {errors?.projectSize?.message}
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="my-5">
+                <label className="text-[#606060] md:max-w-[400px] flex justify-between items-center min-w-[130px] block py-2 md:py-0">
+                  <span>Skills</span>
+                  <span className="text-gray-400 text-sm">Optional</span>
+                </label>
+                <Autocomplete
+                  multiple
+                  options={handleAutocompleteOption()}
+                  getOptionLabel={(option) => option.skillName}
+                  value={dataSkill}
+                  filterSelectedOptions
+                  onChange={(e, value) => {
+                    setData(value);
+                  }}
+                  className="md:max-w-[400px] w-full"
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      {...register("skills")}
+                      onKeyUp={(event) =>
+                        event.key === "Enter" ? handleSearchSkill(event) : null
+                      }
+                    />
+                  )}
                 />
               </div>
-              {errors?.saleEmail && (
-                <div className="flex justify-left mt-1 text-sm ">
-                  <p className={" block  text-red-500 font-medium"}>
-                    {errors?.saleEmail?.message}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            <h2 className=" xl:text-3xl text-xl lg:text-2xl mt-5 text-primary font-[400] font-['Roboto, sans-serif'] ">
-              Project Information
-            </h2>
-            <div className="my-5 hidden">
-              <label className="text-primary min-w-[130px] mb-2 block py-2 md:py-0">
-                Minimum Project Size
-              </label>
-              <select
-                {...register("projectSize")}
-                className="md:max-w-[200px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary outline-none"
-                defaultValue={team.projectSize || "1-5"}
-              >
-                <option value="">- Select a value -</option>
-                {selectRange.projectSize.map((cur, index) => (
-                  <option key={index} value={cur}>
-                    {cur}
-                  </option>
-                ))}
-              </select>
-              {errors?.projectSize && (
-                <div className="flex justify-left mt-1 text-sm ">
-                  <p className={"block  text-red-500 font-medium"}>
-                    {errors?.projectSize?.message}
-                  </p>
-                </div>
-              )}
-            </div>
-            <div className="my-5">
-              <label className="text-primary md:max-w-[400px] flex justify-between items-center min-w-[130px] block py-2 md:py-0">
-                <span>Skills</span>
-                <span className="text-gray-400 text-sm">Optional</span>
-              </label>
-              <Autocomplete
-                multiple
-                options={handleAutocompleteOption()}
-                getOptionLabel={(option) => option.skillName}
-                value={dataSkill}
-                filterSelectedOptions
-                onChange={(e, value) => {
-                  setData(value);
-                }}
-                className="md:max-w-[400px] w-full"
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    {...register("skills")}
-                    onKeyUp={(event) =>
-                      event.key === "Enter" ? handleSearchSkill(event) : null
-                    }
-                  />
-                )}
-              />
             </div>
           </div>
-        </div>
 
-        <hr className="w-full h-[1px] border border-[#cae0e7]"></hr>
-        <div className="flex items-center justify-between md:min-h-[80px] my-5">
-          {props.defaultTeamInfo ? (
-            <div className=""></div>
-          ) : (
+          <hr className="w-full h-[1px] border border-[#ecedee]"></hr>
+          <div className="flex items-center justify-between md:min-h-[80px] my-5">
+            {props.defaultTeamInfo ? (
+              <div className=""></div>
+            ) : (
+              <button
+                type="button"
+                className="text-[#606060] flex items center"
+                onClick={handleBack}
+              >
+                <a>
+                  <span className="text-[#5ca7db] font-medium">
+                    <ChevronLeftIcon />
+                  </span>
+                  Back
+                </a>
+              </button>
+            )}
             <button
               type="button"
-              className="text-cyan-700 flex items center"
-              onClick={handleBack}
+              onClick={handleSubmit(handleSave)}
+              className={
+                "py-3 md:text-md text-sm text-white px-3 flex items center bg-[#5ca7db] rounded-3xl disabled:opacity-80 "
+              }
+              disabled={btnDisable}
             >
-              <a>
-                <span className="text-red-600 font-medium">
-                  <ChevronLeftIcon />
-                </span>
-                Back
-              </a>
+              {props.defaultTeamInfo ? (
+                <>
+                  {btnDisable ? (
+                    <LoadingButton
+                      className="md:text-md text-sm text-white flex items center border-0 opacity-80 p-0 px-2 "
+                      loading
+                      loadingPosition="start"
+                      startIcon={<Save />}
+                      variant="outlined"
+                    >
+                      Saving...
+                    </LoadingButton>
+                  ) : (
+                    "Save changes"
+                  )}
+                </>
+              ) : (
+                <>
+                  Add Skill Distribution
+                  <span className=" font-medium">
+                    <ChevronRightIcon />
+                  </span>
+                </>
+              )}
             </button>
-          )}
-          <button
-            type="button"
-            onClick={handleSubmit(handleSave)}
-            className={
-              "py-3 md:text-md text-sm text-white px-3 flex items center bg-[red] disabled:opacity-80 "
-            }
-            disabled={btnDisable}
-          >
-            {props.defaultTeamInfo ? (
-              <>
-                {btnDisable ? (
-                  <LoadingButton
-                    className="md:text-md text-sm text-white flex items center border-0 opacity-80 p-0 px-2 "
-                    loading
-                    loadingPosition="start"
-                    startIcon={<Save />}
-                    variant="outlined"
-                  >
-                    Saving...
-                  </LoadingButton>
-                ) : (
-                  "Save changes"
-                )}
-              </>
-            ) : (
-              <>
-                Add Skill Distribution
-                <span className=" font-medium">
-                  <ChevronRightIcon />
-                </span>
-              </>
-            )}
-          </button>
-        </div>
-      </form>
-      <Dialog
-        open={open}
-        setOpen={setOpen}
-        step={props.step}
-        setStep={props.setStep}
-      />
-    </div>
+          </div>
+        </form>
+        <Dialog
+          open={open}
+          setOpen={setOpen}
+          step={props.step}
+          setStep={props.setStep}
+        />
+      </div>
+    </ThemeProvider>
   );
 };
