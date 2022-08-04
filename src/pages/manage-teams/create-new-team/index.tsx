@@ -50,10 +50,10 @@ const CreateNewTeam = () => {
       <ThemeProvider theme={theme}>
         <Container
           maxWidth="lg"
-          className="shadow-2xl bg-[#f9fafb] md:!px-8 py-3 rounded-xl"
+          className="shadow-2xl bg-[#f9fafb] md:!px-8 py-3 rounded-xl font-jost"
         >
           <div>
-            <h1 className="xl:text-4xl text-2xl lg:text-3xl text-primary py-5 font-[400] font-['Roboto, sans-serif'] ">
+            <h1 className="xl:text-4xl text-2xl lg:text-3xl text-primary py-5 font-[400]">
               Create Your Team Profile
             </h1>
             <div className="md:block hidden">

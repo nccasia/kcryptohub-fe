@@ -255,9 +255,9 @@ export const CreateForm = (props: IProps) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div>
+      <div className="font-jost">
         {" "}
-        <h2 className=" xl:text-3xl text-xl lg:text-2xl text-[#606060] font-[400] font-['Roboto, sans-serif'] ">
+        <h2 className=" xl:text-3xl text-xl lg:text-2xl text-[#606060] font-[400] ">
           Enter Team Information
           <span className="md:hidden ml-1 text-gray-500">{`(${
             props.step + 1
