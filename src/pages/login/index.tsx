@@ -118,34 +118,36 @@ const Login = () => {
     reset();
   };
   return (
-    <div className="h-auto min-h-full bg-primary flex justify-center xs:items-center px-2 xxs:px-0  py-4">
+    <div className="h-auto min-h-full bg-[#F9FAFB] flex justify-center xs:items-center px-2 xxs:px-0  py-4">
       <div className="max-w-[420px] h-fit w-full">
         <div className="text-center ">
-          <h3 className="text-5xl font-bold text-white">Kryptohub</h3>
+          <h3 className="text-5xl font-nunito font-bold text-[#606060]">
+            Kryptohub
+          </h3>
         </div>
-        <div className="w-full h-fit max-h-3/4 bg-white p-8 mt-8">
+        <div className="w-full h-fit max-h-3/4 bg-white p-8 mt-8 font-nunito shadow-lg rounded-3xl">
           <div className="">
-            <h3 className="text-cyan-900 text-sm">
+            <h3 className="text-[#606060] text-sm">
               <b className="text-4xl font-normal">Sign In </b> <br />
               to continue to Kryptohub
             </h3>
           </div>
-          <div className="auth-social text-center">
+          <div className="auth-social text-center ">
             <div className="flex flex-col justify-center items-center gap-x-4 mt-6">
               <button
-                className="bg-indigo-800 w-fit  text-white mb-8 cursor-pointer min-w-[240px] flex items-center justify-center group"
+                className="bg-indigo-800 w-fit  text-white mb-8 cursor-pointer rounded min-w-[240px] flex items-center justify-center group"
                 onClick={() => signIn("github")}
               >
-                <GitHubIcon className="text-white cursor-pointer mx-2" />
-                <span className="w-full p-2 group-hover:bg-indigo-900">
+                <GitHubIcon className="text-white cursor-pointer mx-2 rounded" />
+                <span className="w-full p-2 group-hover:bg-indigo-900 font-nunito">
                   Sign in with GitHub
                 </span>
               </button>
               <button
-                className="bg-blue-600 w-fit text-white mb-8 cursor-pointer min-w-[240px] flex items-center justify-center group pl-[1px]"
+                className="bg-blue-600 w-fit text-white mb-8 cursor-pointer rounded min-w-[240px] flex items-center justify-center group pl-[1px]"
                 onClick={() => signIn("google")}
               >
-                <div className="h-[38px] w-[47px] flex items-center justify-center bg-white ">
+                <div className="h-[38px] w-[47px] flex items-center justify-center bg-white rounded ">
                   <Image
                     src={"/google.svg"}
                     width={22}
@@ -153,23 +155,23 @@ const Login = () => {
                     alt="google"
                   />
                 </div>
-                <span className="w-full p-2 group-hover:bg-blue-700 ">
+                <span className="w-full p-2 group-hover:bg-blue-700 font-nunito">
                   Sign in with Google
                 </span>
               </button>
             </div>
           </div>
 
-          <div className="flex items-center mb-4">
+          <div className="flex items-center mb-4 font-nunito">
             <div className="h-[1px] w-full bg-black block"></div>
-            <div className="inline-block border border-solid border-black rounded-full leading-none p-3 ">
+            <div className="inline-block border border-solid border-[#606060] rounded-full leading-none p-3 ">
               or
             </div>
             <div className="h-[1px] w-full bg-black inline-block"></div>
           </div>
           <div className="">
             <span
-              className="text-xs text-cyan-800 cursor-pointer hover:underline"
+              className="text-xs text-cyan-800 cursor-pointer hover:underline font-nunito"
               onClick={() => setIsOpen(!isOpen)}
             >
               Alternative log in{" "}
@@ -182,14 +184,16 @@ const Login = () => {
             <Collapse in={isOpen} className="">
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className=" mb-5 mx-auto max-w-[400px] text-center "
+                className=" mb-5 mx-auto max-w-[400px] text-center font-nunito"
               >
                 <div className="flex flex-col py-2">
                   <div className="flex flex-col justify-start items-start ">
-                    <label className="font-medium">Email or username</label>
+                    <label className="font-medium text-[#606060]">
+                      Email or username
+                    </label>
                     <input
                       type="text"
-                      className="border-solid  w-full  border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                      className="border-solid  w-full  border-2 border-[#cae0e7] rounded-3xl px-3 py-2 outline-none focus:shadow-3xl focus:border-[#cae0e7]"
                       {...register("usernameOrEmail")}
                       autoComplete="off"
                     />
@@ -202,10 +206,12 @@ const Login = () => {
                 </div>
                 <div className="flex flex-col py-2">
                   <div className="flex flex-col justify-start items-start ">
-                    <label className="font-medium">Password</label>
+                    <label className="font-medium text-[#606060]">
+                      Password
+                    </label>
                     <input
                       type="password"
-                      className="border-solid  w-full  border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                      className="border-solid  w-full  border-2 border-[#cae0e7]  rounded-3xl px-3 py-2 outline-none focus:shadow-3xl focus:border-[#cae0e7]"
                       {...register("password")}
                       autoComplete="off"
                     />
@@ -218,17 +224,17 @@ const Login = () => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-red-500 text-white block text-center py-2 px-5 w-full shadow-lg mt-4 mx-auto"
+                  className="bg-[#5ca7db] text-white block text-center  rounded-3xl py-2 px-5 w-full shadow-lg mt-4 mx-auto"
                 >
                   Log In
                 </button>
                 <Link href="/forgot-password">
-                  <a className="inline-block text-cyan-500 text-sm mt-3 cursor-pointer">
+                  <a className="inline-block text-cyan-500 text-sm mt-3 cursor-pointer hover:underline">
                     Forgot your password?
                   </a>
                 </Link>
               </form>
-              <div className="inline-flex w-full mx-auto text-black justify-center text-sm mt-3">
+              <div className="inline-flex w-full mx-auto text-black justify-center font-nunito text-sm mt-3">
                 <span>{"Don't have an account? "}</span>
                 <div onClick={handleRegister} className="px-2">
                   <a className="text-cyan-500 underline cursor-pointer">
@@ -237,7 +243,7 @@ const Login = () => {
                 </div>
               </div>
             </Collapse>
-            <div className="text-xs mt-8">
+            <div className="text-xs mt-8 font-nunito">
               <span>
                 By signing in you agree to our User Agreement and Privacy
                 Policy.
