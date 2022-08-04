@@ -133,11 +133,11 @@ const Register = () => {
   }, [watch("emailAddress")]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-primary">
-      <div className="flex flex-col items-center content-center relative m-auto h-auto w-[470px] mt-20">
+    <div className="min-h-screen flex items-center justify-center  py-10 px-4 sm:px-6 lg:px-8 bg-[#f9fafb] font-jost">
+      <div className="flex flex-col items-center content-center relative  w-[470px] ">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-6 relative bg-white w-full p-8 rounded-md"
+          className="space-y-6 relative bg-white w-full p-8 shadow-lg rounded-3xl"
           onChange={() => {
             if (buttonRef.current) {
               (buttonRef.current as unknown as HTMLButtonElement).disabled =
@@ -156,7 +156,7 @@ const Register = () => {
                 </div>
               </div>
             )}
-            <h1 className="mt-1 text-center text-3xl font-bold text-[#944C00]">
+            <h1 className="mt-1 text-center text-3xl font-bold text-[#606060]">
               Register
             </h1>
             <h2 className="text-center text-1xl font-600 mb-7 ">
@@ -165,14 +165,14 @@ const Register = () => {
           </div>
           {step === 0 && (
             <div>
-              <div className="mb-5 text-[#944C00]">
+              <div className="mb-5 text-[#606060]">
                 <div className="flex justify-center items-center w-full">
                   <span className="text-left mr-9 font-bold ">Email</span>
                   <input
                     id="email-address"
                     type="email"
                     autoComplete="off"
-                    className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-[230px] px-3 py-2 border-2 border-[#cae0e7]  rounded-3xl placeholder-[#606060] text-[#606060]  focus:outline-none focus:ring-[#cae0e7] focus:border-[#cae0e7] focus:z-10 sm:text-sm"
                     {...register("emailAddress")}
                   />
                 </div>
@@ -199,10 +199,10 @@ const Register = () => {
                 <button
                   disabled={!isDirty || errors.emailAddress || !validateEmail}
                   className={
-                    "px-6 py-2 text-white rounded " +
+                    "px-6 py-2 text-white rounded-3xl shadow-3xl " +
                     (!isDirty || errors.emailAddress || !validateEmail
-                      ? "bg-[gray] cursor-not-allowed"
-                      : "bg-[#944C00]")
+                      ? "bg-[gray] cursor-not-allowed "
+                      : "bg-[#5ca7db]")
                   }
                   onClick={onNext}
                 >
