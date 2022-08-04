@@ -1,17 +1,33 @@
 import { Layout } from "@/src/layouts/layout";
 import Link from "next/link";
-import { deleteTeam, resetTeam } from "redux/teamSlice";
+import { resetTeam } from "redux/teamSlice";
 
+import { profileApi } from "@/api/profile-api";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TeamCard } from "@/src/layouts/team/TeamCard";
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
-import { Team } from "@/type/team/team.type";
-import React from "react";
-
+import { ICreateTeam, ITeam } from "@/type/team/team.type";
+import { Pagination } from "@mui/material";
+import React, { useEffect, useState } from "react";
 const ManageTeam = () => {
   const dispatch = useAppDispatch();
-  const profile = useAppSelector((state) => state.ProfileReducer.userInfo);
-  const [imageFile, setImageFile] = React.useState<File | null>(null);
+  const [userTeam, setUserTeam] = useState<ICreateTeam[]>([]);
+  const [pageItem, setPageItem] = useState<ICreateTeam[]>([]);
+  const profile = useAppSelector((state) => state.ProfileReducer);
+  const [page, setPage] = React.useState(1);
+  const [prev, setPrev] = React.useState(1);
+  const [next, setNext] = React.useState(9);
+
+  useEffect(() => {
+    profileApi.getProfileTeam().then((res) => {
+      if (res) {
+        setUserTeam(res as ICreateTeam[]);
+      }
+    });
+  }, [setUserTeam, profile]);
+
+  useEffect(() => {
+    setPageItem(userTeam);
+  }, [userTeam]);
 
   return (
     <Layout>
@@ -34,12 +50,30 @@ const ManageTeam = () => {
       </div>
 
       <div className="px-4">
-        {profile.team &&
-          profile.team.length > 0 &&
-          profile.team.map((item, index) => (
-            <TeamCard team={item as unknown as Team} key={index} />
-          ))}
+        {pageItem &&
+          pageItem.length > 0 &&
+          pageItem
+            .slice(prev - 1, next)
+            .map((item, index) => (
+              <TeamCard team={item as unknown as ITeam} key={index} />
+            ))}
       </div>
+      {pageItem && pageItem.length > 0 && (
+        <Pagination
+          className="flex justify-center mb-1"
+          count={
+            parseInt((userTeam?.length % 9).toString()) === 0
+              ? parseInt((userTeam?.length / 9).toString())
+              : parseInt((userTeam?.length / 9).toString()) + 1
+          }
+          page={page}
+          onChange={(e, value) => {
+            setPrev(value * 9 - 8);
+            setNext(value * 8 + value);
+            setPage(value);
+          }}
+        />
+      )}
     </Layout>
   );
 };

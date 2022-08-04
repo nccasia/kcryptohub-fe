@@ -2,6 +2,10 @@ module.exports = {
   important: true,
   content: ["./src/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    fontFamily: {
+      nunito: ["'Nunito'", "sans-serif"],
+      jost: ["Jost", "sán-serif"],
+    },
     extend: {
       colors: {
         primary: "#17313b",

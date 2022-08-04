@@ -1,6 +1,8 @@
+import { teamApi } from "@/api/team-api";
 import AwardList from "@/components/awards/AwardList";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import { createAward, getAwards } from "@/redux/awardSlice";
+import { setTeam } from "@/redux/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import AwardLayout from "@/src/layouts/awards/AwardLayout";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
@@ -10,6 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
@@ -22,9 +25,12 @@ const schemaValidation = Yup.object({
 
 const NewAward = () => {
   const router = useRouter();
+  const buttonRef = useRef(null);
   const dispatch = useAppDispatch();
   const { awards } = useAppSelector((state) => state.AwardsReducer);
-  const { teamId } = useAppSelector((state) => state.DashboardReducer);
+  const teamId = useAppSelector((state) =>
+    state.DashboardReducer.team.id.toString()
+  );
   const {
     register,
     handleSubmit,
@@ -44,10 +50,15 @@ const NewAward = () => {
   const handleAddAward = () => {
     handleSubmit(async (value) => {
       const award = { teamId: parseInt(teamId), ...value };
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       await dispatch(
         createAward({ award, handler: handleRedirectToAwardDetail })
       );
-      await dispatch(getAwards(parseInt(teamId)));
+      dispatch(getAwards(parseInt(teamId)));
+      teamApi.getTeam(+teamId).then((data) => {
+        dispatch(setTeam(data.data));
+      });
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
     })();
   };
 
@@ -126,7 +137,7 @@ const NewAward = () => {
               </div>
             </div>
             <div className="flex flex-col-reverse sm:flex-row justify-between md:justify-end gap-x-5 pt-5 mt-5 border-t border-[#cae0e7]">
-              <Link href="/manage-teams/awards" passHref>
+              <Link href={`/team/${teamId}/dashboard/awards`} passHref>
                 <button
                   type="button"
                   className="bg-white text-[#08537E] px-10 py-4 hover:underline"
@@ -138,6 +149,7 @@ const NewAward = () => {
                 type="submit"
                 onClick={handleAddAward}
                 className="bg-secondary text-white px-10 py-4 border-2 border-transparent transition duration-300 hover:border-secondary hover:bg-white hover:text-secondary"
+                ref={buttonRef}
               >
                 Add Award
               </button>

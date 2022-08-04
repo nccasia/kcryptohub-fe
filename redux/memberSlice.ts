@@ -19,19 +19,21 @@ export const getMemberList = createAsyncThunk(
   }
 )
 
-export const joinTeam = createAsyncThunk(
-  "joinTeam",
-  async (teamId: number) => {
-    if (isNaN(teamId)) return null;
-    try {
-      const response = await memberApi.joinTeam(teamId)
-      return response;
-    }
-    catch (error) {
-      return [];
-    }
-  }
-)
+// export const joinTeam = createAsyncThunk(
+//   "joinTeam",
+//   async (teamId: number) => {
+//     if (isNaN(teamId)) return null;
+//     try {
+//       const response = await memberApi.joinTeam(teamId)
+//       console.log("response in redux| ", response);
+//       return response;
+//     }
+//     catch (error) {
+//       console.log("error in redux| ", error);
+//       return (error as any).response.data;
+//     }
+//   }
+// )
 
 export const addMember = createAsyncThunk(
   "addMember",
@@ -62,6 +64,10 @@ interface initialState {
   member: IMember[];
   pageable: IMemberPageAble;
   success: boolean;
+  error: {
+    message: string;
+    statusCode: number;
+  }
 }
 
 const initialState: initialState = {
@@ -71,7 +77,11 @@ const initialState: initialState = {
     size: 0,
     total: 0,
   },
-  success: false
+  success: false,
+  error: {
+    message: "",
+    statusCode: 0,
+  }
 }
 
 export const memberSlice = createSlice({
@@ -118,15 +128,16 @@ export const memberSlice = createSlice({
           position: toast.POSITION.BOTTOM_RIGHT,
         })
       })
-    builder.addCase(joinTeam.rejected, (state, action) => {
-      toast.error(action.error.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-    }
-    )
-    builder.addCase(joinTeam.fulfilled, (state, action) => {
-      state.success = true;
-    })
+    // builder.addCase(joinTeam.rejected, (state, action) => {
+    //   toast.error(action.error.message, {
+    //     position: toast.POSITION.BOTTOM_RIGHT,
+    //   });
+
+    // }
+    // )
+    // builder.addCase(joinTeam.fulfilled, (state, action) => {
+    //   state.success = true;
+    // })
   },
 })
 

@@ -11,6 +11,10 @@ const nextConfig = {
       "kryptohub-fe.herokuapp.com",
       "img.youtube.com",
       "localhost",
+      "goodfirms-prod.s3.amazonaws.com",
+      "static2.clutch.co",
+      "clutch.co",
+      "www.goodfirms.co",
     ],
   },
   env: {

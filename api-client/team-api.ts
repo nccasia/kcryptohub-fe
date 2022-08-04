@@ -1,4 +1,4 @@
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
+import { ICreateTeam } from "@/type/team/team.type";
 import axiosClient from "./axios-client";
 
 export const teamApi = {
@@ -69,11 +69,15 @@ export const teamApi = {
   },
 
   async deleteTeam(id: string) {
-    const response = await axiosClient({
-      method: "delete",
-      url: `/team/delete/${id}`,
-    });
-    return { id };
+    try {
+      const response = await axiosClient({
+        method: "delete",
+        url: `/team/delete/${id}`,
+      });
+      return { id };
+    } catch (err) {
+      return err;
+    }
   },
 
   async updateTeam(team: ICreateTeam) {
@@ -87,6 +91,10 @@ export const teamApi = {
   },
 
   getTeamImageUrl(path: string) {
+    if (!path) return "/user1.png";
+    if (path.includes("http")) {
+      return path;
+    }
     return process.env.API_URL + "/api/team/getImage/" + path;
   },
 
@@ -98,6 +106,6 @@ export const teamApi = {
       url: `/team/${teamid}/image`,
       data: formData,
     });
-    return response.data.data;
+    return response;
   },
 };

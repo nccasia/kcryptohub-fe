@@ -14,6 +14,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Image from "next/image";
+import { teamApi } from "@/api/team-api";
+import { useAppDispatch } from "@/redux/hooks";
+import { setTeam } from "@/redux/dashboardSlice";
 
 const PortfolioDetail = () => {
   const [teamId, setTeamId] = useState<number>(NaN);
@@ -21,6 +24,7 @@ const PortfolioDetail = () => {
   const [portfolio, setPortfolio] = useState<IPortfolio>({} as IPortfolio);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (router.query.teamId) {
       setTeamId(Number(router.query.teamId));
@@ -52,7 +56,10 @@ const PortfolioDetail = () => {
         .then((res) => {
           if (res) {
             toast.success("Portfolio delete successfull");
-            router.push(`/team/${teamId}/dashboard/portfolio`);
+            teamApi.getTeam(teamId).then((team) => {
+              dispatch(setTeam(team.data));
+              router.push(`/team/${teamId}/dashboard/portfolio`);
+            });
           } else {
             toast.error("Failed delete portfolio");
             setIsDeleting(false);
@@ -64,9 +71,20 @@ const PortfolioDetail = () => {
         });
     }
   }, [isDeleting]);
-  const handleDelte = () => {
+  const handleDelete = () => {
     setIsDeleting(true);
   };
+
+  const handleYoutubeEmbedUrl = (url: string) => {
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    return match && match[2].length === 11
+      ? "https://www.youtube.com/embed/" + match[2]
+      : "";
+  };
+
   return (
     <ManagePortfolio>
       <div className="w-full">
@@ -118,8 +136,8 @@ const PortfolioDetail = () => {
           <div className="h-[200px] sm:h-[300px] relative">
             <Image
               src={
-                "https://kryptohub-be.herokuapp.com/api/portfolio/getImage/" +
-                  portfolio.imageUrl || "/user1.png"
+                PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl) ||
+                "/user1.png"
               }
               alt="img"
               layout="fill"
@@ -129,14 +147,19 @@ const PortfolioDetail = () => {
         ) : null}
         {portfolio.videoLink ? (
           <div className="w-full flex items-center justify-center">
-            <a className="break-all" href={portfolio.videoLink}>
-              {portfolio.videoLink}
-            </a>
+            <iframe
+              src={handleYoutubeEmbedUrl(portfolio.videoLink)}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-80"
+            />
           </div>
         ) : null}
         <div className="flex flex-col-reverse xs:flex-row items-center justify-between p-2">
           <Link href={`#`}>
-            <a onClick={handleDelte} className="py-4 xs:py-0">
+            <a onClick={handleDelete} className="py-4 xs:py-0">
               Delete Portfolio Item{" "}
               <DeleteOutline className="text-md text-secondary" />
             </a>

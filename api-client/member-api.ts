@@ -44,7 +44,17 @@ export const memberApi = {
       });
       return response.data;
     } catch (error) {
-      return []
+      toast.error((error as any).response.data.message, {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      return (error as any).response;
     }
   },
   async removeMember({ teamId, memberId }: IRemoveMember) {

@@ -2,6 +2,7 @@ import { useAppSelector } from "@/redux/hooks";
 import {
   AccountCircleOutlined,
   AccountCircleRounded,
+  Bookmark,
   BookmarkBorderOutlined,
   ChatOutlined,
   CreateOutlined,
@@ -17,16 +18,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { profileApi } from "@/api/profile-api";
 
 export const Header = () => {
   const user = useAppSelector((state) => state.ProfileReducer.userInfo);
-  const [userImage, setUserImage] = useState(user.avatarPath);
+  const [userImage, setUserImage] = useState(
+    profileApi.getImageUrl(user.avatarPath)
+  );
   const [showMenu, setShowMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const router = useRouter();
   useEffect(() => {
-    setUserImage(user.avatarPath);
-  },[user]);
+    setUserImage(profileApi.getImageUrl(user.avatarPath));
+  }, [user.avatarPath]);
   return (
     <>
       <div className="bg-primary text-white ">
@@ -48,6 +52,7 @@ export const Header = () => {
                   KryptoHub
                 </a>
               </Link>
+              
               <label
                 className="md:hidden"
                 onClick={() => {
@@ -93,8 +98,8 @@ export const Header = () => {
                           <span className="block xxs:ml-0 mx-2">ME</span>
                         </label>
                         <div
-                          className="invisible flex flex-col absolute z-10 top-6 p-1 border min-w-[230px] w-full bg-white text-cyan-800 md:right-[-20px] 
-               peer-focus:visible  peer-focus:z-20 peer-focus:animate-slide-in-up hover:visible text-lg"
+                          className="invisible flex flex-col absolute z-[100] top-6 p-1 border min-w-[230px] w-full bg-white text-cyan-800 md:right-[-20px] 
+               peer-focus:visible  peer-focus:animate-slide-in-up hover:visible text-lg"
                         >
                           <div className="text-gray-900 flex items-center">
                             {userImage ? (
@@ -178,13 +183,20 @@ export const Header = () => {
                   </div>
                 </div>
                 <div className="border-l border-cyan-700 px-2 cursor-pointer">
-                  <span>
-                    0 <BookmarkBorderOutlined className="text-red-800" />
-                  </span>
+                  <Link href={"/short-list"}>
+                    <span>
+                      {user.shortList?.length || 0}{" "}
+                      {user.shortList?.length > 0 ? (
+                        <Bookmark className="text-secondary" />
+                      ) : (
+                        <BookmarkBorderOutlined className="text-secondary" />
+                      )}
+                    </span>
+                  </Link>
                 </div>
                 <div className="border-l border-cyan-700 px-2 cursor-pointer">
                   <span>
-                    0 <ChatOutlined className="text-red-800" />
+                    0 <ChatOutlined className="text-secondary" />
                   </span>
                 </div>
               </div>

@@ -1,11 +1,15 @@
 import { teamApi } from "@/api/team-api";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addToShortList, removeFromShortList } from "@/redux/profileSlice";
+import { getUserInfoSelector } from "@/redux/selector";
+import { ITeam } from "@/type/team/team.type";
 
-import { Team } from "@/type/team/team.type";
 import {
   AccessAlarmOutlined,
   ApartmentOutlined,
   ApiOutlined,
   AvTimerOutlined,
+  Bookmark,
   BookmarkBorderOutlined,
   CheckCircleOutlined,
   ContactlessOutlined,
@@ -31,38 +35,66 @@ const skillColor = [
   "bg-teal-500",
   "bg-cyan-500",
   "bg-lime-500",
-  "bg-indigo-700",
-  "bg-pink-700",
-  "bg-gray-700",
-  "bg-teal-700",
-  "bg-cyan-700",
-  "bg-lime-700",
+  "bg-fuchsia-500",
+  "bg-rose-500",
+  "bg-stone-500",
   "bg-red-700",
   "bg-orange-700",
   "bg-yellow-700",
   "bg-green-700",
   "bg-blue-700",
-  "bg-lime-300",
-  "bg-indigo-300",
-  "bg-pink-300",
-  "bg-gray-300",
-  "bg-teal-300",
-  "bg-cyan-300",
+  "bg-indigo-700",
+  "bg-purple-700",
+  "bg-pink-700",
+  "bg-gray-700",
+  "bg-teal-700",
+  "bg-cyan-700",
+  "bg-lime-700",
+  "bg-fuchsia-700",
+  "bg-rose-700",
+  "bg-stone-700",
+  "bg-red-900",
+  "bg-orange-900",
+  "bg-yellow-900",
+  "bg-green-900",
+  "bg-blue-900",
+  "bg-indigo-900",
+  "bg-purple-900",
+  "bg-pink-900",
+  "bg-gray-900",
+  "bg-teal-900",
+  "bg-cyan-900",
+  "bg-lime-900",
+  "bg-fuchsia-900",
+  "bg-rose-900",
+  "bg-stone-900",
 ];
 interface Props {
-  team: Team;
+  team: ITeam;
 }
 
 export const TeamCard = (props: Props) => {
   const team = props.team;
+  const userProfile = useAppSelector(getUserInfoSelector);
+  const [show, setShow] = useState(false);
   const [teamImgSrc, setTeamImgSrc] = useState(
     team.imageUrl ? teamApi.getTeamImageUrl(team.imageUrl) : "/user1.png"
   );
+  const [showAllSkill, setShowAllSkill] = useState(false);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (team.imageUrl) {
       setTeamImgSrc(teamApi.getTeamImageUrl(team.imageUrl));
     }
   }, [team.imageUrl]);
+
+  const handleAddToShortList = () => {
+    dispatch(addToShortList(team.id));
+  };
+  const handleRemoveFromShortList = () => {
+    dispatch(removeFromShortList(team.id));
+  };
+
   return (
     <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col">
       <div className="xl:col-span-10 md:col-span-9 col-span-12">
@@ -90,7 +122,7 @@ export const TeamCard = (props: Props) => {
               </Link>
             </div>
           </div>
-          <div className="xl;col-span-11 md:col-span-10 col-span-12 px-2 flex items-center justify-center">
+          <div className="xl:col-span-11 md:col-span-10 col-span-12 px-2 flex items-center justify-center">
             <div className="w-full break-words">
               <Link href={`/team/${team.id}`}>
                 <a
@@ -106,8 +138,90 @@ export const TeamCard = (props: Props) => {
               </p>
             </div>
             <div className="absolute top-0 right-0 flex-1 text-right">
-              <div className="absolute top-[-6px] right-6 group">
-                <BookmarkBorderOutlined className="absolute " />
+              <div className="absolute top-[-6px] right-6 group ">
+                {userProfile.shortList?.includes(team.id) ? (
+                  <div>
+                    {show ? (
+                      <div
+                        className="relative"
+                        onMouseEnter={() => setShow(true)}
+                        onMouseLeave={() => setShow(false)}
+                      >
+                        <Bookmark
+                          className={`absolute text-cyan-700 cursor-pointer ${
+                            show ? "bg-cyan-800 text-white" : ""
+                          }`}
+                        ></Bookmark>
+                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-cyan-900 top-[24px] right-[-24px]">
+                          <div className="text-left px-2">
+                            <li className="list-none py-1 cursor-pointer border-b-[1px]  ">
+                              <a
+                                className="text-cyan-800 font-medium"
+                                onClick={handleRemoveFromShortList}
+                              >
+                                Remove from Shortlist
+                              </a>
+                            </li>
+
+                            <Link href={`/short-list`}>
+                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer">
+                                View Shortlist {">"}
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <Bookmark
+                        className={`absolute text-cyan-700 cursor-pointer hover:bg-cyan-800 hover:text-white ${
+                          show ? "hidden" : ""
+                        }`}
+                        onMouseEnter={() => setShow(true)}
+                      ></Bookmark>
+                    )}
+                  </div>
+                ) : (
+                  <div className="relative">
+                    {show ? (
+                      <div
+                        className="relative"
+                        onMouseEnter={() => setShow(true)}
+                        onMouseLeave={() => setShow(false)}
+                      >
+                        <Bookmark
+                          className={`absolute text-cyan-700 cursor-pointer ${
+                            show ? "bg-cyan-800 text-white" : ""
+                          }`}
+                        ></Bookmark>
+                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-cyan-900 top-[24px] right-[-24px]">
+                          <div className="text-left px-2">
+                            <li className="list-none py-1 cursor-pointer border-b-[1px]  ">
+                              <a
+                                className="text-cyan-800 font-medium"
+                                onClick={handleAddToShortList}
+                              >
+                                Add to Shortlist
+                              </a>
+                            </li>
+
+                            <Link href={`/short-list`}>
+                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer">
+                                View Shortlist {">"}
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <BookmarkBorderOutlined
+                        className={`absolute text-cyan-700 cursor-pointer hover:bg-cyan-800 hover:text-white ${
+                          show ? "hidden" : ""
+                        }`}
+                        onMouseEnter={() => setShow(true)}
+                      ></BookmarkBorderOutlined>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -119,12 +233,7 @@ export const TeamCard = (props: Props) => {
                 <CheckCircleOutlined /> Verified
               </span>
             ) : null}
-            {
-              <span className="text-cyan-900">
-                <IconHover icon={<LabelOutlined />} hoverText="Project Size" />
-                <span className="text-left ml-1">{team.projectSize}</span>
-              </span>
-            }
+
             <span className="text-cyan-900">
               <IconHover icon={<GroupsOutlined />} hoverText="Team size" />
               <span className="text-left ml-1">{team.teamSize}</span> members
@@ -133,37 +242,40 @@ export const TeamCard = (props: Props) => {
               <IconHover icon={<AvTimerOutlined />} hoverText="Timezone" />
               <span className="text-left ml-1">{team.timeZone}</span>
             </span>
-            {team.organization ? (
-              <span className="text-cyan-900">
-                <IconHover
-                  icon={<ApartmentOutlined />}
-                  hoverText="Organization"
-                />
-                <span className="text-left ml-1">{team.organization}</span>
-              </span>
-            ) : null}
           </div>
           <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
             <div className="flex w-full">
               <div className="text-cyan-900 w-full break-normal">
                 {team.skills &&
-                  team.skills.map((skill, i) => (
-                    <div key={i} className="inline-block p-1 pt-3">
-                      <span
-                        className={`px-2 py-1  rounded-2xl ${
-                          skillColor[
-                            skill.id
-                              ? skill.id % skillColor.length
-                              : Math.round(
-                                  Math.random() * (skillColor.length - 1)
-                                )
-                          ]
-                        } text-white ml-2 mt-2 font-medium`}
-                      >
-                        {skill.skillName}
-                      </span>
-                    </div>
-                  ))}
+                  (showAllSkill ? team.skills : team.skills.slice(0, 7)).map(
+                    (skill, i) => (
+                      <div key={i} className="inline-block p-1 pt-3">
+                        <span
+                          className={`px-2 py-1 block rounded-2xl  md:max-w-[175px] max-w-[140px] hover:max-w-none hover:scale-110 cursor-default truncate  ${
+                            skillColor[
+                              skill.id
+                                ? skill.id % skillColor.length
+                                : Math.round(
+                                    Math.random() * (skillColor.length - 1)
+                                  )
+                            ]
+                          } text-white ml-2 mt-2 font-medium`}
+                        >
+                          {skill.skillName}
+                        </span>
+                      </div>
+                    )
+                  )}
+                {team.skills.length > 7 && !showAllSkill ? (
+                  <div className="inline-block p-1 pt-3">
+                    <span
+                      className={`px-2 py-1 block rounded-2xl border md:max-w-[175px] max-w-[140px] truncate   cursor-pointer text-black ml-2 mt-2 font-medium`}
+                      onClick={() => setShowAllSkill(true)}
+                    >
+                      More
+                    </span>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

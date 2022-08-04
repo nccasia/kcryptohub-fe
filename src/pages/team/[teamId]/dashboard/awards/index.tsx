@@ -4,9 +4,10 @@ import AwardLayout from "@/src/layouts/awards/AwardLayout";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
 import { Layout } from "@/src/layouts/layout";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Awards = () => {
-  const { teamId } = useAppSelector((state) => state.DashboardReducer);
+  const router = useRouter();
 
   return (
     <DashboardLayout>
@@ -41,7 +42,7 @@ const Awards = () => {
         <Link
           href={{
             pathname: `/team/[teamId]/dashboard/awards/new`,
-            query: { teamId },
+            query: { teamId: router.query.teamId },
           }}
           passHref
         >

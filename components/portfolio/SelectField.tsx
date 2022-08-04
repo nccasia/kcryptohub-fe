@@ -27,9 +27,7 @@ export const SelectField = ({
         {label}
       </label>
       <div
-        className={`xs:max-w-[375px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus-within:shadow-3xl focus-within:border-primary ${
-          errors && "bg-red-200"
-        }`}
+        className={`xs:max-w-[375px] w-full bg-[#0000000d] mt-1 rounded-3xl pl-3 pr-8 py-2 outline-none text-[#606060]`}
       >
         <select
           id={label.trim().toLowerCase().replace(/\s/g, "-")}
@@ -38,14 +36,17 @@ export const SelectField = ({
           defaultValue={defaultValue}
           className={`xs:min-w-[350px] w-full bg-transparent outline-none`}
         >
-          <option value="" className="text-gray-500 bg-white xs:max-w-[200px]">
+          <option
+            value=""
+            className="text-gray-500 bg-[#0000000d] xs:max-w-[200px]"
+          >
             {placeholder}
           </option>
           {valueList.map((value) => (
             <option
               key={value}
               value={value}
-              className="bg-white xs:max-w-[200px]"
+              className="bg-[#0000000d] xs:max-w-[200px]"
             >
               {value}
             </option>

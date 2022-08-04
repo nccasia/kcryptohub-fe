@@ -1,20 +1,21 @@
+import { profileApi } from "@/api/profile-api";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import InputField from "@/components/profile/InputField";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getProfile, getSkills, updateProfile } from "@/redux/profileSlice";
+import { getProfile, getSkills, updateProfile, uploadAvatar } from "@/redux/profileSlice";
+import { DragDropField } from "@/src/layouts/create-team/DragDropField";
 import { Layout } from "@/src/layouts/layout";
 import { ELoginProvider } from "@/type/auth/login.type";
 import { IProfile } from "@/type/profile/profile.type";
-import { ISkills } from "@/type/skill/skill.types";
+import { ISkill } from "@/type/skill/skill.types";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Autocomplete, Box, Container, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
 
 const theme = createTheme({
@@ -52,7 +53,7 @@ const schemaValidation = Yup.object({
   googleAddress: Yup.string()
     .email("Please enter a valid email!")
     .matches(
-      /([a-zA-Z0-9_.-]+)@gmail\.com/,
+      /^[a-zA-Z0-9.]+@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Please enter a valid Google format!"
     )
     .max(30, "Google dose not exceed 30 character!"),
@@ -72,9 +73,11 @@ const UpdateProfilePage = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
-  const [userSkills, setUserSkills] = useState<ISkills[]>(
+  const [userSkills, setUserSkills] = useState<ISkill[]>(
     userInfo.skills || []
   );
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [image, setImage] = useState<File>();
   useEffect(() => {
     dispatch(getSkills(""));
   }, [dispatch]);
@@ -86,12 +89,14 @@ const UpdateProfilePage = () => {
       emailAddress: userInfo.emailAddress,
       googleAddress: userInfo.googleAddress,
       githubAddress: userInfo.githubAddress,
-      avatarPath: userInfo.avatarPath,
       status: userInfo.status,
       provider: userInfo.provider,
     });
     if (userInfo.skills) {
       setUserSkills(userInfo.skills);
+    }
+    if (userInfo.avatarPath) {
+      setImageUrl(profileApi.getImageUrl(userInfo.avatarPath));
     }
   }, [reset, userInfo]);
 
@@ -111,6 +116,9 @@ const UpdateProfilePage = () => {
   const handleUpdateProfile = () => {
     handleSubmit(async (value) => {
       await dispatch(updateProfile({ ...value, skills: userSkills }));
+      if(image){
+        await dispatch(uploadAvatar({ avatar: image, userId: userInfo.id }));
+      }
       await dispatch(getProfile());
       router.push("/");
     })();
@@ -142,6 +150,12 @@ const UpdateProfilePage = () => {
     );
     return restArrSkill || [];
   };
+
+  const handleFileChange = (e: any) => {
+    setImageUrl(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
+  };
+
   return (
     <Layout>
       <ThemeProvider theme={theme}>
@@ -171,28 +185,11 @@ const UpdateProfilePage = () => {
                     Picture:
                   </label>
                   <div className="flex md:max-w-[400px] w-full items-center gap-x-3">
-                    <div className="w-16 h-16 flex-none rounded-full overflow-hidden border border-[#cae0e7]">
-                      {getValues("avatarPath") ? (
-                        <img
-                          src={getValues("avatarPath")}
-                          alt="avatar"
-                          className="w-full h-full"
-                        />
-                      ) : (
-                        <Image
-                          width="62"
-                          height="62"
-                          src={IconMap.AvatarDefault.src}
-                          alt="avatar"
-                          layout="responsive"
-                        />
-                      )}
-                    </div>
-                    <input
-                      type="text"
-                      {...register("avatarPath")}
-                      placeholder="Add your link avatar here"
-                      className="w-full border-2 border-[#cae0e7] px-3 py-2 outline-none placeholder:text-[#cae0e7] focus:shadow-3xl focus:border-primary"
+                    <DragDropField
+                      createObjectURL={imageUrl}
+                      uploadToClient={handleFileChange}
+                      setCreateObjectURL={setImageUrl}
+                      setImage={setImage}
                     />
                   </div>
                 </div>

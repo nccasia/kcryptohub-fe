@@ -2,7 +2,6 @@ import Image from "next/image";
 import React, { LegacyRef, MutableRefObject, useState } from "react";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import BadgeHover from "./BadgeHover";
-import { ITeamProfile } from "@/type/team/team.type";
 import { useAppSelector } from "@/redux/hooks";
 
 export interface SummaryProps {

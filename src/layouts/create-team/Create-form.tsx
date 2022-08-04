@@ -1,9 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { saveTeam, updateTeam } from "@/redux/teamSlice";
-import { ICreateTeam } from "@/type/createTeam/createTeam.type";
 import { TimeZone } from "@/type/enum/TimeZone";
-import { Skill } from "@/type/Skill";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -19,10 +17,12 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import * as yub from "yup";
 import { Dialog } from "../Dialog";
 import { UploadImage } from "./UploadImage";
-import { Team } from "@/type/team/team.type";
 import { teamApi } from "@/api/team-api";
 import { LoadingButton } from "@mui/lab";
 import { Save } from "@mui/icons-material";
+import { setTeam } from "@/redux/dashboardSlice";
+import { ICreateTeam, ITeam } from "@/type/team/team.type";
+import { ISkill } from "@/type/skill/skill.types";
 
 const schema = yub.object().shape({
   teamName: yub
@@ -72,16 +72,16 @@ export interface IProps {
   setStep: (step: number) => void;
   imageFile: File | null;
   setImageFile: (file: File | null) => void;
-  defaultTeamInfo?: Team;
+  defaultTeamInfo?: ITeam;
 }
 const selectRange = {
   totalEmployee: [
     "Freelance",
-    "2-9",
-    "10-49",
-    "50-249",
-    "250-499",
-    "1,000-9,999",
+    "2 - 9",
+    "10 - 49",
+    "50 - 249",
+    "250 - 499",
+    "1,000 - 9,999",
     "10,000+",
   ],
   projectSize: ["1-5"],
@@ -99,18 +99,20 @@ export const CreateForm = (props: IProps) => {
 
   const [createObjectURL, setCreateObjectURL] = useState("");
   const [image, setImage] = useState(props.imageFile);
-  const [dataSkill, setData] = useState<Skill[]>([]);
+  const [dataSkill, setData] = useState<ISkill[]>([]);
   const skills = useAppSelector(getSkillsSelector);
   const timeZone = Object.values(TimeZone);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (props.defaultTeamInfo) {
+    if (props.defaultTeamInfo && props.defaultTeamInfo.id !== watch("id")) {
       reset({ ...props.defaultTeamInfo, skills: [] });
       setData(props.defaultTeamInfo.skills || []);
-      setCreateObjectURL(
-        teamApi.getTeamImageUrl(props.defaultTeamInfo.imageUrl)
-      );
+      if (props.defaultTeamInfo.imageUrl) {
+        setCreateObjectURL(
+          teamApi.getTeamImageUrl(props.defaultTeamInfo.imageUrl)
+        );
+      }
     }
   }, [props.defaultTeamInfo]);
 
@@ -167,18 +169,21 @@ export const CreateForm = (props: IProps) => {
     if (props.defaultTeamInfo) {
       const data = watch();
       setBtnDisable(true);
-      dispatch(
+      await dispatch(
         updateTeam({
           ...data,
           id: props.defaultTeamInfo.id.toString(),
           imageUrl:
             createObjectURL.length > 0 ? props.defaultTeamInfo.imageUrl : null,
-            skills: dataSkill,
+          skills: dataSkill,
         } as ICreateTeam)
       );
       if (image) {
-        await teamApi.postImage(image, props.defaultTeamInfo.id);
+        const res = await teamApi.postImage(image, props.defaultTeamInfo.id);
       }
+      teamApi.getTeam(data.id).then((res) => {
+        dispatch(setTeam(res.data));
+      });
       const to = setTimeout(() => {
         setBtnDisable(false);
       }, 1000);
@@ -560,4 +565,3 @@ export const CreateForm = (props: IProps) => {
     </div>
   );
 };
-

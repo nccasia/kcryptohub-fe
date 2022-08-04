@@ -1,7 +1,9 @@
 import { PortfolioApi } from "@/api/portfolio-api";
+import { teamApi } from "@/api/team-api";
 import { InputFieldCol } from "@/components/portfolio/InputFieldCol";
 import { SelectField } from "@/components/portfolio/SelectField";
-import { useAppSelector } from "@/redux/hooks";
+import { setTeam } from "@/redux/dashboardSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { UploadImage } from "@/src/layouts/create-team/UploadImage";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
@@ -29,8 +31,12 @@ const schemaValidation = yup.object().shape({
     .matches(
       /(^$)|(^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$)/,
       "Please enter a valid website format! URL must contain http:// or https:// prefix."
-    ),
-  title: yup.string().required("Title is required").max(50,"Title must be less than 50 characters"),
+    )
+    .nullable(),
+  title: yup
+    .string()
+    .required("Title is required")
+    .max(50, "Title must be less than 50 characters"),
   category: yup.string().required("Category is required"),
   estimate: yup.string().required("Project size is required"),
   startDate: yup
@@ -51,29 +57,33 @@ const schemaValidation = yup.object().shape({
           return true;
         }
       }
-    ),
-  endDate: yup.string().when("startDate", {
-    is: (startDate: string) => startDate,
-    then: yup
-      .string()
-      .test(
-        "minDate",
-        "Please choose a date after start date",
-        (value, ctx) => {
-          const { path, createError } = ctx;
-          if (!value) return true;
-          const date = new Date(value);
-          if (date.getTime() - new Date(ctx.parent.startDate).getTime() < 0) {
-            return createError({
-              path,
-              message: `Please choose a date after ${ctx.parent.startDate}`,
-            });
-          } else {
-            return true;
+    )
+    .nullable(),
+  endDate: yup
+    .string()
+    .when("startDate", {
+      is: (startDate: string) => startDate,
+      then: yup
+        .string()
+        .test(
+          "minDate",
+          "Please choose a date after start date",
+          (value, ctx) => {
+            const { path, createError } = ctx;
+            if (!value) return true;
+            const date = new Date(value);
+            if (date.getTime() - new Date(ctx.parent.startDate).getTime() < 0) {
+              return createError({
+                path,
+                message: `Please choose a date after ${ctx.parent.startDate}`,
+              });
+            } else {
+              return true;
+            }
           }
-        }
-      ),
-  }),
+        ),
+    })
+    .nullable(),
   description: yup.string().required("Description is required"),
   imageUrl: yup.string().nullable(),
   videoLink: yup
@@ -81,7 +91,8 @@ const schemaValidation = yup.object().shape({
     .matches(
       /(^$)|(^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$)/,
       "Please enter a valid website format! URL must contain http:// or https:// prefix."
-    ).nullable(),
+    )
+    .nullable(),
   privacy: yup
     .number()
     .nullable()
@@ -119,6 +130,7 @@ const PortfolioEdit = () => {
   const [image, setImage] = useState<File>();
   const [portfolio, setPortfolio] = useState<IPortfolio>();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (router.query.teamId) {
       setTeamId(Number(router.query.teamId));
@@ -174,6 +186,10 @@ const PortfolioEdit = () => {
       toast.success("Portfolio updated successfully!");
       router.push(`/team/${teamId}/dashboard/portfolio/${data.id}`);
     }
+
+    teamApi.getTeam(teamId).then((team) => {
+      dispatch(setTeam(team.data));
+    })
   };
   const handleCancel = () => {
     router.push(`/team/${teamId}/dashboard/portfolio/${portfolioId}`);
