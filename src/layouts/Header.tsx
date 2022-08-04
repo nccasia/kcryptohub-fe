@@ -19,7 +19,7 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, ReactElement } from "react";
 import { profileApi } from "@/api/profile-api";
 import {
   Accordion,
@@ -64,9 +64,18 @@ export const Header = () => {
   const [userImage, setUserImage] = useState(
     profileApi.getImageUrl(user.avatarPath)
   );
+  console.log(userImage);
   const [showPopUp, setShowPopUp] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const router = useRouter();
+  const widthRef = useRef<HTMLElement>(null);
+
+  // useEffect(() => {
+  //   if ((widthRef.current as HTMLElement).offsetWidth > 860) {
+  //     setIsOpenHamburger(false);
+  //   }
+  // }, []);
+
   useEffect(() => {
     setUserImage(profileApi.getImageUrl(user.avatarPath));
   }, [user.avatarPath]);
@@ -86,18 +95,21 @@ export const Header = () => {
   return (
     <ThemeProvider theme={theme}>
       <div
-        className={` w-full relative mx-auto z-50 ${
+        className={` w-full relative mx-auto  z-50 ${
           router.pathname === "/" ? "" : "bg-[#ffff] "
         }`}
       >
         <div
           className={`overlay ${
             isOpenHamburger
-              ? "fixed top-0 left-0 opacity-50 w-screen h-screen bg-[#000] z-[1000]"
-              : ""
+              ? "fixed top-0 left-0 pointer-events-auto opacity-50 w-screen h-screen bg-[#000] z-[1000]"
+              : "pointer-events-none"
           }`}
         ></div>
-        <nav className=" flex items-center justify-between px-[15px] pt-[15px] font-jost">
+        <nav
+          className=" flex items-center justify-between px-[15px] pt-[15px] font-jost"
+          ref={widthRef}
+        >
           <div className="py-5 relative">
             <Link href="/">
               <span
@@ -221,13 +233,77 @@ export const Header = () => {
                   <>
                     <div className="inline-flex ">
                       {userImage ? (
-                        <div className="w-[30px] h-[30px] relative mr-1">
-                          <Image
-                            src={userImage}
-                            alt="avatar"
-                            layout="fill"
-                            objectFit="contain"
-                          />
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 block relative">
+                            <Image
+                              src={userImage}
+                              alt="avatar"
+                              layout="fill"
+                              objectFit="cover"
+                            />
+                          </div>
+                          <ClickAwayListener onClickAway={handleClosePopUp}>
+                            <div className="bg-transparent relative">
+                              <Tooltip
+                                PopperProps={{
+                                  disablePortal: true,
+                                }}
+                                onClose={handleClosePopUp}
+                                placement="bottom"
+                                open={showPopUp}
+                                disableFocusListener
+                                disableHoverListener
+                                disableTouchListener
+                                title={
+                                  <div
+                                    className={`flex flex-col font-jost absolute z-[900] top-7 p-1 border min-w-[230px] w-full h-fit bg-white text-cyan-800 md:right-[-20px] 
+                              ${
+                                !showPopUp ? "invisible" : "visible"
+                              }  animate-slide-in-up hover:visible text-lg`}
+                                  >
+                                    <div className="text-gray-900">
+                                      <Link href="/profile">
+                                        <div className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer ">
+                                          <a>Profile</a>
+                                        </div>
+                                      </Link>
+                                      <hr />
+                                      <Link href="/manage-teams">
+                                        <div className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer ">
+                                          <a>Manage Teams</a>
+                                        </div>
+                                      </Link>
+                                      <hr />
+                                      <div
+                                        className="p-1 my-1 border-l-2  border-white hover:border-red-700 hover:text-red-700 cursor-pointer "
+                                        onClick={() => {
+                                          localStorage.removeItem(
+                                            "accessToken"
+                                          );
+                                          signOut({
+                                            callbackUrl: "/",
+                                          });
+                                        }}
+                                      >
+                                        <span>Logout</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                }
+                              >
+                                <span
+                                  className={`${
+                                    router.pathname === "/"
+                                      ? "text-white"
+                                      : "text-black "
+                                  } px-2 font-semibold  cursor-pointer`}
+                                  onClick={handleShowPopUp}
+                                >
+                                  {user.username}
+                                </span>
+                              </Tooltip>
+                            </div>
+                          </ClickAwayListener>
                         </div>
                       ) : (
                         <>
@@ -382,12 +458,12 @@ export const Header = () => {
                       <div className="inline-flex w-full">
                         <>
                           {userImage ? (
-                            <div className="w-[30px] h-[30px] relative mr-1">
+                            <div className="w-6 h-6 block relative mr-1">
                               <Image
                                 src={userImage}
                                 alt="avatar"
                                 layout="fill"
-                                objectFit="contain"
+                                objectFit="cover"
                               />
                             </div>
                           ) : (

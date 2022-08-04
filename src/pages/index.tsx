@@ -281,12 +281,12 @@ const Home: NextPage = () => {
         </div>
       </header>
       <div
-        className=" bg-[#f9fafb] "
+        className=" bg-[#f9fafb] h-full"
         style={{
           paddingTop: "calc(100vh  - 50px)",
         }}
       >
-        <div className="block relative w-full h-fit md-2:h-screen py-10 font-jost">
+        <div className="block relative w-full h-fit md-2:h-screen my-5 py-5 font-jost">
           <div className="w-full text-center my-[70px]">
             <h2 className="text-3xl font-normal mb-6 text-black">
               Start Your Search With Our Most Popular Services
