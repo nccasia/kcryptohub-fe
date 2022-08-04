@@ -38,12 +38,17 @@ module.exports = {
         "slide-in-up": "slide-in-up 0.5s ease-in-out both",
         "slide-in-left": "slide-in-left 0.5s ease-in-out both",
       },
+      borderRadius: {
+        circle: " 50% 60% 60% 50% ",
+      },
     },
     screens: {
       xxs: "424px",
       xs: "540px",
       sm: "640px",
       md: "768px",
+      "md-2": "860px",
+      "md-3": "960px",
       lg: "1024px",
       xl: "1280px",
       "2xl": "1536px",
