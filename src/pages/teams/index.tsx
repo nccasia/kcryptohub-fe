@@ -193,7 +193,7 @@ export const Teams = () => {
               <div className="flex flex-col sm:flex-row ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
-                    <div className="p-1 xs:p-4 bg-[#5ca7db] rounded-lg text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
+                    <div className="p-1 xs:p-4 bg-[#848ABD] rounded-lg text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
                       <span>{totalTeam} Teams</span>
                     </div>
                   </div>
@@ -222,8 +222,8 @@ export const Teams = () => {
                         )}
                       </div>
                     </div>
-                    <div className="flex flex-1 justify-center items-center font-jost">
-                      <div className="xxs:flex hidden text-[#606060] text-[18px]">
+                    <div className="flex flex-1 justify-center items-center font-jost ml-3">
+                      <div className="xxs:flex hidden lg:text-[18px] text-[#606060] text-[14px]">
                         <div
                           className="cursor-pointer flex items-center justify-center mr-5 hover:text-[#848abd]"
                           id="All Filter"
@@ -378,7 +378,7 @@ export const Teams = () => {
             >
               <CancelOutlined />
             </div>
-            <span className="text-xl">All filter</span>
+            <span className="text-xl text-[#606060]">All filter</span>
           </div>
 
           <div className="flex flex-col items-end">

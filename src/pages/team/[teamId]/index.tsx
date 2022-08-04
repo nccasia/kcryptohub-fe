@@ -143,7 +143,7 @@ const TeamDetail = () => {
                   </div>
                   <button
                     type="button"
-                    className="mt-4 px-4 py-3 text-[14px] rounded-full text-white bg-[#5ca7db] uppercase hover:shadow hover:shadow-[#5ca7db]"
+                    className="mt-4 px-4 py-3 text-[14px] rounded-full text-white bg-[#848ABD] uppercase hover:shadow hover:shadow-[#848ABD]"
                     onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
                   >
                     See my work
@@ -153,7 +153,7 @@ const TeamDetail = () => {
             </div>
           </div>
           <div
-            className="lg:px-32 xs:px-10 px-2 py-28 bg-[#f9fafb] border-[1px] border-[#f9fafb]"
+            className="lg:px-32 xs:px-10 px-2 py-24 bg-[#f9fafb] border-[1px] border-[#f9fafb]"
             ref={skillDistributionRef}
           >
             <div
@@ -187,7 +187,7 @@ const TeamDetail = () => {
                   </p>
                 </div>
               </div>
-              <div className={`md:flex-1 w-full ${read ? "" : "md:ml-8"}`}>
+              <div className={`md:flex-1 w-full ${read ? "mb-5" : "md:ml-8"}`}>
                 <SkillDistribution
                   skillDistributionRef={skillDistributionRef}
                   editable={userProfile.userInfo.id === ownerId}

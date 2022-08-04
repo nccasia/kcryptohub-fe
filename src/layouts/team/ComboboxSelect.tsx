@@ -53,7 +53,7 @@ export const ComboboxSelect = ({
   };
 
   return (
-    <div className={`${className} bg-white `}>
+    <div className={`${className} bg-white  `}>
       <div
         className={`cursor-pointer 
          flex items-center justify-center w-full`}
@@ -65,7 +65,7 @@ export const ComboboxSelect = ({
         <div
           className={`${show ? "" : ""} ${
             isCollapsor ? "" : ""
-          } flex items-center justify-between px-1 w-full`}
+          } flex items-center justify-between px-1 w-full hover:text-[#848abd]`}
         >
           <label
             className={`${isCollapsor ? "text-lg" : ""} pointer-events-none ${
@@ -75,9 +75,17 @@ export const ComboboxSelect = ({
             {label}
           </label>
           {show ? (
-            <KeyboardArrowUpOutlined className="pointer-events-none" />
+            <KeyboardArrowUpOutlined
+              className={`${
+                isSwitched ? "text-[#848abd]" : ""
+              } pointer-events-none`}
+            />
           ) : (
-            <KeyboardArrowDownOutlined className="pointer-events-none" />
+            <KeyboardArrowDownOutlined
+              className={`pointer-events-none ${
+                isSwitched ? "text-[#848abd]" : ""
+              }`}
+            />
           )}
         </div>
       </div>
@@ -96,7 +104,7 @@ export const ComboboxSelect = ({
         <div className="relative flex items-center justify-center p-1">
           <input
             type="text"
-            placeholder={`Search ${label}`}
+            placeholder={`Search ${label === "Skills" ? "Skills" : ""}`}
             className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-2 focus:outline-none  rounded-full"
             onChange={hanleSearchItems}
           />

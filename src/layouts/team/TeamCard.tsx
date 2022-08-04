@@ -307,7 +307,7 @@ export const TeamCard = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-md">
+      <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-[#606060] transition-all duration-500 ease-in-out text-md">
         <a
           className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white  border cursor-pointer "
           href={
@@ -318,10 +318,7 @@ export const TeamCard = (props: Props) => {
               : "#"
           }
         >
-          <span
-            className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-red-500 border-2 border-red-500
-           hover:bg-transparent hover:text-red-500"
-          >
+          <span className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-[#848ABD] rounded-full">
             Visit Website <LanguageOutlined />
           </span>
         </a>
