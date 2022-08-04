@@ -182,9 +182,9 @@ export const Teams = () => {
       </div>
       <div className="relative">
         <div className="flex flex-col items-center justify-center px-1 ">
-          <div className="container-lg relative border-x-2   md:w-11/12 lg:w-5/6 w-full  shadow-xl">
+          <div className="container-lg relative md:w-11/12 lg:w-5/6 w-full ">
             <div className="sticky top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
-              <div className="flex flex-col sm:flex-row border-b ">
+              <div className="flex flex-col sm:flex-row ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
                     <div className="p-1 xs:p-4 bg-primary text-white font-semibold border-2 border-cyan-900 mr-2 max-w-[10rem] hidden sm:block">

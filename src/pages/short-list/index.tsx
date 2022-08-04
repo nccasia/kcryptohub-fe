@@ -106,7 +106,7 @@ const ShortList = () => {
         <Container>
           <div className="w-full text-[#6a797d]">
             <nav className="mb-4 shadow-md flex-col mx-auto">
-              <ul className="flex relative mb-0  pt-1 border-b-[1px] border-[#cae0e7]">
+              <ul className="flex relative mb-0  pt-1 border-b-[1px] border-[#cae0e7] font-nunito">
                 <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#cae0e7] after:absolute after:h-11 after:w-[1px] after:bottom-0 after:right-0">
                   <button
                     className="text-red-500 pr-2 text-base relative "
@@ -136,7 +136,7 @@ const ShortList = () => {
           <div className="flex flex-col items-center justify-center w-full">
             {shortList.slice(prev - 1, next).map((team, index) => (
               <div key={index} className="w-full">
-                <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col">
+                <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-3xl">
                   <div className="xl:col-span-10 md:col-span-9 col-span-12">
                     <div className="grid grid-cols-12 border-b relative">
                       <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start  p-2">
@@ -162,7 +162,7 @@ const ShortList = () => {
                         </div>
                       </div>
                       <div className="xl:col-span-11 md:col-span-10 col-span-12 px-2 flex items-center justify-center">
-                        <div className="w-full break-words">
+                        <div className="w-full break-words font-nunito">
                           <Link href={`/team/${team.id}`}>
                             <a
                               target="_blank"
@@ -194,7 +194,7 @@ const ShortList = () => {
                                   ></BookmarkIcon>
                                   <div className="absolute w-[220px] bg-white border-2 border-cyan-900 top-[24px] right-[-24px]">
                                     <div className="text-left px-2">
-                                      <li className="list-none py-2 cursor-pointer border-b-[1px]  ">
+                                      <li className="list-none py-2 cursor-pointer border-b-[1px] font-nunito">
                                         <a
                                           className="text-cyan-800 font-medium"
                                           onClick={() =>
@@ -228,7 +228,7 @@ const ShortList = () => {
                           </span>
                         ) : null}
                         {
-                          <span className="text-cyan-900">
+                          <span className="text-cyan-900 flex items-center">
                             <IconHover
                               icon={<LabelOutlined />}
                               hoverText="Project Size"
@@ -238,17 +238,17 @@ const ShortList = () => {
                             </span>
                           </span>
                         }
-                        <span className="text-cyan-900">
+                        <span className="text-cyan-900 flex items-center pt-2">
                           <IconHover
                             icon={<GroupsOutlined />}
                             hoverText="Team size"
                           />
                           <span className="text-left ml-1">
-                            {team.teamSize}
-                          </span>{" "}
-                          members
+                            {team.teamSize} members
+                          </span>
+                          
                         </span>
-                        <span className="text-cyan-900">
+                        <span className="text-cyan-900 flex items-center pt-2">
                           <IconHover
                             icon={<AvTimerOutlined />}
                             hoverText="Timezone"
@@ -263,7 +263,7 @@ const ShortList = () => {
                           <div className="text-cyan-900 w-full break-normal"></div>
                         </div>
                       </div>
-                      <div className="xs:w-1/4 p-4 text-sm text-cyan-900">
+                      <div className="xs:w-1/4 p-4 text-sm text-cyan-900 font-nunito">
                         <div className="">
                           <span className="font-medium ">Founded: </span>
                           {team.founded}
@@ -291,9 +291,9 @@ const ShortList = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-md">
+                  <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-md font-nunito">
                     <a
-                      className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white  border cursor-pointer "
+                      className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white cursor-pointer "
                       href={
                         team.linkWebsite
                           ? team.linkWebsite.includes("https")
@@ -304,7 +304,7 @@ const ShortList = () => {
                     >
                       <span
                         className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-red-500 border-2 border-red-500
-                    hover:bg-transparent hover:text-red-500"
+                    hover:bg-transparent hover:text-red-500 font-nunito rounded-2xl"
                       >
                         Visit Website <LanguageOutlined />
                       </span>
@@ -313,7 +313,7 @@ const ShortList = () => {
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center border flex-1"
+                        className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center flex-1"
                       >
                         <span className="hidden xs:block mr-2">
                           View Profile
@@ -322,7 +322,7 @@ const ShortList = () => {
                       </a>
                     </Link>
                     <Link href={`/team/${team.id}/contact`}>
-                      <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center border flex-1">
+                      <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center flex-1">
                         <span className="hidden xs:block mr-2">Contact</span>
                         <ContactlessOutlined />
                       </a>

@@ -501,7 +501,7 @@ export const CreateForm = (props: IProps) => {
                 </label>
                 <select
                   {...register("projectSize")}
-                  className="md:max-w-[200px] w-full border-2 border-[#ecedee] rounded-3xl px-3 py-2 outline-none focus:shadow-3xl focus:border-primary outline-none"
+                  className="md:max-w-[200px] w-full border-2 border-[#ecedee] rounded-3xl px-3 py-2 focus:shadow-3xl focus:border-primary outline-none"
                   defaultValue={team.projectSize || "1-5"}
                 >
                   <option value="">- Select a value -</option>
