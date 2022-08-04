@@ -191,6 +191,7 @@ export const Header = () => {
                   }`}
                 />
               </div>
+<<<<<<< HEAD
               <div className="hidden px-[5px] md-2:block">
                 <svg
                   className={`w-6 h-6 ${
@@ -335,6 +336,22 @@ export const Header = () => {
               <a
                 href="index.html"
                 className="text-3xl font-bold text-center text-white"
+=======
+              <Link href="/">
+                <a className="text-2xl font-semibold text-white cursor-pointer flex items-center">
+                  KryptoHub
+                </a>
+              </Link>
+              
+              <label
+                className="md:hidden"
+                onClick={() => {
+                  setShowSearch(!showSearch);
+                  if (showMenu) {
+                    setShowMenu(false);
+                  }
+                }}
+>>>>>>> develop
               >
                 <span>Kryptohub</span>
               </a>

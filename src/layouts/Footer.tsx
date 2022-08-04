@@ -72,7 +72,11 @@ export const Footer = () => {
 
         <div className="space30"></div>
         <p className="text-center font-jost">
+<<<<<<< HEAD
           Â© 2022 Kryptohub. All rights reserved.
+=======
+          © 2022 Kryptohub. All rights reserved.
+>>>>>>> develop
         </p>
       </div>
     </footer>

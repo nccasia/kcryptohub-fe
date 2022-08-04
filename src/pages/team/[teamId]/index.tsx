@@ -1,18 +1,63 @@
+import { teamApi } from "@/api/team-api";
 import CardInfo from "@/components/team/CardInfo";
 import Portfolio from "@/components/team/Portfolio";
-import Separate from "@/components/team/Separate";
 import SkillDistribution from "@/components/team/SkillDistribution";
-import Summary from "@/components/team/Summary";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setTeamProfile } from "@/redux/teamProfileSlice";
 import { Layout } from "@/src/layouts/layout";
 import { ESection, ITeam } from "@/type/team/team.type";
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
-import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { teamApi } from "@/api/team-api";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+const skillColor = [
+  "bg-red-500",
+  "bg-orange-500",
+  "bg-yellow-500",
+  "bg-green-500",
+  "bg-blue-500",
+  "bg-indigo-500",
+  "bg-purple-500",
+  "bg-pink-500",
+  "bg-gray-500",
+  "bg-teal-500",
+  "bg-cyan-500",
+  "bg-lime-500",
+  "bg-fuchsia-500",
+  "bg-rose-500",
+  "bg-stone-500",
+  "bg-red-700",
+  "bg-orange-700",
+  "bg-yellow-700",
+  "bg-green-700",
+  "bg-blue-700",
+  "bg-indigo-700",
+  "bg-purple-700",
+  "bg-pink-700",
+  "bg-gray-700",
+  "bg-teal-700",
+  "bg-cyan-700",
+  "bg-lime-700",
+  "bg-fuchsia-700",
+  "bg-rose-700",
+  "bg-stone-700",
+  "bg-red-900",
+  "bg-orange-900",
+  "bg-yellow-900",
+  "bg-green-900",
+  "bg-blue-900",
+  "bg-indigo-900",
+  "bg-purple-900",
+  "bg-pink-900",
+  "bg-gray-900",
+  "bg-teal-900",
+  "bg-cyan-900",
+  "bg-lime-900",
+  "bg-fuchsia-900",
+  "bg-rose-900",
+  "bg-stone-900",
+];
 interface ITeamDetailProps {
   teamProfileInfo: ITeam;
 }
@@ -20,6 +65,7 @@ const TeamDetail = () => {
   const router = useRouter();
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const userProfile = useAppSelector((state) => state.ProfileReducer);
+  const [read, setRead] = useState(false);
   const dispatch = useAppDispatch();
   const headerRef = useRef(null);
   const summaryRef = useRef(null);
@@ -28,36 +74,7 @@ const TeamDetail = () => {
   const [hash, setHash] = useState<string>(ESection[ESection["SUMMARY"]]);
   const { teamId } = router.query;
   const [ownerId, setOwnerId] = useState(NaN);
-
-  useEffect(() => {
-    const handleChangeHash = () => {
-      const isSummaryVisibile = isInViewport(
-        (summaryRef.current! as HTMLElement).offsetHeight,
-        summaryRef
-      );
-      const isSkillDistributionVisibile = isInViewport(
-        (skillDistributionRef.current! as HTMLElement).offsetHeight,
-        skillDistributionRef
-      );
-      const isPortfolioVisibile = isInViewport(
-        (portfolioRef.current! as HTMLElement).offsetHeight,
-        portfolioRef
-      );
-      if (isSummaryVisibile) {
-        window.location.hash = ESection[ESection["SUMMARY"]].toLowerCase();
-      } else if (isSkillDistributionVisibile) {
-        window.location.hash =
-          ESection[ESection["SKILL-DISTRIBUTION"]].toLowerCase();
-      } else if (isPortfolioVisibile) {
-        window.location.hash = ESection[ESection["PORTFOLIO"]].toLowerCase();
-      } else {
-        window.location.hash = '';
-      }
-      setHash(window.location.hash.substr(1).toUpperCase());
-    };
-    document.addEventListener("scroll", handleChangeHash);
-    return () => document.removeEventListener("scroll", handleChangeHash);
-  }, []);
+  const [showAllSkill, setShowAllSkill] = useState(false);
 
   useEffect(() => {
     if (teamId) {
@@ -72,36 +89,16 @@ const TeamDetail = () => {
     }
   }, [dispatch, teamId]);
 
-  const isInViewport = (
-    offsetHeight: number,
-    ref: MutableRefObject<null | Element>
-  ) => {
-    if (!ref.current) return false;
-    const headerHeight = (headerRef.current! as HTMLElement).offsetHeight;
-    const top = ref.current.getBoundingClientRect().top - headerHeight;
-    return top + offsetHeight >= 0 && top - offsetHeight <= window.innerHeight;
-  };
-
   const handleScrollToSection = (section: number) => {
     const headerHeight = (headerRef.current! as HTMLElement).offsetHeight;
     switch (section) {
-      case ESection["SUMMARY"]: {
-        const offsetTop =
-          (summaryRef.current! as HTMLElement).offsetTop - headerHeight;
-        window.scrollTo(0, offsetTop);
-        break;
-      }
-      case ESection["SKILL-DISTRIBUTION"]: {
-        const offsetTop =
-          (skillDistributionRef.current! as HTMLElement).offsetTop -
-          headerHeight;
-        window.scrollTo(0, offsetTop);
-        break;
-      }
       case ESection["PORTFOLIO"]: {
-        const offsetTop =
-          (portfolioRef.current! as HTMLElement).offsetTop - headerHeight;
-        window.scrollTo(0, offsetTop);
+        const offsetTop = (portfolioRef.current! as HTMLElement).offsetTop;
+        window.scroll({
+          top: offsetTop,
+          behavior: "smooth",
+          left: 0,
+        });
         break;
       }
       default:
@@ -111,106 +108,151 @@ const TeamDetail = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center md:block">
-        <div className="container mx-auto">
-          <section
+      <div className="">
+        <div className="block font-nunito">
+          <div
+            className="w-full bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
             ref={headerRef}
-            className="flex bg-white border border-[#cae0e7] sticky top-0 z-[1]"
           >
-            <div className="flex xs:w-auto w-full">
-              <div className="w-[100px] relative p-2">
-                <Image
-                  src={
-                    teamProfile.imageUrl
-                      ? teamApi.getTeamImageUrl(teamProfile.imageUrl)
-                      : "/user1.png"
-                  }
-                  alt="avatar"
-                  layout="fill"
-                  objectFit="contain"
+            <div
+              className="flex  lg:px-32 xs:px-10 px-2 md:py-16 xs:py-10 py-1 flex-col items-center"
+              ref={summaryRef}
+            >
+              <div className="md:flex-1 relative md:mr-3 mb-6">
+                <div className="md:block flex flex-col justify-center items-center md:mt-8">
+                  <div className="w-full flex justify-center mb-4">
+                    <div className="xs:mt-0 mt-5 max-h-[300px] lg:h-[100px] lg:w-[100px] h-[100px] w-[100px] relative">
+                      <Image
+                        className="rounded-full object-fit"
+                        alt=""
+                        src={
+                          teamProfile.imageUrl
+                            ? teamApi.getTeamImageUrl(teamProfile.imageUrl)
+                            : "/user1.png"
+                        }
+                        layout="fill"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="md:text-[40px] sm:text-[30px] text-[26px] md:leading-10 font-semibold text-[#404040] md:text-left text-center whitespace-normal">
+                    We&apos;re {teamProfile.teamName}
+                  </div>
+                  <div className="my-6 md:text-[26px] sm:text-[22px] text-[18px] leading-9 font-normal">
+                    {teamProfile.slogan}
+                  </div>
+                  <button
+                    type="button"
+                    className="mt-4 px-3 py-2 text-[14px] rounded-full text-white bg-[#5ca7db] uppercase"
+                    onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
+                  >
+                    See my work
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="lg:px-32 xs:px-10 px-2 py-28 bg-[#f9fafb] border-[1px] border-[#f9fafb]"
+            ref={skillDistributionRef}
+          >
+            <div className="flex md:flex-row mb-20 flex-col items-center">
+              <div className="md:w-1/3 mr-2 relative">
+                <div className="text-[#606060]">
+                  <div className="md:text-[30px] text-[24px] leading-4 text-[#404040] xs:text-left text-center mb-6">
+                    What I do?
+                  </div>
+                  <div
+                    className={`md:text-[24px] h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[18px] font-normal ${
+                      read ? "hidden" : ""
+                    }`}
+                  >
+                    {teamProfile.description}
+                  </div>
+
+                  <p
+                    hidden={teamProfile.description?.length <= 200 || read}
+                    className="text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
+                    onClick={() => setRead(!read)}
+                  >
+                    READ MORE <ArrowForwardIcon className="text-xs" />
+                  </p>
+                </div>
+              </div>
+              <div className="md:flex-1 md:pl-4">
+                <SkillDistribution
+                  skillDistributionRef={skillDistributionRef}
+                  editable={userProfile.userInfo.id === ownerId}
                 />
               </div>
-              <h1 className="w-full bg-primary flex items-center">
-                <Link href="#">
-                  <a className="xxs:text-3xl text-xl text-white ml-2">
-                    {teamProfile.teamName}
-                  </a>
-                </Link>
-              </h1>
             </div>
-            <ul className="hidden md:flex">
-              <li
-                className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
-                  hash === ESection[ESection["SUMMARY"]]
-                    ? "!text-secondary"
-                    : ""
-                }`}
-                onClick={() => handleScrollToSection(ESection["SUMMARY"])}
-              >
+            {read && (
+              <div className="mt-[-100px] text-justify mb-10 text-[#404040] lg:text-left md:text-[22px] text-[16px] leading-9">
+                {teamProfile.description}
                 <span
-                  className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
-                    hash === ESection[ESection["SUMMARY"]]
-                      ? "after:!bg-[#FF3D2D]"
-                      : ""
-                  }`}
+                  className="text-ellipsis ml-2 overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
+                  onClick={() => setRead(!read)}
                 >
-                  Summary
+                  SEE LESS <ArrowBackIcon className="text-xs" />
                 </span>
-              </li>
-              <li
-                className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
-                  hash === ESection[ESection["SKILL-DISTRIBUTION"]]
-                    ? "!text-secondary"
-                    : ""
-                }`}
-                onClick={() =>
-                  handleScrollToSection(ESection["SKILL-DISTRIBUTION"])
-                }
-              >
-                <span
-                  className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
-                    hash === ESection[ESection["SKILL-DISTRIBUTION"]]
-                      ? "after:!bg-[#FF3D2D]"
-                      : ""
-                  }`}
-                >
-                  Skill Distribution
-                </span>
-              </li>
-              <li
-                className={`flex items-center px-6 text-sm lg:text-base text-[#107F79] border-x-[1px] border-[#cae0e7] group hover:text-secondary ${
-                  hash === ESection[ESection["PORTFOLIO"]]
-                    ? "!text-secondary"
-                    : ""
-                }`}
-                onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
-              >
-                <span
-                  className={`py-5 relative after:absolute after:bottom-0 after:left-[calc(0%-10px)] after:h-1 after:w-[calc(100%+20px)] cursor-pointer group-hover:after:bg-[#FF3D2D] ${
-                    hash === ESection[ESection["PORTFOLIO"]]
-                      ? "after:!bg-[#FF3D2D]"
-                      : ""
-                  }`}
-                >
-                  Portfolio
-                </span>
-              </li>
-            </ul>
-          </section>
-          <Summary summaryRef={summaryRef} />
-          <Separate />
-          <SkillDistribution
-            skillDistributionRef={skillDistributionRef}
-            editable={userProfile.userInfo.id === ownerId}
-          />
-          <Separate />
-          <Portfolio
-            portfolioRef={portfolioRef}
-            handleScrollToSection={handleScrollToSection}
-            editable={userProfile.userInfo.id === ownerId}
-          />
+              </div>
+            )}
+            <div className="lg:w-full xs:w-2/3 w-full">
+              <h3 className="md:text-[30px] text-[24px] leading-4 text-[#404040] mb-6 font-medium">
+                Tags
+              </h3>
+              <div className="flex flex-col items-start justify-start xs:w-full">
+                <div className="flex w-full">
+                  <div className="text-cyan-900 w-full break-normal">
+                    {teamProfile.skills &&
+                      (showAllSkill
+                        ? teamProfile.skills
+                        : teamProfile.skills.slice(0, 7)
+                      ).map((skill, i) => (
+                        <div key={i} className="inline-block p-1 pt-3">
+                          <span
+                            className={`px-3 py-1 block rounded-2xl  md:max-w-[250px] max-w-[140px] hover:max-w-none hover:scale-110 cursor-default truncate  ${
+                              skillColor[
+                                skill.id
+                                  ? skill.id % skillColor.length
+                                  : Math.round(
+                                      Math.random() * (skillColor.length - 1)
+                                    )
+                              ]
+                            } text-white ml-2 mt-2 font-medium`}
+                          >
+                            {skill.skillName}
+                          </span>
+                        </div>
+                      ))}
+                    {teamProfile.skills?.length > 7 && !showAllSkill ? (
+                      <div className="inline-block p-1 pt-3">
+                        <span
+                          className={`px-2 py-1 block rounded-2xl border md:max-w-[175px] max-w-[140px] truncate   cursor-pointer text-black ml-2 mt-2 font-medium`}
+                          onClick={() => setShowAllSkill(true)}
+                        >
+                          More
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="lg:px-32 xs:px-10 px-2 bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
+            ref={portfolioRef}
+          >
+            <Portfolio
+              portfolioRef={portfolioRef}
+              handleScrollToSection={handleScrollToSection}
+              editable={userProfile.userInfo.id === ownerId}
+            />
+          </div>
+          <CardInfo editable={userProfile.userInfo.id === ownerId} />
         </div>
-        <CardInfo editable={userProfile.userInfo.id === ownerId} />
       </div>
     </Layout>
   );
