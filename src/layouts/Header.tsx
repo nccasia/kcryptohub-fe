@@ -52,6 +52,7 @@ export const Header = () => {
                   KryptoHub
                 </a>
               </Link>
+              
               <label
                 className="md:hidden"
                 onClick={() => {

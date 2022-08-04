@@ -56,6 +56,7 @@ const ShortList = () => {
   const dispatch = useAppDispatch();
   const userProfile = useAppSelector(getUserInfoSelector);
   const [shortList, setShortList] = useState<ITeam[]>([]);
+  const [show, setShow] = useState(false);
 
   const [pageItem, setPageItem] = useState<ITeam[]>([]);
   const [page, setPage] = useState(1);
@@ -179,10 +180,42 @@ const ShortList = () => {
                         </div>
                         <div className="absolute top-0 right-0 flex-1 text-right">
                           <div className="absolute top-[-6px] right-6 group">
-                            <BookmarkIcon
-                              className="absolute text-[#08537e]"
-                              onClick={() => handleRemoveFromShortList(team.id)}
-                            />
+                            <div>
+                              {show ? (
+                                <div
+                                  className="relative"
+                                  onMouseEnter={() => setShow(true)}
+                                  onMouseLeave={() => setShow(false)}
+                                >
+                                  <BookmarkIcon
+                                    className={`absolute text-cyan-700 cursor-pointer ${
+                                      show ? "bg-cyan-800 text-white" : ""
+                                    }`}
+                                  ></BookmarkIcon>
+                                  <div className="absolute w-[220px] bg-white border-2 border-cyan-900 top-[24px] right-[-24px]">
+                                    <div className="text-left px-2">
+                                      <li className="list-none py-2 cursor-pointer border-b-[1px]  ">
+                                        <a
+                                          className="text-cyan-800 font-medium"
+                                          onClick={() =>
+                                            handleRemoveFromShortList(team.id)
+                                          }
+                                        >
+                                          Remove from Shortlist
+                                        </a>
+                                      </li>
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : (
+                                <BookmarkIcon
+                                  className={`absolute text-cyan-700 cursor-pointer hover:bg-cyan-800 hover:text-white ${
+                                    show ? "hidden" : ""
+                                  }`}
+                                  onMouseEnter={() => setShow(true)}
+                                ></BookmarkIcon>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>

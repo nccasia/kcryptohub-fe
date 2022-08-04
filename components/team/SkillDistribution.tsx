@@ -29,12 +29,7 @@ const SkillDistribution = ({
   };
 
   return (
-    <section
-      ref={skillDistributionRef}
-      className="px-8 py-3 border-x border-[#cae0e7]"
-    >
-      <h2 className="text-xl text-[#154369] mb-5">Skill Distribution</h2>
-
+    <section ref={skillDistributionRef} className="px-8 py-3">
       {!teamProfile.skillDistribution?.length && editable && (
         <div className="flex items-center gap-x-2">
           <Link href="#">
@@ -57,11 +52,14 @@ const SkillDistribution = ({
       {teamProfile.skillDistribution?.length > 0 &&
         teamProfile.skillDistribution.map((item) => (
           <div key={item.id} className="mb-10">
-            <h3 className="text-[#6b7a7e] mb-3">
-              {item.skillDistributionName}
-            </h3>
+            <div className="flex justify-between items-center">
+              <h3 className="text-[#6b7a7e] mb-3">
+                {item.skillDistributionName}
+              </h3>
+            </div>
+
             <div className="w-full md:w-4/5 mb-6">
-              <div className="h-12 py-2 border-x border-[#cae0e7] flex">
+              <div className="h-6 flex">
                 {item.skillDistributionValue.map(
                   (skillDistributionValue, index) =>
                     Number(skillDistributionValue.quantity) > 0 && (

@@ -137,7 +137,7 @@ export const Clients = () => {
   };
   return (
     <ManagePortfolio>
-      <div>
+      <div className="font-jost">
         <div className="lg:border-b-0 border-b mb-2 pb-2">
           <h1 className="text-3xl">Key Clients</h1>
           <Typography className="text-xl my-3">
@@ -180,7 +180,7 @@ export const Clients = () => {
                               maxLength={30}
                               autoComplete="off"
                               value={items}
-                              className={` border-2 border-[#cae0e7] xs:min-w-[400px] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary `}
+                              className={` bg-[#0000000d] mt-1 rounded-3xl text-[#606060] xs:min-w-[400px] pl-3 pr-8 py-2 outline-none `}
                               onChange={(e) => {
                                 const array = [...keyClientInfo];
                                 array[index] = e.target.value;
