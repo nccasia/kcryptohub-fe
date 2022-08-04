@@ -1,4 +1,3 @@
-
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -42,20 +41,20 @@ const ForgotPassword = () => {
       toast.success("Email has been sent!");
       setIsSubmitting(false);
       reset();
-    } catch (err: any) { 
+    } catch (err: any) {
       toast.error(err.response.data.message);
       setIsSubmitting(false);
     }
   };
   return (
-    <div className="h-auto min-h-full bg-primary flex justify-center xs:items-center px-2 xxs:px-0  py-4 ">
+    <div className="h-auto min-h-full bg-[#f9fafb] font-jost  flex justify-center xs:items-center px-2 xxs:px-0  py-4 ">
       <div className="max-w-[420px] h-fit w-full animate-slide-in-left">
         <div className="text-center ">
-          <h3 className="text-5xl font-bold text-white">Kryptohub</h3>
+          <h3 className="text-5xl font-bold text-[#606060]">Kryptohub</h3>
         </div>
-        <div className="w-full h-fit max-h-3/4 bg-white p-8 mt-8">
+        <div className="w-full h-fit max-h-3/4 bg-white py-8 px-4 md:p-8 mt-8 rounded-3xl shadow-3xl">
           <div
-            className="cursor-pointer"
+            className="cursor-pointer text-[#606060]"
             onClick={() => {
               router.push("/login");
             }}
@@ -63,7 +62,7 @@ const ForgotPassword = () => {
             <ArrowBackIos /> Back
           </div>
           <div className="">
-            <h3 className="text-cyan-900 text-md py-4">
+            <h3 className="text-[#606060] text-md py-4">
               <b className="text-2xl font-normal">Forgot </b>
               password
             </h3>
@@ -73,11 +72,11 @@ const ForgotPassword = () => {
             className=" mb-5 mx-auto max-w-[400px] text-center "
           >
             <div className="flex flex-col py-2">
-              <div className="flex flex-col justify-start items-start ">
-                <label className="font-medium">Email</label>
+              <div className="flex flex-col justify-start items-start  w-full">
+                <label className="font-medium text-[#606060]">Email</label>
                 <input
                   type="text"
-                  className="border-solid  w-full  border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                  className="border-solid  w-full  border-2 border-[#cae0e7]  rounded-3xl px-3 py-2 outline-none focus:shadow-3xl focus:border-[#cae0e7]"
                   {...register("email")}
                   autoComplete="off"
                 />
@@ -89,7 +88,10 @@ const ForgotPassword = () => {
               )}
             </div>
             {isSubmitting ? (
-              <button type="button" className="bg-red-500 text-white block text-center py-2 px-5 w-full shadow-lg mt-4 mx-auto">
+              <button
+                type="button"
+                className="bg-[#5ca7db] rounded-3xl text-white block text-center py-2 px-0 md:px-5 w-1/2 shadow-lg mt-4 mx-auto"
+              >
                 <LoadingButton
                   loading
                   loadingPosition="start"
@@ -102,7 +104,7 @@ const ForgotPassword = () => {
             ) : (
               <button
                 type="submit"
-                className="bg-red-500 text-white block text-center py-2 px-5 w-full shadow-lg mt-4 mx-auto"
+                className="bg-[#5ca7db] rounded-3xl text-white block text-center py-2 px-0 md:px-5 w-1/2 shadow-lg mt-4 mx-auto"
               >
                 Reset Password
               </button>
