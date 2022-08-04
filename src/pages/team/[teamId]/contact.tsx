@@ -94,7 +94,7 @@ export const Contact = () => {
   return (
     <Layout>
       <div className="md:mx-32 lg:mx-64 mx-4 flex justify-between">
-        <div className="max-w-[500px] w-full py-16">
+        <div className="max-w-[500px] w-full py-16 font-nunito">
           <div className="">
             <h1 className="text-5xl text-cy an-900 relative mb-8 pb-4 border-b ">
               {teamName}
@@ -119,7 +119,7 @@ export const Contact = () => {
                   autoComplete="off"
                   defaultValue={userInfo.username}
                   maxLength={30}
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                  className="md:max-w-[400px] w-full bg-[#0000000d] font-nunito border-2 px-3 py-2 rounded-3xl outline-none text-[#606060]"
                 />
                 {errors.fullname && (
                   <span className="text-red-500 text-left text-sm mt-1">
@@ -142,7 +142,7 @@ export const Contact = () => {
                   {...register("companyname")}
                   autoComplete="off"
                   maxLength={30}
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                  className="md:max-w-[400px] w-full bg-[#0000000d] font-nunito border-2 px-3 py-2 rounded-3xl outline-none  text-[#606060]"
                 />
                 {errors.companyname && (
                   <span className="text-red-500 text-left text-sm mt-1">
@@ -197,7 +197,7 @@ export const Contact = () => {
                     if (e.key === "Backspace" || e.key === "Tab" || e.key === "Enter") return;
                     if (isNaN(parseInt(e.key))) e.preventDefault();
                   }}
-                  className="md:max-w-[400px] w-full border-2 border-[#cae0e7] pl-8 px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                  className="md:max-w-[400px] w-full bg-[#0000000d] border-2 pl-8 px-3 py-2 outline-none font-nunito text-[#606060] rounded-3xl"
                 />
               </div>
               {errors && (
@@ -258,7 +258,7 @@ export const Contact = () => {
                   maxLength={200}
                   {...register("message", { required: true })}
                   autoComplete="off"
-                  className="w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+                  className="w-full border-2 px-3 py-2 outline-none rounded-3xl bg-[#0000000d] font-nunito text-[#606060]"
                 />
                 {errors.message && (
                   <span className="text-red-500 text-left text-sm mt-1">
@@ -275,10 +275,10 @@ export const Contact = () => {
             </div>
             <div className="mt-8">
               <button
-                className="w-fit px-8 py-2 bg-red-500 font-semibold text-white  
+                className="w-fit px-10 py-2 bg-red-500 font-semibold text-white  
                 flex justify-between cursor-pointer
                  border-2 border-red-500 
-                 hover:bg-transparent hover:text-red-500"
+                 hover:bg-transparent hover:text-red-500 rounded-3xl"
                 onClick={handleSubmit(onSubmit)}
               >
                 Submit
@@ -287,16 +287,16 @@ export const Contact = () => {
           </form>
         </div>
         <div className="max-w-[250px] md:flex hidden p-6 ml-4 flex-col items-center justify-center h-fit mt-32 border shadow-xl shadow-cyan-100 rounded-xl">
-          <h1 className="text-3xl w-full">Message</h1>
+          <h1 className="text-3xl w-full pb-4">Message</h1>
           <Typography className="w-full font-medium">
             Start a conversation today!
           </Typography>
-          <p>
+          <p className="pb-4">
             As soon as the vendor responds to your inquiry you’ll receive an
             email and a new message will be available on Kryptohub.
           </p>
           <Image src={"/desktop.svg"} alt="desktop" width={150} height={150} />
-          <Typography className="w-full font-medium">Stay Connected</Typography>
+          <Typography className="w-full font-medium pt-3">Stay Connected</Typography>
           <div className="flex items-center justify-center">
             <p className="text-sm">
               With each new reply we’ll send you an email and update your
