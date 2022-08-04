@@ -119,7 +119,7 @@ export const Contact = () => {
                   autoComplete="off"
                   defaultValue={userInfo.username}
                   maxLength={30}
-                  className="md:max-w-[400px] w-full bg-[#0000000d] font-nunito border-2 px-3 py-2 rounded-3xl outline-none text-[#606060]"
+                  className="md:max-w-[400px] w-full font-nunito border-2 px-3 py-2 rounded-3xl outline-none placeholder:text-[#606060] focus:shadow-xl focus:border-[#ecedee]"
                 />
                 {errors.fullname && (
                   <span className="text-red-500 text-left text-sm mt-1">
@@ -142,7 +142,7 @@ export const Contact = () => {
                   {...register("companyname")}
                   autoComplete="off"
                   maxLength={30}
-                  className="md:max-w-[400px] w-full bg-[#0000000d] font-nunito border-2 px-3 py-2 rounded-3xl outline-none  text-[#606060]"
+                  className="md:max-w-[400px] w-full font-nunito border-2 px-3 py-2 rounded-3xl outline-none placeholder:text-[#606060] focus:shadow-xl focus:border-[#ecedee]"
                 />
                 {errors.companyname && (
                   <span className="text-red-500 text-left text-sm mt-1">
@@ -197,7 +197,7 @@ export const Contact = () => {
                     if (e.key === "Backspace" || e.key === "Tab" || e.key === "Enter") return;
                     if (isNaN(parseInt(e.key))) e.preventDefault();
                   }}
-                  className="md:max-w-[400px] w-full bg-[#0000000d] border-2 pl-8 px-3 py-2 outline-none font-nunito text-[#606060] rounded-3xl"
+                  className="md:max-w-[400px] w-full border-2 pl-8 px-3 py-2 outline-none font-nunito placeholder:text-[#606060] rounded-3xl focus:shadow-xl focus:border-[#ecedee]"
                 />
               </div>
               {errors && (
@@ -258,7 +258,7 @@ export const Contact = () => {
                   maxLength={200}
                   {...register("message", { required: true })}
                   autoComplete="off"
-                  className="w-full border-2 px-3 py-2 outline-none rounded-3xl bg-[#0000000d] font-nunito text-[#606060]"
+                  className="md:max-w-[400px] w-full font-nunito border-2 px-3 py-2 rounded-3xl outline-none placeholder:text-[#606060] focus:shadow-xl focus:border-[#ecedee]"
                 />
                 {errors.message && (
                   <span className="text-red-500 text-left text-sm mt-1">
