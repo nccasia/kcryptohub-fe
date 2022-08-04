@@ -93,11 +93,21 @@ const Portfolio = ({
             justifyContent: "center",
           }}
         >
-          <div className="xs:w-2/3 w-full m-auto bg-white p-8 rounded-2xl shadow">
+          <div className="xs:w-2/3 w-full m-auto bg-white p-10 rounded-2xl shadow">
+            {show && (
+              <div className="w-full flex justify-end">
+                <button
+                  className="py-2 px-2 sm:hidden block"
+                  onClick={() => setPortfolio(null)}
+                >
+                  Close
+                </button>
+              </div>
+            )}
             <div className="">
               <div className="hidden md:block w-full">
                 {portfolio?.imageUrl ? (
-                  <div className="w-full h-[400px] mt-2 relative">
+                  <div className=" w-full h-[350px]  mt-2 relative">
                     <Image
                       className="object-fit"
                       src={PortfolioApi.getPortfolioImageUrl(
@@ -121,7 +131,7 @@ const Portfolio = ({
               </div>
               <div className="relative">
                 <div className="">
-                  <h2 className="md:text-[30px] sm:text-[24px] xs:text-[18px] text-[16px] text-center my-5 break-words">
+                  <h2 className="md:text-[30px] sm:text-[24px] xs:text-[18px] text-[16px] text-center my-2 break-words">
                     {portfolio?.title}
                   </h2>
                 </div>
@@ -156,7 +166,7 @@ const Portfolio = ({
                         Description: {portfolio.description}
                       </p>
                     ) : (
-                      <p className="text-sm text-[#6b7a7e] text-justify h-auto break-words whitespace-pre-line">
+                      <p className="text-sm text-[#6b7a7e] text-justify overflow-auto lg:max-h-[240px] max-h-[300px] break-words whitespace-pre-line">
                         Description: {portfolio.description}
                       </p>
                     )}
