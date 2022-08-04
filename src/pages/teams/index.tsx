@@ -33,6 +33,7 @@ export const Teams = () => {
   const [teams, setTeams] = useState([] as ITeam[]);
   const SkillSelect = useAppSelector(getSkillsSelector);
   const SkillSelectIsLoaded = useAppSelector(getSkillsIsLoadedSelector);
+  const [switchValue, setSwitchValue] = useState("All Filter");
   const [filter, setFilter] = useState({
     search: "",
     sortBy: 0,
@@ -135,7 +136,12 @@ export const Teams = () => {
       setIsReady(true);
     }
   }, [filter, currentPage, SkillSelect, SkillSelectIsLoaded]);
-  const debounceSearch = useCallback(debounce((value: string) => {setFilter({ ...filter, search: value })}, 1000),[setFilter]);
+  const debounceSearch = useCallback(
+    debounce((value: string) => {
+      setFilter({ ...filter, search: value });
+    }, 1000),
+    [setFilter]
+  );
   const [keyword, setKeyword] = useState("");
   const handleSearch = (event: any) => {
     setKeyword(event.target.value);
@@ -180,14 +186,14 @@ export const Teams = () => {
           </div>
         </div>
       </div>
-      <div className="relative">
+      <div className="relative font-nunito">
         <div className="flex flex-col items-center justify-center px-1 ">
-          <div className="container-lg relative md:w-11/12 lg:w-5/6 w-full ">
-            <div className="sticky top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
+          <div className="container-lg relative border-x-2 rounded-lg md:w-11/12 lg:w-5/6 w-full shadow-xl">
+            <div className="sticky border-b p-2 top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
               <div className="flex flex-col sm:flex-row ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
-                    <div className="p-1 xs:p-4 bg-primary text-white font-semibold border-2 border-cyan-900 mr-2 max-w-[10rem] hidden sm:block">
+                    <div className="p-1 xs:p-4 bg-[#848ABD] rounded-lg text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
                       <span>{totalTeam} Teams</span>
                     </div>
                   </div>
@@ -198,7 +204,7 @@ export const Teams = () => {
                       <input
                         type="text"
                         placeholder="Search here..."
-                        className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
+                        className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  rounded-full"
                         name="search"
                         value={keyword}
                         onChange={handleSearch}
@@ -206,62 +212,87 @@ export const Teams = () => {
                       <div className="absolute right-2">
                         {filter.search.length > 0 ? (
                           <Close
-                            onClick={() => {setFilter({ ...filter, search: "" }); setKeyword("")}}
+                            onClick={() => {
+                              setFilter({ ...filter, search: "" });
+                              setKeyword("");
+                            }}
                           />
                         ) : (
-                          <SearchIcon />
+                          <SearchIcon className="text-[#606060]" />
                         )}
                       </div>
                     </div>
-                    <div className="flex flex-1 justify-end items-center">
-                      <div className="xxs:flex hidden">
-                        <div className="cursor-pointer flex items-center justify-center mr-2">
-                          <ComboboxSelect
-                            label="Skills"
-                            items={SkillSelect?.map((sk) => sk.skillName)}
-                            selected={filter.skill}
-                            setSelected={handleSkillSelect}
-                          />
-                        </div>
-                        <div className="cursor-pointer flex items-center justify-center mr-2">
-                          <ComboboxSelect
-                            label="Timezone"
-                            items={Object.values(TimeZone)}
-                            selected={filter.timezone}
-                            setSelected={handleTimezoneSelect}
-                          />
-                        </div>
-                      </div>
-                      <div className="cursor-pointer flex items-center justify-center mr-2">
+                    <div className="flex flex-1 justify-center items-center font-jost ml-3">
+                      <div className="xxs:flex hidden lg:text-[18px] text-[#606060] text-[14px]">
                         <div
-                          className={`border-2 flex items-center justify-between w-full px-1 py-[0.125rem] `}
-                          onClick={() => {
+                          className="cursor-pointer flex items-center justify-center mr-5 hover:text-[#848abd]"
+                          id="All Filter"
+                          onClick={(e) => {
                             setShow(!show);
+                            setSwitchValue(e.currentTarget.id);
                           }}
                           ref={nodeRef as LegacyRef<HTMLDivElement>}
                         >
-                          <label className={`pointer-events-none min-w-[50px]`}>
-                            All filter
-                          </label>
+                          <div
+                            className={` flex items-center text-center justify-between w-full ${
+                              switchValue === "All Filter"
+                                ? "px-2 py-2 rounded-full shadow border-none text-[#848abd]"
+                                : ""
+                            }  `}
+                          >
+                            <label
+                              className={`pointer-events-none min-w-[50px]`}
+                            >
+                              All Filter
+                            </label>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex flex-row items-center justify-center border-l pl-2">
-                        <select
-                          name="sort"
-                          id=""
-                          value={filter.sortBy === 0 ? " " : filter.sortBy}
-                          className="bg-transparent border-2 "
-                          onChange={handleSortBySelect}
+                        <div
+                          className="cursor-pointer flex items-center justify-center mr-5"
+                          id="Skills"
+                          onClick={(e) => {
+                            setSwitchValue(e.currentTarget.id);
+                          }}
                         >
-                          <option hidden value="">
-                            Sort by
-                          </option>
-                          {SortBy.map((key, index) => (
-                            <option key={index} value={index}>
-                              {key}
-                            </option>
-                          ))}
-                        </select>
+                          <div
+                            className={` flex w-full ${
+                              switchValue === "Skills"
+                                ? "px-2 py-2 rounded-full shadow border-none"
+                                : ""
+                            }  `}
+                          >
+                            <ComboboxSelect
+                              label="Skills"
+                              items={SkillSelect?.map((sk) => sk.skillName)}
+                              selected={filter.skill}
+                              setSelected={handleSkillSelect}
+                              isSwitched={switchValue === "Skills"}
+                            />
+                          </div>
+                        </div>
+                        <div
+                          className="cursor-pointer flex items-center justify-center mr-5 "
+                          id="Timezone"
+                          onClick={(e) => {
+                            setSwitchValue(e.currentTarget.id);
+                          }}
+                        >
+                          <div
+                            className={` flex w-full ${
+                              switchValue === "Timezone"
+                                ? "px-2 py-2 rounded-full shadow border-none"
+                                : ""
+                            }  `}
+                          >
+                            <ComboboxSelect
+                              label="Timezone"
+                              items={Object.values(TimeZone)}
+                              selected={filter.timezone}
+                              setSelected={handleTimezoneSelect}
+                              isSwitched={switchValue === "Timezone"}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -345,9 +376,9 @@ export const Teams = () => {
                 setShow(false);
               }}
             >
-              <CancelOutlined />
+              <CancelOutlined className="text-[#606060]" />
             </div>
-            <span className="text-xl">All filter</span>
+            <span className="text-xl text-[#606060]">All filter</span>
           </div>
 
           <div className="flex flex-col items-end">
@@ -355,7 +386,7 @@ export const Teams = () => {
               <input
                 type="text"
                 placeholder="Search here..."
-                className="shadow appearance-none border  w-full text-cyan-700 focus:outline-none focus:shadow-outline p-1"
+                className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  rounded-full"
                 name="search"
                 onChange={handleSearch}
                 value={keyword}
@@ -364,7 +395,10 @@ export const Teams = () => {
               <div className="absolute right-2">
                 {filter.search.length > 0 ? (
                   <Close
-                    onClick={() => {setFilter({ ...filter, search: "" });setKeyword("")}}
+                    onClick={() => {
+                      setFilter({ ...filter, search: "" });
+                      setKeyword("");
+                    }}
                     className="cursor-pointer"
                   />
                 ) : (

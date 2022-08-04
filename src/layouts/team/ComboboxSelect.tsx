@@ -15,6 +15,7 @@ export const ComboboxSelect = ({
   setSelected,
   className,
   isCollapsor,
+  isSwitched,
 }: {
   label: string;
   items: string[];
@@ -22,6 +23,7 @@ export const ComboboxSelect = ({
   setSelected: (selected: string[]) => void;
   className?: string;
   isCollapsor?: boolean;
+  isSwitched?: boolean;
 }) => {
   const [filteredItems, setFilteredItems] = useState(items);
   const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
@@ -51,9 +53,9 @@ export const ComboboxSelect = ({
   };
 
   return (
-    <div className={`${className} bg-white `}>
+    <div className={`${className} bg-white text-[#606060] `}>
       <div
-        className={`cursor-pointer  py-1 
+        className={`cursor-pointer 
          flex items-center justify-center w-full`}
         onClick={() => {
           setShow(!show);
@@ -61,19 +63,29 @@ export const ComboboxSelect = ({
         ref={nodeRef as LegacyRef<HTMLDivElement>}
       >
         <div
-          className={`${show ? "border-cyan-900" : ""} ${
-            isCollapsor ? "" : "border-2"
-          } flex items-center justify-between px-1 w-full`}
+          className={`${show ? "" : ""} ${
+            isCollapsor ? "" : ""
+          } flex items-center justify-between px-1 w-full hover:text-[#848abd]`}
         >
           <label
-            className={`${isCollapsor ? "text-lg" : ""} pointer-events-none`}
+            className={`${isCollapsor ? "text-lg" : ""} pointer-events-none ${
+              isSwitched ? "text-[#848abd]" : ""
+            }`}
           >
             {label}
           </label>
           {show ? (
-            <KeyboardArrowUpOutlined className="pointer-events-none" />
+            <KeyboardArrowUpOutlined
+              className={`${
+                isSwitched ? "text-[#848abd]" : ""
+              } pointer-events-none`}
+            />
           ) : (
-            <KeyboardArrowDownOutlined className="pointer-events-none" />
+            <KeyboardArrowDownOutlined
+              className={`pointer-events-none ${
+                isSwitched ? "text-[#848abd]" : ""
+              }`}
+            />
           )}
         </div>
       </div>
@@ -83,8 +95,8 @@ export const ComboboxSelect = ({
           isCollapsor
             ? ""
             : ` ${
-                show ? "block border-cyan-900" : "hidden"
-              } absolute bg-white border-2 z-[100] 
+                show ? "block" : "hidden"
+              } absolute bg-white border-[1px] mt-3 rounded-lg z-[100] 
            max-h-[200px] `
         }`}
         ref={subNodeRef as Ref<unknown>}
@@ -92,11 +104,11 @@ export const ComboboxSelect = ({
         <div className="relative flex items-center justify-center p-1">
           <input
             type="text"
-            placeholder={`Search ${label}`}
-            className="p-1 rounded-none border focus:border-cyan-900 focus:outline-none w-full"
+            placeholder={`Search ${label === "Skills" ? "Skills" : ""}`}
+            className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-2 focus:outline-none  rounded-full"
             onChange={hanleSearchItems}
           />
-          <Search className="absolute right-2 text-sm" />
+          <Search className="absolute right-4 text-sm" />
         </div>
         <Collapse
           in={true}
@@ -110,7 +122,7 @@ export const ComboboxSelect = ({
                 <label
                   htmlFor={`${label}cb${index}${isCollapsor ? 0 : 1}`}
                   key={index}
-                  className="block cursor-pointer border-l-2 pl-1 border-transparent hover:border-cyan-900 hover:bg-cyan-100 "
+                  className="block cursor-pointer border-l-2 pl-1 mt-2 border-transparent lg:max-w-[350px] sm:max-w-[250px] overflow-hidden hover:border-cyan-900 hover:bg-cyan-100 "
                 >
                   <input
                     type="checkbox"
@@ -121,7 +133,7 @@ export const ComboboxSelect = ({
                   />
                   <label
                     htmlFor={`${label}cb${index}${isCollapsor ? 0 : 1}`}
-                    className="w-full cursor-pointer"
+                    className="w-full cursor-pointer "
                   >
                     {item}
                   </label>

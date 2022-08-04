@@ -29,7 +29,7 @@ const SkillDistribution = ({
   };
 
   return (
-    <section ref={skillDistributionRef} className="px-8 py-3">
+    <section ref={skillDistributionRef} className="py-3">
       {!teamProfile.skillDistribution?.length && editable && (
         <div className="flex items-center gap-x-2">
           <Link href="#">
@@ -51,15 +51,15 @@ const SkillDistribution = ({
 
       {teamProfile.skillDistribution?.length > 0 &&
         teamProfile.skillDistribution.map((item) => (
-          <div key={item.id} className="mb-10">
-            <div className="flex justify-between items-center">
+          <div key={item.id} className="mb-5">
+            <div className="flex justify-start items-center">
               <h3 className="text-[#6b7a7e] mb-3">
                 {item.skillDistributionName}
               </h3>
             </div>
 
-            <div className="w-full md:w-4/5 mb-6">
-              <div className="h-6 flex">
+            <div className="w-full mb-6">
+              <div className="h-6 flex justify-center">
                 {item.skillDistributionValue.map(
                   (skillDistributionValue, index) =>
                     Number(skillDistributionValue.quantity) > 0 && (
@@ -88,7 +88,7 @@ const SkillDistribution = ({
               </div>
             </div>
 
-            <ul className="flex flex-wrap gap-5">
+            {/*   <ul className="flex flex-wrap gap-5">
               {item.skillDistributionValue.map(
                 (skillDistributionValue, index) =>
                   Number(skillDistributionValue.quantity) > 0 && (
@@ -117,7 +117,7 @@ const SkillDistribution = ({
                     </li>
                   )
               )}
-            </ul>
+            </ul> */}
           </div>
         ))}
     </section>
