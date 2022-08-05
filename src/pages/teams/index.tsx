@@ -180,7 +180,7 @@ export const Teams = () => {
               <div className="flex flex-col sm:flex-row ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
-                    <div className="p-1 xs:p-4 bg-[#848abd] rounded-3xl text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
+                    <div className="p-1 xs:p-2.5 bg-[#848abd] rounded-3xl text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
                       <span>{totalTeam} Teams</span>
                     </div>
                   </div>
@@ -286,12 +286,12 @@ export const Teams = () => {
                 </div>
               </div>
               {filter.skill.length || filter.timezone.length > 0 ? (
-                <div className="p-2 border-b">
+                <div className="p-2 text-[#848ABD]">
                   {filter.skill.map((skill, index) => {
                     return (
                       <div
                         key={index}
-                        className="p-1 inline-block border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
+                        className="p-2 inline-block border my-1 rounded-full mr-2 w-fit text-sm cursor-pointer"
                         onClick={() => {
                           setFilter({
                             ...filter,
@@ -299,7 +299,7 @@ export const Teams = () => {
                           });
                         }}
                       >
-                        <span className="text-gray-400">Skills:</span>
+                        <span className="text-[#606060]">Skills:</span>
                         <span>{skill}</span>
                         <Close className="text-sm cursor-pointer" />
                       </div>
@@ -310,7 +310,7 @@ export const Teams = () => {
                       return (
                         <div
                           key={index}
-                          className="p-1 inline-block border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
+                          className="p-2 inline-block border my-1 rounded-full mr-2 w-fit text-sm cursor-pointer"
                           onClick={() => {
                             setFilter({
                               ...filter,
@@ -318,14 +318,14 @@ export const Teams = () => {
                             });
                           }}
                         >
-                          <span className="text-gray-400">Timezones:</span>
+                          <span className="text-[#606060]">Timezones:</span>
                           <span>{tz}</span>
                           <Close className="text-sm cursor-pointer" />
                         </div>
                       );
                     })}
                   <div
-                    className="p-1 inline-block border rounded-lg mr-2 w-fit text-sm hover:bg-cyan-50 cursor-pointer"
+                    className="p-2 inline-block bg-[#848ABD] text-white rounded-full mr-2 w-fit text-sm cursor-pointer"
                     onClick={handleClearAll}
                   >
                     <span>Clear All</span>
@@ -351,7 +351,7 @@ export const Teams = () => {
         </div>
 
         <div
-          className={`fixed right-0 top-0 bg-white overflow-y-scroll rounded-lg font-nunito h-full custom-scrollbar z-50 p-2 min-w-[300px] w-full xs:w-fit shadow-xl text-cyan-900 animate-slide-in-left ${
+          className={`fixed right-0 top-0 font-jost bg-white overflow-y-scroll h-full custom-scrollbar z-50 p-2 min-w-[300px] w-full xs:w-fit shadow-xl text-cyan-900 animate-slide-in-left ${
             show ? "" : "hidden"
           }`}
           ref={subNodeRef as LegacyRef<HTMLDivElement>}
@@ -365,7 +365,7 @@ export const Teams = () => {
             >
               <CancelOutlined className="text-[#606060]" />
             </div>
-            <span className="text-xl text-[#606060]">All filter</span>
+            <span className="text-xl text-[#606060]">All Filter</span>
           </div>
 
           <div className="flex flex-col items-end">

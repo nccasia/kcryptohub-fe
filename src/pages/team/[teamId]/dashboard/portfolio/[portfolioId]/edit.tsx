@@ -12,7 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   DesktopWindowsOutlined,
   LockOutlined,
-  PersonOutlineOutlined
+  PersonOutlineOutlined,
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
@@ -99,7 +99,7 @@ const schemaValidation = yup.object().shape({
 });
 
 const costEstimate = [
- "Freelance",
+  "Freelance",
   "2-9",
   "10-49",
   "50-249",
@@ -143,16 +143,20 @@ const PortfolioEdit = () => {
       PortfolioApi.getPortfolio(portfolioId)
         .then((portfolio) => {
           if (portfolio) {
-            
-            let media = '';
-            if(portfolio.imageUrl){
-              setImageUrl(PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl));
+            let media = "";
+            if (portfolio.imageUrl) {
+              setImageUrl(
+                PortfolioApi.getPortfolioImageUrl(portfolio.imageUrl)
+              );
               media = "image";
-            }
-            else if (portfolio.videoLink) {
+            } else if (portfolio.videoLink) {
               media = "video";
             }
-            reset({ ...portfolio, privacy: portfolio.privacy.toString(), media: media });
+            reset({
+              ...portfolio,
+              privacy: portfolio.privacy.toString(),
+              media: media,
+            });
             setPortfolio(portfolio);
           } else {
             toast.error("failed get portfolio info");
@@ -165,7 +169,6 @@ const PortfolioEdit = () => {
   }, [portfolioId, reset, teamId]);
 
   const onSubmit = async () => {
-    
     const data = await PortfolioApi.updatePortfolio(
       {
         ...watch(),
@@ -187,7 +190,7 @@ const PortfolioEdit = () => {
 
     teamApi.getTeam(teamId).then((team) => {
       dispatch(setTeam(team.data));
-    })
+    });
   };
   const handleCancel = () => {
     router.push(`/team/${teamId}/dashboard/portfolio/${portfolioId}`);
@@ -201,7 +204,7 @@ const PortfolioEdit = () => {
   return (
     <ManagePortfolio>
       <div>
-        <div className="lg:border-b-0 border-b mb-2 pb-2">
+        <div className="lg:border-b-0 border-b mb-2 pb-2 font-nunito">
           <h1 className="text-3xl">Add a New Portfolio Item</h1>
           <Typography className="text-xl my-3">
             Share your latest exciting work.
@@ -275,7 +278,7 @@ const PortfolioEdit = () => {
                         id="startDate"
                         type="month"
                         {...register("startDate")}
-                        className={` border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
+                        className={` pl-3 pr-8 py-2 bg-[#0000000d] rounded-3xl outline-none text-[#606060] ${
                           errors.startDate && "bg-red-200"
                         }`}
                       />
@@ -301,7 +304,7 @@ const PortfolioEdit = () => {
                         {...register("endDate")}
                         autoComplete="off"
                         placeholder={"MM/YYYY"}
-                        className={` border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
+                        className={` pl-3 pr-8 py-2 bg-[#0000000d] rounded-3xl outline-none text-[#606060] ${
                           errors.endDate && "bg-red-200"
                         }`}
                       />
@@ -326,9 +329,7 @@ const PortfolioEdit = () => {
                       {...register("description")}
                       placeholder="Tell a great story about this Portfolio Item."
                       maxLength={2000}
-                      className={`sm:min-w-[400px] lg:min-w-[600px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
-                        errors.description && "bg-red-200"
-                      }`}
+                      className={`sm:min-w-[400px] lg:min-w-[600px] w-full pl-3 pr-8 py-2 bg-[#0000000d] rounded-3xl outline-none text-[#606060]`}
                     />
                     <div className="absolute right-0 bottom-0  m-2 text-gray-400 text-sm font-normal">
                       {watch("description") ? watch("description").length : 0}/
@@ -366,9 +367,7 @@ const PortfolioEdit = () => {
                           id="videoLink"
                           {...register("videoLink")}
                           maxLength={300}
-                          className={`sm:min-w-[400px] lg:min-w-[600px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
-                            errors.videoLink && "bg-red-200"
-                          }`}
+                          className={`sm:min-w-[400px] lg:min-w-[600px] w-full  pl-3 pr-16 py-2 bg-[#0000000d] rounded-3xl outline-none text-[#606060] `}
                         />
                         <div className="absolute right-0 h-full p-2 flex items-center justify-center text-gray-400 text-sm font-normal">
                           {watch("videoLink") ? watch("videoLink").length : 0}/

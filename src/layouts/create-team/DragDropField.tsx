@@ -22,7 +22,7 @@ export const DragDropField = ({
         className="h-0 w-0 peer"
         onChange={uploadToClient}
       />
-      <div className="min-h-[202px] mt-[-26px] max-w-[300px] w-full h-[202px] mr-3 relative border border-[#cae0e7] border-dashed border-2 peer-focus:border-cyan-600 rounded-lg">
+      <div className="min-h-[202px] mt-[-26px] max-w-[300px] w-full h-[202px] mr-3 relative border border-[#848ABD] border-dashed border-2 peer-focus:border-cyan-600 rounded-lg">
         {createObjectURL ? (
           <div>
             <div className="absolute top-0 right-0 translate-y-[-30%] translate-x-[30%] z-10 ">
@@ -67,7 +67,7 @@ export const DragDropField = ({
               >
                 browse for an image
                 <span className="text-[#848abd]">
-                  <AddPhotoAlternate />
+                  <AddPhotoAlternate className="mb-1" />
                 </span>
               </label>
             </p>

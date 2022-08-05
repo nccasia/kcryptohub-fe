@@ -198,9 +198,9 @@ export const Clients = () => {
                             className="items-center font-medium w-fit pl-4"
                             onClick={() => handleDelete(index)}
                           >
-                            <a className="text-sm text-[#848abd] mt-5 flex items-center relative cursor-pointer hover:underline hover:decoration-solid">
+                            <a className="text-sm text-[#606060] mt-5 flex items-center relative cursor-pointer hover:underline hover:decoration-solid">
                               Delete key clients
-                              <PlaylistAddIcon className="text-red-500 text-[16px] ml-1 mt-1" />
+                              <PlaylistAddIcon className=" text-[#848ABD] text-[16px] ml-1 mt-1" />
                             </a>
                           </div>
                         )}
@@ -217,9 +217,9 @@ export const Clients = () => {
                     className="items-center font-medium w-fit pl-16 mb-3"
                     onClick={handleAdd}
                   >
-                    <a className="text-sm text-[#848abd] flex items-center relative cursor-pointer hover:underline hover:decoration-solid">
+                    <a className="text-sm text-[#606060] flex items-center relative cursor-pointer hover:underline hover:decoration-solid">
                       Add another key clients
-                      <PlaylistAddIcon className="text-red-500 text-[16px] ml-1 mt-1" />
+                      <PlaylistAddIcon className=" text-[#848ABD] text-[16px] ml-1 mt-1" />
                     </a>
                   </div>
                 )}
@@ -236,10 +236,10 @@ export const Clients = () => {
                 <button
                   disabled={!disUpdate}
                   type="submit"
-                  className={`px-4 py-2 w-fit bg-[#848abd] text-white  flex justify-center items-center border-2 border-[#848abd]
-               hover:bg-transparent hover:text-[#848abd] ${
-                 disUpdate ? "cursor-pointer" : "cursor-not-allowed opacity-50"
-               } `}
+                  className={`px-4 py-2 w-fit bg-[#848ABD] rounded-full text-white  flex justify-center items-center
+                ${
+                  disUpdate ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+                } `}
                   onClick={handleSubmit(onSubmit)}
                 >
                   Update key clients
@@ -248,10 +248,9 @@ export const Clients = () => {
                 <button
                   disabled={!dis}
                   type="submit"
-                  className={`px-4 py-2 w-fit bg-[#848abd] text-white  flex justify-center items-center border-2 border-[#848abd] rounded-3xl
-               hover:bg-transparent hover:text-[#848abd] ${
-                 dis ? "cursor-pointer" : "cursor-not-allowed opacity-50"
-               } `}
+                  className={`px-4 py-2 w-fit bg-[#848ABD] rounded-full text-white  flex justify-center items-center  ${
+                    dis ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+                  } `}
                   onClick={handleSubmit(onSubmit)}
                 >
                   Save changes

@@ -15,7 +15,14 @@ import { IProfile } from "@/type/profile/profile.type";
 import { ISkill } from "@/type/skill/skill.types";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Autocomplete, Box, Container, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Container,
+  TextField,
+  Popper,
+  Paper,
+} from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -24,16 +31,18 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
 const theme = createTheme({
+  typography: {
+    fontFamily: "Nunito",
+  },
   components: {
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: 0,
-          border: "2px solid #cae0e7",
+          borderRadius: "1.5rem",
+          border: "2px solid transparent",
           "&.Mui-focused": {
-            borderColor: "#17313b",
-            boxShadow:
-              "inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%)",
+            borderColor: "transparent",
+            boxShadow: "0px 1px 2px 2px transparent",
           },
         },
         notchedOutline: {
@@ -43,6 +52,18 @@ const theme = createTheme({
     },
   },
 });
+
+const CustomPaper = (props: any) => {
+  return (
+    <Paper
+      {...props}
+      sx={{
+        width: "100%",
+        borderRadius: "10px",
+      }}
+    />
+  );
+};
 
 const schemaValidation = Yup.object({
   username: Yup.string().max(30, "Username dose not exceed 30 character!"),
@@ -221,7 +242,7 @@ const UpdateProfilePage = () => {
                   register={register("googleAddress")}
                   errors={errors.googleAddress}
                 />
-                <div className="md:flex items-start mx-5 my-8">
+                <div className="md:flex items-center mx-5 my-8">
                   <label className="text-primary min-w-[130px] block py-2 md:py-0">
                     Skills:
                   </label>
@@ -229,10 +250,11 @@ const UpdateProfilePage = () => {
                     multiple
                     options={handleAutocompleteOption()}
                     getOptionLabel={(option) => option.skillName}
+                    PaperComponent={CustomPaper}
                     value={userSkills}
                     filterSelectedOptions
                     onChange={(e, value) => setUserSkills(value)}
-                    className="md:max-w-[400px] w-full bg-[#0000000d] mt-1 rounded-3xl text-[#606060]"
+                    className="md:max-w-[400px] w-full bg-[#0000000d] mt-1 rounded-3xl text-[#606060] "
                     sx={{
                       display: "inline-block",
                       "& div": {

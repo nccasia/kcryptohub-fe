@@ -87,10 +87,10 @@ const PortfolioDetail = () => {
 
   return (
     <ManagePortfolio>
-      <div className="w-full">
+      <div className="w-full font-nunito text-[#606060]">
         <div className="flex items-center justify-between border-b ">
           <h1 className="text-2xl font-medium break-all">{portfolio.title}</h1>
-          <span className="text-cyan-900 text-xs ">
+          <span className="text-xs ">
             <LockOutlined className="text-sm" /> {EPrivacy[portfolio.privacy]}
           </span>
         </div>
@@ -157,20 +157,20 @@ const PortfolioDetail = () => {
             />
           </div>
         ) : null}
-        <div className="flex flex-col-reverse xs:flex-row items-center justify-between p-2">
+        <div className="flex flex-col-reverse my-1 xs:flex-row items-center justify-between p-2">
           <Link href={`#`}>
-            <a onClick={handleDelete} className="py-4 xs:py-0">
+            <a
+              onClick={handleDelete}
+              className="py-4 xs:py-0 text-[#848ABD] hover:underline"
+            >
               Delete Portfolio Item{" "}
-              <DeleteOutline className="text-md text-secondary" />
+              <DeleteOutline className="text-md text-[#848ABD]" />
             </a>
           </Link>
           <Link
             href={`/team/${teamId}/dashboard/portfolio/${portfolioId}/edit`}
           >
-            <a
-              className="px-4 py-2 w-fit bg-secondary text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
-               hover:bg-transparent hover:text-secondary"
-            >
+            <a className="px-4 py-2 w-fit rounded-full bg-[#848ABD] text-white  flex justify-center items-center cursor-pointer ">
               Edit Portoflio Item
             </a>
           </Link>

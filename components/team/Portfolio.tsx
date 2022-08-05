@@ -166,7 +166,7 @@ const Portfolio = ({
                         Description: {portfolio.description}
                       </p>
                     ) : (
-                      <p className="text-sm text-[#6b7a7e] overflow-auto text-left lg:max-h-[240px] max-h-[300px] break-all whitespace-pre-line">
+                      <p className="text-sm text-[#6b7a7e] overflow-auto text-left custom-scrollbar lg:max-h-[240px] max-h-[300px] break-all whitespace-pre-line">
                         Description: {portfolio.description}
                       </p>
                     )}

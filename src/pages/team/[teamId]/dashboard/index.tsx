@@ -8,10 +8,18 @@ import { getDashboardInformationSelector } from "@/redux/selector";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
 import { IColors } from "@/type/team/team.type";
 import {
-  AvTimerOutlined, BusinessCenterOutlined,
+  AvTimerOutlined,
+  BusinessCenterOutlined,
   CalendarMonthOutlined,
-  CheckCircleOutlined, CircleRounded, Delete, EmailOutlined,
-  EmojiEventsOutlined, FlagOutlined, LanguageOutlined, PeopleOutline
+  CheckCircleOutlined,
+  CircleRounded,
+  Delete,
+  EmailOutlined,
+  EmojiEventsOutlined,
+  FlagOutlined,
+  LanguageOutlined,
+  People,
+  PeopleOutline,
 } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
@@ -82,18 +90,18 @@ const Dashboard = () => {
       if (res) {
         dispatch(getProfile());
         toast.success("Delete team success");
-        router.push('/manage-teams');
+        router.push("/manage-teams");
       } else {
         toast.error("Failed deleting team");
       }
     });
-  }
+  };
 
   return (
     <DashboardLayout>
-      <div className="w-full h-full bg-thirdary">
+      <div className="w-full h-full ">
         <div className="container mx-auto pt-4">
-          <div className="bg-white w-full">
+          <div className="bg-white w-full rounded-xl shadow-xl">
             <div className="grid grid-cols-12">
               <div className="md:col-span-3 col-span-12 p-3">
                 <div className="py-2">
@@ -120,7 +128,9 @@ const Dashboard = () => {
                           </span>
                         </a>
                       </Link>
-                      <p className="text-[#848abd] text-ellipsis">{team.slogan}</p>
+                      <p className="text-[#848ABD] text-ellipsis">
+                        {team.slogan}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -129,13 +139,13 @@ const Dashboard = () => {
                     <span>Basic Profile</span>
                   </div>
                   <div
-                    className="text-[#848abd] cursor-pointer hover:text-secondary"
+                    className="text-[#606060] cursor-pointer hover:text-[#848ABD]"
                     onClick={handleDeleteTeam}
                   >
-                    Delete team <Delete className="text-[#848abd]" />
+                    Delete team <Delete className="text-[#848ABD]" />
                   </div>
                 </div>
-                <div className="md:flex grid grid-cols-2 flex-col text-sm py-2  text-[#83a8be]">
+                <div className="md:flex grid grid-cols-2 flex-col text-sm py-2  text-[#848ABD]">
                   {team.status ? (
                     <span className="text-red-500 py-1">
                       <CheckCircleOutlined /> Verified
@@ -304,9 +314,11 @@ const Dashboard = () => {
               </div>
               <div className="md:col-span-3 col-span-12">
                 <p className="p-3 break-words">
-                  {team.description.length > 650?showAll
-                    ? team.description
-                    : `${team.description.slice(0, 650)}...` : team.description}
+                  {team.description.length > 650
+                    ? showAll
+                      ? team.description
+                      : `${team.description.slice(0, 650)}...`
+                    : team.description}
                   {showAll ? (
                     <span
                       className="text-cyan-600 cursor-pointer ml-2"

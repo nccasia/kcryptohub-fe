@@ -335,9 +335,7 @@ const NewPortfolio = () => {
                           id="videoLink"
                           {...register("videoLink")}
                           maxLength={300}
-                          className={`sm:min-w-[400px] lg:min-w-[600px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
-                            errors.videoLink && "bg-red-200"
-                          }`}
+                          className={`sm:min-w-[400px] lg:min-w-[600px] w-full  pl-3 pr-8 py-2 outline-none peer bg-[#0000000d] rounded-3xl outline-none text-[#606060] `}
                         />
                         <div className="absolute right-0 h-full p-2 flex items-center justify-center text-gray-400 text-sm font-normal">
                           {watch("videoLink") ? watch("videoLink").length : 0}/
