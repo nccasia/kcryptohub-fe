@@ -105,6 +105,7 @@ export const TeamCard = (props: Props) => {
                 key={team.id}
                 layout="fill"
                 objectFit="contain"
+                className="rounded-lg"
                 src={teamImgSrc}
                 onError={() => setTeamImgSrc("/user1.png")}
                 alt="logo"
@@ -152,11 +153,11 @@ export const TeamCard = (props: Props) => {
                             show ? "bg-white text-[#848ABD]" : ""
                           }`}
                         ></Bookmark>
-                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-[#848ABD] rounded-lg top-[24px] right-[-24px]">
+                        <div className="absolute w-[220px] z-[100] h-[50px] bg-white border-2 border-[#848ABD] rounded-lg top-[24px] right-[-24px]">
                           <div className="text-left px-2">
-                            <li className="list-none py-1 cursor-pointer border-b-[1px] font-nunito">
+                            <li className="list-none cursor-pointer border-b-[1px] font-nunito">
                               <a
-                                className="text-[#848ABD] font-medium"
+                                className="text-[#848ABD] text-sm font-medium"
                                 onClick={handleRemoveFromShortList}
                               >
                                 Remove from Shortlist
@@ -164,7 +165,7 @@ export const TeamCard = (props: Props) => {
                             </li>
 
                             <Link href={`/short-list`}>
-                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
+                              <a className="text-xs text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
                                 View Shortlist {">"}
                               </a>
                             </Link>
@@ -193,11 +194,11 @@ export const TeamCard = (props: Props) => {
                             show ? "bg-white text-[#848ABD]" : ""
                           }`}
                         ></Bookmark>
-                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 rounded-lg border-[#848ABD] top-[24px] right-[-24px]">
+                        <div className="absolute w-[220px] z-[100] h-[50px] bg-white border-2 rounded-lg border-[#848ABD] top-[24px] right-[-24px]">
                           <div className="text-left px-2">
-                            <li className="list-none py-1 cursor-pointer border-b-[1px] font-nunito">
+                            <li className="list-none cursor-pointer border-b-[1px] font-nunito">
                               <a
-                                className="text-[#848ABD] font-medium"
+                                className="text-[#848ABD] font-medium text-sm"
                                 onClick={handleAddToShortList}
                               >
                                 Add to Shortlist
@@ -205,7 +206,7 @@ export const TeamCard = (props: Props) => {
                             </li>
 
                             <Link href={`/short-list`}>
-                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
+                              <a className=" text-xs text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
                                 View Shortlist {">"}
                               </a>
                             </Link>

@@ -241,17 +241,17 @@ const Dashboard = () => {
                   {team.skillDistribution?.length > 0 &&
                     team.skillDistribution.map((item) => (
                       <div key={item.id} className="mb-10">
-                        <h3 className="text-[#6b7a7e] mb-3">
+                        <h3 className="text-[#6b7a7e] my-3">
                           {item.skillDistributionName}
                         </h3>
                         <div className="w-full md:w-4/5 mb-6">
-                          <div className="h-12 py-2 border-x border-[#cae0e7] flex">
+                          <div className="h-10 py-2 flex">
                             {item.skillDistributionValue.map(
                               (skillDistributionValue, index) =>
                                 skillDistributionValue.quantity > 0 && (
                                   <div
                                     key={skillDistributionValue.field}
-                                    className="relative flex justify-center items-center group h-full"
+                                    className="relative flex justify-center items-center group h-full first:rounded-l-lg last:rounded-r-lg"
                                     style={{
                                       width: `${handleCalculatePercentage(
                                         item.skillDistributionValue,
