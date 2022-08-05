@@ -173,15 +173,8 @@ export const Teams = () => {
   return (
     <Layout>
       <div className="flex items-center justify-center relative bg-primary border-t border-cyan-500  ">
-        <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
-          <div
-            className="px-4 py-2 w-fit border-2 border-red-500 xxs:flex hidden items-center justify-center text-xl
-           before:bg-cyan-300 before:h-[6px] before:w-[6px] before:rounded before:absolute before:top-[-4px] before:z-50
-           after:bg-cyan-700 after:h-4 after:w-[1px] after:absolute after:top-[2px]"
-          >
-            <span>2022 Kryptohub</span>
-          </div>
-          <div className="ml-4 text-3xl">
+        <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5">
+          <div className="text-3xl">
             <h1>List Teams</h1>
           </div>
         </div>

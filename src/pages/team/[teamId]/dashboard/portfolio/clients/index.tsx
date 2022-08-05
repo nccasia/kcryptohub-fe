@@ -228,7 +228,7 @@ export const Clients = () => {
             <div className="flex items-center justify-end p-4">
               <button
                 type="button"
-                className="bg-white px-16 py-3 hover:text-cyan-600 "
+                className="bg-white px-16 py-3 text-[#848ABD] hover:underline "
               >
                 Cancel
               </button>
@@ -236,10 +236,10 @@ export const Clients = () => {
                 <button
                   disabled={!disUpdate}
                   type="submit"
-                  className={`px-4 py-2 w-fit bg-secondary text-white  flex justify-center items-center border-2 border-secondary
-               hover:bg-transparent hover:text-secondary ${
-                 disUpdate ? "cursor-pointer" : "cursor-not-allowed opacity-50"
-               } `}
+                  className={`px-4 py-2 w-fit bg-[#848ABD] rounded-full text-white  flex justify-center items-center
+                ${
+                  disUpdate ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+                } `}
                   onClick={handleSubmit(onSubmit)}
                 >
                   Update key clients
@@ -248,10 +248,9 @@ export const Clients = () => {
                 <button
                   disabled={!dis}
                   type="submit"
-                  className={`px-4 py-2 w-fit bg-secondary text-white  flex justify-center items-center border-2 border-secondary
-               hover:bg-transparent hover:text-secondary ${
-                 dis ? "cursor-pointer" : "cursor-not-allowed opacity-50"
-               } `}
+                  className={`px-4 py-2 w-fit bg-[#848ABD] rounded-full text-white  flex justify-center items-center  ${
+                    dis ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+                  } `}
                   onClick={handleSubmit(onSubmit)}
                 >
                   Save changes

@@ -457,7 +457,7 @@ const NewPortfolio = () => {
             </div>
             <div className="flex xxs:flex-row flex-col-reverse items-center justify-end p-4">
               <button
-                className="bg-white px-16 py-3 hover:text-cyan-600 "
+                className="bg-white px-16 py-3 text-[#848ABD] hover:underline  "
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
@@ -467,8 +467,7 @@ const NewPortfolio = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 w-fit bg-secondary text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
-               hover:bg-transparent hover:text-secondary
+                className="px-4 py-2 w-fit bg-[#848ABD] text-white rounded-full flex justify-center items-center cursor-pointer 
                disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSubmit(onSubmit)}
                 disabled={!isValid}

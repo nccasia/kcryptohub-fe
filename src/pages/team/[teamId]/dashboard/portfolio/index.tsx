@@ -11,11 +11,11 @@ import React, { useEffect, useState } from "react";
 const Portfolio = () => {
   const router = useRouter();
   const [teamId, setTeamId] = useState(router.query.teamId as string);
-  useEffect(() =>{
-    if(router.query.teamId){
+  useEffect(() => {
+    if (router.query.teamId) {
       setTeamId(router.query.teamId as string);
     }
-  },[router.query]);
+  }, [router.query]);
 
   return (
     <ManagePortfolio>
@@ -41,10 +41,7 @@ const Portfolio = () => {
               them and showcase examples of work that you have performed.
             </p>
             <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
-              <a
-                className="px-8 py-2 w-fit bg-secondary font-semibold text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
-               hover:bg-transparent hover:text-secondary"
-              >
+              <a className="px-8 py-3 w-fit bg-[#848ABD] font-semibold text-white  flex justify-center items-center cursor-pointer rounded-full">
                 Add a Portfolio Item
               </a>
             </Link>
@@ -89,10 +86,7 @@ const Portfolio = () => {
         <hr />
         <div className="p-3 flex justify-end">
           <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
-            <a
-              className="px-4 py-2 w-fit bg-secondary font-semibold text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
-               hover:bg-transparent hover:text-secondary"
-            >
+            <a className="px-4 py-2 w-fit bg-[#848ABD] font-semibold text-white  flex justify-center items-center cursor-pointer rounded-full">
               Add a Portfolio Item
             </a>
           </Link>
