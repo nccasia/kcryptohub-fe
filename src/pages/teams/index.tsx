@@ -172,28 +172,15 @@ export const Teams = () => {
 
   return (
     <Layout>
-      <div className="flex items-center justify-center relative bg-primary border-t border-cyan-500  ">
-        <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
-          <div
-            className="px-4 py-2 w-fit border-2 border-red-500 xxs:flex hidden items-center justify-center text-xl
-           before:bg-cyan-300 before:h-[6px] before:w-[6px] before:rounded before:absolute before:top-[-4px] before:z-50
-           after:bg-cyan-700 after:h-4 after:w-[1px] after:absolute after:top-[2px]"
-          >
-            <span>2022 Kryptohub</span>
-          </div>
-          <div className="ml-4 text-3xl">
-            <h1>List Teams</h1>
-          </div>
-        </div>
-      </div>
+      <div className="flex items-center justify-center relative bg-[#606060] border-t border-[#848abd] font-nunito"></div>
       <div className="relative font-nunito">
-        <div className="flex flex-col items-center justify-center px-1 ">
-          <div className="container-lg relative border-x-2 rounded-lg md:w-11/12 lg:w-5/6 w-full shadow-xl">
-            <div className="sticky border-b p-2 top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
+        <div className="flex flex-col items-center justify-center  w-full">
+          <div className="container-lg border-x-2 w-full ">
+            <div className="sticky border-b p-2 top-0 w-full flex flex-col text-cyan-700 bg-white z-10 shadow-lg">
               <div className="flex flex-col sm:flex-row ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
-                    <div className="p-1 xs:p-4 bg-[#848ABD] rounded-lg text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
+                    <div className="p-1 xs:p-4 bg-[#848abd] rounded-3xl text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
                       <span>{totalTeam} Teams</span>
                     </div>
                   </div>
@@ -204,7 +191,7 @@ export const Teams = () => {
                       <input
                         type="text"
                         placeholder="Search here..."
-                        className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  rounded-full"
+                        className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  border-[1px] border-[#848abd] rounded-3xl"
                         name="search"
                         value={keyword}
                         onChange={handleSearch}
@@ -248,7 +235,7 @@ export const Teams = () => {
                           </div>
                         </div>
                         <div
-                          className="cursor-pointer flex items-center justify-center mr-5"
+                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full shadow border-none text-[#848abd]"
                           id="Skills"
                           onClick={(e) => {
                             setSwitchValue(e.currentTarget.id);
@@ -271,7 +258,7 @@ export const Teams = () => {
                           </div>
                         </div>
                         <div
-                          className="cursor-pointer flex items-center justify-center mr-5 "
+                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full shadow border-none text-[#848abd]"
                           id="Timezone"
                           onClick={(e) => {
                             setSwitchValue(e.currentTarget.id);
@@ -346,7 +333,7 @@ export const Teams = () => {
                 </div>
               ) : null}
             </div>
-            <div className="flex flex-col items-center justify-center w-full">
+            <div className="flex flex-col items-center justify-center  w-full md:w-4/5 mx-auto">
               {teams.map((item, index) => (
                 <TeamCard team={item as ITeam} key={index} />
               ))}
@@ -364,7 +351,7 @@ export const Teams = () => {
         </div>
 
         <div
-          className={`fixed right-0 top-0 bg-white overflow-y-scroll h-full custom-scrollbar z-50 p-2 min-w-[300px] w-full xs:w-fit shadow-xl text-cyan-900 animate-slide-in-left ${
+          className={`fixed right-0 top-0 bg-white overflow-y-scroll rounded-lg font-nunito h-full custom-scrollbar z-50 p-2 min-w-[300px] w-full xs:w-fit shadow-xl text-cyan-900 animate-slide-in-left ${
             show ? "" : "hidden"
           }`}
           ref={subNodeRef as LegacyRef<HTMLDivElement>}

@@ -58,7 +58,7 @@ const CreateNewTeam = () => {
             </h1>
             <div className="md:block hidden">
               <div className="flex pt-10 pb-5">
-                <div className="flex-[50%] relative px-2 py-1 xl:text-xl text-sm rounded-3xl md:text-lg text-white bg-[#5ca7db] shadow-lg mr-1">
+                <div className="flex-[50%] relative px-2 py-1 xl:text-xl text-sm rounded-3xl md:text-lg text-white bg-[#848abd] shadow-lg mr-1">
                   {step === 0 && (
                     <div className="absolute bottom-[40px] text-black right-0 flex justify-end items-center">
                       <div className="mr-2 xl:text-lg relative text-sm lg:text-base">
@@ -75,9 +75,7 @@ const CreateNewTeam = () => {
                 <div
                   className={
                     "flex-[50%] px-2 xl:text-xl items-center rounded-3xl py-1 relative text-sm md:text-lg transition-all shadow-lg  duration-500 ease-in-out " +
-                    (step === 0
-                      ? "bg-[rgba(62,131,158,.25)]"
-                      : "bg-[#5ca7db] text-white")
+                    (step === 0 ? "bg-[#eff0f5]" : "bg-[#848abd] text-white")
                   }
                 >
                   {step === 1 && (
@@ -85,7 +83,7 @@ const CreateNewTeam = () => {
                       <div className="mr-2 xl:text-lg relative text-xs lg:text-base">
                         Add Skill Distribution
                       </div>
-                      <div className="bg-[#ff3d2e] px-2 py-1 flex justify-center items-center text-white after:content-[''] rounded-3xl after:border-[#c3281d] after:border-solid after:rotate-45 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-5px] after:bottom-[-6px]">
+                      <div className="bg-[#ff3d2e] px-2 py-1 flex justify-center items-center text-white after:content-[''] rounded-3xl after:border-[#c3281d] after:border-solid after:rotate-45 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:left-[-5px] after:bottom-[-6px]">
                         100%
                       </div>
                     </div>

@@ -133,7 +133,7 @@ const Register = () => {
   }, [watch("emailAddress")]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center  py-10 px-4 sm:px-6 lg:px-8 bg-[#f9fafb] font-jost">
+    <div className="min-h-screen  flex items-center justify-center  py-10 px-4 sm:px-6 lg:px-8 bg-[#f9fafb] font-jost">
       <div className="flex flex-col items-center content-center relative  w-[470px] ">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -172,7 +172,7 @@ const Register = () => {
                     id="email-address"
                     type="email"
                     autoComplete="off"
-                    className="appearance-none relative block w-[230px] px-3 py-2 border-2 border-[#cae0e7]  rounded-3xl placeholder-[#606060] text-[#606060]  focus:outline-none focus:ring-[#cae0e7] focus:border-[#cae0e7] focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-[230px] px-3 py-2 border-2 border-[#848abd]  rounded-3xl placeholder-[#606060] text-[#606060]  focus:outline-none focus:ring-[#848abd] focus:border-[#848abd] focus:z-10 sm:text-sm"
                     {...register("emailAddress")}
                   />
                 </div>
@@ -199,10 +199,10 @@ const Register = () => {
                 <button
                   disabled={!isDirty || errors.emailAddress || !validateEmail}
                   className={
-                    "px-6 py-2 text-white rounded-3xl shadow-3xl " +
+                    "px-6 py-2 text-white rounded-3xl hover:shadow-lg " +
                     (!isDirty || errors.emailAddress || !validateEmail
                       ? "bg-[gray] cursor-not-allowed "
-                      : "bg-[#5ca7db]")
+                      : "bg-[#848abd]")
                   }
                   onClick={onNext}
                 >
@@ -213,7 +213,7 @@ const Register = () => {
           )}
           {step === 1 && (
             <>
-              <div className="mb-5 text-[#944C00]">
+              <div className="mb-5 text-[#606060] font-jost">
                 <div className="flex justify-center mb-4 items-center w-full">
                   <span className=" w-[150px] text-left mr-2 font-bold ">
                     Username
@@ -222,7 +222,7 @@ const Register = () => {
                     id="username"
                     type="text"
                     autoComplete="off"
-                    className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-[230px] px-3 py-2  border-2 border-[#848abd]  border-solid placeholder-[#606060] text-[#606060] rounded-3xl focus:outline-none focus:shadow-md focus:border-[#848abd] focus:z-10 sm:text-sm"
                     {...register("username")}
                   />
                 </div>
@@ -256,7 +256,7 @@ const Register = () => {
                     id="password"
                     type="password"
                     autoComplete="off"
-                    className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-[230px] px-3 py-2  border-2 border-[#848abd]  border-solid placeholder-[#606060] text-[#606060] rounded-3xl focus:outline-none focus:shadow-md focus:border-[#848abd] focus:z-10 sm:text-sm"
                     {...register("password")}
                   />
                 </div>
@@ -278,7 +278,7 @@ const Register = () => {
                   <input
                     id="confirmPassword"
                     type="password"
-                    className="appearance-none relative block w-[230px] px-3 py-2 border border-gray-700 border-solid placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-[230px] px-3 py-2  border-2 border-[#848abd]  border-solid placeholder-gray-500 text-[#606060] rounded-3xl focus:outline-none focus:shadow-md focus:border-[#848abd] focus:z-10 sm:text-sm"
                     {...register("confirmPassword", { required: true })}
                   />
                 </div>
@@ -302,7 +302,7 @@ const Register = () => {
                       setStep((cur) => cur - 1);
                     }
                   }}
-                  className="px-6 py-2 bg-transparent border border-black mr-5 text-black rounded"
+                  className="px-6 py-2 bg-transparent border border-[#848abd] mr-5 text-[#606060] rounded-3xl"
                 >
                   Back
                 </button>
@@ -310,9 +310,9 @@ const Register = () => {
                   disabled={!isValid}
                   type="submit"
                   className={
-                    "px-6 py-2  text-white rounded " +
+                    "px-6 py-2  text-white rounded-3xl " +
                     (isValid
-                      ? "bg-[#944C00]"
+                      ? "bg-[#848abd] hover:shadow-lg"
                       : "bg-[gray] hover:cursor-not-allowed")
                   }
                   ref={buttonRef}

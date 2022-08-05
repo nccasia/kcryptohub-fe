@@ -294,7 +294,7 @@ export const CreateForm = (props: IProps) => {
                     Team Website
                   </label>
                   <div className="w-full flex flex-col justify-center relative">
-                    <LanguageOutlinedIcon className="absolute left-2 text-[#606060] text-[20px]" />
+                    <LanguageOutlinedIcon className="absolute left-2 text-[#848abd] text-[20px]" />
                     <input
                       {...register("linkWebsite")}
                       autoComplete="off"
@@ -473,7 +473,7 @@ export const CreateForm = (props: IProps) => {
                   Sales Email
                 </label>
                 <div className="w-full flex flex-col justify-center relative">
-                  <EmailOutlinedIcon className="absolute left-2 text-[#606060] text-[20px] bottom-[11px]" />
+                  <EmailOutlinedIcon className="absolute left-2 text-[#848abd] text-[20px] bottom-[11px]" />
                   <input
                     autoComplete="off"
                     {...register("saleEmail")}
@@ -558,19 +558,17 @@ export const CreateForm = (props: IProps) => {
                 className="text-[#606060] flex items center"
                 onClick={handleBack}
               >
-                <a>
-                  <span className="text-[#5ca7db] font-medium">
-                    <ChevronLeftIcon />
-                  </span>
-                  Back
-                </a>
+                <span className="text-[#848abd] font-medium">
+                  <ChevronLeftIcon />
+                </span>
+                <a>Back</a>
               </button>
             )}
             <button
               type="button"
               onClick={handleSubmit(handleSave)}
               className={
-                "py-3 md:text-md text-sm text-white px-3 flex items center bg-[#5ca7db] rounded-3xl disabled:opacity-80 "
+                "py-3 md:text-md text-sm text-white px-3 flex items center bg-[#848abd] rounded-3xl disabled:opacity-80 "
               }
               disabled={btnDisable}
             >
@@ -591,12 +589,12 @@ export const CreateForm = (props: IProps) => {
                   )}
                 </>
               ) : (
-                <>
-                  Add Skill Distribution
+                <div className="inline-flex">
+                  <span>Add Skill Distribution</span>
                   <span className=" font-medium">
                     <ChevronRightIcon />
                   </span>
-                </>
+                </div>
               )}
             </button>
           </div>
