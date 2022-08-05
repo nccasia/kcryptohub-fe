@@ -28,7 +28,7 @@ const InputField = ({
           autoComplete="off"
           placeholder={placeholder}
           defaultValue={defaultValue}
-          className="md:max-w-[400px] w-full border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+          className="md:max-w-[400px] w-full px-3 py-2 outline-none bg-[#0000000d] rounded-3xl text-[#606060] "
         />
         {errors && (
           <span className="text-red-500 text-left text-sm mt-1">

@@ -96,10 +96,10 @@ export const TeamCard = (props: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col">
+    <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-lg">
       <div className="xl:col-span-10 md:col-span-9 col-span-12">
         <div className="grid grid-cols-12 border-b relative">
-          <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start  p-2">
+          <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start p-2">
             <div className="h-[50px] w-[50px] relative">
               <Image
                 key={team.id}
@@ -123,7 +123,7 @@ export const TeamCard = (props: Props) => {
             </div>
           </div>
           <div className="xl:col-span-11 md:col-span-10 col-span-12 px-2 flex items-center justify-center">
-            <div className="w-full break-words">
+            <div className="w-full break-words font-nunito">
               <Link href={`/team/${team.id}`}>
                 <a
                   target="_blank"
@@ -148,13 +148,13 @@ export const TeamCard = (props: Props) => {
                         onMouseLeave={() => setShow(false)}
                       >
                         <Bookmark
-                          className={`absolute text-cyan-700 cursor-pointer ${
+                          className={`absolute cursor-pointer ${
                             show ? "bg-cyan-800 text-white" : ""
                           }`}
                         ></Bookmark>
                         <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-cyan-900 top-[24px] right-[-24px]">
                           <div className="text-left px-2">
-                            <li className="list-none py-1 cursor-pointer border-b-[1px]  ">
+                            <li className="list-none py-1 cursor-pointer border-b-[1px] font-nunito">
                               <a
                                 className="text-cyan-800 font-medium"
                                 onClick={handleRemoveFromShortList}
@@ -164,7 +164,7 @@ export const TeamCard = (props: Props) => {
                             </li>
 
                             <Link href={`/short-list`}>
-                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer">
+                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
                                 View Shortlist {">"}
                               </a>
                             </Link>
@@ -189,13 +189,13 @@ export const TeamCard = (props: Props) => {
                         onMouseLeave={() => setShow(false)}
                       >
                         <Bookmark
-                          className={`absolute text-cyan-700 cursor-pointer ${
+                          className={`absolute cursor-pointer ${
                             show ? "bg-cyan-800 text-white" : ""
                           }`}
                         ></Bookmark>
                         <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-cyan-900 top-[24px] right-[-24px]">
                           <div className="text-left px-2">
-                            <li className="list-none py-1 cursor-pointer border-b-[1px]  ">
+                            <li className="list-none py-1 cursor-pointer border-b-[1px] font-nunito">
                               <a
                                 className="text-cyan-800 font-medium"
                                 onClick={handleAddToShortList}
@@ -205,7 +205,7 @@ export const TeamCard = (props: Props) => {
                             </li>
 
                             <Link href={`/short-list`}>
-                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer">
+                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
                                 View Shortlist {">"}
                               </a>
                             </Link>
@@ -234,11 +234,11 @@ export const TeamCard = (props: Props) => {
               </span>
             ) : null}
 
-            <span className="text-cyan-900">
+            <span className="text-cyan-900 font-nunito flex items-end">
               <IconHover icon={<GroupsOutlined />} hoverText="Team size" />
-              <span className="text-left ml-1">{team.teamSize}</span> members
+              <span className="text-left ml-1">{team.teamSize} members</span>
             </span>
-            <span className="text-cyan-900">
+            <span className="text-cyan-900 font-nunito flex items-end pt-3">
               <IconHover icon={<AvTimerOutlined />} hoverText="Timezone" />
               <span className="text-left ml-1">{team.timeZone}</span>
             </span>
@@ -249,7 +249,10 @@ export const TeamCard = (props: Props) => {
                 {team.skills &&
                   (showAllSkill ? team.skills : team.skills.slice(0, 7)).map(
                     (skill, i) => (
-                      <div key={i} className="inline-block p-1 pt-3">
+                      <div
+                        key={i}
+                        className="inline-block p-1 pt-3 font-nunito"
+                      >
                         <span
                           className={`px-2 py-1 block rounded-2xl  md:max-w-[175px] max-w-[140px] hover:max-w-none hover:scale-110 cursor-default truncate  ${
                             skillColor[
@@ -267,7 +270,7 @@ export const TeamCard = (props: Props) => {
                     )
                   )}
                 {team.skills.length > 7 && !showAllSkill ? (
-                  <div className="inline-block p-1 pt-3">
+                  <div className="inline-block p-1 pt-3 font-nunito">
                     <span
                       className={`px-2 py-1 block rounded-2xl border md:max-w-[175px] max-w-[140px] truncate   cursor-pointer text-black ml-2 mt-2 font-medium`}
                       onClick={() => setShowAllSkill(true)}
@@ -279,7 +282,7 @@ export const TeamCard = (props: Props) => {
               </div>
             </div>
           </div>
-          <div className="xs:w-1/4 p-4 text-sm text-cyan-900">
+          <div className="xs:w-1/4 p-4 text-sm text-cyan-900 font-nunito">
             <div className="">
               <span className="font-medium ">Founded: </span>
               {team.founded}
@@ -307,9 +310,9 @@ export const TeamCard = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-md">
+      <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-[#606060] transition-all duration-500 ease-in-out text-md">
         <a
-          className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white  border cursor-pointer "
+          className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white cursor-pointer "
           href={
             team.linkWebsite
               ? team.linkWebsite.includes("https")
@@ -318,10 +321,7 @@ export const TeamCard = (props: Props) => {
               : "#"
           }
         >
-          <span
-            className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-red-500 border-2 border-red-500
-           hover:bg-transparent hover:text-red-500"
-          >
+          <span className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-[#848ABD] rounded-full">
             Visit Website <LanguageOutlined />
           </span>
         </a>
@@ -329,14 +329,14 @@ export const TeamCard = (props: Props) => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center border flex-1"
+            className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center flex-1 font-nunito"
           >
             <span className="hidden xs:block mr-2">View Profile</span>
             <InfoOutlined />
           </a>
         </Link>
         <Link href={`/team/${team.id}/contact`}>
-          <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center border flex-1">
+          <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center flex-1 font-nunito">
             <span className="hidden xs:block mr-2">Contact</span>
             <ContactlessOutlined />
           </a>

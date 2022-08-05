@@ -2,7 +2,12 @@ import { profileApi } from "@/api/profile-api";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import InputField from "@/components/profile/InputField";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getProfile, getSkills, updateProfile, uploadAvatar } from "@/redux/profileSlice";
+import {
+  getProfile,
+  getSkills,
+  updateProfile,
+  uploadAvatar,
+} from "@/redux/profileSlice";
 import { DragDropField } from "@/src/layouts/create-team/DragDropField";
 import { Layout } from "@/src/layouts/layout";
 import { ELoginProvider } from "@/type/auth/login.type";
@@ -73,9 +78,7 @@ const UpdateProfilePage = () => {
     resolver: yupResolver(schemaValidation),
     mode: "all",
   });
-  const [userSkills, setUserSkills] = useState<ISkill[]>(
-    userInfo.skills || []
-  );
+  const [userSkills, setUserSkills] = useState<ISkill[]>(userInfo.skills || []);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [image, setImage] = useState<File>();
   useEffect(() => {
@@ -116,7 +119,7 @@ const UpdateProfilePage = () => {
   const handleUpdateProfile = () => {
     handleSubmit(async (value) => {
       await dispatch(updateProfile({ ...value, skills: userSkills }));
-      if(image){
+      if (image) {
         await dispatch(uploadAvatar({ avatar: image, userId: userInfo.id }));
       }
       await dispatch(getProfile());
@@ -163,7 +166,7 @@ const UpdateProfilePage = () => {
           <Container
             fixed
             maxWidth="lg"
-            className="border border-[#cae0e7] py-6 md:!px-24 md:py-12"
+            className="border border-[#cae0e7] py-6 md:!px-24 md:py-12 font-nunito"
           >
             <form>
               <section>
@@ -229,7 +232,18 @@ const UpdateProfilePage = () => {
                     value={userSkills}
                     filterSelectedOptions
                     onChange={(e, value) => setUserSkills(value)}
-                    className="md:max-w-[400px] w-full"
+                    className="md:max-w-[400px] w-full bg-[#0000000d] mt-1 rounded-3xl text-[#606060]"
+                    sx={{
+                      display: "inline-block",
+                      "& div": {
+                        borderColor: "transparent",
+                        outline: "none",
+                      },
+                      "& MuiOutlinedInput-root": {
+                        border: "none",
+                        borderRadius: "50px",
+                      },
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -248,14 +262,14 @@ const UpdateProfilePage = () => {
                 <div className="flex justify-center md:justify-start gap-x-10">
                   <button
                     type="button"
-                    className="px-5 py-2 transition duration-150 border-2 border-[#cae0e7] text-[#08537E] hover:bg-[#cae0e7]"
+                    className="px-5 py-3 rounded-full hover:shadow hover:shadow-[#848ABD] text-white bg-[#848ABD]"
                     onClick={handleUpdateProfile}
                   >
                     Save Changes
                   </button>
                   <button
                     type="button"
-                    className="px-5 py-2 transition duration-150 text-[#08537E] hover:underline"
+                    className="px-5 py-3 text-[#848ABD] bg-white hover:underline"
                     onClick={() => {
                       router.push("/");
                     }}
