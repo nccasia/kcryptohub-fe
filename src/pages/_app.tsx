@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </LayoutGuard>
         <ToastContainer
+          className={`rounded-3xl`}
           position="bottom-right"
           autoClose={3000}
           hideProgressBar={false}

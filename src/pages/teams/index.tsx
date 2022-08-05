@@ -172,21 +172,15 @@ export const Teams = () => {
 
   return (
     <Layout>
-      <div className="flex items-center justify-center relative bg-primary border-t border-cyan-500  ">
-        <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5">
-          <div className="text-3xl">
-            <h1>List Teams</h1>
-          </div>
-        </div>
-      </div>
+      <div className="flex items-center justify-center relative bg-[#606060] border-t border-[#848abd] font-nunito"></div>
       <div className="relative font-nunito">
-        <div className="flex flex-col items-center justify-center px-1 ">
-          <div className="container-lg relative rounded-lg md:w-11/12 lg:w-5/6 w-full">
-            <div className="sticky border-b border-x-[1px] rounded-b-lg shadow p-2 top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
+        <div className="flex flex-col items-center justify-center  w-full">
+          <div className="container-lg border-x-2 w-full ">
+            <div className="sticky border-b p-2 top-0 w-full flex flex-col text-cyan-700 bg-white z-10 shadow-lg">
               <div className="flex flex-col sm:flex-row ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
-                    <div className="p-1 xs:p-2.5 bg-[#848ABD] rounded-full text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
+                    <div className="p-1 xs:p-2.5 bg-[#848abd] rounded-3xl text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
                       <span>{totalTeam} Teams</span>
                     </div>
                   </div>
@@ -197,7 +191,7 @@ export const Teams = () => {
                       <input
                         type="text"
                         placeholder="Search here..."
-                        className="shadow w-full text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  rounded-full"
+                        className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  border-[1px] border-[#848abd] rounded-3xl"
                         name="search"
                         value={keyword}
                         onChange={handleSearch}
@@ -241,7 +235,7 @@ export const Teams = () => {
                           </div>
                         </div>
                         <div
-                          className="cursor-pointer flex items-center justify-center mr-5"
+                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full shadow border-none text-[#848abd]"
                           id="Skills"
                           onClick={(e) => {
                             setSwitchValue(e.currentTarget.id);
@@ -264,7 +258,7 @@ export const Teams = () => {
                           </div>
                         </div>
                         <div
-                          className="cursor-pointer flex items-center justify-center mr-5 "
+                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full shadow border-none text-[#848abd]"
                           id="Timezone"
                           onClick={(e) => {
                             setSwitchValue(e.currentTarget.id);
@@ -339,7 +333,7 @@ export const Teams = () => {
                 </div>
               ) : null}
             </div>
-            <div className="flex flex-col items-center justify-center w-full">
+            <div className="flex flex-col items-center justify-center  w-full md:w-4/5 mx-auto">
               {teams.map((item, index) => (
                 <TeamCard team={item as ITeam} key={index} />
               ))}

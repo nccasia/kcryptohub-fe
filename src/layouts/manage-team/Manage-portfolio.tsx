@@ -52,7 +52,7 @@ export const ManagePortfolio = (props: Props) => {
   return (
     <DashboardLayout>
       <ThemeProvider theme={theme}>
-        <div className="w-full h-full bg-thirdary py-4 font-nunito">
+        <div className="w-full h-full bg-thirdary py-4 font-nunito text-[#606060]">
           <div className="container mx-auto h-full">
             <div className="grid grid-cols-12 gap-5  h-full">
               <div className="md:col-span-3 col-span-12 lg:min-h-full bg-white flex flex-col p-2 lg:mr-4 lg:mb-0 mb-4">
@@ -77,16 +77,16 @@ export const ManagePortfolio = (props: Props) => {
                     The Portfolio items listed will be displayed on your Profile
                     page in the order below.
                   </p>
-                  <div className="w-full text-right text-cyan-800 hover:underline">
+                  <div className="w-full text-right hover:underline">
                     <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
                       <a className="">
                         Add A New Portfolio Item{" "}
-                        <PlaylistAddOutlined className="text-secondary " />
+                        <PlaylistAddOutlined className="text-[#848ABD] " />
                       </a>
                     </Link>
                   </div>
                   <hr />
-                  <div className="py-2 text-cyan-800 hover:underline">
+                  <div className="py-2  hover:underline">
                     <Link href={`/team/${teamId}/dashboard/portfolio/clients`}>
                       <a>Key Clients</a>
                     </Link>
@@ -94,10 +94,7 @@ export const ManagePortfolio = (props: Props) => {
                   <hr />
                   <div className="break-words">
                     {portfolios.map((portfolio, i) => (
-                      <div
-                        key={i}
-                        className="py-2 text-cyan-800 hover:underline"
-                      >
+                      <div key={i} className="py-2  hover:underline">
                         <Link
                           href={`/team/${teamId}/dashboard/portfolio/${portfolio.id}`}
                         >

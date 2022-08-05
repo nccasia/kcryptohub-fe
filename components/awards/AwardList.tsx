@@ -18,7 +18,7 @@ const AwardList = () => {
     }
   }, [dispatch, userInfo, router.query.teamId]);
   return (
-    <div className="col-span-12 md:col-span-3 bg-white p-3 shadow-lg">
+    <div className="col-span-12 md:col-span-3 bg-white p-3 shadow-lg rounded-3xl font-nunito">
       <h2 className="text-3xl text-primary font-normal mb-3">My Awards</h2>
       <p className="text-sm text-[#6A797D] mb-3">
         You can add a maximum of ten (10) Awards to your Profile.
