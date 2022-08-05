@@ -1,13 +1,15 @@
 import { PortfolioApi } from "@/api/portfolio-api";
 import { useAppSelector } from "@/redux/hooks";
 import { getDashboardPortfolioSelector } from "@/redux/selector";
-import { KeyboardArrowDown, KeyboardArrowUp, PlaylistAddOutlined } from "@mui/icons-material";
+import {
+  KeyboardArrowDown,
+  KeyboardArrowUp,
+  PlaylistAddOutlined,
+} from "@mui/icons-material";
 import { Collapse, Container, createTheme, ThemeProvider } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {
-   useEffect, useState
-} from "react";
+import { useEffect, useState } from "react";
 import DashboardLayout from "../dashboard/Dashboard";
 
 const theme = createTheme({
@@ -37,21 +39,21 @@ interface Props {
 
 export const ManagePortfolio = (props: Props) => {
   const portfolios = useAppSelector(getDashboardPortfolioSelector);
-  
+
   const router = useRouter();
   const [teamId, setTeamId] = useState<string>(router.query.teamId as string);
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    if(router.query.teamId){
+    if (router.query.teamId) {
       setTeamId(router.query.teamId as string);
-    };
+    }
   }, [router.query]);
   return (
     <DashboardLayout>
       <ThemeProvider theme={theme}>
-        <div className="w-full h-full bg-thirdary py-4">
-          <div  className="container mx-auto h-full">
+        <div className="w-full h-full bg-thirdary py-4 font-nunito">
+          <div className="container mx-auto h-full">
             <div className="grid grid-cols-12 gap-5  h-full">
               <div className="md:col-span-3 col-span-12 lg:min-h-full bg-white flex flex-col p-2 lg:mr-4 lg:mb-0 mb-4">
                 <div className="mb-2 lg:flex hidden items-center justify-between">
@@ -106,7 +108,9 @@ export const ManagePortfolio = (props: Props) => {
                   </div>
                 </Collapse>
               </div>
-              <div className="bg-white h-full col-span-12 md:col-span-9 p-4">{props.children}</div>
+              <div className="bg-white h-full col-span-12 md:col-span-9 p-4">
+                {props.children}
+              </div>
             </div>
           </div>
         </div>

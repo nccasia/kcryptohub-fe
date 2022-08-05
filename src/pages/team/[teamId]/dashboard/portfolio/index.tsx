@@ -20,7 +20,7 @@ const Portfolio = () => {
   return (
     <ManagePortfolio>
       <div>
-        <div className="lg:border-b-0 border-b mb-2 pb-2">
+        <div className="lg:border-b-0 border-b mb-2 pb-2 ">
           <h1 className="text-3xl">Add Portfolio Items</h1>
           <Typography className="text-xl my-3">
             Share your latest exciting work.
