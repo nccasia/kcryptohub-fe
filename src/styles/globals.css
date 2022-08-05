@@ -34,11 +34,11 @@ a {
   -webkit-appearance: none;
 }
 .custom-scrollbar::-webkit-scrollbar {
+  display: block;
   width: 2px;
-  height: 5px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #888;
@@ -51,4 +51,5 @@ a {
 
 .custom-scrollbar::-webkit-scrollbar-track-piece:start {
   background: transparent;
+  margin-top: 10px;
 }

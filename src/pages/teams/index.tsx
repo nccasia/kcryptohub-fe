@@ -186,7 +186,7 @@ export const Teams = () => {
               <div className="flex flex-col sm:flex-row ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
-                    <div className="p-1 xs:p-3 bg-[#848ABD] rounded-full text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
+                    <div className="p-1 xs:p-2.5 bg-[#848ABD] rounded-full text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
                       <span>{totalTeam} Teams</span>
                     </div>
                   </div>
@@ -297,7 +297,7 @@ export const Teams = () => {
                     return (
                       <div
                         key={index}
-                        className="p-2 inline-block border mt-2 rounded-full mr-2 w-fit text-sm cursor-pointer"
+                        className="p-2 inline-block border my-1 rounded-full mr-2 w-fit text-sm cursor-pointer"
                         onClick={() => {
                           setFilter({
                             ...filter,
@@ -316,7 +316,7 @@ export const Teams = () => {
                       return (
                         <div
                           key={index}
-                          className="p-2 inline-block border mt-2 rounded-full mr-2 w-fit text-sm cursor-pointer"
+                          className="p-2 inline-block border my-1 rounded-full mr-2 w-fit text-sm cursor-pointer"
                           onClick={() => {
                             setFilter({
                               ...filter,
