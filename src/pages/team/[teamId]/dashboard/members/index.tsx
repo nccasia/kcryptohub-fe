@@ -303,35 +303,35 @@ const Members = () => {
   return (
     <DashboardLayout>
       <ThemeProvider theme={theme}>
-        <div className="bg-thirdary">
+        <div className="font-nunito">
           <Container fixed maxWidth="lg" className="md:!px-8">
             <div className="w-full h-full">
               <div className="w-full block h-full relative ">
                 <div className="my-2">
                   <form
                     onSubmit={(e) => e.preventDefault()}
-                    className="shadow-lg block lg:inline-flex py-2 my-3 lg:items-end px-3 bg-white"
+                    className="shadow-lg block lg:inline-flex py-2 my-3 lg:items-end px-3 bg-white rounded-3xl"
                   >
                     <FormControl className="p-2">
-                      <h1 className="py-2 text-lg font-semibold">
+                      <h1 className="py-2 text-lg font-semibold text-[#606060]">
                         Invite Members
                       </h1>
                       <span
                         className={
                           !success
-                            ? "py-1 text-sm font-normal "
-                            : "py-1 text-sm font-normal hidden"
+                            ? "py-1 text-sm font-normal text-[#606060]"
+                            : "py-1 text-sm font-normal hidden text-[#606060]"
                         }
                       >
                         Add team members via email{" "}
-                        <span className="opacity-50 ">
+                        <span className="opacity-50 text-[#606060]">
                           (separate emails with a enter if correct format):
                         </span>
                       </span>
                       <div
                         className={
                           !success
-                            ? `outline-none  border-[1px] border-[#cae0e7] ${
+                            ? `outline-none  border-[1px] border-[#eff0f5] rounded-3xl ${
                                 errors.email && "border-[2px] border-red-400"
                               }`
                             : "outline-none"
@@ -361,8 +361,8 @@ const Members = () => {
                           maxLength={50}
                           className={
                             !success
-                              ? `w-full h-20 outline-none rounded border-none resize-none p-1 mt-0`
-                              : "w-full h-20 outline-none rounded border-none resize-none p-1 hidden"
+                              ? `w-full h-20 outline-none rounded-3xl border-none resize-none p-2 mt-0`
+                              : "w-full h-20 outline-none rounded-3xl border-none resize-none p-2 hidden"
                           }
                           {...register("email", {
                             onChange: handleChange,
@@ -381,7 +381,7 @@ const Members = () => {
                               alt="iconchecked"
                             />
                           </span>
-                          <div className="flex flex-col">
+                          <div className="flex flex-col text-[#606060]">
                             <span>Invites have been sent to:</span>
                             {tags.map((tag, index) => (
                               <span key={index}>{tag.email}</span>
@@ -401,8 +401,8 @@ const Members = () => {
                         disabled={!disableIvt ? true : false}
                         className={
                           !disableIvt
-                            ? "py-2 px-4 border-[1px] border-[#cae0e7] rounded shadow cursor-not-allowed"
-                            : "py-2 px-4 border-[1px] border-[#cae0e7] rounded shadow "
+                            ? "py-2 px-4 border-[1px] border-[#eff0f5] rounded-3xl shadow cursor-not-allowed"
+                            : "py-2 px-4 border-[1px] border-[#eff0f5] rounded-3xl shadow "
                         }
                       >
                         <span>Invite</span>
@@ -413,7 +413,7 @@ const Members = () => {
                       <button
                         tabIndex={2}
                         onClick={handleClose}
-                        className="py-2 px-4 border-[1px] border-green-400 rounded shadow"
+                        className="py-2 px-4 border-[1px] border-green-400 rounded-3xl shadow text-[#606060]"
                       >
                         <span>Send more invites</span>
                       </button>
@@ -421,10 +421,12 @@ const Members = () => {
                   </form>
                 </div>
               </div>
-              <div className="bg-white w-full h-full block relative overflow-x-auto shadow-md my-2 drop-shadow">
-                <div className="xl:w-full w-[1200px] table p-3">
-                  <h1 className="font-bold text-xl py-1 px-4">Member</h1>
-                  <div className="flex items-center justify-center">
+              <div className="shadow-lg rounded-3xl bg-white w-full h-full block relative overflow-x-auto  my-2 ">
+                <div className="xl:w-full w-[1200px] table p-4">
+                  <h1 className="font-bold text-4xl py-4 px-4 text-center">
+                    Member
+                  </h1>
+                  <div className="flex items-center justify-center border-y-2 border-[#eff0f5] ">
                     <div className="w-1/5 px-4 py-2 text-base font-normal">
                       <span>Username</span>
                     </div>
@@ -445,7 +447,7 @@ const Members = () => {
                             disableHoverListener
                             disableTouchListener
                             title={
-                              <div className="absolute top-[calc(100% + 1px)] left-0 right-0 w-[180px] z-50 bg-[white] shadow-lg drop-shadow">
+                              <div className="absolute top-[calc(100% + 1px)] left-0 right-0 w-[180px] z-50 bg-[white] shadow-lg drop-shadow rounded-3xl">
                                 <div className="p-[10px]">
                                   <div className="py-1 text-black">
                                     <div className="font-bold">
@@ -473,13 +475,13 @@ const Members = () => {
                               {!openPermissions ? (
                                 <span className="w-3 h-3 ml-1 absolute right-0 z-20 top-0 left-[88px] rounded-full">
                                   <Image
-                                    className="w-full h-full"
+                                    className="w-full h-full text-[#61619b]"
                                     src={iconToolip}
                                     alt="tooltip"
                                   />
                                 </span>
                               ) : (
-                                <span className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#3e839e] top-[7px] left-[88px] rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#3e839e] after:rotate-90 after:top-[17px]"></span>
+                                <span className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#61619b] top-[7px] left-[88px] rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#61619b] after:rotate-90 after:top-[17px]"></span>
                               )}
                             </div>
                           </Tooltip>
@@ -500,7 +502,7 @@ const Members = () => {
                             disableHoverListener
                             disableTouchListener
                             title={
-                              <div className="absolute top-[calc(100% + 8px)] w-[180px] z-50 bg-[white] shadow-lg drop-shadow ">
+                              <div className="absolute top-[calc(100% + 8px)] w-[180px] z-50 bg-[white] shadow-lg drop-shadow rounded-3xl">
                                 <div className="p-[10px]">
                                   <div className="py-1 text-black">
                                     <div className="font-bold">
@@ -528,14 +530,14 @@ const Members = () => {
                               {!openStatus ? (
                                 <span className="w-3 h-3 ml-1 absolute right-0 z-20 top-0 left-[88px] rounded-full">
                                   <Image
-                                    className="w-full h-full"
+                                    className="w-full h-full text-red-500"
                                     src={iconToolip}
                                     alt="tooltip"
                                   />
                                 </span>
                               ) : (
                                 <span
-                                  className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#3e839e]  top-[7px] left-[88px]  rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#3e839e] after:rotate-90 after:top-[17px]
+                                  className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#61619b]  top-[7px] left-[88px]  rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#61619b] after:rotate-90 after:top-[17px]
                                                   "
                                 ></span>
                               )}
@@ -548,7 +550,7 @@ const Members = () => {
                       <span>Options</span>
                     </div>
                   </div>
-                  <div className="border-[1px] py-3 flex items-center justify-center">
+                  <div className="border-y-2 border-[#eff0f5] py-3 flex items-center justify-center">
                     <div className="w-1/5 px-2 py-2 text-sm font-normal inline-flex items-center">
                       <span className="pr-2">
                         <AccountCircleIcon className="w-5 h-5" />
@@ -578,7 +580,7 @@ const Members = () => {
                     {memberList?.map((item, index) => (
                       <li
                         key={index}
-                        className="border-[1px] py-3 flex items-center justify-center"
+                        className="border-y-2 border-[#eff0f5]   py-3 flex items-center justify-center"
                       >
                         <div className="w-1/5 px-2 py-2 text-sm font-normal">
                           <span className="pr-2">
@@ -598,7 +600,7 @@ const Members = () => {
                         </div>
                         <div className="w-1/5 px-4 py-2 text-sm font-normal">
                           {item.inviteStatus === InviteStatus.PENDING ? (
-                            <div className="bg-[#cae0e7] rounded-3xl px-2 py-2 w-[110px] text-center">
+                            <div className="bg-[#eff0f5] rounded-3xl px-2 py-2 w-[110px] text-center">
                               <span className="!text-xs py-[1px]">
                                 Invite Pending
                               </span>
@@ -620,14 +622,14 @@ const Members = () => {
                         <div className="w-1/5 px-4 py-2 text-sm font-normal">
                           {item.inviteStatus === InviteStatus.REJECTED ? (
                             <>
-                              <div className="cursor-pointer hover:underline text-blue-500">
+                              <div className="cursor-pointer hover:underline text-[#606060]">
                                 Resend
                               </div>
                               {" | "}
                               <div
                                 tabIndex={3}
                                 onClick={() => deleteMember(item.id)}
-                                className="cursor-pointer hover:underline text-blue-500"
+                                className="cursor-pointer hover:underline text-[#606060]"
                               >
                                 Remove
                               </div>
@@ -641,7 +643,7 @@ const Members = () => {
                                     deleteMember(item.id);
                                   }}
                                   className={
-                                    "cursor-pointer hover:underline text-blue-500"
+                                    "cursor-pointer hover:underline text-[#606060]"
                                   }
                                 >
                                   Remove
@@ -669,7 +671,7 @@ const Members = () => {
                       </li>
                     )) ?? (
                       <>
-                        <li className="border-[1px] py-3 flex items-center justify-center animate-pulse">
+                        <li className="border-y-2 py-3 border-[#eff0f5]  shadow-lg flex items-center justify-center animate-pulse">
                           <div className="w-1/5 px-2 py-2 text-sm font-normal inline-flex items-center">
                             <span className="pr-2 ">
                               <AccountCircleIcon className="w-5 h-5" />
@@ -693,7 +695,7 @@ const Members = () => {
                     )}
                     {memberList?.length === 0 && (
                       <>
-                        <li className="border-[1px] py-3 flex items-center justify-center w-full">
+                        <li className="border-y-2 border-[#eff0f5] shadow-lg  py-3 flex items-center justify-center w-full">
                           <div className="text-[#7d6d6d9a] inline-flex">
                             <span>No Data</span>
                             <svg

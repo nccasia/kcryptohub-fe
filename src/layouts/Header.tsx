@@ -69,13 +69,9 @@ export const Header = () => {
 
   const router = useRouter();
 
-  const size = useWindowSize() as { width: number; height: number };
+  const headerRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    if (size?.width > 840) {
-      setIsOpenHamburger(false);
-    }
-  }, [size?.width]);
+  // console.log((headerRef.current as HTMLElement)?.offsetHeight);
 
   useEffect(() => {
     setUserImage(profileApi.getImageUrl(user.avatarPath));
@@ -104,7 +100,8 @@ export const Header = () => {
           }`}
         ></div>
         <nav
-          className={` flex items-center justify-between px-[15px] pt-[15px] font-jost `}
+          ref={headerRef}
+          className={` flex items-center justify-between px-[15px] pt-[15px] font-nunito `}
         >
           <div className="py-5 relative">
             <Link href="/">
@@ -242,7 +239,7 @@ export const Header = () => {
                                 disableTouchListener
                                 title={
                                   <div
-                                    className={`flex flex-col font-jost absolute z-[900] top-7 p-1 border min-w-[230px] w-full h-fit bg-white text-cyan-800 md:right-[-20px] 
+                                    className={`flex flex-col font-nunito absolute z-[900] top-7 p-1 border min-w-[230px] w-full h-fit bg-white text-cyan-800 md:right-[-20px] 
                               ${
                                 !showPopUp ? "invisible" : "visible"
                               }  animate-slide-in-up hover:visible text-lg rounded-lg `}
@@ -317,7 +314,7 @@ export const Header = () => {
                                 disableTouchListener
                                 title={
                                   <div
-                                    className={`flex flex-col font-jost absolute z-[900] top-7 p-1 border min-w-[230px] w-full h-fit bg-white text-cyan-800 md:right-[-20px] 
+                                    className={`flex flex-col font-nunito absolute z-[900] top-7 p-1 border min-w-[230px] w-full h-fit bg-white text-cyan-800 md:right-[-20px] 
                               ${
                                 !showPopUp ? "invisible" : "visible"
                               }  animate-slide-in-up hover:visible text-lg`}
@@ -393,7 +390,7 @@ export const Header = () => {
             <div className="py-12 relative">
               <a
                 href="index.html"
-                className="text-3xl font-bold text-center text-white"
+                className="text-3xl font-bold text-center text-white font-nunito"
               >
                 <span>Kryptohub</span>
               </a>
@@ -457,7 +454,7 @@ export const Header = () => {
                             </svg>
                           )}
 
-                          <span className="text-white px-2 font-semibold">
+                          <span className="text-white px-2 font-semibold font-nunito">
                             {user.username}
                           </span>
                         </>
@@ -465,7 +462,7 @@ export const Header = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <div
-                        className={`text-white flex flex-col w-full font-jost`}
+                        className={`text-white flex flex-col w-full font-nunito`}
                       >
                         <Link href="/profile">
                           <div className="pr-1 py-2 my-1 cursor-pointer">
@@ -502,7 +499,7 @@ export const Header = () => {
                 )}
               </div>
               <div>
-                <div className="w-full text-white flex flex-col font-jost">
+                <div className="w-full text-white flex flex-col font-nunito">
                   <Link href="/teams">
                     <span className="pr-2 py-4 mr-4 cursor-pointer text-lg font-medium">
                       List Team

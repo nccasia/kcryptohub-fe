@@ -122,7 +122,7 @@ export const ComboboxSelect = ({
                 <label
                   htmlFor={`${label}cb${index}${isCollapsor ? 0 : 1}`}
                   key={index}
-                  className="block cursor-pointer border-l-2 pl-1 mt-2 border-transparent lg:max-w-[350px] sm:max-w-[250px] overflow-hidden hover:border-cyan-900 hover:bg-cyan-100 "
+                  className="block cursor-pointer border-l-2 mt-2 border-transparent lg:max-w-[350px] sm:max-w-[250px] overflow-hidden hover:border-cyan-900 hover:bg-cyan-100 "
                 >
                   <input
                     type="checkbox"

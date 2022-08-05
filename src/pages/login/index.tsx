@@ -193,7 +193,7 @@ const Login = () => {
                     </label>
                     <input
                       type="text"
-                      className="border-solid  w-full  border-2 border-[#848abd] rounded-3xl px-3 py-2 outline-none focus:shadow-md focus:border-[#848abd]"
+                      className="border-solid  w-full  border-2 border-[#eff0f5] rounded-3xl px-3 py-2 outline-none focus:shadow-md focus:border-[#eff0f5]"
                       {...register("usernameOrEmail")}
                       autoComplete="off"
                     />
@@ -211,7 +211,7 @@ const Login = () => {
                     </label>
                     <input
                       type="password"
-                      className="border-solid  w-full  border-2 border-[#848abd]  rounded-3xl px-3 py-2 outline-none focus:shadow-md focus:border-[#848abd]"
+                      className="border-solid  w-full  border-2 border-[#eff0f5]  rounded-3xl px-3 py-2 outline-none focus:shadow-md focus:border-[#eff0f5]"
                       {...register("password")}
                       autoComplete="off"
                     />
