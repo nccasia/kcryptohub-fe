@@ -63,7 +63,7 @@ export const DragDropField = ({
               or{" "}
               <label
                 htmlFor="image"
-                className=" md:text-xs lg:text-base text-[#606060] cursor-pointer"
+                className=" md:text-xs lg:text-base text-[#848abd] cursor-pointer"
               >
                 browse for an image
                 <span className="text-[#848abd]">

@@ -77,7 +77,7 @@ export const ManagePortfolio = (props: Props) => {
                     The Portfolio items listed will be displayed on your Profile
                     page in the order below.
                   </p>
-                  <div className="w-full text-right hover:underline">
+                  <div className="w-full text-right text-[#848abd] hover:underline">
                     <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
                       <a className="">
                         Add A New Portfolio Item{" "}
@@ -86,7 +86,7 @@ export const ManagePortfolio = (props: Props) => {
                     </Link>
                   </div>
                   <hr />
-                  <div className="py-2  hover:underline">
+                  <div className="py-2 text-[#848abd] hover:under">
                     <Link href={`/team/${teamId}/dashboard/portfolio/clients`}>
                       <a>Key Clients</a>
                     </Link>
@@ -94,7 +94,10 @@ export const ManagePortfolio = (props: Props) => {
                   <hr />
                   <div className="break-words">
                     {portfolios.map((portfolio, i) => (
-                      <div key={i} className="py-2  hover:underline">
+                      <div
+                        key={i}
+                        className="py-2 text-[#848abd] hover:underline"
+                      >
                         <Link
                           href={`/team/${teamId}/dashboard/portfolio/${portfolio.id}`}
                         >

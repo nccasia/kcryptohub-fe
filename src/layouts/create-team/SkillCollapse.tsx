@@ -20,7 +20,7 @@ export const SkillCollapse = (props: IProps) => {
   };
 
   return (
-    <div className="border mb-3 relative w-full border-2 border-[#cae0e7] text-indigo-800 px-3 py-2 cursor-pointer">
+    <div className="border mb-3 relative w-full border-2 border-[#b0a6ef] text-indigo-800 px-3 py-2 cursor-pointer rounded-2xl">
       <div
         className="w-full flex justify-between items-center "
         onClick={handleChange}
@@ -32,7 +32,7 @@ export const SkillCollapse = (props: IProps) => {
         >
           {props.item.name}
         </div>
-        <span className="text-red-600">
+        <span className="text-[#848abd]">
           {isOpenState ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </span>
       </div>
@@ -74,7 +74,7 @@ export const SkillCollapse = (props: IProps) => {
                   </div>
                 ) : (
                   <div
-                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#08537e]"
+                    className="inline-block border-[2px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#848abd]"
                     onClick={() => {
                       props.setDataSkillDistribute(
                         props.skillDistribute.filter(
@@ -85,7 +85,7 @@ export const SkillCollapse = (props: IProps) => {
                   >
                     <div className="flex justify-between items-center">
                       {cur}
-                      <span className="text-xs text-cyan-700">
+                      <span className="text-xs text-[#b0a6ef]">
                         <CloseIcon className="text-base" />
                       </span>
                     </div>

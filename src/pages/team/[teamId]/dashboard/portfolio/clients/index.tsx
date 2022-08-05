@@ -228,7 +228,7 @@ export const Clients = () => {
             <div className="flex items-center justify-end p-4">
               <button
                 type="button"
-                className="bg-white px-16 py-3 text-[#848ABD] hover:underline "
+                className="bg-white px-16 py-3 hover:text-[#848abd] "
               >
                 Cancel
               </button>

@@ -165,7 +165,7 @@ export const Contact = () => {
                 <span className="text-sm font-normal">
                   To change your Contact Email, go to your
                   <Link href={"/profile"}>
-                    <a className="ml-2 text-cyan-700">Account Page.</a>
+                    <a className="ml-2 text-[#848abd]">Account Page.</a>
                   </Link>
                 </span>
                 {errors.contactemail && (
@@ -275,10 +275,10 @@ export const Contact = () => {
             </div>
             <div className="mt-8">
               <button
-                className="w-fit px-10 py-2 bg-red-500 font-semibold text-white  
+                className="w-fit px-10 py-2 bg-[#848abd] font-semibold text-white  
                 flex justify-between cursor-pointer
-                 border-2 border-red-500 
-                 hover:bg-transparent hover:text-red-500 rounded-3xl"
+                 border-2 hover:border-[#848abd]
+                  rounded-3xl"
                 onClick={handleSubmit(onSubmit)}
               >
                 Submit
@@ -286,7 +286,7 @@ export const Contact = () => {
             </div>
           </form>
         </div>
-        <div className="max-w-[250px] md:flex hidden p-6 ml-4 flex-col items-center justify-center h-fit mt-32 border shadow-xl shadow-cyan-100 rounded-xl">
+        <div className="max-w-[250px] md:flex hidden p-6 ml-4 flex-col items-center justify-center h-fit mt-32 border shadow-xl shadow-[#848abd] rounded-xl">
           <h1 className="text-3xl w-full pb-4">Message</h1>
           <Typography className="w-full font-medium">
             Start a conversation today!

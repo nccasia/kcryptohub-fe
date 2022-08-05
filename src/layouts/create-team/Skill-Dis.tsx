@@ -51,113 +51,121 @@ export interface IProps {
 }
 
 const skillColor = [
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
-  "#1B85CE",
-  "#08537E",
-  "#267C87",
-  "#62BA56",
-  "#5D997E",
-  "#4BA98B",
-  "#3ACC61",
-  "#6A957D",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
 ];
 
 const skillColorBG = [
-  "bg-[#1B85CE]",
-  "bg-[#08537E]",
-  "bg-[#267C87]",
-  "bg-[#62BA56]",
-  "bg-[#5D997E]",
-  "bg-[#4BA98B]",
-  "bg-[#3ACC61]",
-  "bg-[#6A957D]",
+  // "bg-[#640071]",
+  // "bg-[#6b1187]",
+  // "bg-[#73289e]",
+  // "bg-[#7e44b4]",
+  // "bg-[#8e66ca]",
+  // "bg-[#a48ee1]",
+  // "bg-[#b0a6ef]",
+  // "bg-[#c4bcf7]", 
+  "bg-[#640071]",
+  "bg-[#6b1187]",
+  "bg-[#73289e]",
+  "bg-[#7e44b4]",
+  "bg-[#8e66ca]",
+  "bg-[#a48ee1]",
+  "bg-[#b0a6ef]",
+  "bg-[#c4bcf7]",
 ];
 
 export const SkillDis = (props: IProps) => {
@@ -394,7 +402,7 @@ export const SkillDis = (props: IProps) => {
           </p>
           <div className="py-2">
             <div className="flex items-center mb-4">
-              <span className="text-cyan-800 mr-2">
+              <span className="text-[#848abd] mr-2">
                 <SearchIcon />
               </span>
 
@@ -409,7 +417,7 @@ export const SkillDis = (props: IProps) => {
             </label>
             <input
               placeholder="Enter name here"
-              className="md:max-w-[500px] w-full mb-3 border-2 border-[#cae0e7] px-3 py-2 outline-none focus:shadow-3xl focus:border-primary"
+              className="md:max-w-[500px] w-full mb-3 border-2 border-[#848abd] px-3 py-2 outline-none focus:shadow-3xl rounded-3xl"
               maxLength={30}
               defaultValue={skillName || "" || props.teamUpdate?.teamName}
               {...register("skillDistributionName")}
@@ -426,7 +434,7 @@ export const SkillDis = (props: IProps) => {
               {skillDistribute &&
                 skillDistribute.map((cur, index) => (
                   <div
-                    className="inline-block border-[3px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#08537e] cursor-pointer"
+                    className="inline-block border-[2px] mb-3 px-3 mr-2 text-indigo-800 rounded-md border-[#848abd] cursor-pointer"
                     key={index}
                     onClick={() => {
                       setDataSkillDistribute(
@@ -438,7 +446,7 @@ export const SkillDis = (props: IProps) => {
                   >
                     <div className="flex justify-between items-center">
                       {cur.field}
-                      <span className="text-xs text-cyan-700">
+                      <span className="text-xs text-[#b0a6ef]">
                         <CloseIcon className="text-base" />
                       </span>
                     </div>
@@ -538,7 +546,7 @@ export const SkillDis = (props: IProps) => {
 
                     <input
                       maxLength={3}
-                      className="w-[65px] px-3 py-1 border-2 border-[#cae0e7]"
+                      className="w-[65px] px-3 py-1 border-2 border-[#b0a6ef] rounded-2xl"
                       value={Number(cur.quantity)}
                       onChange={(event) => {
                         if (parseInt(event.target.value) > 100) return;
@@ -619,7 +627,7 @@ export const SkillDis = (props: IProps) => {
             className={
               +loading
                 ? "hidden"
-                : "py-3 text-white px-3 flex items center bg-[red]"
+                : "py-3 text-white px-3 flex items center bg-[#848abd]"
             }
             ref={buttonRef}
           >
@@ -633,12 +641,12 @@ export const SkillDis = (props: IProps) => {
           <button
             type="button"
             onClick={handleSubmit(handleSaveCreateTeam)}
-            className={"py-3 text-white px-3 flex items-center bg-[red]"}
+            className={"py-3 text-white px-3 flex items-center bg-[#848abd] rounded-3xl"}
             ref={buttonRef}
           >
             {loading ? (
               <LoadingButton
-                className="capitalize px-2 rounded-none p-0 text-white flex items-center bg-[red]"
+                className="capitalize px-2 rounded-none p-0 text-white flex items-center bg-[#848abd]"
                 loading
                 loadingPosition="start"
                 startIcon={<SaveIcon />}

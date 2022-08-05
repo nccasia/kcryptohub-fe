@@ -97,7 +97,7 @@ const NewAward = () => {
                       placeholder="e.g. #7 on Time's Top 100 Digital Agencies"
                       maxLength={50}
                       {...register("awardsTitle")}
-                      className="md:max-w-[400px] w-full border-2 border-[#cae0e7] pl-3 pr-14 py-2 outline-none focus:shadow-3xl focus:border-primary placeholder:text-sm"
+                      className="md:max-w-[400px] w-full border-2 border-[##9CA3AF] pl-3 pr-14 py-2 outline-none placeholder:text-sm rounded-3xl"
                     />
                     {errors?.awardsTitle && (
                       <span className="text-red-500 text-left text-sm mt-1 w-full absolute left-0 top-full">
@@ -122,7 +122,7 @@ const NewAward = () => {
                       placeholder="e.g. https://www.time.com/top-100-digital-agencies-2021"
                       maxLength={200}
                       {...register("awardsWebsite")}
-                      className="md:max-w-[600px] w-full border-2 border-[#cae0e7] pl-3 pr-16 py-2 outline-none focus:shadow-3xl focus:border-primary placeholder:text-sm"
+                      className="md:max-w-[600px] w-full border-2 border-[#9CA3AF] pl-3 pr-16 py-2 outline-none rounded-3xl placeholder:text-sm"
                     />
                     {errors?.awardsWebsite && (
                       <span className="text-red-500 text-left text-sm mt-1 w-full absolute left-0 top-full">
@@ -140,7 +140,7 @@ const NewAward = () => {
               <Link href={`/team/${teamId}/dashboard/awards`} passHref>
                 <button
                   type="button"
-                  className="bg-white text-[#08537E] px-10 py-4 hover:underline"
+                  className="bg-white px-10 py-4 hover:text-[#848abd]"
                 >
                   Cancel
                 </button>
@@ -148,7 +148,7 @@ const NewAward = () => {
               <button
                 type="submit"
                 onClick={handleAddAward}
-                className="bg-secondary text-white px-10 py-4 border-2 border-transparent transition duration-300 hover:border-secondary hover:bg-white hover:text-secondary"
+                className="bg-[#848abd] text-white px-4 py-2 border-2 border-transparent transition duration-300 rounded-3xl hover:border-[#848abd] hover:bg-white hover:text-[#848abd]"
                 ref={buttonRef}
               >
                 Add Award

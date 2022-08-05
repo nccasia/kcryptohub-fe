@@ -10,13 +10,11 @@ import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
 import { IPortfolio } from "@/type/team/team.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  AddPhotoAlternate,
   DesktopWindowsOutlined,
   LockOutlined,
   PersonOutlineOutlined,
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -490,7 +488,7 @@ const PortfolioEdit = () => {
             </div>
             <div className="flex xxs:flex-row flex-col-reverse items-center justify-end p-4">
               <button
-                className="bg-white px-16 py-3 text-[#848ABD] hover:underline"
+                className="bg-white px-16 py-3 hover:text-[#848abd] "
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
@@ -500,7 +498,8 @@ const PortfolioEdit = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 w-fit bg-[#848ABD] rounded-full text-white  flex justify-center items-center cursor-pointer
+                className="px-4 py-2 w-fit bg-[#848abd] text-white  flex justify-center items-center cursor-pointer border-2 border-[#848abd]
+               hover:bg-transparent hover:text-[#848abd]
                disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSubmit(onSubmit)}
                 disabled={!isValid}
