@@ -64,17 +64,18 @@ export const Header = () => {
   const [userImage, setUserImage] = useState(
     profileApi.getImageUrl(user.avatarPath)
   );
-  console.log(userImage);
   const [showPopUp, setShowPopUp] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const router = useRouter();
-  const widthRef = useRef<HTMLElement>(null);
 
-  // useEffect(() => {
-  //   if ((widthRef.current as HTMLElement).offsetWidth > 860) {
-  //     setIsOpenHamburger(false);
-  //   }
-  // }, []);
+  const router = useRouter();
+
+  const size = useWindowSize() as { width: number; height: number };
+
+  useEffect(() => {
+    if (size?.width > 840) {
+      setIsOpenHamburger(false);
+    }
+  }, [size?.width]);
 
   useEffect(() => {
     setUserImage(profileApi.getImageUrl(user.avatarPath));
@@ -94,11 +95,7 @@ export const Header = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div
-        className={` w-full relative mx-auto  z-50 ${
-          router.pathname === "/" ? "" : "bg-[#ffff] "
-        }`}
-      >
+      <div className={` w-full relative mx-auto  z-50 `}>
         <div
           className={`overlay ${
             isOpenHamburger
@@ -107,15 +104,14 @@ export const Header = () => {
           }`}
         ></div>
         <nav
-          className=" flex items-center justify-between px-[15px] pt-[15px] font-jost"
-          ref={widthRef}
+          className={` flex items-center justify-between px-[15px] pt-[15px] font-jost `}
         >
           <div className="py-5 relative">
             <Link href="/">
               <span
-                className={`text-3xl font-bold text-center cursor-pointer ${
-                  router.pathname === "/" ? "text-white" : "text-black "
-                }`}
+                className={`text-3xl font-bold text-center cursor-pointer  text-black 
+
+                `}
               >
                 Kryptohub
               </span>
@@ -123,9 +119,7 @@ export const Header = () => {
           </div>
           <div className="px-5 hidden md-2:block">
             <div
-              className={`w-full inline-flex ${
-                router.pathname === "/" ? "text-white" : "text-black "
-              } items-center justify-center`}
+              className={`w-full inline-flex  text-black items-center justify-center`}
             >
               <Link href="/teams">
                 <span className="px-2 mx-4 cursor-pointer text-lg font-medium">
@@ -149,14 +143,14 @@ export const Header = () => {
                               user.shortList?.length <= 99
                             ? "py-[5px] px-[3px]"
                             : "py-[5px] pl-[3px]"
-                        } bg-red-500 text-[10px] leading-none text-center  align-baseline font-bold text-white rounded-full z-10`}
+                        } bg-[#848abd] text-[10px] leading-none text-center  align-baseline font-bold text-white rounded-full z-10`}
                       >
                         {user.shortList?.length >= 99
                           ? 99
                           : user.shortList?.length}
                         {user.shortList?.length > 99 ? <sup>+</sup> : ""}
                       </div>
-                      <BookmarkBorderOutlined className="text-secondary w-6 h-6" />
+                      <BookmarkBorderOutlined className="text-[#61619b] w-6 h-6" />
                     </div>
                   </div>
                 </div>
@@ -166,44 +160,38 @@ export const Header = () => {
                   <span className="pr-2 text-lg font-medium">Message</span>
                   <div className="relative">
                     <div
-                      className={`absolute !hidden inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 w-5 h-5 skew-x-0 skew-y-0 scale-x-100 scale-y-100 py-[5px] px-1 bg-red-500 text-[10px] leading-none text-center  align-baseline font-bold text-white rounded-full z-10`}
+                      className={`absolute !hidden inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 w-5 h-5 skew-x-0 skew-y-0 scale-x-100 scale-y-100 py-[5px] px-1 bg-[#848abd] text-[10px] leading-none text-center  align-baseline font-bold text-white rounded-full z-10`}
                     >
                       9{/* <sup>+</sup> */}
                     </div>
-                    <ChatOutlined className="text-secondary w-6 h-6" />
+                    <ChatOutlined className="text-[#61619b] w-6 h-6" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="px-5">
-            <div className="flex items-center justify-center w-full  py-5 h-full ">
+            <div className="flex items-center justify-center w-full  py-5 h-full  ">
               <div
                 className="block px-[5px] space-y-1 cursor-pointer md-2:hidden"
                 onClick={handleHamburger}
               >
                 <span
-                  className={`block w-6 h-1 ${
-                    router.pathname === "/" ? "bg-white" : "bg-black"
-                  } ${
+                  className={`block w-6 h-1 bg-black   ${
                     isOpenHamburger
                       ? "transform transition duration-500 ease-in-out rotate-45 translate-y-2"
                       : "transform transition duration-500 ease-in-out "
                   }`}
                 />
                 <span
-                  className={`block w-6 h-1 ${
-                    router.pathname === "/" ? "bg-white" : "bg-black"
-                  }	${
+                  className={`block w-6 h-1  bg-black ${
                     isOpenHamburger
                       ? "transform transition duration-500 ease-in-out opacity-0"
                       : "transform transition duration-500 ease-in-out "
                   }`}
                 />
                 <span
-                  className={`block w-6 h-1 ${
-                    router.pathname === "/" ? "bg-white" : "bg-black"
-                  } ${
+                  className={`block w-6 h-1  bg-black  ${
                     isOpenHamburger
                       ? "transform  transition duration-500 ease-in-out -rotate-45  -translate-y-2"
                       : "transform transition duration-500 ease-in-out "
@@ -212,9 +200,7 @@ export const Header = () => {
               </div>
               <div className="hidden px-[5px] md-2:block">
                 <svg
-                  className={`w-6 h-6 ${
-                    router.pathname === "/" ? "text-white" : "text-black "
-                  } cursor-pointer`}
+                  className={`w-6 h-6 text-black cursor-pointer`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -259,23 +245,23 @@ export const Header = () => {
                                     className={`flex flex-col font-jost absolute z-[900] top-7 p-1 border min-w-[230px] w-full h-fit bg-white text-cyan-800 md:right-[-20px] 
                               ${
                                 !showPopUp ? "invisible" : "visible"
-                              }  animate-slide-in-up hover:visible text-lg`}
+                              }  animate-slide-in-up hover:visible text-lg rounded-lg `}
                                   >
                                     <div className="text-gray-900">
                                       <Link href="/profile">
-                                        <div className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer ">
+                                        <div className="p-1 my-1 border-l-2 border-white hover:border-[#848abd] hover:text-[#848abd] cursor-pointer ">
                                           <a>Profile</a>
                                         </div>
                                       </Link>
                                       <hr />
                                       <Link href="/manage-teams">
-                                        <div className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer ">
+                                        <div className="p-1 my-1 border-l-2 border-white hover:border-[#848abd] hover:text-[#848abd] cursor-pointer ">
                                           <a>Manage Teams</a>
                                         </div>
                                       </Link>
                                       <hr />
                                       <div
-                                        className="p-1 my-1 border-l-2  border-white hover:border-red-700 hover:text-red-700 cursor-pointer "
+                                        className="p-1 my-1 border-l-2  border-white hover:border-[#848abd] hover:text-[#848abd] cursor-pointer "
                                         onClick={() => {
                                           localStorage.removeItem(
                                             "accessToken"
@@ -292,11 +278,9 @@ export const Header = () => {
                                 }
                               >
                                 <span
-                                  className={`${
-                                    router.pathname === "/"
-                                      ? "text-white"
-                                      : "text-black "
-                                  } px-2 font-semibold  cursor-pointer`}
+                                  className={`
+                                      text-black 
+                                 px-2 font-semibold  cursor-pointer`}
                                   onClick={handleShowPopUp}
                                 >
                                   {user.username}
@@ -308,11 +292,7 @@ export const Header = () => {
                       ) : (
                         <>
                           <svg
-                            className={`w-6 h-6 ${
-                              router.pathname === "/"
-                                ? "text-white"
-                                : "text-black "
-                            }`}
+                            className={`w-6 h-6 text-black `}
                             fill="currentColor"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -373,11 +353,9 @@ export const Header = () => {
                                 }
                               >
                                 <span
-                                  className={`${
-                                    router.pathname === "/"
-                                      ? "text-white"
-                                      : "text-black "
-                                  } px-2 font-semibold  cursor-pointer`}
+                                  className={`
+                                    "text-black "
+                                 px-2 font-semibold  cursor-pointer`}
                                   onClick={handleShowPopUp}
                                 >
                                   {user.username}
@@ -393,9 +371,7 @@ export const Header = () => {
                   <>
                     <Link href="/login">
                       <span
-                        className={`font-semibold mx-2 cursor-pointer ${
-                          router.pathname === "/" ? "text-white" : "text-black "
-                        } hover:underline`}
+                        className={`font-semibold mx-2 cursor-pointer text-black hover:underline`}
                       >
                         Sign in
                       </span>
@@ -551,7 +527,7 @@ export const Header = () => {
                               user.shortList?.length <= 99
                             ? "py-[5px] px-[3px]"
                             : "py-[5px] pl-[3px]"
-                        } bg-red-500 text-[10px] leading-none text-center  align-baseline font-bold text-white rounded-full z-10`}
+                        } bg-[#848abd] text-[10px] leading-none text-center  align-baseline font-bold text-white rounded-full z-10`}
                           >
                             {user.shortList?.length >= 99
                               ? 99
@@ -568,7 +544,7 @@ export const Header = () => {
                       <span className="pr-4 text-lg font-medium">Message</span>
                       <div className="relative">
                         <div
-                          className={`absolute !hidden inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 w-5 h-5 skew-x-0 skew-y-0 scale-x-100 scale-y-100 py-[5px] px-1 bg-red-500 text-[10px] leading-none text-center  align-baseline font-bold text-white rounded-full z-10`}
+                          className={`absolute !hidden inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 w-5 h-5 skew-x-0 skew-y-0 scale-x-100 scale-y-100 py-[5px] px-1 bg-[#848abd] text-[10px] leading-none text-center  align-baseline font-bold text-white rounded-full z-10`}
                         >
                           9
                         </div>
@@ -585,3 +561,28 @@ export const Header = () => {
     </ThemeProvider>
   );
 };
+
+export default function useWindowSize() {
+  function getSize() {
+    if (typeof window !== "undefined") {
+      return {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+    }
+  }
+
+  const [windowSize, setWindowSize] = useState(getSize);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize(getSize());
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowSize;
+}

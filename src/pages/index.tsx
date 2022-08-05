@@ -154,31 +154,31 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <header
-        className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden bg-center bg-cover w-full h-screen "
-        style={{
-          backgroundImage:
-            "url('https://mdbcdn.b-cdn.net/img/new/slides/146.webp')",
-        }}
+        className="absolute bg-[#e6e6e6] top-0 left-0 right-0 bottom-0 overflow-hidden bg-center bg-cover w-full h-screen "
+        // style={{
+        //   backgroundImage:
+        //     "url('https://mdbcdn.b-cdn.net/img/new/slides/146.webp')",
+        // }}
       >
-        <div className="relative top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed bg-[#000000bf] font-jost">
+        <div className="relative top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed  font-jost">
           <div className="flex justify-center flex-col  h-full">
-            <div className="text-center text-white px-6 pt-16 md:px-12">
-              <h1 className="text-xl md:text-4xl font-semibold mt-6 mb-3 cursor-pointer">
+            <div className="text-center text-black px-6 mt-16 md:px-12">
+              <h1 className="text-xl md:text-4xl font-semibold mt-6 mb-3 cursor-pointer ">
                 Welcome to KryptoHub{" "}
                 <ArrowForwardIosOutlined className="text-sm" />
               </h1>
             </div>
-            <div className="p-4 flex items-center justify-center py-20 text-white">
+            <div className="p-4 flex items-center justify-center py-20 text-black">
               <div className="">
                 <h1 className="text-4xl font-700 mb-5">
                   The only resource you need to find the right company.
                 </h1>
-                <h2 className="text-base text-white mb-5">
+                <h2 className="text-base text-black mb-5">
                   Choose the best-fit company for your business using 98,000+
                   client reviews from real people.
                 </h2>
                 <div className="flex lg:flex-row flex-col items-start lg:items-center">
-                  <h2 className="text-white mr-3 min-w-[115px]">
+                  <h2 className="text-black mr-3 min-w-[115px]">
                     I am looking for
                   </h2>
                   <div className="flex md:flex-row flex-col w-full ">
@@ -187,9 +187,9 @@ const Home: NextPage = () => {
                         className="relative"
                         ref={nodeRef as LegacyRef<HTMLDivElement>}
                       >
-                        <SearchIcon className="absolute left-2 bottom-[6px] text-[#08537e] " />
+                        <SearchIcon className="absolute left-2 bottom-[6px] text-[#848abd] " />
                         <input
-                          className=" appearance-none min-w-[300px] bg-[#ecedee] text-[#606060] border-2 border-[#cae0e7] rounded-3xl mr-3 block w-full pl-8 px-3 py-2 pr-8 border-solid placeholder-gray-500 focus:outline-none focus:border-black  md:mt-0 mt-4 sm:text-sm placeholder:text-xs custom-scrollbar"
+                          className=" appearance-none min-w-[300px] bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl mr-3 block w-full pl-8 px-3 py-2 pr-8 border-solid placeholder-gray-500 focus:outline-none focus:border-[#848abd]  md:mt-0 mt-4 sm:text-sm placeholder:text-xs custom-scrollbar"
                           placeholder="e.g. App Development, UX design, IT services..."
                           autoComplete="off"
                           onClick={() => setShow(true)}
@@ -246,14 +246,14 @@ const Home: NextPage = () => {
                         </Collapse>
                       </div>
                     </div>
-                    <h2 className="text-white mx-3 md:flex items-center hidden">
+                    <h2 className="text-black mx-3 md:flex items-center hidden">
                       in
                     </h2>
                     <select
-                      className="appearance-none mr-3 min-w-[190px] bg-[#ecedee] text-[#606060] border-2 border-[#cae0e7] rounded-3xl relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-black  focus:z-10 sm:text-sm"
+                      className="appearance-none mr-3 min-w-[190px] bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-10 sm:text-sm"
                       {...register("timeZone")}
                     >
-                      <option value="">--Timezone--</option>
+                      <option>--Timezone--</option>
                       {Object.values(TimeZone).map((cur, index) => (
                         <option key={index} value={cur}>
                           {cur}
@@ -262,7 +262,7 @@ const Home: NextPage = () => {
                     </select>
 
                     <button
-                      className="px-10 min-w-[150px] py-2 mr-2 bg-[#5ca7db] text-white mt-2 md:mt-0 rounded-3xl w-full"
+                      className="px-10 min-w-[150px] py-2 mr-2 bg-[#848abd] text-black mt-2 md:mt-0 rounded-3xl w-full"
                       onClick={() => {
                         router.push(
                           `teams?skill=${watch("skill")}&timezone=${watch(
@@ -308,7 +308,7 @@ const Home: NextPage = () => {
                 <>
                   <div className="flex w-full px-4 mb-5 ">
                     <div className="px-3">
-                      <div className="w-20 h-20 bg-[#e7e8ea] rounded-circle block relative">
+                      <div className="w-20 h-20 bg-[#848abd] rounded-circle block relative">
                         {categoty[item].icon}
                       </div>
                     </div>

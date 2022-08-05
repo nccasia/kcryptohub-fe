@@ -135,7 +135,12 @@ export const Teams = () => {
       setIsReady(true);
     }
   }, [filter, currentPage, SkillSelect, SkillSelectIsLoaded]);
-  const debounceSearch = useCallback(debounce((value: string) => {setFilter({ ...filter, search: value })}, 1000),[setFilter]);
+  const debounceSearch = useCallback(
+    debounce((value: string) => {
+      setFilter({ ...filter, search: value });
+    }, 1000),
+    [setFilter]
+  );
   const [keyword, setKeyword] = useState("");
   const handleSearch = (event: any) => {
     setKeyword(event.target.value);
@@ -167,7 +172,7 @@ export const Teams = () => {
   return (
     <Layout>
       <div className="flex items-center justify-center relative bg-primary border-t border-cyan-500  ">
-        <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
+        {/* <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
           <div
             className="px-4 py-2 w-fit border-2 border-red-500 xxs:flex hidden items-center justify-center text-xl
            before:bg-cyan-300 before:h-[6px] before:w-[6px] before:rounded before:absolute before:top-[-4px] before:z-50
@@ -178,16 +183,16 @@ export const Teams = () => {
           <div className="ml-4 text-3xl">
             <h1>List Teams</h1>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="relative">
-        <div className="flex flex-col items-center justify-center px-1 ">
-          <div className="container-lg relative border-x-2   md:w-11/12 lg:w-5/6 w-full  shadow-xl">
+        <div className="flex flex-col items-center justify-center px-1 mt-4 ">
+          <div className="container-lg relative border-x-2 rounded-md  md:w-11/12 lg:w-5/6 w-full  shadow-xl">
             <div className="sticky top-0 w-full flex flex-col text-cyan-700 bg-white z-10">
               <div className="flex flex-col sm:flex-row border-b ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
-                    <div className="p-1 xs:p-4 bg-primary text-white font-semibold border-2 border-cyan-900 mr-2 max-w-[10rem] hidden sm:block">
+                    <div className="p-1 xs:p-4 bg-primary text-white font-semibold border-2 border-cyan-900 mr-2 rounded-lg max-w-[10rem] hidden sm:block">
                       <span>{totalTeam} Teams</span>
                     </div>
                   </div>
@@ -206,7 +211,10 @@ export const Teams = () => {
                       <div className="absolute right-2">
                         {filter.search.length > 0 ? (
                           <Close
-                            onClick={() => {setFilter({ ...filter, search: "" }); setKeyword("")}}
+                            onClick={() => {
+                              setFilter({ ...filter, search: "" });
+                              setKeyword("");
+                            }}
                           />
                         ) : (
                           <SearchIcon />
@@ -364,7 +372,10 @@ export const Teams = () => {
               <div className="absolute right-2">
                 {filter.search.length > 0 ? (
                   <Close
-                    onClick={() => {setFilter({ ...filter, search: "" });setKeyword("")}}
+                    onClick={() => {
+                      setFilter({ ...filter, search: "" });
+                      setKeyword("");
+                    }}
                     className="cursor-pointer"
                   />
                 ) : (

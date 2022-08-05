@@ -193,7 +193,7 @@ const Login = () => {
                     </label>
                     <input
                       type="text"
-                      className="border-solid  w-full  border-2 border-[#cae0e7] rounded-3xl px-3 py-2 outline-none focus:shadow-3xl focus:border-[#cae0e7]"
+                      className="border-solid  w-full  border-2 border-[#848abd] rounded-3xl px-3 py-2 outline-none focus:shadow-md focus:border-[#848abd]"
                       {...register("usernameOrEmail")}
                       autoComplete="off"
                     />
@@ -211,7 +211,7 @@ const Login = () => {
                     </label>
                     <input
                       type="password"
-                      className="border-solid  w-full  border-2 border-[#cae0e7]  rounded-3xl px-3 py-2 outline-none focus:shadow-3xl focus:border-[#cae0e7]"
+                      className="border-solid  w-full  border-2 border-[#848abd]  rounded-3xl px-3 py-2 outline-none focus:shadow-md focus:border-[#848abd]"
                       {...register("password")}
                       autoComplete="off"
                     />
@@ -224,12 +224,12 @@ const Login = () => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-[#5ca7db] text-white block text-center  rounded-3xl py-2 px-5 w-full shadow-lg mt-4 mx-auto"
+                  className="bg-[#848abd] text-white block text-center  rounded-3xl py-2 px-5 w-full shadow-lg mt-4 mx-auto"
                 >
                   Log In
                 </button>
                 <Link href="/forgot-password">
-                  <a className="inline-block text-cyan-500 text-sm mt-3 cursor-pointer hover:underline">
+                  <a className="inline-block text-[#606060] text-sm mt-3 cursor-pointer hover:underline">
                     Forgot your password?
                   </a>
                 </Link>
@@ -237,7 +237,7 @@ const Login = () => {
               <div className="inline-flex w-full mx-auto text-black justify-center font-nunito text-sm mt-3">
                 <span>{"Don't have an account? "}</span>
                 <div onClick={handleRegister} className="px-2">
-                  <a className="text-cyan-500 underline cursor-pointer">
+                  <a className="text-[#606060] underline cursor-pointer">
                     Register
                   </a>
                 </div>
