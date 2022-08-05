@@ -52,10 +52,10 @@ export const ManagePortfolio = (props: Props) => {
   return (
     <DashboardLayout>
       <ThemeProvider theme={theme}>
-        <div className="w-full h-full bg-thirdary py-4 font-nunito text-[#606060]">
-          <div className="container mx-auto h-full">
+        <div className="w-full h-full py-4 font-nunito text-[#606060]">
+          <div className="container mx-auto h-full ">
             <div className="grid grid-cols-12 gap-5  h-full">
-              <div className="md:col-span-3 col-span-12 lg:min-h-full bg-white flex flex-col p-2 lg:mr-4 lg:mb-0 mb-4">
+              <div className="md:col-span-3 col-span-12 lg:min-h-full bg-white flex flex-col p-2 lg:mr-4 lg:mb-0 mb-4 rounded-xl shadow-xl">
                 <div className="mb-2 lg:flex hidden items-center justify-between">
                   <h1 className="text-3xl font-normal">My portfolio</h1>
                 </div>
@@ -105,7 +105,7 @@ export const ManagePortfolio = (props: Props) => {
                   </div>
                 </Collapse>
               </div>
-              <div className="bg-white h-full col-span-12 md:col-span-9 p-4">
+              <div className="bg-white h-full col-span-12 md:col-span-9 p-4 rounded-xl shadow-xl">
                 {props.children}
               </div>
             </div>

@@ -96,7 +96,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                         router.pathname.split("/")[4] === item.match ||
                         (!router.pathname.split("/")[4] &&
                           item.match === EDashboardNavbar.DASHBOARD)
-                          ? " bg-white rounded-full shadow-btn px-4 py-2"
+                          ? " bg-white rounded-full text-[#848ABD] shadow-btn px-4 py-2 "
                           : ""
                       }`}
                     >

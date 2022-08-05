@@ -13,12 +13,11 @@ const SkillDistribution = () => {
   const [teamId, setTeamId] = useState(router.query.teamId as string);
   const dispatch = useAppDispatch();
 
-
   return (
     <DashboardLayout>
-      <div className="w-full h-full bg-thirdary">
+      <div className="w-full h-full ">
         <div className="container mx-auto pt-4">
-          <div className="bg-white w-full p-8">
+          <div className="bg-white w-full p-8 rounded-xl shadow-xl">
             <SkillDis
               step={0}
               setStep={function (step: number): void {
