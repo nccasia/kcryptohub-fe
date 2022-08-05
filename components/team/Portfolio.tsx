@@ -173,7 +173,7 @@ const Portfolio = ({
 
                     <p
                       hidden={portfolio.description?.length <= 650 || show}
-                      className="text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
+                      className="text-ellipsis overflow-hidden mt-2 text-xs text-[#848ABD] hover:underline tracking-widest cursor-pointer"
                       onClick={() => setShow(!show)}
                     >
                       READ MORE...

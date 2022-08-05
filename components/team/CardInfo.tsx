@@ -40,10 +40,10 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
   return (
     <div
       className="hidden fixed w-[50px] flex top-0 right-4 float-right
-    lg:block md:top-44 rounded-full z-[9999]"
+    lg:block md:top-44 rounded-full z-[9999] font-nunito"
     >
       <div
-        className="mb-3 fixed w-[50px] flex right-4 float-right bg-white border border-[#cae0e7] shadow-xl 
+        className="mb-3 fixed w-[50px] flex right-4 float-right bg-white border border-[#848ABD] shadow-xl 
     md:block top-32 rounded-full"
       >
         <div
@@ -51,12 +51,12 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
           onClick={() => setShow((cur) => !cur)}
         >
           <div>
-            <SettingsOutlined className="text-[#404040] text-md hover:text-[#5ca7db]" />
+            <SettingsOutlined className="text-[#404040] text-md hover:text-[#848ABD]" />
           </div>
         </div>
       </div>
       <div
-        className={`fixed mt-4 w-[50px] flex  right-4 float-right bg-white z-[9999] border border-[#cae0e7] shadow-xl 
+        className={`fixed mt-4 w-[50px] flex  right-4 float-right bg-white z-[9999] border border-[#848ABD] shadow-xl 
       rounded-full transition-all ${show ? "md:block" : "hidden"}`}
       >
         {editable ? (
@@ -74,9 +74,9 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
                   setHover(false);
                 }}
               >
-                <Edit className="text-[#404040] text-[20px] hover:text-[#5ca7db] " />
+                <Edit className="text-[#404040] text-[20px] hover:text-[#848ABD] " />
                 <div
-                  className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#5ca7db] text-white after:content-['']  after:border-[#5ca7db] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
+                  className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
                     hover ? "" : "hidden"
                   }`}
                 >
@@ -95,9 +95,9 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
           }}
         >
           <div className="w-full flex justify-center relative">
-            <Language className="text-[#404040] text-[20px] hover:text-[#5ca7db]" />
+            <Language className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
             <div
-              className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#5ca7db] text-white after:content-['']  after:border-[#5ca7db] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
+              className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
                 hover1 ? "" : "hidden"
               }`}
             >
@@ -115,9 +115,9 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
                 setHover2(false);
               }}
             >
-              <Bookmark className="text-[#404040] text-[20px] hover:text-[#5ca7db]" />
+              <Bookmark className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
               <div
-                className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#5ca7db] text-white after:content-['']  after:border-[#5ca7db] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
+                className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
                   hover2 ? "" : "hidden"
                 }`}
               >
@@ -133,9 +133,9 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
                 setHover2(false);
               }}
             >
-              <BookmarkBorderOutlined className="text-[#404040] text-[20px] hover:text-[#5ca7db]" />
+              <BookmarkBorderOutlined className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
               <div
-                className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#5ca7db] text-white after:content-['']  after:border-[#5ca7db] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
+                className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
                   hover2 ? "" : "hidden"
                 }`}
               >
@@ -158,9 +158,9 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
                 setHover3(false);
               }}
             >
-              <ChatOutlined className="text-[#404040] text-[20px] hover:text-[#5ca7db]" />
+              <ChatOutlined className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
               <div
-                className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#5ca7db] text-white after:content-['']  after:border-[#5ca7db] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px]  ${
+                className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px]  ${
                   hover3 ? "" : "hidden"
                 }`}
               >

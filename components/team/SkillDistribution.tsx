@@ -58,14 +58,14 @@ const SkillDistribution = ({
               </h3>
             </div>
 
-            <div className="w-full mb-6">
+            <div className="w-full mb-6 ">
               <div className="h-6 flex justify-center">
                 {item.skillDistributionValue.map(
                   (skillDistributionValue, index) =>
                     Number(skillDistributionValue.quantity) > 0 && (
                       <div
                         key={skillDistributionValue.field}
-                        className="relative flex justify-center items-center group h-full"
+                        className="relative flex justify-center items-center group h-full first:rounded-l-lg last:rounded-r-lg"
                         style={{
                           width: `${handleCalculatePercentage(
                             item.skillDistributionValue,

@@ -235,7 +235,7 @@ export const Teams = () => {
                           </div>
                         </div>
                         <div
-                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full shadow border-none text-[#848abd]"
+                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full border-none text-[#848abd]"
                           id="Skills"
                           onClick={(e) => {
                             setSwitchValue(e.currentTarget.id);
@@ -258,7 +258,7 @@ export const Teams = () => {
                           </div>
                         </div>
                         <div
-                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full shadow border-none text-[#848abd]"
+                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full border-none text-[#848abd]"
                           id="Timezone"
                           onClick={(e) => {
                             setSwitchValue(e.currentTarget.id);

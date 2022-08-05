@@ -157,35 +157,39 @@ const Dashboard = () => {
                     </span>
                   )}
                   <span className="py-1">
-                    <CalendarMonthOutlined className="text-[#848abd]"/>
+                    <CalendarMonthOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Last Update: {new Date(team.updateAt).toDateString()}
                     </span>
                   </span>
                   {
                     <a href={team.linkWebsite} className="py-1 break-all">
-                      {<LanguageOutlined className="text-[#848abd]"/>}
-                      <span className="text-left ml-1 text-[#848abd]">{team.linkWebsite}</span>
+                      {<LanguageOutlined className="text-[#848abd]" />}
+                      <span className="text-left ml-1 text-[#848abd]">
+                        {team.linkWebsite}
+                      </span>
                     </a>
                   }
                   <span className="py-1">
-                    <EmailOutlined className="text-[#848abd]"/>
-                    <span className="text-left ml-1 text-[#848abd]">{team.saleEmail}</span>
+                    <EmailOutlined className="text-[#848abd]" />
+                    <span className="text-left ml-1 text-[#848abd]">
+                      {team.saleEmail}
+                    </span>
                   </span>
                   <span className="py-1">
-                    <AvTimerOutlined className="text-[#848abd]"/>
+                    <AvTimerOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       TimeZone: {team.timeZone}
                     </span>
                   </span>
                   <span className="py-1">
-                    <PeopleOutline className="text-[#848abd]"/>
+                    <PeopleOutline className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       TeamSize: {team.teamSize}
                     </span>
                   </span>
                   <span className="py-1">
-                    <FlagOutlined className="text-[#848abd]"/>
+                    <FlagOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Founded: {team.founded}
                     </span>
@@ -198,14 +202,14 @@ const Dashboard = () => {
                     </span>
                   </span>
                   <span className="py-1">
-                    <BusinessCenterOutlined className="text-[#848abd]"/>
+                    <BusinessCenterOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Portfolio:{" "}
                       {team.portfolios ? team.portfolios?.length | 0 : 0}
                     </span>
                   </span>
                   <span className="py-1">
-                    <EmojiEventsOutlined className="text-[#848abd]"/>
+                    <EmojiEventsOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Awards: {team.awards ? team.awards?.length | 0 : 0}
                     </span>
@@ -330,7 +334,7 @@ const Dashboard = () => {
                     <>
                       {team.description.length > 650 && (
                         <span
-                          className="text-cyan-600 cursor-pointer"
+                          className="text-[#606060] cursor-pointer"
                           onClick={() => setShowAll(true)}
                         >
                           More
