@@ -335,9 +335,7 @@ const NewPortfolio = () => {
                           id="videoLink"
                           {...register("videoLink")}
                           maxLength={300}
-                          className={`sm:min-w-[400px] lg:min-w-[600px] w-full border-2 border-[#cae0e7] pl-3 pr-8 py-2 outline-none focus:shadow-3xl focus:border-primary ${
-                            errors.videoLink && "bg-red-200"
-                          }`}
+                          className={`sm:min-w-[400px] lg:min-w-[600px] w-full  pl-3 pr-8 py-2 outline-none peer bg-[#0000000d] rounded-3xl outline-none text-[#606060] `}
                         />
                         <div className="absolute right-0 h-full p-2 flex items-center justify-center text-gray-400 text-sm font-normal">
                           {watch("videoLink") ? watch("videoLink").length : 0}/
@@ -457,7 +455,7 @@ const NewPortfolio = () => {
             </div>
             <div className="flex xxs:flex-row flex-col-reverse items-center justify-end p-4">
               <button
-                className="bg-white px-16 py-3 hover:text-cyan-600 "
+                className="bg-white px-16 py-3 text-[#848ABD] hover:underline  "
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
@@ -467,8 +465,7 @@ const NewPortfolio = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 w-fit bg-secondary text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
-               hover:bg-transparent hover:text-secondary
+                className="px-4 py-2 w-fit bg-[#848ABD] text-white rounded-full flex justify-center items-center cursor-pointer 
                disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSubmit(onSubmit)}
                 disabled={!isValid}

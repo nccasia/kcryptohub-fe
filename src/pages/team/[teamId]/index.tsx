@@ -123,7 +123,7 @@ const TeamDetail = () => {
                   <div className="w-full flex justify-center mb-4">
                     <div className="xs:mt-0 mt-5 max-h-[300px] lg:h-[100px] lg:w-[100px] h-[100px] w-[100px] relative">
                       <Image
-                        className="rounded-full object-fit"
+                        className="rounded-full object-contain"
                         alt=""
                         src={
                           teamProfile.imageUrl
@@ -179,8 +179,13 @@ const TeamDetail = () => {
                   </div>
 
                   <p
-                    hidden={teamProfile.description?.length <= 200 || !read}
-                    className="text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
+                    hidden={
+                      teamProfile.description?.length <= 200 ||
+                      teamProfile.description === null
+                    }
+                    className={`text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer ${
+                      read ? "hidden" : ""
+                    }`}
                     onClick={() => setRead(!read)}
                   >
                     READ MORE <ArrowForwardIcon className="text-xs" />

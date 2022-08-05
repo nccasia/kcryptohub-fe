@@ -37,7 +37,7 @@ export const InputFieldCol = ({
           placeholder={placeholder}
           defaultValue={defaultValue}
           maxLength={maxLength}
-          className={`sm:min-w-[400px] my-1 lg:min-w-[600px] w-full bg-[#0000000d] pl-3 pr-16 py-2 rounded-3xl outline-none text-[#606060]`}
+          className={`sm:min-w-[400px] my-1 lg:min-w-[600px] w-full  pl-3 pr-16 py-2 bg-[#0000000d] rounded-3xl outline-none text-[#606060]`}
         />
         <div className="absolute right-0 p-2 text-gray-400 text-sm font-normal">
           {watch ? watch.length : 0}/{maxLength}

@@ -13,9 +13,9 @@ const Information = () => {
 
   return (
     <DashboardLayout>
-      <div className="w-full h-full bg-thirdary">
+      <div className="w-full h-full">
         <div className="container mx-auto pt-4">
-          <div className="bg-white w-full p-8">
+          <div className="bg-white w-full p-8 rounded-xl shadow-xl">
             <CreateForm
               nextStep={() => {}}
               defaultTeamInfo={{ ...team } as unknown as ITeam}
