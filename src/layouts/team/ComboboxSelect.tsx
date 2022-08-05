@@ -96,7 +96,7 @@ export const ComboboxSelect = ({
             ? ""
             : ` ${
                 show ? "block" : "hidden"
-              } absolute bg-white border-[1px] mt-3 rounded-lg z-[100] 
+              } absolute bg-white shadow-lg mt-3 rounded-lg z-[100] 
            max-h-[200px] `
         }`}
         ref={subNodeRef as Ref<unknown>}
@@ -105,7 +105,7 @@ export const ComboboxSelect = ({
           <input
             type="text"
             placeholder={`Search ${label === "Skills" ? "Skills" : ""}`}
-            className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-2 focus:outline-none  rounded-full"
+            className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-2 focus:outline-none rounded-full"
             onChange={hanleSearchItems}
           />
           <Search className="absolute right-4 text-sm" />
@@ -122,7 +122,7 @@ export const ComboboxSelect = ({
                 <label
                   htmlFor={`${label}cb${index}${isCollapsor ? 0 : 1}`}
                   key={index}
-                  className="block cursor-pointer border-l-2 pl-1 mt-2 border-transparent lg:max-w-[350px] sm:max-w-[250px] overflow-hidden hover:border-cyan-900 hover:bg-cyan-100 "
+                  className="block cursor-pointer border-l-2 pl-1 mt-2 border-transparent lg:max-w-[350px] sm:max-w-[250px] overflow-hidden hover:text-white hover:border-[#848ABD] hover:bg-[#848ABD] "
                 >
                   <input
                     type="checkbox"

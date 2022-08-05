@@ -533,7 +533,7 @@ export const CreateForm = (props: IProps) => {
                   onChange={(e, value) => {
                     setData(value);
                   }}
-                  className="md:max-w-[400px] w-full"
+                  className="md:max-w-[400px] w-full custom-scrollbar"
                   renderInput={(params) => (
                     <TextField
                       {...params}

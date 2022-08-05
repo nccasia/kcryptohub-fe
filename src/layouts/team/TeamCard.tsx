@@ -133,7 +133,7 @@ export const TeamCard = (props: Props) => {
                   <span className="w-full break-words">{team.teamName}</span>
                 </a>
               </Link>
-              <p className="text-cyan-700 px-2 text-ellipsis inline-block max-w-full">
+              <p className="text-[#606060] px-2 text-ellipsis inline-block max-w-full">
                 {team.slogan}
               </p>
             </div>
@@ -149,14 +149,14 @@ export const TeamCard = (props: Props) => {
                       >
                         <Bookmark
                           className={`absolute cursor-pointer ${
-                            show ? "bg-cyan-800 text-white" : ""
+                            show ? "bg-white text-[#848ABD]" : ""
                           }`}
                         ></Bookmark>
-                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-cyan-900 top-[24px] right-[-24px]">
+                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-[#848ABD] rounded-lg top-[24px] right-[-24px]">
                           <div className="text-left px-2">
                             <li className="list-none py-1 cursor-pointer border-b-[1px] font-nunito">
                               <a
-                                className="text-cyan-800 font-medium"
+                                className="text-[#848ABD] font-medium"
                                 onClick={handleRemoveFromShortList}
                               >
                                 Remove from Shortlist
@@ -173,7 +173,7 @@ export const TeamCard = (props: Props) => {
                       </div>
                     ) : (
                       <Bookmark
-                        className={`absolute text-cyan-700 cursor-pointer hover:bg-cyan-800 hover:text-white ${
+                        className={`absolute cursor-pointer text-[#848ABD] hover:bg-white hover:text-[#848ABD] ${
                           show ? "hidden" : ""
                         }`}
                         onMouseEnter={() => setShow(true)}
@@ -190,14 +190,14 @@ export const TeamCard = (props: Props) => {
                       >
                         <Bookmark
                           className={`absolute cursor-pointer ${
-                            show ? "bg-cyan-800 text-white" : ""
+                            show ? "bg-white text-[#848ABD]" : ""
                           }`}
                         ></Bookmark>
-                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-cyan-900 top-[24px] right-[-24px]">
+                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 rounded-lg border-[#848ABD] top-[24px] right-[-24px]">
                           <div className="text-left px-2">
                             <li className="list-none py-1 cursor-pointer border-b-[1px] font-nunito">
                               <a
-                                className="text-cyan-800 font-medium"
+                                className="text-[#848ABD] font-medium"
                                 onClick={handleAddToShortList}
                               >
                                 Add to Shortlist
@@ -214,7 +214,7 @@ export const TeamCard = (props: Props) => {
                       </div>
                     ) : (
                       <BookmarkBorderOutlined
-                        className={`absolute text-cyan-700 cursor-pointer hover:bg-cyan-800 hover:text-white ${
+                        className={`absolute text-[#848ABD] cursor-pointer hover:bg-white hover:text-[#848ABD] ${
                           show ? "hidden" : ""
                         }`}
                         onMouseEnter={() => setShow(true)}
@@ -234,11 +234,11 @@ export const TeamCard = (props: Props) => {
               </span>
             ) : null}
 
-            <span className="text-cyan-900 font-nunito flex items-end">
+            <span className="text-[#606060] font-nunito flex items-end">
               <IconHover icon={<GroupsOutlined />} hoverText="Team size" />
               <span className="text-left ml-1">{team.teamSize} members</span>
             </span>
-            <span className="text-cyan-900 font-nunito flex items-end pt-3">
+            <span className="text-[#606060] font-nunito flex items-end pt-3">
               <IconHover icon={<AvTimerOutlined />} hoverText="Timezone" />
               <span className="text-left ml-1">{team.timeZone}</span>
             </span>
@@ -299,7 +299,7 @@ export const TeamCard = (props: Props) => {
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-cyan-400 cursor-pointer"
+                      className="text-[#606060] hover:underline cursor-pointer"
                     >
                       More
                     </a>
@@ -329,14 +329,14 @@ export const TeamCard = (props: Props) => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center flex-1 font-nunito"
+            className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center flex-1 font-nunito hover:text-[#848ABD]"
           >
-            <span className="hidden xs:block mr-2">View Profile</span>
+            <span className="hidden xs:block mr-2 ">View Profile</span>
             <InfoOutlined />
           </a>
         </Link>
         <Link href={`/team/${team.id}/contact`}>
-          <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center flex-1 font-nunito">
+          <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center flex-1 font-nunito hover:text-[#848ABD]">
             <span className="hidden xs:block mr-2">Contact</span>
             <ContactlessOutlined />
           </a>

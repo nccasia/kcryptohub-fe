@@ -258,24 +258,24 @@ export const Header = () => {
                                   <div
                                     className={`flex flex-col font-jost absolute z-[900] top-7 p-1 border min-w-[230px] w-full h-fit bg-white text-cyan-800 md:right-[-20px] 
                               ${
-                                !showPopUp ? "invisible" : "visible"
+                                !showPopUp ? "invisible" : "visible rounded-lg"
                               }  animate-slide-in-up hover:visible text-lg`}
                                   >
                                     <div className="text-gray-900">
                                       <Link href="/profile">
-                                        <div className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer ">
+                                        <div className="p-1 my-1 border-l-2 border-white hover:border-[#848ABD] hover:text-[#848ABD] cursor-pointer ">
                                           <a>Profile</a>
                                         </div>
                                       </Link>
                                       <hr />
                                       <Link href="/manage-teams">
-                                        <div className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer ">
+                                        <div className="p-1 my-1 border-l-2 border-white hover:border-[#848ABD] hover:text-[#848ABD] cursor-pointer ">
                                           <a>Manage Teams</a>
                                         </div>
                                       </Link>
                                       <hr />
                                       <div
-                                        className="p-1 my-1 border-l-2  border-white hover:border-red-700 hover:text-red-700 cursor-pointer "
+                                        className="p-1 my-1 border-l-2  border-white hover:border-[#848ABD] hover:text-[#848ABD] cursor-pointer "
                                         onClick={() => {
                                           localStorage.removeItem(
                                             "accessToken"
@@ -339,24 +339,24 @@ export const Header = () => {
                                   <div
                                     className={`flex flex-col font-jost absolute z-[900] top-7 p-1 border min-w-[230px] w-full h-fit bg-white text-cyan-800 md:right-[-20px] 
                               ${
-                                !showPopUp ? "invisible" : "visible"
+                                !showPopUp ? "invisible" : "visible rounded-lg"
                               }  animate-slide-in-up hover:visible text-lg`}
                                   >
                                     <div className="text-gray-900">
                                       <Link href="/profile">
-                                        <div className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer ">
+                                        <div className="p-1 my-1 border-l-2 border-white hover:border-[#848ABD] hover:text-[#848ABD] cursor-pointer ">
                                           <a>Profile</a>
                                         </div>
                                       </Link>
                                       <hr />
                                       <Link href="/manage-teams">
-                                        <div className="p-1 my-1 border-l-2 border-white hover:border-red-700 hover:text-red-700 cursor-pointer ">
+                                        <div className="p-1 my-1 border-l-2 border-white hover:border-[#848ABD] hover:text-[#848ABD] cursor-pointer ">
                                           <a>Manage Teams</a>
                                         </div>
                                       </Link>
                                       <hr />
                                       <div
-                                        className="p-1 my-1 border-l-2  border-white hover:border-red-700 hover:text-red-700 cursor-pointer "
+                                        className="p-1 my-1 border-l-2  border-white hover:border-[#848ABD] hover:text-[#848ABD] cursor-pointer "
                                         onClick={() => {
                                           localStorage.removeItem(
                                             "accessToken"
@@ -489,7 +489,7 @@ export const Header = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <div
-                        className={`text-white flex flex-col w-full font-jost`}
+                        className={`text-white flex flex-col w-full font-jost rounded-lg`}
                       >
                         <Link href="/profile">
                           <div className="pr-1 py-2 my-1 cursor-pointer">
