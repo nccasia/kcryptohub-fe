@@ -96,7 +96,7 @@ export const ComboboxSelect = ({
             ? ""
             : ` ${
                 show ? "block" : "hidden"
-              } absolute bg-white shadow-lg mt-3 rounded-lg z-[100] 
+              } absolute bg-white shadow-lg mt-3 border-[1px] rounded-xl z-[100] 
            max-h-[200px] `
         }`}
         ref={subNodeRef as Ref<unknown>}

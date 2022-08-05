@@ -186,7 +186,7 @@ export const Teams = () => {
               <div className="flex flex-col sm:flex-row ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">
-                    <div className="p-1 xs:p-4 bg-[#848ABD] rounded-full text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
+                    <div className="p-1 xs:p-3 bg-[#848ABD] rounded-full text-white font-semibold mr-2 max-w-[10rem] hidden sm:block">
                       <span>{totalTeam} Teams</span>
                     </div>
                   </div>
@@ -197,7 +197,7 @@ export const Teams = () => {
                       <input
                         type="text"
                         placeholder="Search here..."
-                        className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  rounded-full"
+                        className="shadow w-full text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  rounded-full"
                         name="search"
                         value={keyword}
                         onChange={handleSearch}
