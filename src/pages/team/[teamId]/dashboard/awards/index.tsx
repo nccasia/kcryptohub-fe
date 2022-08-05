@@ -46,7 +46,7 @@ const Awards = () => {
           }}
           passHref
         >
-          <button className="bg-secondary text-white mt-6 px-10 py-3 border-2 border-transparent transition duration-300 hover:border-secondary hover:bg-white hover:text-secondary">
+          <button className="bg-[#848abd] text-white mt-6 px-10 py-3 border-2 border-transparent transition duration-300 hover:border-[#848abd] hover:bg-white hover:text-[#848abd] rounded-3xl">
             Add a New Award
           </button>
         </Link>

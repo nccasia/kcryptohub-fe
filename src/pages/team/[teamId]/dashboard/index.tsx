@@ -11,7 +11,7 @@ import {
   AvTimerOutlined, BusinessCenterOutlined,
   CalendarMonthOutlined,
   CheckCircleOutlined, CircleRounded, Delete, EmailOutlined,
-  EmojiEventsOutlined, FlagOutlined, LanguageOutlined, People, PeopleOutline
+  EmojiEventsOutlined, FlagOutlined, LanguageOutlined, PeopleOutline
 } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
@@ -120,7 +120,7 @@ const Dashboard = () => {
                           </span>
                         </a>
                       </Link>
-                      <p className="text-cyan-700 text-ellipsis">{team.slogan}</p>
+                      <p className="text-[#848abd] text-ellipsis">{team.slogan}</p>
                     </div>
                   </div>
                 </div>
@@ -129,10 +129,10 @@ const Dashboard = () => {
                     <span>Basic Profile</span>
                   </div>
                   <div
-                    className="text-cyan-900 cursor-pointer hover:text-secondary"
+                    className="text-[#848abd] cursor-pointer hover:text-secondary"
                     onClick={handleDeleteTeam}
                   >
-                    Delete team <Delete className="text-secondary" />
+                    Delete team <Delete className="text-[#848abd]" />
                   </div>
                 </div>
                 <div className="md:flex grid grid-cols-2 flex-col text-sm py-2  text-[#83a8be]">
@@ -147,56 +147,56 @@ const Dashboard = () => {
                     </span>
                   )}
                   <span className="py-1">
-                    <CalendarMonthOutlined />
-                    <span className="text-left ml-1 text-gray-400">
+                    <CalendarMonthOutlined className="text-[#848abd]"/>
+                    <span className="text-left ml-1 text-[#848abd]">
                       Last Update: {new Date(team.updateAt).toDateString()}
                     </span>
                   </span>
                   {
                     <a href={team.linkWebsite} className="py-1 break-all">
-                      {<LanguageOutlined />}
-                      <span className="text-left ml-1">{team.linkWebsite}</span>
+                      {<LanguageOutlined className="text-[#848abd]"/>}
+                      <span className="text-left ml-1 text-[#848abd]">{team.linkWebsite}</span>
                     </a>
                   }
                   <span className="py-1">
-                    <EmailOutlined />
-                    <span className="text-left ml-1">{team.saleEmail}</span>
+                    <EmailOutlined className="text-[#848abd]"/>
+                    <span className="text-left ml-1 text-[#848abd]">{team.saleEmail}</span>
                   </span>
                   <span className="py-1">
-                    <AvTimerOutlined />
-                    <span className="text-left ml-1">
+                    <AvTimerOutlined className="text-[#848abd]"/>
+                    <span className="text-left ml-1 text-[#848abd]">
                       TimeZone: {team.timeZone}
                     </span>
                   </span>
                   <span className="py-1">
-                    <PeopleOutline />
-                    <span className="text-left ml-1">
+                    <PeopleOutline className="text-[#848abd]"/>
+                    <span className="text-left ml-1 text-[#848abd]">
                       TeamSize: {team.teamSize}
                     </span>
                   </span>
                   <span className="py-1">
-                    <FlagOutlined />
-                    <span className="text-left ml-1">
+                    <FlagOutlined className="text-[#848abd]"/>
+                    <span className="text-left ml-1 text-[#848abd]">
                       Founded: {team.founded}
                     </span>
                   </span>
 
                   <span className="py-1">
-                    <ServiceLineIcon className="inline-block mx-1" />
-                    <span className="text-left ml-1">
+                    <ServiceLineIcon className="inline-block mx-1 text-[#848abd]" />
+                    <span className="text-left ml-1 text-[#848abd]">
                       Distribution: {team.skillDistribution?.length | 0}
                     </span>
                   </span>
                   <span className="py-1">
-                    <BusinessCenterOutlined />
-                    <span className="text-left ml-1">
+                    <BusinessCenterOutlined className="text-[#848abd]"/>
+                    <span className="text-left ml-1 text-[#848abd]">
                       Portfolio:{" "}
                       {team.portfolios ? team.portfolios?.length | 0 : 0}
                     </span>
                   </span>
                   <span className="py-1">
-                    <EmojiEventsOutlined />
-                    <span className="text-left ml-1">
+                    <EmojiEventsOutlined className="text-[#848abd]"/>
+                    <span className="text-left ml-1 text-[#848abd]">
                       Awards: {team.awards ? team.awards?.length | 0 : 0}
                     </span>
                   </span>

@@ -558,17 +558,19 @@ export const CreateForm = (props: IProps) => {
                 className="text-[#606060] flex items center"
                 onClick={handleBack}
               >
-                <span className="text-[#848abd] font-medium">
-                  <ChevronLeftIcon />
-                </span>
-                <a>Back</a>
+                <a className="flex items-end">
+                  <span className="text-[#848abd] font-medium">
+                    <ChevronLeftIcon />
+                  </span>
+                  Back
+                </a>
               </button>
             )}
             <button
               type="button"
               onClick={handleSubmit(handleSave)}
               className={
-                "py-3 md:text-md text-sm text-white px-3 flex items center bg-[#848abd] rounded-3xl disabled:opacity-80 "
+                "py-3 md:text-md text-lg text-white px-3 flex items center bg-[#848abd] rounded-3xl disabled:opacity-80 "
               }
               disabled={btnDisable}
             >
@@ -576,7 +578,7 @@ export const CreateForm = (props: IProps) => {
                 <>
                   {btnDisable ? (
                     <LoadingButton
-                      className="md:text-md text-sm text-white flex items center border-0 opacity-80 p-0 px-2 "
+                      className="md:text-md text-lg text-white flex items center border-0 opacity-80 p-0 px-2"
                       loading
                       loadingPosition="start"
                       startIcon={<Save />}

@@ -30,7 +30,7 @@ const AwardList = () => {
             query: { teamId: router.query.teamId },
           }}
         >
-          <a className="text-sm text-[#08537e] cursor-pointer hover:underline">
+          <a className="text-sm text-[#848abd] cursor-pointer hover:underline">
             Add a New Award
           </a>
         </Link>

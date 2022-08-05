@@ -83,7 +83,7 @@ const CreateNewTeam = () => {
                       <div className="mr-2 xl:text-lg relative text-xs lg:text-base">
                         Add Skill Distribution
                       </div>
-                      <div className="bg-[#ff3d2e] px-2 py-1 flex justify-center items-center text-white after:content-[''] rounded-3xl after:border-[#c3281d] after:border-solid after:rotate-45 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:left-[-5px] after:bottom-[-6px]">
+                      <div className="bg-[#ff3d2e] px-2 py-1 flex justify-center items-center text-white after:content-[''] rounded-3xl  ">
                         100%
                       </div>
                     </div>

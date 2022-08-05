@@ -37,7 +37,7 @@ const ManageTeam = () => {
           <div className="">
             <Link href="/manage-teams/create-new-team">
               <a
-                className="bg-[#5ca7db] rounded-3xl text-white block text-center py-2 xs:px-5 px-1 w-full shadow-lg mx-auto"
+                className="bg-[#848abd] rounded-3xl text-white block text-center py-2 xs:px-5 px-1 w-full shadow-lg mx-auto"
                 onClick={() => {
                   dispatch(resetTeam());
                 }}

@@ -42,8 +42,8 @@ const Portfolio = () => {
             </p>
             <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
               <a
-                className="px-8 py-2 w-fit bg-secondary font-semibold text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
-               hover:bg-transparent hover:text-secondary"
+                className="px-8 py-2 w-fit bg-[#848abd] font-semibold text-white  flex justify-center items-center cursor-pointer border-2 border-[#848abd]
+               hover:bg-transparent hover:text-[#848abd] rounded-3xl"
               >
                 Add a Portfolio Item
               </a>
@@ -90,8 +90,8 @@ const Portfolio = () => {
         <div className="p-3 flex justify-end">
           <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
             <a
-              className="px-4 py-2 w-fit bg-secondary font-semibold text-white  flex justify-center items-center cursor-pointer border-2 border-secondary
-               hover:bg-transparent hover:text-secondary"
+              className="px-4 py-2 w-fit bg-[#848abd] font-semibold text-white  flex justify-center items-center cursor-pointer border-2 border-[#848abd]
+               hover:bg-transparent hover:text-[#848abd] rounded-3xl"
             >
               Add a Portfolio Item
             </a>
