@@ -43,8 +43,6 @@ export interface ICreateTeam {
   id: string;
 }
 
-
-
 export interface IPortfolio {
   id: number;
   companyName: string;
@@ -60,7 +58,6 @@ export interface IPortfolio {
   description: string;
   privacy: number;
 }
-
 
 export enum EPrivacy {
   "SHOW_ALL" = 1,
@@ -79,14 +76,14 @@ export enum ESection {
 }
 
 export enum IColors {
-  "#1b85ce",
-  "#08537e",
-  "#267c87",
-  "#62ba56",
-  "#5d997e",
-  "#4ba98b",
-  "#3acc60",
-  "#6a957d",
+  "#640071",
+  "#6b1187",
+  "#73289e",
+  "#7e44b4",
+  "#8e66ca",
+  "#a48ee1",
+  "#b0a6ef",
+  "#c4bcf7",
 }
 export enum ETimeZone {
   "UTC -12",

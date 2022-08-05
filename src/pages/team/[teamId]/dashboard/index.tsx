@@ -192,7 +192,7 @@ const Dashboard = () => {
                   </span>
 
                   <span className="py-1">
-                    <ServiceLineIcon className="inline-block mx-1 text-[#848abd]" />
+                    <ServiceLineIcon className="inline-block mx-1 text-[#848abd] stroke-[#848abd] " />
                     <span className="text-left ml-1 text-[#848abd]">
                       Distribution: {team.skillDistribution?.length | 0}
                     </span>

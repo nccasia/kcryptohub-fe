@@ -18,7 +18,7 @@ export const ServiceLineIcon = ({className}: {className?:string}) => {
           fillRule="evenodd"
           clipRule="evenodd"
           d="M8.08325 18L15.1663 13.75V5.25L8.08325 9.5V18Z"
-          stroke="#08537E"
+          stroke="#848abd"
           strokeLinejoin="round"
         />
         <path
@@ -31,7 +31,7 @@ export const ServiceLineIcon = ({className}: {className?:string}) => {
           fillRule="evenodd"
           clipRule="evenodd"
           d="M8.08324 18L1.00024 13.75V5.25L8.08324 9.5V18Z"
-          stroke="#08537E"
+          stroke="#848abd"
           strokeLinejoin="round"
         />
         <path
@@ -42,7 +42,7 @@ export const ServiceLineIcon = ({className}: {className?:string}) => {
         />
         <path
           d="M1 5.25L8.083 1L15.167 5.25"
-          stroke="#08537E"
+          stroke="#848abd"
           strokeLinejoin="round"
         />
       </svg>

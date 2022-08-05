@@ -150,14 +150,6 @@ const skillColor = [
 ];
 
 const skillColorBG = [
-  // "bg-[#640071]",
-  // "bg-[#6b1187]",
-  // "bg-[#73289e]",
-  // "bg-[#7e44b4]",
-  // "bg-[#8e66ca]",
-  // "bg-[#a48ee1]",
-  // "bg-[#b0a6ef]",
-  // "bg-[#c4bcf7]", 
   "bg-[#640071]",
   "bg-[#6b1187]",
   "bg-[#73289e]",
