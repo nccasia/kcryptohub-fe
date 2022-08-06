@@ -161,7 +161,7 @@ const Home: NextPage = () => {
         //     "url('https://mdbcdn.b-cdn.net/img/new/slides/146.webp')",
         // }}
       >
-        <div className="relative top-0 right-0 bottom-0 left-0 w-full h-screen overflow-hidden bg-fixed  font-nunito">
+        <div className="relative top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed  font-nunito">
           <div className="inline-block mt-20 xxs:flex xxs:justify-center xxs:flex-col  h-full transition animate-slide-in-up">
             <div className="text-center text-black px-6 mt-16 md:px-12">
               <h1 className="text-xl md:text-4xl font-semibold mt-6 mb-3 cursor-pointer ">
