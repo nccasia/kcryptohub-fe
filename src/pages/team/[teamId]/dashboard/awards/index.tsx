@@ -13,23 +13,25 @@ const Awards = () => {
     <DashboardLayout>
       <AwardLayout>
         <div className="mb-5">
-          <h2 className="text-3xl text-primary font-normal mb-3">Add Awards</h2>
-          <span className="text-xl text-primary font-norma">
+          <h2 className="text-3xl text-[#606060] font-normal mb-3">
+            Add Awards
+          </h2>
+          <span className="text-xl text-[#606060] font-norma">
             Tell us about the awards your company has received.
           </span>
         </div>
         <div>
-          <p className="text-sm text-[#6A797D] mb-3">
+          <p className="text-sm text-[#606060] mb-3">
             We want to know all about your company’s recognitions and awards!
           </p>
-          <p className="text-sm text-[#6A797D] mb-3">
+          <p className="text-sm text-[#606060] mb-3">
             Add an award below to tell us where your company has been recognized
             for its accomplishments. This is an opportunity to share your recent
             achievements and industry recognitions with KryptoHub and potential
-            buyers. You do not need to add any KryptoHub Awards you have received;
-            we already know about all of those!
+            buyers. You do not need to add any KryptoHub Awards you have
+            received; we already know about all of those!
           </p>
-          <p className="text-sm text-[#6A797D] mb-3">
+          <p className="text-sm text-[#606060] mb-3">
             <strong>What qualifies as an award?</strong>
             <br /> Your awards should clearly identify the value that your
             company is being recognized for and what organization is awarding

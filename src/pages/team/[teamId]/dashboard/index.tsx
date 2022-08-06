@@ -99,11 +99,11 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div className="w-full h-full ">
+      <div className="w-full h-full font-nunito">
         <div className="container mx-auto pt-4">
-          <div className="bg-white w-full rounded-xl shadow-xl">
+          <div className="w-full">
             <div className="grid grid-cols-12">
-              <div className="md:col-span-3 col-span-12 p-3">
+              <div className="bg-white text-[#606060]  md:col-span-3 col-span-12 p-3 rounded-3xl shadow-lg">
                 <div className="py-2">
                   <div className="h-[30px] w-[30px] relative inline-block float-left mr-2 ">
                     <Image
@@ -157,35 +157,39 @@ const Dashboard = () => {
                     </span>
                   )}
                   <span className="py-1">
-                    <CalendarMonthOutlined className="text-[#848abd]"/>
+                    <CalendarMonthOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Last Update: {new Date(team.updateAt).toDateString()}
                     </span>
                   </span>
                   {
                     <a href={team.linkWebsite} className="py-1 break-all">
-                      {<LanguageOutlined className="text-[#848abd]"/>}
-                      <span className="text-left ml-1 text-[#848abd]">{team.linkWebsite}</span>
+                      {<LanguageOutlined className="text-[#848abd]" />}
+                      <span className="text-left ml-1 text-[#848abd]">
+                        {team.linkWebsite}
+                      </span>
                     </a>
                   }
                   <span className="py-1">
-                    <EmailOutlined className="text-[#848abd]"/>
-                    <span className="text-left ml-1 text-[#848abd]">{team.saleEmail}</span>
+                    <EmailOutlined className="text-[#848abd]" />
+                    <span className="text-left ml-1 text-[#848abd]">
+                      {team.saleEmail}
+                    </span>
                   </span>
                   <span className="py-1">
-                    <AvTimerOutlined className="text-[#848abd]"/>
+                    <AvTimerOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       TimeZone: {team.timeZone}
                     </span>
                   </span>
                   <span className="py-1">
-                    <PeopleOutline className="text-[#848abd]"/>
+                    <PeopleOutline className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       TeamSize: {team.teamSize}
                     </span>
                   </span>
                   <span className="py-1">
-                    <FlagOutlined className="text-[#848abd]"/>
+                    <FlagOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Founded: {team.founded}
                     </span>
@@ -198,21 +202,21 @@ const Dashboard = () => {
                     </span>
                   </span>
                   <span className="py-1">
-                    <BusinessCenterOutlined className="text-[#848abd]"/>
+                    <BusinessCenterOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Portfolio:{" "}
                       {team.portfolios ? team.portfolios?.length | 0 : 0}
                     </span>
                   </span>
                   <span className="py-1">
-                    <EmojiEventsOutlined className="text-[#848abd]"/>
+                    <EmojiEventsOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Awards: {team.awards ? team.awards?.length | 0 : 0}
                     </span>
                   </span>
                 </div>
               </div>
-              <div className="md:col-span-6 col-span-12 border-x">
+              <div className="bg-white  text-[#606060] md:col-span-6 col-span-12  mx-3 border-x rounded-3xl shadow-lg">
                 <div className="text-cyan-900 break-normal border-b p-4">
                   {team.skills &&
                     team.skills.map((skill, i) => (
@@ -312,7 +316,7 @@ const Dashboard = () => {
                     ))}
                 </div>
               </div>
-              <div className="md:col-span-3 col-span-12">
+              <div className="bg-white  text-[#606060] md:col-span-3 col-span-12  rounded-3xl shadow-lg">
                 <p className="p-3 break-words">
                   {team.description.length > 650
                     ? showAll

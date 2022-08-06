@@ -531,7 +531,7 @@ export const Header = () => {
                               : user.shortList?.length}
                             {user.shortList?.length > 99 ? <sup>+</sup> : ""}
                           </div>
-                          <BookmarkBorderOutlined className="text-secondary w-6 h-6" />
+                          <BookmarkBorderOutlined className="text-[#61619b]  w-6 h-6" />
                         </div>
                       </div>
                     </div>
@@ -545,7 +545,7 @@ export const Header = () => {
                         >
                           9
                         </div>
-                        <ChatOutlined className="text-secondary w-6 h-6" />
+                        <ChatOutlined className="text-[#61619b]  w-6 h-6" />
                       </div>
                     </div>
                   </div>

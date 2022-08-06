@@ -8,12 +8,12 @@ import {
 import { getUserInfoSelector } from "@/redux/selector";
 import { RootState } from "@/redux/store";
 import iconchecked from "@/src/assets/image/icon-check.svg";
-import iconToolip from "@/src/assets/image/icon-tooltip.svg";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
 import { emails, IMemberAddRequest } from "@/type/member/member.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import {
   Chip,
   ClickAwayListener,
@@ -32,6 +32,7 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import * as yup from "yup";
+import { ErrorOutline } from "@mui/icons-material";
 
 const theme = createTheme({
   components: {
@@ -331,7 +332,7 @@ const Members = () => {
                       <div
                         className={
                           !success
-                            ? `outline-none  border-[1px] border-[#eff0f5] rounded-3xl ${
+                            ? `outline-none  border-[1px] border-[#eff0f5] rounded-3xl shadow-lg ${
                                 errors.email && "border-[2px] border-red-400"
                               }`
                             : "outline-none"
@@ -447,7 +448,7 @@ const Members = () => {
                             disableHoverListener
                             disableTouchListener
                             title={
-                              <div className="absolute top-[calc(100% + 1px)] left-0 right-0 w-[180px] z-50 bg-[white] shadow-lg drop-shadow rounded-3xl">
+                              <div className="absolute top-[9px] left-0 right-0 w-[180px] z-50 bg-[white] shadow-lg drop-shadow rounded-3xl">
                                 <div className="p-[10px]">
                                   <div className="py-1 text-black">
                                     <div className="font-bold">
@@ -473,15 +474,11 @@ const Members = () => {
                             >
                               <span className="">Permissions</span>
                               {!openPermissions ? (
-                                <span className="w-3 h-3 ml-1 absolute right-0 z-20 top-0 left-[88px] rounded-full">
-                                  <Image
-                                    className="w-full h-full text-[#61619b]"
-                                    src={iconToolip}
-                                    alt="tooltip"
-                                  />
+                                <span className=" ml-1 absolute right-0 z-20 top-0 left-[88px] rounded-full">
+                                  <ErrorOutline className="w-6- h-6 text-[#61619b]" />
                                 </span>
                               ) : (
-                                <span className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#61619b] top-[7px] left-[88px] rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#61619b] after:rotate-90 after:top-[17px]"></span>
+                                <span className="w-5 h-5 ml-1 absolute right-0 z-20 border-[1px] border-[#61619b] top-1 left-[90px] rounded-full after:absolute after:w-3 after:h-[1px] after:right-[3px] after:bg-[#61619b] after:rotate-90 after:top-[24px]"></span>
                               )}
                             </div>
                           </Tooltip>
@@ -490,7 +487,7 @@ const Members = () => {
                     </div>
                     <div className="w-1/5 px-4 py-2 text-base font-normal cursor-help relative">
                       <ClickAwayListener onClickAway={handleCloseStatus}>
-                        <div className="bg-transparent">
+                        <div className="bg-transparent relative">
                           <Tooltip
                             PopperProps={{
                               disablePortal: true,
@@ -502,7 +499,7 @@ const Members = () => {
                             disableHoverListener
                             disableTouchListener
                             title={
-                              <div className="absolute top-[calc(100% + 8px)] w-[180px] z-50 bg-[white] shadow-lg drop-shadow rounded-3xl">
+                              <div className="absolute top-[9px] w-[180px] z-50 bg-[white] shadow-lg drop-shadow rounded-3xl">
                                 <div className="p-[10px]">
                                   <div className="py-1 text-black">
                                     <div className="font-bold">
@@ -528,18 +525,11 @@ const Members = () => {
                             >
                               <span className="mr-1">Invite Status</span>
                               {!openStatus ? (
-                                <span className="w-3 h-3 ml-1 absolute right-0 z-20 top-0 left-[88px] rounded-full">
-                                  <Image
-                                    className="w-full h-full text-red-500"
-                                    src={iconToolip}
-                                    alt="tooltip"
-                                  />
+                                <span className="ml-1 absolute right-0 z-20 top-0 left-[89px] rounded-full">
+                                  <ErrorOutline className="w-6 h-6 text-[#61619b]" />
                                 </span>
                               ) : (
-                                <span
-                                  className="w-3 h-3 absolute right-0 z-20 border-[1px] border-[#61619b]  top-[7px] left-[88px]  rounded-full after:absolute after:w-3 after:h-[1px] after:-right-[1px] after:bg-[#61619b] after:rotate-90 after:top-[17px]
-                                                  "
-                                ></span>
+                                <span className="w-5 h-5 ml-1 absolute right-0 z-20 border-[1px] border-[#61619b]  top-[4px] left-[90px]  rounded-full after:absolute after:w-3 after:h-[1px] after:right-[3px] after:bg-[#61619b] after:rotate-90 after:top-[24px]"></span>
                               )}
                             </div>
                           </Tooltip>

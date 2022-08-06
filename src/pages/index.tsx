@@ -161,8 +161,8 @@ const Home: NextPage = () => {
         //     "url('https://mdbcdn.b-cdn.net/img/new/slides/146.webp')",
         // }}
       >
-        <div className="relative top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed  font-nunito">
-          <div className="flex justify-center flex-col  h-full transition animate-slide-in-up">
+        <div className="relative top-0 right-0 bottom-0 left-0 w-full h-screen overflow-hidden bg-fixed  font-nunito">
+          <div className="inline-block mt-20 xxs:flex xxs:justify-center xxs:flex-col  h-full transition animate-slide-in-up">
             <div className="text-center text-black px-6 mt-16 md:px-12">
               <h1 className="text-xl md:text-4xl font-semibold mt-6 mb-3 cursor-pointer ">
                 Welcome to KryptoHub{" "}
@@ -282,13 +282,13 @@ const Home: NextPage = () => {
         </div>
       </header>
       <div
-        className=" bg-[#f9fafb] h-full"
+        className=" bg-[#f9fafb] h-full flex flex-col items-center justify-center"
         style={{
           paddingTop: "calc(100vh  - 50px)",
         }}
       >
-        <div className="block relative w-full h-fit md-2:h-screen my-5 py-5 font-nunito">
-          <div className="w-full text-center my-[70px] ">
+        <div className="block relative w-full h-fit  my-5 py-5 font-nunito">
+          <div className="w-full text-center my-[70px] px-3 ">
             <h2 className="text-3xl font-normal mb-6 text-black">
               Start Your Search With Our Most Popular Services
             </h2>
@@ -304,20 +304,20 @@ const Home: NextPage = () => {
             </Link>
           </div>
           <div className="w-full my-[70px]">
-            <div className="px-[30px] grid grid-rows-1 md-2:grid-cols-2 md-3:grid-cols-3">
+            <div className="px-3 md:px-[30px] grid grid-rows-1 md-2:grid-cols-2 md-3:grid-cols-3">
               {Object.keys(categoty).map((item, index) => (
                 <>
-                  <div className="flex w-full px-4 mb-5 ">
-                    <div className="px-3">
-                      <div className="w-20 h-20 bg-[#eff0f5] rounded-circle block relative">
+                  <div className="block md:flex w-full px-4 mb-5 ">
+                    <div className="px-0 md:px-3">
+                      <div className="w-20 h-20 bg-[#eff0f5] rounded-circle block relative mx-auto">
                         {categoty[item].icon}
                       </div>
                     </div>
-                    <div className="px-3">
-                      <h3 className="text-black text-left text-xl font-normal mb-2 font-nunito">
+                    <div className="px-0 md:px-3">
+                      <h3 className="text-black text-center md:text-left text-xl font-normal mb-2 font-nunito">
                         {item}
                       </h3>
-                      <div className="text-black text-left text-sm font-normal">
+                      <div className="text-black text-center md:text-left text-sm font-normal">
                         {categoty[item].category.map((item, index) => (
                           <span key={index} className="font-nunito">
                             {item},{" "}
