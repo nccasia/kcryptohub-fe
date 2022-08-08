@@ -193,6 +193,7 @@ export const SkillDis = (props: IProps) => {
         props.skillDistribution[0].skillDistributionName,
         { shouldValidate: true }
       );
+      setShow(true);
     }
   }, [props.skillDistribution]);
 
@@ -273,7 +274,7 @@ export const SkillDis = (props: IProps) => {
         callbacks: {
           label: function (tooltipItems: any) {
             if (tooltipItems.label === "Allocate a percentage") {
-              return tooltipItems.label + " : " + 0 + "%";
+              return tooltipItems.label + ": " + 0 + "%";
             } else {
               return (
                 tooltipItems.label + " : " + tooltipItems.formattedValue + "%"
@@ -574,12 +575,12 @@ export const SkillDis = (props: IProps) => {
               }
             >
               {total === 100 && (
-                <CheckCircleIcon className="mt-1 text-green-500 h-[25px] w-[25px]" />
+                <CheckCircleIcon className=" text-green-500 h-[25px] w-[25px]" />
               )}
               {total > 100 && (
-                <ErrorOutlineOutlinedIcon className="mt-1 text-red-500 h-[25px] w-[25px]" />
+                <ErrorOutlineOutlinedIcon className=" text-red-500 h-[25px] w-[25px]" />
               )}
-              {show && <div>{total}%</div>}
+              {show && <div className="text-[#606060]">{total}%</div>}
             </div>
           </div>
         </div>
@@ -595,35 +596,36 @@ export const SkillDis = (props: IProps) => {
                 props.setStep(0);
               }
             }}
-            className="text-cyan-700 flex items center"
+            className="text-[#606060] flex items-center"
           >
-            <span className="text-red-600 font-medium">
+            <span className="text-[#848ABD] font-medium mb-[2px]">
               <ChevronLeftIcon />
             </span>
             Back
           </button>
-
-          <LoadingButton
-            className={!loading ? "hidden" : "py-3 px-3 flex items center"}
-            loading
-            loadingPosition="start"
-            startIcon={<SaveIcon />}
-            variant="outlined"
-          >
-            Save Changes
-          </LoadingButton>
 
           <button
             type="button"
             onClick={handleSubmit(handleSaveCreateTeam)}
             className={
               +loading
-                ? "hidden"
-                : "py-3 text-white px-3 flex items center bg-[#848abd]"
+                ? "cursor-not-allowed py-3 text-white px-3 rounded-full flex items center bg-[#848abd]"
+                : "py-3 text-white px-3 rounded-full flex items center bg-[#848abd] cursor-pointer"
             }
             ref={buttonRef}
           >
-            Save Changes
+            {loading ? (
+              <LoadingButton
+                className="capitalize px-2 rounded-none p-0 text-white flex items-center bg-[#848abd]"
+                loading
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+              >
+                Saving...
+              </LoadingButton>
+            ) : (
+              "Save Changes"
+            )}
           </button>
         </div>
       )}
@@ -633,7 +635,11 @@ export const SkillDis = (props: IProps) => {
           <button
             type="button"
             onClick={handleSubmit(handleSaveCreateTeam)}
-            className={"py-3 text-white px-3 flex items-center bg-[#848abd] rounded-3xl"}
+            className={
+              +loading
+                ? "cursor-not-allowed py-3 text-white px-3 rounded-full flex items center bg-[#848abd]"
+                : "py-3 text-white px-3 rounded-full flex items center bg-[#848abd] cursor-pointer"
+            }
             ref={buttonRef}
           >
             {loading ? (

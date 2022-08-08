@@ -29,6 +29,7 @@ import { getUserInfoSelector } from "@/redux/selector";
 import { teamApi } from "@/api/team-api";
 import { removeFromShortList } from "@/redux/profileSlice";
 import React from "react";
+import ShortlistCard from "@/components/team/Shortlist-card";
 
 const theme = createTheme({
   components: {
@@ -179,42 +180,12 @@ const ShortList = () => {
                         </div>
                         <div className="absolute top-0 right-0 flex-1 text-right">
                           <div className="absolute top-[-6px] right-6 group">
-                            <div>
-                              {show ? (
-                                <div
-                                  className="relative"
-                                  onMouseEnter={() => setShow(true)}
-                                  onMouseLeave={() => setShow(false)}
-                                >
-                                  <BookmarkIcon
-                                    className={`absolute text-[#848abd] cursor-pointer ${
-                                      show ? "bg-[#848abd] text-white" : ""
-                                    }`}
-                                  ></BookmarkIcon>
-                                  <div className="absolute w-[220px] bg-white border-2 border-[#eff0f5] top-[24px] right-[-24px] rounded-lg shadow-lg">
-                                    <div className="text-left px-2">
-                                      <li className="list-none py-2 cursor-pointer border-b-[1px] font-nunito">
-                                        <a
-                                          className="text-[#848abd] font-medium"
-                                          onClick={() =>
-                                            handleRemoveFromShortList(team.id)
-                                          }
-                                        >
-                                          Remove from Shortlist
-                                        </a>
-                                      </li>
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : (
-                                <BookmarkIcon
-                                  className={`absolute text-[#848abd] cursor-pointer hover:bg-[#eff0f5] hover:text-white ${
-                                    show ? "hidden" : ""
-                                  }`}
-                                  onMouseEnter={() => setShow(true)}
-                                ></BookmarkIcon>
-                              )}
-                            </div>
+                            <ShortlistCard
+                              teamId={team.id}
+                              handleRemoveFromShortList={
+                                handleRemoveFromShortList
+                              }
+                            />
                           </div>
                         </div>
                       </div>
@@ -306,7 +277,7 @@ const ShortList = () => {
                     >
                       <span
                         className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-[#61619b] 
-                      font-nunito rounded-2xl"
+                      font-nunito rounded-full"
                       >
                         Visit Website <LanguageOutlined />
                       </span>
