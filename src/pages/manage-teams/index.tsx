@@ -31,10 +31,15 @@ const ManageTeam = () => {
 
   return (
     <Layout>
-      <div className="">
+      <div className="sticky bg-white shadow-lg top-0 left-0 right-0 py-1 z-20">
         <div className="font-jost px-4 mb-5 mt-5 w-full justify-between flex items-center">
-          <h1 className="text-xl font-bold">KryptoHub {">"} Manage Teams</h1>
-          <div className="">
+          <h1 className="text-xl font-bold">
+            <Link href={"/"}>
+              <span className="hover:underline cursor-pointer">KryptoHub </span>
+            </Link>
+            {">"} Manage Teams
+          </h1>
+          <div>
             <Link href="/manage-teams/create-new-team">
               <a
                 className="bg-[#848abd] rounded-3xl text-white block text-center py-2 xs:px-5 px-1 w-full shadow-lg mx-auto"

@@ -82,7 +82,7 @@ const ShortList = () => {
     <Layout>
       <ThemeProvider theme={theme}>
         <div className="flex items-center justify-center relative bg-[#606060] border-t border-[#848abd] font-nunito">
-          {/* <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
+          {/* <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md-2:w-4/5 px-2">
             <Container>
               <div className="flex items-center justify-start relative">
                 <div className="px-4 py-2 w-fit xxs:flex hidden items-center justify-center text-4xl">
@@ -105,7 +105,10 @@ const ShortList = () => {
           </div> */}
         </div>
         <div className="sticky top-0 z-[40] bg-white w-full text-[#606060]">
-          <nav className="w-full mb-4 shadow-lg flex-col mx-auto">
+          <nav className="w-full mb-4 shadow-lg flex flex-col sm:flex-row sm:justify-between items-center px-[30px] mx-auto">
+            <h1 className="text-xl text-left font-bold">
+              KryptoHub {">"} Short List
+            </h1>
             <ul className="flex relative mb-0  pt-1  font-nunito">
               <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0">
                 <button
@@ -115,225 +118,230 @@ const ShortList = () => {
                   }}
                 >
                   <ArrowBackIos className="hover:underline !text-[#848abd]" />
-                  <span className="hover:underline !text-[#848abd]">Back</span>
+                  <span className="hover:underline !text-[#848abd] font-bold">
+                    Back
+                  </span>
                 </button>
               </li>
               <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0 ">
-                <button type="button" className="text-base text-[#606060]">
+                <button
+                  type="button"
+                  className="text-base font-bold text-[#606060]"
+                >
                   Share List
                 </button>
               </li>
               <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0 ">
-                <button type="button" className="text-base text-[#606060]">
+                <button
+                  type="button"
+                  className="text-base text-[#606060] font-bold"
+                >
                   New List
                 </button>
               </li>
             </ul>
           </nav>
         </div>
-        <Container>
-          <div className="flex flex-col items-center justify-center w-full font-nunito">
-            {shortList.slice(prev - 1, next).map((team, index) => (
-              <div key={index} className="w-full">
-                <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-3xl">
-                  <div className="xl:col-span-10 md:col-span-9 col-span-12">
-                    <div className="grid grid-cols-12 border-b relative">
-                      <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start  p-2">
-                        <div className="h-[50px] w-[50px] relative">
-                          <Image
-                            key={team.id}
-                            layout="fill"
-                            objectFit="contain"
-                            src={teamApi.getTeamImageUrl(team.imageUrl)}
-                            alt="logo"
-                          />
-                        </div>
-                        <div className="xxs:hidden ml-2 md:max-w-[300px] max-w-[250px] break-words ">
-                          <Link href={`/team/${team.id}`}>
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-3xl text-[#606060]"
-                            >
-                              {team.teamName}
-                            </a>
-                          </Link>
-                        </div>
+        <div className="flex flex-col items-center justify-center  w-full px-4 mx-auto">
+          {shortList.slice(prev - 1, next).map((team, index) => (
+            <div key={index} className="w-full mx-2 md-2:mx-0">
+              <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-3xl">
+                <div className="xl:col-span-10 md-2:col-span-9 col-span-12">
+                  <div className="grid grid-cols-12 border-b relative">
+                    <div className="xl:col-span-1 md-2:col-span-2 col-span-12 flex items-center justify-start  p-2">
+                      <div className="h-[50px] w-[50px] relative">
+                        <Image
+                          key={team.id}
+                          layout="fill"
+                          objectFit="contain"
+                          src={teamApi.getTeamImageUrl(team.imageUrl)}
+                          alt="logo"
+                        />
                       </div>
-                      <div className="xl:col-span-11 md:col-span-10 col-span-12 px-2 flex items-center justify-center">
-                        <div className="w-full break-words font-nunito">
-                          <Link href={`/team/${team.id}`}>
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-3xl xxs:inline-block hidden break-words "
-                            >
-                              <span className="w-full break-words text-[#606060]">
-                                {team.teamName}
-                              </span>
-                            </a>
-                          </Link>
-                          <p className="text-[#606060] px-2 text-ellipsis inline-block max-w-full">
-                            {team.slogan}
-                          </p>
-                        </div>
-                        <div className="absolute top-0 right-0 flex-1 text-right">
-                          <div className="absolute top-[-6px] right-6 group">
-                            <div>
-                              {show ? (
-                                <div
-                                  className="relative"
-                                  onMouseEnter={() => setShow(true)}
-                                  onMouseLeave={() => setShow(false)}
-                                >
-                                  <BookmarkIcon
-                                    className={`absolute text-[#848abd] cursor-pointer ${
-                                      show ? "bg-[#848abd] text-white" : ""
-                                    }`}
-                                  ></BookmarkIcon>
-                                  <div className="absolute w-[220px] bg-white border-2 border-[#eff0f5] top-[24px] right-[-24px] rounded-lg shadow-lg">
-                                    <div className="text-left px-2">
-                                      <li className="list-none py-2 cursor-pointer border-b-[1px] font-nunito">
-                                        <a
-                                          className="text-[#848abd] font-medium"
-                                          onClick={() =>
-                                            handleRemoveFromShortList(team.id)
-                                          }
-                                        >
-                                          Remove from Shortlist
-                                        </a>
-                                      </li>
-                                    </div>
+                      <div className="xxs:hidden ml-2 md-2:max-w-[300px] max-w-[250px] break-words ">
+                        <Link href={`/team/${team.id}`}>
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-3xl text-[#606060]"
+                          >
+                            {team.teamName}
+                          </a>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="xl:col-span-11 md-2:col-span-10 col-span-12 px-2 flex items-center justify-center">
+                      <div className="w-full break-words font-nunito">
+                        <Link href={`/team/${team.id}`}>
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-3xl xxs:inline-block hidden break-words "
+                          >
+                            <span className="w-full break-words text-[#606060]">
+                              {team.teamName}
+                            </span>
+                          </a>
+                        </Link>
+                        <p className="text-[#606060] px-2 text-ellipsis inline-block max-w-full">
+                          {team.slogan}
+                        </p>
+                      </div>
+                      <div className="absolute top-0 right-0 flex-1 text-right">
+                        <div className="absolute top-[-6px] right-6 group">
+                          <div>
+                            {show ? (
+                              <div
+                                className="relative"
+                                onMouseEnter={() => setShow(true)}
+                                onMouseLeave={() => setShow(false)}
+                              >
+                                <BookmarkIcon
+                                  className={`absolute text-[#848abd] cursor-pointer ${
+                                    show ? "bg-[#fff] text-white" : ""
+                                  }`}
+                                ></BookmarkIcon>
+                                <div className="absolute w-[220px] bg-white border-2 border-[#eff0f5] top-[24px] right-[-24px] rounded-lg shadow-lg">
+                                  <div className="text-left px-2">
+                                    <li className="list-none py-2 cursor-pointer border-b-[1px] font-nunito">
+                                      <a
+                                        className="text-[#848abd] font-medium"
+                                        onClick={() =>
+                                          handleRemoveFromShortList(team.id)
+                                        }
+                                      >
+                                        Remove from Shortlist
+                                      </a>
+                                    </li>
                                   </div>
                                 </div>
-                              ) : (
-                                <BookmarkIcon
-                                  className={`absolute text-[#848abd] cursor-pointer hover:bg-[#eff0f5] hover:text-white ${
-                                    show ? "hidden" : ""
-                                  }`}
-                                  onMouseEnter={() => setShow(true)}
-                                ></BookmarkIcon>
-                              )}
-                            </div>
+                              </div>
+                            ) : (
+                              <BookmarkIcon
+                                className={`absolute text-[#848abd] cursor-pointer hover:bg-[#eff0f5] hover:text-white ${
+                                  show ? "hidden" : ""
+                                }`}
+                                onMouseEnter={() => setShow(true)}
+                              ></BookmarkIcon>
+                            )}
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex xs:flex-row flex-col">
-                      <div className="xs:flex grid grid-cols-2 flex-col text-sm p-4 xs:w-1/4">
-                        {team.status ? (
-                          <span className="text-red-500">
-                            <CheckCircleOutlined /> Verified
-                          </span>
-                        ) : null}
-                        {
-                          <span className="text-[#61619b] flex items-center">
-                            <IconHover
-                              icon={
-                                <LabelOutlined className="text-[#606060]" />
-                              }
-                              hoverText="Project Size"
-                            />
-                            <span className="text-left ml-1">
-                              {team.projectSize}
-                            </span>
-                          </span>
-                        }
-                        <span className="text-[#61619b] flex items-center pt-2">
+                  </div>
+                  <div className="flex xs:flex-row flex-col">
+                    <div className="xs:flex grid grid-cols-2 flex-col text-sm p-4 xs:w-1/4">
+                      {team.status ? (
+                        <span className="text-red-500">
+                          <CheckCircleOutlined /> Verified
+                        </span>
+                      ) : null}
+                      {
+                        <span className="text-[#61619b] flex items-center">
                           <IconHover
-                            icon={<GroupsOutlined className="text-[#606060]" />}
-                            hoverText="Team size"
+                            icon={<LabelOutlined className="text-[#606060]" />}
+                            hoverText="Project Size"
                           />
-                          <span className="text-left ml-1">
-                            {team.teamSize} members
+                          <span className="text-left ml-1 text-[#606060]">
+                            {team.projectSize}
                           </span>
                         </span>
-                        <span className="text-[#61619b] flex items-center pt-2">
-                          <IconHover
-                            icon={
-                              <AvTimerOutlined className="text-[#606060]" />
-                            }
-                            hoverText="Timezone"
-                          />
-                          <span className="text-left ml-1">
-                            {team.timeZone}
-                          </span>
+                      }
+                      <span className="text-[#61619b] flex items-center pt-2">
+                        <IconHover
+                          icon={<GroupsOutlined className="text-[#606060]" />}
+                          hoverText="Team size"
+                        />
+                        <span className="text-left ml-1 text-[#606060]">
+                          {team.teamSize} members
                         </span>
+                      </span>
+                      <span className="text-[#61619b] flex items-center pt-2">
+                        <IconHover
+                          icon={<AvTimerOutlined className="text-[#606060]" />}
+                          hoverText="Timezone"
+                        />
+                        <span className="text-left ml-1 text-[#606060]">
+                          {team.timeZone}
+                        </span>
+                      </span>
+                    </div>
+                    <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
+                      <div className="flex w-full">
+                        <div className="text-[#606060] w-full break-normal"></div>
                       </div>
-                      <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
-                        <div className="flex w-full">
-                          <div className="text-[#606060] w-full break-normal"></div>
-                        </div>
+                    </div>
+                    <div className="xs:w-1/4 p-4 text-sm text-[#606060] font-nunito">
+                      <div className="">
+                        <span className="font-medium text-[#606060]">
+                          Founded:{" "}
+                        </span>
+                        {team.founded}
                       </div>
-                      <div className="xs:w-1/4 p-4 text-sm text-[#606060] font-nunito">
-                        <div className="">
-                          <span className="font-medium ">Founded: </span>
-                          {team.founded}
-                        </div>
 
-                        <div className="">
-                          <span className="font-medium ">Description: </span>
-                          <p className=" overflow-hidden text-ellipsis break-words">
-                            {team.description?.length > 100
-                              ? team.description.slice(0, 100) + "..."
-                              : team.description}
-                            {team.description?.length > 100 ? (
-                              <Link href={`/team/${team.id}`}>
-                                <a
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-[#848abd] cursor-pointer hover:underline"
-                                >
-                                  More
-                                </a>
-                              </Link>
-                            ) : null}
-                          </p>
-                        </div>
+                      <div className="">
+                        <span className="font-medium ">Description: </span>
+                        <p className=" overflow-hidden text-ellipsis break-words">
+                          {team.description?.length > 100
+                            ? team.description.slice(0, 100) + "..."
+                            : team.description}
+                          {team.description?.length > 100 ? (
+                            <Link href={`/team/${team.id}`}>
+                              <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#848abd] cursor-pointer hover:underline"
+                              >
+                                More
+                              </a>
+                            </Link>
+                          ) : null}
+                        </p>
                       </div>
                     </div>
                   </div>
-                  <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-[#606060] transition-all duration-500 ease-in-out text-md font-nunito">
-                    <a
-                      className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white cursor-pointer "
-                      href={
-                        team.linkWebsite
-                          ? team.linkWebsite.includes("https")
-                            ? team.linkWebsite
-                            : `https://${team.linkWebsite} `
-                          : "#"
-                      }
+                </div>
+                <div className="xl:col-span-2 md-2:col-span-3 col-span-12 flex flex-row-reverse md-2:flex-col border-l text-[#606060] transition-all duration-500 ease-in-out text-md font-nunito">
+                  <a
+                    className="md-2:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white cursor-pointer "
+                    href={
+                      team.linkWebsite
+                        ? team.linkWebsite.includes("https")
+                          ? team.linkWebsite
+                          : `https://${team.linkWebsite} `
+                        : "#"
+                    }
+                  >
+                    <span
+                      className="w-full xs:py-4 py-2 px-2 flex md-2:justify-between justify-center bg-[#848ABD] 
+                      font-nunito rounded-3xl items-center"
                     >
-                      <span
-                        className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-[#61619b] 
-                      font-nunito rounded-2xl"
-                      >
-                        Visit Website <LanguageOutlined />
-                      </span>
+                      <span className="pr-2 text-sm">Visit Website </span>
+                      <LanguageOutlined />
+                    </span>
+                  </a>
+                  <Link href={`/team/${team.id}`}>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="xs:p-4 p-2  w-full flex items-center md-2:justify-between justify-center flex-1"
+                    >
+                      <span className="hidden xs:block mr-2">View Profile</span>
+                      <InfoOutlined />
                     </a>
-                    <Link href={`/team/${team.id}`}>
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center flex-1"
-                      >
-                        <span className="hidden xs:block mr-2">
-                          View Profile
-                        </span>
-                        <InfoOutlined />
-                      </a>
-                    </Link>
-                    <Link href={`/team/${team.id}/contact`}>
-                      <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center flex-1">
-                        <span className="hidden xs:block mr-2">Contact</span>
-                        <ContactlessOutlined />
-                      </a>
-                    </Link>
-                  </div>
+                  </Link>
+                  <Link href={`/team/${team.id}/contact`}>
+                    <a className="xs:p-4 p-2 w-full flex items-center md-2:justify-between justify-center flex-1">
+                      <span className="hidden xs:block mr-2">Contact</span>
+                      <ContactlessOutlined />
+                    </a>
+                  </Link>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center justify-center pb-2">
           {pageItem && pageItem.length > 0 && (
             <Pagination
               className="flex justify-center mb-1"
@@ -350,7 +358,7 @@ const ShortList = () => {
               }}
             />
           )}
-        </Container>
+        </div>
       </ThemeProvider>
     </Layout>
   );

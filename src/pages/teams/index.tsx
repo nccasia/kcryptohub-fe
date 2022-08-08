@@ -333,7 +333,7 @@ export const Teams = () => {
                 </div>
               ) : null}
             </div>
-            <div className="flex flex-col items-center justify-center  w-full md:w-4/5 mx-auto">
+            <div className="flex flex-col items-center justify-center  w-full px-4 mx-auto">
               {teams.map((item, index) => (
                 <TeamCard team={item as ITeam} key={index} />
               ))}

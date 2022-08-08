@@ -71,8 +71,6 @@ export const Header = () => {
 
   const headerRef = useRef<HTMLElement>(null);
 
-  // console.log((headerRef.current as HTMLElement)?.offsetHeight);
-
   useEffect(() => {
     setUserImage(profileApi.getImageUrl(user.avatarPath));
   }, [user.avatarPath]);
