@@ -288,7 +288,7 @@ const Dashboard = () => {
                                   className="flex items-center gap-x-3"
                                 >
                                   <div
-                                    className="w-4 h-4"
+                                    className="w-4 h-4 rounded-lg"
                                     style={{
                                       backgroundColor:
                                         IColors[

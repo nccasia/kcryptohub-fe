@@ -8,7 +8,8 @@ import { TimeZone } from "@/type/enum/TimeZone";
 import { ITeam } from "@/type/team/team.type";
 import { CancelOutlined, Close } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
-import { debounce, Pagination } from "@mui/material";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { debounce, Pagination, PaginationItem } from "@mui/material";
 import { useOutsideClick } from "hook/OuterClick";
 import { useRouter } from "next/router";
 import { FormEvent, LegacyRef, useCallback, useEffect, useState } from "react";
@@ -342,6 +343,15 @@ export const Teams = () => {
               <Pagination
                 count={totalPage}
                 page={currentPage}
+                renderItem={(item) => (
+                  <PaginationItem
+                    components={{
+                      previous: ArrowBack,
+                      next: ArrowForward,
+                    }}
+                    {...item}
+                  />
+                )}
                 onChange={(e, value) => {
                   handlePageChange(value);
                 }}
