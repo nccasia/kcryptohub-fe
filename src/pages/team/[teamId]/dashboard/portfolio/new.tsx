@@ -298,7 +298,7 @@ const NewPortfolio = () => {
                       {...register("description")}
                       placeholder="Tell a great story about this Portfolio Item."
                       maxLength={2000}
-                      className={`xs:min-w-[400px] lg:min-w-[600px] text-[#606060] w-full h-[100px] pl-5 pr-8 py-3 bg-[#0000000d] rounded-3xl outline-none`}
+                      className={`xs:min-w-[400px] custom-scrollbar-des lg:min-w-[600px] text-[#606060] w-full h-[100px] pl-5 pr-8 py-3 bg-[#0000000d] rounded-3xl outline-none`}
                     />
                     <div className="absolute right-0 bottom-0  m-2 text-gray-400 text-sm font-normal">
                       {watch("description") ? watch("description").length : 0}/

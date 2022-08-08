@@ -111,7 +111,7 @@ const TeamDetail = () => {
       <div className="">
         <div className="block font-nunito">
           <div
-            className="w-full bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
+            className="w-full bg-[#848abd16] border-[1px] border-[#848abd16]"
             ref={headerRef}
           >
             <div
@@ -157,7 +157,7 @@ const TeamDetail = () => {
             ref={skillDistributionRef}
           >
             <div
-              className={`flex flex-col mb-20 items-center ${
+              className={`flex flex-col md:mb-20 mb-8 items-center ${
                 read ? "justify-center" : "md:flex-row"
               }`}
             >
@@ -183,7 +183,7 @@ const TeamDetail = () => {
                       teamProfile.description?.length <= 200 ||
                       teamProfile.description === null
                     }
-                    className={`text-ellipsis overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer ${
+                    className={`text-ellipsis overflow-hidden mt-2 text-xs text-[#606060] hover:underline tracking-widest cursor-pointer ${
                       read ? "hidden" : ""
                     }`}
                     onClick={() => setRead(!read)}
@@ -200,10 +200,10 @@ const TeamDetail = () => {
               </div>
             </div>
             {read && (
-              <div className="mt-[-100px] mb-10 text-[#404040] break-all text-left md:text-[18px] text-[14px] leading-9">
+              <div className="md:mt-[-100px] mt-[-80px] mb-10 text-[#404040] break-all text-left md:text-[18px] text-[14px] leading-9">
                 {teamProfile.description}
                 <span
-                  className="text-ellipsis ml-2 overflow-hidden mt-2 text-xs text-red-500 hover:underline tracking-widest cursor-pointer"
+                  className="text-ellipsis ml-2 overflow-hidden mt-2 text-xs text-[#606060] hover:underline tracking-widest cursor-pointer"
                   onClick={() => setRead(!read)}
                 >
                   SEE LESS <ArrowBackIcon className="text-xs" />
@@ -255,7 +255,7 @@ const TeamDetail = () => {
           </div>
 
           <div
-            className="lg:px-32 xs:px-10 px-2 bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
+            className="lg:px-32 xs:px-10 px-2 bg-[#848abd16] border-[1px] border-[#848abd16]"
             ref={portfolioRef}
           >
             <Portfolio

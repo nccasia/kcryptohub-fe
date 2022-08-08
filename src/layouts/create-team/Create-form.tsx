@@ -434,7 +434,7 @@ export const CreateForm = (props: IProps) => {
                   <textarea
                     autoComplete="off"
                     placeholder="Short description about your Team"
-                    className="md:max-w-[500px] w-full border-2 border-[#ecedee] resize-none  rounded-3xl px-3 py-2 md:min-h-[100px] outline-none placeholder:text-[#606060] focus:shadow-xl focus:border-[#ecedee]"
+                    className="md:max-w-[500px] custom-scrollbar-des w-full border-2 border-[#ecedee] resize-none  rounded-3xl px-3 py-2 md:min-h-[100px] outline-none placeholder:text-[#606060] focus:shadow-xl focus:border-[#ecedee]"
                     maxLength={2000}
                     defaultValue={team.description || ""}
                     {...register("description")}

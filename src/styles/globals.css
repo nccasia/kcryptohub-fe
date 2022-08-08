@@ -53,3 +53,33 @@ a {
   background: transparent;
   margin-top: 10px;
 }
+
+.custom-scrollbar-des::-webkit-scrollbar {
+  display: block;
+  width: 2px;
+}
+.custom-scrollbar-des::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar-des::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.custom-scrollbar-des::-webkit-scrollbar-track-piece:end {
+  background: transparent;
+  margin-bottom: 20px;
+}
+
+.custom-scrollbar-des::-webkit-scrollbar-track-piece:start {
+  background: transparent;
+  margin-top: 20px;
+}
+
+.custom-select::-ms-expand {
+  display: none;
+  border-radius: 50px;
+}
+
+.Mui-selected {
+  color: #848abd;
+}

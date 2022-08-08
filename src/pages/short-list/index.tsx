@@ -29,6 +29,7 @@ import { getUserInfoSelector } from "@/redux/selector";
 import { teamApi } from "@/api/team-api";
 import { removeFromShortList } from "@/redux/profileSlice";
 import React from "react";
+import ShortlistCard from "@/components/team/Shortlist-card";
 
 const theme = createTheme({
   components: {
@@ -142,206 +143,209 @@ const ShortList = () => {
             </ul>
           </nav>
         </div>
-        <div className="flex flex-col items-center justify-center  w-full px-4 mx-auto">
-          {shortList.slice(prev - 1, next).map((team, index) => (
-            <div key={index} className="w-full mx-2 md-2:mx-0">
-              <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-3xl">
-                <div className="xl:col-span-10 md-2:col-span-9 col-span-12">
-                  <div className="grid grid-cols-12 border-b relative">
-                    <div className="xl:col-span-1 md-2:col-span-2 col-span-12 flex items-center justify-start  p-2">
-                      <div className="h-[50px] w-[50px] relative">
-                        <Image
-                          key={team.id}
-                          layout="fill"
-                          objectFit="contain"
-                          src={teamApi.getTeamImageUrl(team.imageUrl)}
-                          alt="logo"
-                        />
-                      </div>
-                      <div className="xxs:hidden ml-2 md-2:max-w-[300px] max-w-[250px] break-words ">
-                        <Link href={`/team/${team.id}`}>
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-3xl text-[#606060]"
-                          >
-                            {team.teamName}
-                          </a>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="xl:col-span-11 md-2:col-span-10 col-span-12 px-2 flex items-center justify-center">
-                      <div className="w-full break-words font-nunito">
-                        <Link href={`/team/${team.id}`}>
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-3xl xxs:inline-block hidden break-words "
-                          >
-                            <span className="w-full break-words text-[#606060]">
+        <Container>
+          <div className="flex flex-col items-center justify-center w-full font-nunito">
+            {shortList.slice(prev - 1, next).map((team, index) => (
+              <div key={index} className="w-full">
+                <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-3xl">
+                  <div className="xl:col-span-10 md:col-span-9 col-span-12">
+                    <div className="grid grid-cols-12 border-b relative">
+                      <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start  p-2">
+                        <div className="h-[50px] w-[50px] relative">
+                          <Image
+                            key={team.id}
+                            layout="fill"
+                            objectFit="contain"
+                            src={teamApi.getTeamImageUrl(team.imageUrl)}
+                            alt="logo"
+                          />
+                        </div>
+                        <div className="xxs:hidden ml-2 md:max-w-[300px] max-w-[250px] break-words ">
+                          <Link href={`/team/${team.id}`}>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-3xl text-[#606060]"
+                            >
                               {team.teamName}
-                            </span>
-                          </a>
-                        </Link>
-                        <p className="text-[#606060] px-2 text-ellipsis inline-block max-w-full">
-                          {team.slogan}
-                        </p>
+                            </a>
+                          </Link>
+                        </div>
                       </div>
-                      <div className="absolute top-0 right-0 flex-1 text-right">
-                        <div className="absolute top-[-6px] right-6 group">
-                          <div>
-                            {show ? (
-                              <div
-                                className="relative"
-                                onMouseEnter={() => setShow(true)}
-                                onMouseLeave={() => setShow(false)}
-                              >
-                                <BookmarkIcon
-                                  className={`absolute text-[#848abd] cursor-pointer ${
-                                    show ? "bg-[#fff] text-white" : ""
-                                  }`}
-                                ></BookmarkIcon>
-                                <div className="absolute w-[220px] bg-white border-2 border-[#eff0f5] top-[24px] right-[-24px] rounded-lg shadow-lg">
-                                  <div className="text-left px-2">
-                                    <li className="list-none py-2 cursor-pointer border-b-[1px] font-nunito">
-                                      <a
-                                        className="text-[#848abd] font-medium"
-                                        onClick={() =>
-                                          handleRemoveFromShortList(team.id)
-                                        }
-                                      >
-                                        Remove from Shortlist
-                                      </a>
-                                    </li>
+                      <div className="xl:col-span-11 md:col-span-10 col-span-12 px-2 flex items-center justify-center">
+                        <div className="w-full break-words font-nunito">
+                          <Link href={`/team/${team.id}`}>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-3xl xxs:inline-block hidden break-words "
+                            >
+                              <span className="w-full break-words text-[#606060]">
+                                {team.teamName}
+                              </span>
+                            </a>
+                          </Link>
+                          <p className="text-[#606060] px-2 text-ellipsis inline-block max-w-full">
+                            {team.slogan}
+                          </p>
+                        </div>
+                        <div className="absolute top-0 right-0 flex-1 text-right">
+                          <div className="absolute top-[-6px] right-6 group">
+                            <div>
+                              {show ? (
+                                <div
+                                  className="relative"
+                                  onMouseEnter={() => setShow(true)}
+                                  onMouseLeave={() => setShow(false)}
+                                >
+                                  <BookmarkIcon
+                                    className={`absolute text-[#848abd] cursor-pointer ${
+                                      show ? "bg-[#848abd] text-white" : ""
+                                    }`}
+                                  ></BookmarkIcon>
+                                  <div className="absolute w-[220px] bg-white border-2 border-[#eff0f5] top-[24px] right-[-24px] rounded-lg shadow-lg">
+                                    <div className="text-left px-2">
+                                      <li className="list-none py-2 cursor-pointer border-b-[1px] font-nunito">
+                                        <a
+                                          className="text-[#848abd] font-medium"
+                                          onClick={() =>
+                                            handleRemoveFromShortList(team.id)
+                                          }
+                                        >
+                                          Remove from Shortlist
+                                        </a>
+                                      </li>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            ) : (
-                              <BookmarkIcon
-                                className={`absolute text-[#848abd] cursor-pointer hover:bg-[#eff0f5] hover:text-white ${
-                                  show ? "hidden" : ""
-                                }`}
-                                onMouseEnter={() => setShow(true)}
-                              ></BookmarkIcon>
-                            )}
+                              ) : (
+                                <BookmarkIcon
+                                  className={`absolute text-[#848abd] cursor-pointer hover:bg-[#eff0f5] hover:text-white ${
+                                    show ? "hidden" : ""
+                                  }`}
+                                  onMouseEnter={() => setShow(true)}
+                                ></BookmarkIcon>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex xs:flex-row flex-col">
-                    <div className="xs:flex grid grid-cols-2 flex-col text-sm p-4 xs:w-1/4">
-                      {team.status ? (
-                        <span className="text-red-500">
-                          <CheckCircleOutlined /> Verified
-                        </span>
-                      ) : null}
-                      {
-                        <span className="text-[#61619b] flex items-center">
+                    <div className="flex xs:flex-row flex-col">
+                      <div className="xs:flex grid grid-cols-2 flex-col text-sm p-4 xs:w-1/4">
+                        {team.status ? (
+                          <span className="text-red-500">
+                            <CheckCircleOutlined /> Verified
+                          </span>
+                        ) : null}
+                        {
+                          <span className="text-[#61619b] flex items-center">
+                            <IconHover
+                              icon={
+                                <LabelOutlined className="text-[#606060]" />
+                              }
+                              hoverText="Project Size"
+                            />
+                            <span className="text-left ml-1">
+                              {team.projectSize}
+                            </span>
+                          </span>
+                        }
+                        <span className="text-[#61619b] flex items-center pt-2">
                           <IconHover
-                            icon={<LabelOutlined className="text-[#606060]" />}
-                            hoverText="Project Size"
+                            icon={<GroupsOutlined className="text-[#606060]" />}
+                            hoverText="Team size"
                           />
-                          <span className="text-left ml-1 text-[#606060]">
-                            {team.projectSize}
+                          <span className="text-left ml-1">
+                            {team.teamSize} members
                           </span>
                         </span>
-                      }
-                      <span className="text-[#61619b] flex items-center pt-2">
-                        <IconHover
-                          icon={<GroupsOutlined className="text-[#606060]" />}
-                          hoverText="Team size"
-                        />
-                        <span className="text-left ml-1 text-[#606060]">
-                          {team.teamSize} members
+                        <span className="text-[#61619b] flex items-center pt-2">
+                          <IconHover
+                            icon={
+                              <AvTimerOutlined className="text-[#606060]" />
+                            }
+                            hoverText="Timezone"
+                          />
+                          <span className="text-left ml-1">
+                            {team.timeZone}
+                          </span>
                         </span>
-                      </span>
-                      <span className="text-[#61619b] flex items-center pt-2">
-                        <IconHover
-                          icon={<AvTimerOutlined className="text-[#606060]" />}
-                          hoverText="Timezone"
-                        />
-                        <span className="text-left ml-1 text-[#606060]">
-                          {team.timeZone}
-                        </span>
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
-                      <div className="flex w-full">
-                        <div className="text-[#606060] w-full break-normal"></div>
                       </div>
-                    </div>
-                    <div className="xs:w-1/4 p-4 text-sm text-[#606060] font-nunito">
-                      <div className="">
-                        <span className="font-medium text-[#606060]">
-                          Founded:{" "}
-                        </span>
-                        {team.founded}
+                      <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
+                        <div className="flex w-full">
+                          <div className="text-[#606060] w-full break-normal"></div>
+                        </div>
                       </div>
+                      <div className="xs:w-1/4 p-4 text-sm text-[#606060] font-nunito">
+                        <div className="">
+                          <span className="font-medium ">Founded: </span>
+                          {team.founded}
+                        </div>
 
-                      <div className="">
-                        <span className="font-medium ">Description: </span>
-                        <p className=" overflow-hidden text-ellipsis break-words">
-                          {team.description?.length > 100
-                            ? team.description.slice(0, 100) + "..."
-                            : team.description}
-                          {team.description?.length > 100 ? (
-                            <Link href={`/team/${team.id}`}>
-                              <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[#848abd] cursor-pointer hover:underline"
-                              >
-                                More
-                              </a>
-                            </Link>
-                          ) : null}
-                        </p>
+                        <div className="">
+                          <span className="font-medium ">Description: </span>
+                          <p className=" overflow-hidden text-ellipsis break-words">
+                            {team.description?.length > 100
+                              ? team.description.slice(0, 100) + "..."
+                              : team.description}
+                            {team.description?.length > 100 ? (
+                              <Link href={`/team/${team.id}`}>
+                                <a
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#848abd] cursor-pointer hover:underline"
+                                >
+                                  More
+                                </a>
+                              </Link>
+                            ) : null}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="xl:col-span-2 md-2:col-span-3 col-span-12 flex flex-row-reverse md-2:flex-col border-l text-[#606060] transition-all duration-500 ease-in-out text-md font-nunito">
-                  <a
-                    className="md-2:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white cursor-pointer "
-                    href={
-                      team.linkWebsite
-                        ? team.linkWebsite.includes("https")
-                          ? team.linkWebsite
-                          : `https://${team.linkWebsite} `
-                        : "#"
-                    }
-                  >
-                    <span
-                      className="w-full xs:py-4 py-2 px-2 flex md-2:justify-between justify-center bg-[#848ABD] 
-                      font-nunito rounded-3xl items-center"
-                    >
-                      <span className="pr-2 text-sm">Visit Website </span>
-                      <LanguageOutlined />
-                    </span>
-                  </a>
-                  <Link href={`/team/${team.id}`}>
+                  <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-[#606060] transition-all duration-500 ease-in-out text-md font-nunito">
                     <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="xs:p-4 p-2  w-full flex items-center md-2:justify-between justify-center flex-1"
+                      className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white cursor-pointer "
+                      href={
+                        team.linkWebsite
+                          ? team.linkWebsite.includes("https")
+                            ? team.linkWebsite
+                            : `https://${team.linkWebsite} `
+                          : "#"
+                      }
                     >
-                      <span className="hidden xs:block mr-2">View Profile</span>
-                      <InfoOutlined />
+                      <span
+                        className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-[#61619b] 
+                      font-nunito rounded-2xl"
+                      >
+                        Visit Website <LanguageOutlined />
+                      </span>
                     </a>
-                  </Link>
-                  <Link href={`/team/${team.id}/contact`}>
-                    <a className="xs:p-4 p-2 w-full flex items-center md-2:justify-between justify-center flex-1">
-                      <span className="hidden xs:block mr-2">Contact</span>
-                      <ContactlessOutlined />
-                    </a>
-                  </Link>
+                    <Link href={`/team/${team.id}`}>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center flex-1"
+                      >
+                        <span className="hidden xs:block mr-2">
+                          View Profile
+                        </span>
+                        <InfoOutlined />
+                      </a>
+                    </Link>
+                    <Link href={`/team/${team.id}/contact`}>
+                      <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center flex-1">
+                        <span className="hidden xs:block mr-2">Contact</span>
+                        <ContactlessOutlined />
+                      </a>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className="flex items-center justify-center pb-2">
+            ))}
+          </div>
           {pageItem && pageItem.length > 0 && (
             <Pagination
               className="flex justify-center mb-1"

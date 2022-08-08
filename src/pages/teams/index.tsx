@@ -8,10 +8,31 @@ import { TimeZone } from "@/type/enum/TimeZone";
 import { ITeam } from "@/type/team/team.type";
 import { CancelOutlined, Close } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
-import { debounce, Pagination } from "@mui/material";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import {
+  createTheme,
+  debounce,
+  Pagination,
+  PaginationItem,
+  ThemeProvider,
+} from "@mui/material";
 import { useOutsideClick } from "hook/OuterClick";
 import { useRouter } from "next/router";
 import { FormEvent, LegacyRef, useCallback, useEffect, useState } from "react";
+
+const theme = createTheme({
+  components: {
+    // Name of the component
+    MuiPaginationItem: {
+      styleOverrides: {
+        selected: {
+          color: "#848abd",
+        },
+        root: {},
+      },
+    },
+  },
+});
 
 const SortBy = ["none"];
 interface PageResponse {
@@ -235,7 +256,7 @@ export const Teams = () => {
                           </div>
                         </div>
                         <div
-                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full shadow border-none text-[#848abd]"
+                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full border-none text-[#848abd]"
                           id="Skills"
                           onClick={(e) => {
                             setSwitchValue(e.currentTarget.id);
@@ -258,7 +279,7 @@ export const Teams = () => {
                           </div>
                         </div>
                         <div
-                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full shadow border-none text-[#848abd]"
+                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full border-none text-[#848abd]"
                           id="Timezone"
                           onClick={(e) => {
                             setSwitchValue(e.currentTarget.id);
@@ -339,13 +360,26 @@ export const Teams = () => {
               ))}
             </div>
             <div className="flex items-center justify-center pb-2">
-              <Pagination
-                count={totalPage}
-                page={currentPage}
-                onChange={(e, value) => {
-                  handlePageChange(value);
-                }}
-              />
+              <ThemeProvider theme={theme}>
+                <Pagination
+                  className="Mui-selected "
+                  count={totalPage}
+                  page={currentPage}
+                  variant="text"
+                  renderItem={(item) => (
+                    <PaginationItem
+                      components={{
+                        previous: ArrowBack,
+                        next: ArrowForward,
+                      }}
+                      {...item}
+                    />
+                  )}
+                  onChange={(e, value) => {
+                    handlePageChange(value);
+                  }}
+                />
+              </ThemeProvider>
             </div>
           </div>
         </div>

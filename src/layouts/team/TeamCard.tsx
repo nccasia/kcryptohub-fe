@@ -96,15 +96,19 @@ export const TeamCard = (props: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-lg">
-      <div className="xl:col-span-10 md:col-span-9 col-span-12">
-        <div className="grid grid-cols-12 border-b relative">
+    <div
+      className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-lg"
+      onMouseEnter={() => setShow(false)}
+    >
+      <div className="xl:col-span-10 md:col-span-9 col-span-12 ">
+        <div className="grid grid-cols-12 border-b relative ">
           <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start p-2">
             <div className="h-[50px] w-[50px] relative">
               <Image
                 key={team.id}
                 layout="fill"
                 objectFit="contain"
+                className="rounded-lg"
                 src={teamImgSrc}
                 onError={() => setTeamImgSrc("/user1.png")}
                 alt="logo"
@@ -152,11 +156,11 @@ export const TeamCard = (props: Props) => {
                             show ? "bg-white text-[#848ABD]" : ""
                           }`}
                         ></Bookmark>
-                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 border-[#848ABD] rounded-lg top-[24px] right-[-24px]">
+                        <div className="absolute w-[190px] z-[100] h-[60px] bg-white border-2 border-[#848ABD] rounded-lg top-[24px] right-[-24px]">
                           <div className="text-left px-2">
                             <li className="list-none py-1 cursor-pointer border-b-[1px] font-nunito">
                               <a
-                                className="text-[#848ABD] font-medium"
+                                className="text-[#848ABD]  font-medium"
                                 onClick={handleRemoveFromShortList}
                               >
                                 Remove from Shortlist
@@ -164,7 +168,7 @@ export const TeamCard = (props: Props) => {
                             </li>
 
                             <Link href={`/short-list`}>
-                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
+                              <a className="text-sm text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
                                 View Shortlist {">"}
                               </a>
                             </Link>
@@ -193,11 +197,11 @@ export const TeamCard = (props: Props) => {
                             show ? "bg-white text-[#848ABD]" : ""
                           }`}
                         ></Bookmark>
-                        <div className="absolute w-[220px] z-[100] h-[65px] bg-white border-2 rounded-lg border-[#848ABD] top-[24px] right-[-24px]">
+                        <div className="absolute w-[150px] z-[100] h-[60px] bg-white border-2 rounded-lg border-[#848ABD] top-[24px] right-[-24px]">
                           <div className="text-left px-2">
                             <li className="list-none py-1 cursor-pointer border-b-[1px] font-nunito">
                               <a
-                                className="text-[#848ABD] font-medium"
+                                className="text-[#848ABD] font-medium "
                                 onClick={handleAddToShortList}
                               >
                                 Add to Shortlist
@@ -205,7 +209,7 @@ export const TeamCard = (props: Props) => {
                             </li>
 
                             <Link href={`/short-list`}>
-                              <a className="uppercase text-xs text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
+                              <a className=" text-sm text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
                                 View Shortlist {">"}
                               </a>
                             </Link>
