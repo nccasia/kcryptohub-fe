@@ -9,10 +9,30 @@ import { ITeam } from "@/type/team/team.type";
 import { CancelOutlined, Close } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { debounce, Pagination, PaginationItem } from "@mui/material";
+import {
+  createTheme,
+  debounce,
+  Pagination,
+  PaginationItem,
+  ThemeProvider,
+} from "@mui/material";
 import { useOutsideClick } from "hook/OuterClick";
 import { useRouter } from "next/router";
 import { FormEvent, LegacyRef, useCallback, useEffect, useState } from "react";
+
+const theme = createTheme({
+  components: {
+    // Name of the component
+    MuiPaginationItem: {
+      styleOverrides: {
+        selected: {
+          color: "#848abd",
+        },
+        root: {},
+      },
+    },
+  },
+});
 
 const SortBy = ["none"];
 interface PageResponse {
@@ -340,22 +360,26 @@ export const Teams = () => {
               ))}
             </div>
             <div className="flex items-center justify-center pb-2">
-              <Pagination
-                count={totalPage}
-                page={currentPage}
-                renderItem={(item) => (
-                  <PaginationItem
-                    components={{
-                      previous: ArrowBack,
-                      next: ArrowForward,
-                    }}
-                    {...item}
-                  />
-                )}
-                onChange={(e, value) => {
-                  handlePageChange(value);
-                }}
-              />
+              <ThemeProvider theme={theme}>
+                <Pagination
+                  className="Mui-selected "
+                  count={totalPage}
+                  page={currentPage}
+                  variant="text"
+                  renderItem={(item) => (
+                    <PaginationItem
+                      components={{
+                        previous: ArrowBack,
+                        next: ArrowForward,
+                      }}
+                      {...item}
+                    />
+                  )}
+                  onChange={(e, value) => {
+                    handlePageChange(value);
+                  }}
+                />
+              </ThemeProvider>
             </div>
           </div>
         </div>

@@ -79,3 +79,7 @@ a {
   display: none;
   border-radius: 50px;
 }
+
+.Mui-selected {
+  color: #848abd;
+}

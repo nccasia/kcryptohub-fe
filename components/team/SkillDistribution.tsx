@@ -75,7 +75,7 @@ const SkillDistribution = ({
                             IColors[index % (Object.keys(IColors).length / 2)],
                         }}
                       >
-                        <span className="hidden md:block text-sm text-white font-medium">
+                        <span className="block text-sm text-white font-medium">
                           {`${handleCalculatePercentage(
                             item.skillDistributionValue,
                             Number(skillDistributionValue.quantity)
@@ -88,7 +88,7 @@ const SkillDistribution = ({
               </div>
             </div>
 
-            {/*   <ul className="flex flex-wrap gap-5">
+            {/*  <ul className="md:hidden block flex flex-wrap gap-5">
               {item.skillDistributionValue.map(
                 (skillDistributionValue, index) =>
                   Number(skillDistributionValue.quantity) > 0 && (
@@ -97,7 +97,7 @@ const SkillDistribution = ({
                       className="flex items-center gap-x-3"
                     >
                       <div
-                        className="w-4 h-4"
+                        className="w-4 h-4 rounded-lg"
                         style={{
                           backgroundColor:
                             IColors[index % (Object.keys(IColors).length / 2)],

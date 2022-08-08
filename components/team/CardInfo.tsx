@@ -173,11 +173,11 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
         </div>
       </div>
       <div
-        className="block md:hidden sticky w-full  flex bottom-0 float-right bg-white z-[9999] border border-[#cae0e7] shadow-xl 
+        className="md:hidden sticky w-full flex bottom-0 float-right bg-white z-[9999] border border-[#cae0e7] shadow-xl 
     md:bottom-1/3"
       >
         {editable ? (
-          <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center cursor-pointer border-r border-[#cae0e7] md:border-0">
+          <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center items-center w-1/4 cursor-pointer border-r border-[#cae0e7] md:border-0">
             <Link
               href={{
                 pathname: `/team/[teamId]/dashboard`,
@@ -185,44 +185,32 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
               }}
             >
               <a
-                className="flex items-center justify-center w-[80px] relative "
+                className="flex items-center justify-center relative "
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => {
                   setHover(false);
                 }}
               >
                 <Edit className="text-[#404040] text-[20px] hover:text-[#848ABD] " />
-                <div
-                  className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
-                    hover ? "" : "hidden"
-                  }`}
-                >
-                  Edit
-                </div>
               </a>
             </Link>
           </div>
         ) : null}
         <div
           onClick={() => handleVisitWebsite(teamProfile.linkWebsite)}
-          className="mx-2 my-3 flex gap-x-2 flex-col justify-center items-center rounded-full cursor-pointer"
+          className={`mx-2 my-3 flex gap-x-2 flex-col justify-center items-center rounded-full cursor-pointer ${
+            editable ? "w-1/4" : "w-2/4"
+          }`}
           onMouseEnter={() => setHover1(true)}
           onMouseLeave={() => {
             setHover1(false);
           }}
         >
-          <div className="w-full flex justify-center w-[80px] relative">
+          <div className="w-full flex justify-center relative">
             <Language className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
-            <div
-              className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
-                hover1 ? "" : "hidden"
-              }`}
-            >
-              Website
-            </div>
           </div>
         </div>
-        <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center w-[80px] items-center cursor-pointer border-x border-[#cae0e7] md:border-0">
+        <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center w-1/4 items-center cursor-pointer border-x border-[#cae0e7] md:border-0">
           {userProfile.shortList?.includes(teamProfile.id) ? (
             <div
               className="w-full flex justify-center relative "
@@ -233,13 +221,6 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
               }}
             >
               <Bookmark className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
-              <div
-                className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
-                  hover2 ? "" : "hidden"
-                }`}
-              >
-                Shortlist
-              </div>
             </div>
           ) : (
             <div
@@ -251,13 +232,6 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
               }}
             >
               <BookmarkBorderOutlined className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
-              <div
-                className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
-                  hover2 ? "" : "hidden"
-                }`}
-              >
-                Shortlist
-              </div>
             </div>
           )}
         </div>
@@ -267,22 +241,15 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
             query: { teamId: router.query.teamId },
           }}
         >
-          <div className="bg-white flex gap-x-2 mx-2 my-3  justify-center items-center cursor-pointer">
+          <div className="bg-white flex gap-x-2 mx-2 my-3 w-1/4 justify-center items-center cursor-pointer">
             <div
-              className="w-full flex justify-center relative w-[80px]"
+              className="w-full flex justify-center relative "
               onMouseEnter={() => setHover3(true)}
               onMouseLeave={() => {
                 setHover3(false);
               }}
             >
               <ChatOutlined className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
-              <div
-                className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px]  ${
-                  hover3 ? "" : "hidden"
-                }`}
-              >
-                Contact
-              </div>
             </div>
           </div>
         </Link>
