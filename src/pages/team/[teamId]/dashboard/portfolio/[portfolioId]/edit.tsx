@@ -329,7 +329,7 @@ const PortfolioEdit = () => {
                       {...register("description")}
                       placeholder="Tell a great story about this Portfolio Item."
                       maxLength={2000}
-                      className={`sm:min-w-[400px] lg:min-w-[600px] w-full pl-3 pr-8 py-2 bg-[#0000000d] rounded-3xl outline-none text-[#606060]`}
+                      className={`sm:min-w-[400px] custom-scrollbar-des lg:min-w-[600px] w-full pl-3 pr-8 py-2 bg-[#0000000d] rounded-3xl outline-none text-[#606060]`}
                     />
                     <div className="absolute right-0 bottom-0  m-2 text-gray-400 text-sm font-normal">
                       {watch("description") ? watch("description").length : 0}/

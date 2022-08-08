@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { PortfolioApi } from "@/api/portfolio-api";
 import { Add, PlusOne } from "@mui/icons-material";
 import { Box, Modal } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -186,25 +187,19 @@ const Portfolio = ({
         </Modal>
       )}
       {!teamProfile.portfolios?.length && editable && (
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-center">
           <Link
             href={{
               pathname: `/team/[teamId]/dashboard/portfolio`,
               query: { teamId: router.query.teamId },
             }}
           >
-            <a className="text-sm text-[#3e839e] hover:underline">
+            <a className="text-sm text-[#606060] mr-1 hover:text-[#848ABD]">
               Add Portfolio
             </a>
           </Link>
-          <div className="w-4 h-4 flex-none relative">
-            <Image
-              width="16"
-              height="16"
-              src={IconMap.Pen.src}
-              alt="avatar"
-              layout="responsive"
-            />
+          <div className="text-[#848ABD] flex-none relative">
+            <EditIcon className="text-[18px] mb-[2px]" />
           </div>
         </div>
       )}

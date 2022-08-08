@@ -193,6 +193,7 @@ export const SkillDis = (props: IProps) => {
         props.skillDistribution[0].skillDistributionName,
         { shouldValidate: true }
       );
+      setShow(true);
     }
   }, [props.skillDistribution]);
 
@@ -273,7 +274,7 @@ export const SkillDis = (props: IProps) => {
         callbacks: {
           label: function (tooltipItems: any) {
             if (tooltipItems.label === "Allocate a percentage") {
-              return tooltipItems.label + " : " + 0 + "%";
+              return tooltipItems.label + ": " + 0 + "%";
             } else {
               return (
                 tooltipItems.label + " : " + tooltipItems.formattedValue + "%"
@@ -574,12 +575,12 @@ export const SkillDis = (props: IProps) => {
               }
             >
               {total === 100 && (
-                <CheckCircleIcon className="mt-1 text-green-500 h-[25px] w-[25px]" />
+                <CheckCircleIcon className=" text-green-500 h-[25px] w-[25px]" />
               )}
               {total > 100 && (
-                <ErrorOutlineOutlinedIcon className="mt-1 text-red-500 h-[25px] w-[25px]" />
+                <ErrorOutlineOutlinedIcon className=" text-red-500 h-[25px] w-[25px]" />
               )}
-              {show && <div>{total}%</div>}
+              {show && <div className="text-[#606060]">{total}%</div>}
             </div>
           </div>
         </div>

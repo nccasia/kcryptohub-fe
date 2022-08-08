@@ -40,7 +40,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
   return (
     <div
       className="hidden fixed w-[50px] flex top-0 right-4 float-right
-    lg:block md:top-44 rounded-full z-[9999] font-nunito"
+    md:block md:top-44 rounded-full z-[9999] font-nunito"
     >
       <div
         className="mb-3 fixed w-[50px] flex right-4 float-right bg-white border border-[#848ABD] shadow-xl 

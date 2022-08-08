@@ -111,7 +111,7 @@ const TeamDetail = () => {
       <div className="">
         <div className="block font-nunito">
           <div
-            className="w-full bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
+            className="w-full bg-[#848abd16] border-[1px] border-[#848abd16]"
             ref={headerRef}
           >
             <div
@@ -255,7 +255,7 @@ const TeamDetail = () => {
           </div>
 
           <div
-            className="lg:px-32 xs:px-10 px-2 bg-[#5ca7db11] border-[1px] border-[#5ca7db11]"
+            className="lg:px-32 xs:px-10 px-2 bg-[#848abd16] border-[1px] border-[#848abd16]"
             ref={portfolioRef}
           >
             <Portfolio
