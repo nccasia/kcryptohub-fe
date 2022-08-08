@@ -176,7 +176,7 @@ export const Teams = () => {
       <div className="relative font-nunito">
         <div className="flex flex-col items-center justify-center  w-full">
           <div className="container-lg border-x-2 w-full ">
-            <div className="sticky border-b p-2 top-0 w-full flex flex-col text-cyan-700 bg-white z-10 shadow-lg">
+            <div className="sticky border-b p-2 top-0 w-full flex flex-col text-[#61619b] bg-white z-10 shadow-lg">
               <div className="flex flex-col sm:flex-row ">
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex ">

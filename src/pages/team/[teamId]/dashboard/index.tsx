@@ -99,11 +99,11 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div className="w-full h-full ">
+      <div className="w-full h-full font-nunito">
         <div className="container mx-auto pt-4">
-          <div className="bg-white w-full rounded-xl shadow-xl">
+          <div className="w-full">
             <div className="grid grid-cols-12">
-              <div className="md:col-span-3 col-span-12 p-3">
+              <div className="bg-white text-[#606060]  md:col-span-3 col-span-12 p-3 rounded-3xl shadow-lg">
                 <div className="py-2">
                   <div className="h-[30px] w-[30px] relative inline-block float-left mr-2 ">
                     <Image
@@ -216,7 +216,7 @@ const Dashboard = () => {
                   </span>
                 </div>
               </div>
-              <div className="md:col-span-6 col-span-12 border-x">
+              <div className="bg-white  text-[#606060] md:col-span-6 col-span-12  mx-3 border-x rounded-3xl shadow-lg">
                 <div className="text-cyan-900 break-normal border-b p-4">
                   {team.skills &&
                     team.skills.map((skill, i) => (
@@ -316,7 +316,7 @@ const Dashboard = () => {
                     ))}
                 </div>
               </div>
-              <div className="md:col-span-3 col-span-12">
+              <div className="bg-white  text-[#606060] md:col-span-3 col-span-12  rounded-3xl shadow-lg">
                 <p className="p-3 break-words">
                   {team.description.length > 650
                     ? showAll

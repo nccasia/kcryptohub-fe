@@ -29,6 +29,7 @@ import { getUserInfoSelector } from "@/redux/selector";
 import { teamApi } from "@/api/team-api";
 import { removeFromShortList } from "@/redux/profileSlice";
 import React from "react";
+import ShortlistCard from "@/components/team/Shortlist-card";
 
 const theme = createTheme({
   components: {
@@ -36,7 +37,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 0,
-          border: "2px solid #cae0e7",
+          border: "2px solid #606060",
           "&.Mui-focused": {
             borderColor: "#17313b",
             boxShadow:
@@ -74,44 +75,65 @@ const ShortList = () => {
   useEffect(() => {
     setPageItem(shortList);
   }, [shortList]);
+
   const handleRemoveFromShortList = (teamId: number) => {
     dispatch(removeFromShortList(teamId));
   };
   return (
     <Layout>
       <ThemeProvider theme={theme}>
-        <div className="flex items-center justify-center relative bg-primary border-t font-nunito"></div>
-        <Container>
-          <div className="w-full text-[#606060]">
-            <nav className="mb-4 shadow-md rounded-b-lg flex-col mx-auto">
-              <ul className="flex relative mb-0  pt-1 border-b-[1px] border-[#cae0e7] font-nunito rounded-b-lg">
-                <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#848ABD] after:absolute after:h-11 after:w-[1px] after:bottom-0 after:right-0">
-                  <button
-                    className="text-red-500 pr-2 text-base relative "
-                    onClick={() => {
-                      router.back();
-                    }}
-                  >
-                    <span className="hover:underline !text-[#606060]">
-                      <ArrowBackIos />
-                      Back
+        <div className="flex items-center justify-center relative bg-[#606060] border-t border-[#848abd] font-nunito">
+          {/* <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md:w-4/5 px-2">
+            <Container>
+              <div className="flex items-center justify-start relative">
+                <div className="px-4 py-2 w-fit xxs:flex hidden items-center justify-center text-4xl">
+                  <span>My Shortlist</span>
+                </div>
+                <div className="flex items-center justify-center relative ml-4 text-3xl">
+                  <div className="px-1">
+                    <span>
+                      <BookmarkIcon className="text-red-500" />
                     </span>
-                  </button>
-                </li>
-                <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#848ABD] after:absolute after:h-11 after:w-[1px] after:bottom-0 after:right-0 ">
-                  <button type="button" className="text-base text-[#606060]">
-                    Share List
-                  </button>
-                </li>
-                <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#848ABD] after:absolute after:h-11 after:w-[1px] after:bottom-0 after:right-0 ">
-                  <button type="button" className="text-base text-[#606060]">
-                    New List
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div className="flex flex-col items-center justify-center w-full">
+                  </div>
+                  <div className="px-1">
+                    <span className="text-sm">
+                      {userProfile.shortList?.length || 0} Companies
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Container>
+          </div> */}
+        </div>
+        <div className="sticky top-0 z-[40] bg-white w-full text-[#606060]">
+          <nav className="w-full mb-4 shadow-lg flex-col mx-auto">
+            <ul className="flex relative mb-0  pt-1  font-nunito">
+              <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0">
+                <button
+                  className="text-[#848abd] pr-2 text-base relative inline-flex"
+                  onClick={() => {
+                    router.back();
+                  }}
+                >
+                  <ArrowBackIos className="hover:underline !text-[#848abd]" />
+                  <span className="hover:underline !text-[#848abd]">Back</span>
+                </button>
+              </li>
+              <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0 ">
+                <button type="button" className="text-base text-[#606060]">
+                  Share List
+                </button>
+              </li>
+              <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0 ">
+                <button type="button" className="text-base text-[#606060]">
+                  New List
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <Container>
+          <div className="flex flex-col items-center justify-center w-full font-nunito">
             {shortList.slice(prev - 1, next).map((team, index) => (
               <div key={index} className="w-full">
                 <div className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-3xl">
@@ -120,7 +142,6 @@ const ShortList = () => {
                       <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start  p-2">
                         <div className="h-[50px] w-[50px] relative">
                           <Image
-                            className="rounded-lg"
                             key={team.id}
                             layout="fill"
                             objectFit="contain"
@@ -133,7 +154,7 @@ const ShortList = () => {
                             <a
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-3xl"
+                              className="text-3xl text-[#606060]"
                             >
                               {team.teamName}
                             </a>
@@ -146,9 +167,9 @@ const ShortList = () => {
                             <a
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-3xl xxs:inline-block hidden break-words"
+                              className="text-3xl xxs:inline-block hidden break-words "
                             >
-                              <span className="w-full break-words">
+                              <span className="w-full break-words text-[#606060]">
                                 {team.teamName}
                               </span>
                             </a>
@@ -159,42 +180,12 @@ const ShortList = () => {
                         </div>
                         <div className="absolute top-0 right-0 flex-1 text-right">
                           <div className="absolute top-[-6px] right-6 group">
-                            <div>
-                              {show ? (
-                                <div
-                                  className="relative"
-                                  onMouseEnter={() => setShow(true)}
-                                  onMouseLeave={() => setShow(false)}
-                                >
-                                  <BookmarkIcon
-                                    className={`absolute text-[#848ABD] cursor-pointer ${
-                                      show ? "bg-white text-[#848ABD" : ""
-                                    }`}
-                                  ></BookmarkIcon>
-                                  <div className="absolute w-[220px] bg-white border-2 border-[#848ABD] rounded-lg top-[24px] right-[-24px]">
-                                    <div className="text-left px-2">
-                                      <li className="list-none py-2 cursor-pointer border-b-[1px] font-nunito">
-                                        <a
-                                          className="text-[#848ABD] font-medium"
-                                          onClick={() =>
-                                            handleRemoveFromShortList(team.id)
-                                          }
-                                        >
-                                          Remove from Shortlist
-                                        </a>
-                                      </li>
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : (
-                                <BookmarkIcon
-                                  className={`absolute text-[#848ABD] cursor-pointer hover:bg-white hover:text-[#848ABD] ${
-                                    show ? "hidden" : ""
-                                  }`}
-                                  onMouseEnter={() => setShow(true)}
-                                ></BookmarkIcon>
-                              )}
-                            </div>
+                            <ShortlistCard
+                              teamId={team.id}
+                              handleRemoveFromShortList={
+                                handleRemoveFromShortList
+                              }
+                            />
                           </div>
                         </div>
                       </div>
@@ -207,9 +198,11 @@ const ShortList = () => {
                           </span>
                         ) : null}
                         {
-                          <span className="text-cyan-900 flex items-center">
+                          <span className="text-[#61619b] flex items-center">
                             <IconHover
-                              icon={<LabelOutlined />}
+                              icon={
+                                <LabelOutlined className="text-[#606060]" />
+                              }
                               hoverText="Project Size"
                             />
                             <span className="text-left ml-1">
@@ -217,18 +210,20 @@ const ShortList = () => {
                             </span>
                           </span>
                         }
-                        <span className="text-cyan-900 flex items-center pt-2">
+                        <span className="text-[#61619b] flex items-center pt-2">
                           <IconHover
-                            icon={<GroupsOutlined />}
+                            icon={<GroupsOutlined className="text-[#606060]" />}
                             hoverText="Team size"
                           />
                           <span className="text-left ml-1">
                             {team.teamSize} members
                           </span>
                         </span>
-                        <span className="text-cyan-900 flex items-center pt-2">
+                        <span className="text-[#61619b] flex items-center pt-2">
                           <IconHover
-                            icon={<AvTimerOutlined />}
+                            icon={
+                              <AvTimerOutlined className="text-[#606060]" />
+                            }
                             hoverText="Timezone"
                           />
                           <span className="text-left ml-1">
@@ -238,10 +233,10 @@ const ShortList = () => {
                       </div>
                       <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
                         <div className="flex w-full">
-                          <div className="text-cyan-900 w-full break-normal"></div>
+                          <div className="text-[#606060] w-full break-normal"></div>
                         </div>
                       </div>
-                      <div className="xs:w-1/4 p-4 text-sm text-cyan-900 font-nunito">
+                      <div className="xs:w-1/4 p-4 text-sm text-[#606060] font-nunito">
                         <div className="">
                           <span className="font-medium ">Founded: </span>
                           {team.founded}
@@ -258,7 +253,7 @@ const ShortList = () => {
                                 <a
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-cyan-400 cursor-pointer"
+                                  className="text-[#848abd] cursor-pointer hover:underline"
                                 >
                                   More
                                 </a>
@@ -269,7 +264,7 @@ const ShortList = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-cyan-700 transition-all duration-500 ease-in-out text-md font-nunito text-[#606060]">
+                  <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-[#606060] transition-all duration-500 ease-in-out text-md font-nunito">
                     <a
                       className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white cursor-pointer "
                       href={
@@ -281,8 +276,8 @@ const ShortList = () => {
                       }
                     >
                       <span
-                        className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-[#848ABD] 
-                      font-nunito rounded-2xl"
+                        className="w-full xs:p-4 p-2 flex md:justify-between justify-center bg-[#61619b] 
+                      font-nunito rounded-full"
                       >
                         Visit Website <LanguageOutlined />
                       </span>
@@ -291,7 +286,7 @@ const ShortList = () => {
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="xs:p-4 p-2 text-[#606060] hover:text-[#848ABD]  w-full flex items-center md:justify-between justify-center flex-1"
+                        className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center flex-1"
                       >
                         <span className="hidden xs:block mr-2">
                           View Profile
@@ -300,7 +295,7 @@ const ShortList = () => {
                       </a>
                     </Link>
                     <Link href={`/team/${team.id}/contact`}>
-                      <a className="xs:p-4 p-2 w-full text-[#606060] hover:text-[#848ABD] flex items-center md:justify-between justify-center flex-1">
+                      <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center flex-1">
                         <span className="hidden xs:block mr-2">Contact</span>
                         <ContactlessOutlined />
                       </a>
