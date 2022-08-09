@@ -79,9 +79,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
     // <div className="bg-thirdary h-full">
     <Layout>
-      <div className="px-8 py-2 bg-[#f9fafb] font-nunito">
-        <div className="container w-4/5 px-5 mx-auto ">
-          <ul className="flex justify-start items-center gap-x-10 md:overflow-x-hidden overflow-x-scroll">
+      <div className="px-4 py-2 bg-[#f9fafb] font-nunito ">
+        <div className=" py-2 container  w-full  ">
+          <ul className="flex justify-start px-2 w-full mx-auto items-center gap-x-10  md:overflow-x-hidden overflow-x-scroll">
             {route.map((item, index) => {
               return (
                 <li key={index}>

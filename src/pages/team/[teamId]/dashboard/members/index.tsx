@@ -5,7 +5,10 @@ import {
   removeMember,
   resetSuccess,
 } from "@/redux/memberSlice";
-import { getUserInfoSelector } from "@/redux/selector";
+import {
+  getUserInfoSelector,
+  getDashboardInformationSelector,
+} from "@/redux/selector";
 import { RootState } from "@/redux/store";
 import iconchecked from "@/src/assets/image/icon-check.svg";
 import DashboardLayout from "@/src/layouts/dashboard/Dashboard";
@@ -33,6 +36,7 @@ import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import * as yup from "yup";
 import { ErrorOutline } from "@mui/icons-material";
+import { Layout } from "@/src/layouts/layout";
 
 const theme = createTheme({
   components: {
@@ -110,6 +114,7 @@ const Members = () => {
   const teamId = router.query.teamId;
 
   const Owner = useAppSelector(getUserInfoSelector);
+  const Team = useAppSelector(getDashboardInformationSelector);
 
   const {
     register,
@@ -359,6 +364,7 @@ const Members = () => {
 
                         <textarea
                           tabIndex={1}
+                          disabled={Owner?.id === Team?.userId ? false : true}
                           maxLength={50}
                           className={
                             !success
@@ -546,16 +552,26 @@ const Members = () => {
                         <AccountCircleIcon className="w-5 h-5" />
                       </span>
                       {Object.entries(Owner).length !== 0 ? (
-                        <span className="text-[#17313b]">{Owner.username}</span>
+                        Owner.id === Team.userId ? (
+                          <span className="text-[#17313b]">
+                            {Owner.username}
+                          </span>
+                        ) : (
+                          <span className="text-[#61619b]"></span>
+                        )
                       ) : (
                         <div className="bg-[#1b08086c] w-full h-[10px] rounded-3xl animate-pulse"></div>
                       )}
                     </div>
                     <div className="w-1/5 px-4 py-2 text-sm font-normal truncate">
                       {Object.entries(Owner).length !== 0 ? (
-                        <span className="text-[#17313b]">
-                          {Owner.emailAddress}
-                        </span>
+                        Owner.id === Team.userId ? (
+                          <span className="text-[#17313b]">
+                            {Owner.emailAddress}
+                          </span>
+                        ) : (
+                          <span className="text-[#61619b]"></span>
+                        )
                       ) : (
                         <div className="bg-[#1b08086c] w-full h-[10px] rounded-3xl animate-pulse"></div>
                       )}
