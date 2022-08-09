@@ -103,8 +103,8 @@ const Dashboard = () => {
         <div className="container mx-auto pt-4">
           <div className="w-full">
             <div className="grid grid-cols-12">
-              <div className="bg-white text-[#606060]  md:col-span-3 col-span-12 p-3 rounded-3xl shadow-lg">
-                <div className="py-2">
+              <div className="bg-white text-[#606060]  w-full md-2:col-span-3 col-span-12 m-3 rounded-3xl shadow-lg">
+                <div className="p-2">
                   <div className="h-[30px] w-[30px] relative inline-block float-left mr-2 ">
                     <Image
                       key={team.id}
@@ -134,7 +134,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between p-2">
                   <div className="px-2 py-1 border rounded-lg w-fit text-gray-400">
                     <span>Basic Profile</span>
                   </div>
@@ -145,7 +145,7 @@ const Dashboard = () => {
                     Delete team <Delete className="text-[#848ABD]" />
                   </div>
                 </div>
-                <div className="md:flex grid grid-cols-2 flex-col text-sm py-2  text-[#848ABD]">
+                <div className="md-2:flex grid grid-cols-2 flex-col text-sm p-2  text-[#848ABD]">
                   {team.status ? (
                     <span className="text-red-500 py-1">
                       <CheckCircleOutlined /> Verified
@@ -170,9 +170,9 @@ const Dashboard = () => {
                       </span>
                     </a>
                   }
-                  <span className="py-1">
+                  <span className="py-1 break-all">
                     <EmailOutlined className="text-[#848abd]" />
-                    <span className="text-left ml-1 text-[#848abd]">
+                    <span className="text-left ml-1 text-[#848abd] ">
                       {team.saleEmail}
                     </span>
                   </span>
@@ -216,7 +216,7 @@ const Dashboard = () => {
                   </span>
                 </div>
               </div>
-              <div className="bg-white  text-[#606060] md:col-span-6 col-span-12  mx-3 border-x rounded-3xl shadow-lg">
+              <div className="bg-white  text-[#606060] w-full md-2:col-span-6 col-span-12  m-3 border-x rounded-3xl shadow-lg">
                 <div className="text-cyan-900 break-normal border-b p-4">
                   {team.skills &&
                     team.skills.map((skill, i) => (
@@ -316,7 +316,7 @@ const Dashboard = () => {
                     ))}
                 </div>
               </div>
-              <div className="bg-white  text-[#606060] md:col-span-3 col-span-12  rounded-3xl shadow-lg">
+              <div className="bg-white  text-[#606060] w-full md-2:col-span-3 col-span-12 m-3 rounded-3xl shadow-lg">
                 <p className="p-3 break-words">
                   {team.description.length > 650
                     ? showAll
