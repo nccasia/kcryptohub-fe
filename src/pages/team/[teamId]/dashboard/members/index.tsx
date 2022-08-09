@@ -91,6 +91,11 @@ interface PaginationQueryParams {
   page: string;
 }
 
+interface RequestMember {
+  name: string;
+  email: string;
+}
+
 const Members = () => {
   const [email, setEmail] = useState<string>("");
   const [tags, setTags] = useState<emails[]>([]);
@@ -99,6 +104,10 @@ const Members = () => {
   const [disableIvt, setDisableIvt] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [onLoading, setOnLoading] = useState<boolean[]>([]);
+
+  const [page, setPage] = useState(1);
+  const [prev, setPrev] = useState(1);
+  const [next, setNext] = useState(9);
 
   const DEFAULT_SIZE = 10;
 
@@ -310,10 +319,10 @@ const Members = () => {
     <DashboardLayout>
       <ThemeProvider theme={theme}>
         <div className="font-nunito">
-          <Container fixed maxWidth="lg" className="md:!px-8">
+          <Container fixed maxWidth="lg" className="md:!px-2">
             <div className="w-full h-full">
-              <div className="w-full block h-full relative ">
-                <div className="my-2">
+              <div className="w-full h-full relative flex flex-col xl:flex-row ">
+                <div className="my-2 mr-1 ">
                   <form
                     onSubmit={(e) => e.preventDefault()}
                     className="shadow-lg block lg:inline-flex py-2 my-3 lg:items-end px-3 bg-white rounded-3xl"
@@ -425,6 +434,61 @@ const Members = () => {
                         <span>Send more invites</span>
                       </button>
                     </div>
+                  </form>
+                </div>
+                <div className="my-2 ml-1 ">
+                  <form
+                    onSubmit={(e) => e.preventDefault()}
+                    className="shadow-lg block  py-2 my-3 w-full px-3 overflow-x-auto bg-white rounded-3xl"
+                  >
+                    <div className="table-auto w-[700px] md:w-full ">
+                      <h1 className="py-2  text-lg font-semibold text-[#606060]">
+                        Request Join Team
+                      </h1>
+                      <div className="flex items-center justify-center border-y-2 border-[#eff0f5] ">
+                        <div className="w-2/4 px-4 py-2 text-base font-normal">
+                          <span>Name</span>
+                        </div>
+                        <div className="w-2/4 px-4 py-2 text-base font-normal">
+                          <span>Contact Email</span>
+                        </div>
+                        <div className="w-1/3 px-4 py-2 text-base font-normal">
+                          <span>Select</span>
+                        </div>
+                      </div>
+                      <ul className="w-full" aria-label="aria-owns">
+                        <li className="border-y-2 border-[#eff0f5] py-3 flex items-center justify-center">
+                          <div className="w-2/4 px-4 py-2 text-sm font-normal">
+                            <span className="text-[#17313b] break-all">
+                              nguyen hong thang siba haha ha
+                            </span>
+                          </div>
+                          <div className="w-2/4 px-4 py-2 text-sm font-normal">
+                            <span className="text-[#17313b] break-all">
+                              thangngh.00@gmail.com
+                            </span>
+                          </div>
+                          <div className="w-1/3 px-4 py-2 text-sm font-normal">
+                            <span className="cursor-pointer hover:underline text-[#606060]">
+                              Reject
+                            </span>
+                            {" / "}
+                            <span className="cursor-pointer hover:underline text-[#606060]">
+                              Approve
+                            </span>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    {/* <div className="flex items-center justify-center py-2">
+                      <Pagination
+                        count={totalPage}
+                        page={currentPage}
+                        onChange={(e, value) => {
+                          handlePageChange(value);
+                        }}
+                      />
+                    </div> */}
                   </form>
                 </div>
               </div>
@@ -720,15 +784,15 @@ const Members = () => {
                     )}
                   </ul>
                 </div>
-              </div>
-              <div className="flex items-center justify-center pb-2">
-                <Pagination
-                  count={totalPage}
-                  page={currentPage}
-                  onChange={(e, value) => {
-                    handlePageChange(value);
-                  }}
-                />
+                <div className="flex items-center justify-center pb-2">
+                  <Pagination
+                    count={totalPage}
+                    page={currentPage}
+                    onChange={(e, value) => {
+                      handlePageChange(value);
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </Container>
