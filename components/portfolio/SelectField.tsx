@@ -34,19 +34,16 @@ export const SelectField = ({
           {...register}
           autoComplete="off"
           defaultValue={defaultValue}
-          className={`xs:min-w-[350px] w-full bg-transparent outline-none`}
+          className={`xs:max-w-[350px] w-full bg-transparent outline-none`}
         >
-          <option
-            value=""
-            className="text-gray-500 bg-[#0000000d] xs:max-w-[200px]"
-          >
+          <option value="" className="text-gray-500 bg-[#0000000d] w-[200px]">
             {placeholder}
           </option>
           {valueList.map((value) => (
             <option
               key={value}
               value={value}
-              className="bg-[#0000000d] xs:max-w-[200px]"
+              className="bg-[#0000000d] w-[200px]"
             >
               {value}
             </option>

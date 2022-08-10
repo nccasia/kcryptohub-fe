@@ -83,3 +83,20 @@ a {
 .Mui-selected {
   color: #848abd;
 }
+
+.select-style::after {
+  top: 50%;
+  left: 85%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(0, 0, 0, 0);
+  border-top-color: #000000;
+  border-width: 5px;
+  margin-top: -2px;
+  z-index: 100;
+  border-radius: 50%;
+}

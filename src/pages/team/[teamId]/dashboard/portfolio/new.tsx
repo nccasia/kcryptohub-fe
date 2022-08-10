@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { UploadImage } from "@/src/layouts/create-team/UploadImage";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
+import SelectCustom from "@/src/layouts/team/SelectCustom";
 import { IPortfolio } from "@/type/team/team.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -114,6 +115,7 @@ const NewPortfolio = () => {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors, isDirty, isValid },
   } = useForm({
     resolver: yupResolver(schemaValidation),
@@ -223,20 +225,29 @@ const NewPortfolio = () => {
                   watch={watch("title")}
                   maxLength={50}
                 />
-                <SelectField
+
+                <SelectCustom
                   label={"Category"}
+                  valueList={skills.map((item) => item.skillName)}
+                  placeholder={"Select category"}
                   register={register("category")}
-                  valueList={skills.map((skill) => skill.skillName)}
-                  placeholder="Select a category"
                   errors={errors.category}
+                  name={"category"}
+                  setValue={setValue}
+                  type={1}
                 />
-                <SelectField
+
+                <SelectCustom
                   label={"Estimated Project Size"}
                   register={register("estimate")}
                   valueList={costEstimate}
-                  placeholder=" Select size of project"
+                  placeholder=" Select size of project "
                   errors={errors.estimate}
+                  setValue={setValue}
+                  name={"estimate"}
+                  type={1}
                 />
+
                 <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
                   <div className="font-medium xs:w-fit w-full">
                     <label

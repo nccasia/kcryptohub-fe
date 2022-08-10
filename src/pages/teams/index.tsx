@@ -20,19 +20,7 @@ import { useOutsideClick } from "hook/OuterClick";
 import { useRouter } from "next/router";
 import { FormEvent, LegacyRef, useCallback, useEffect, useState } from "react";
 
-const theme = createTheme({
-  components: {
-    // Name of the component
-    MuiPaginationItem: {
-      styleOverrides: {
-        selected: {
-          color: "#848abd",
-        },
-        root: {},
-      },
-    },
-  },
-});
+const theme = createTheme({});
 
 const SortBy = ["none"];
 interface PageResponse {

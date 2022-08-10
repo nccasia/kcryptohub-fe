@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { UploadImage } from "@/src/layouts/create-team/UploadImage";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
+import { InputSelect } from "@/src/layouts/team/InputSelect";
+import SelectCustom from "@/src/layouts/team/SelectCustom";
 import { IPortfolio } from "@/type/team/team.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -14,9 +16,10 @@ import {
   LockOutlined,
   PersonOutlineOutlined,
 } from "@mui/icons-material";
-import { Typography } from "@mui/material";
+import { Collapse, Typography } from "@mui/material";
+import { useOutsideClick } from "hook/OuterClick";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { FormEvent, LegacyRef, Ref, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -129,6 +132,7 @@ const PortfolioEdit = () => {
   const [portfolio, setPortfolio] = useState<IPortfolio>();
   const router = useRouter();
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (router.query.teamId) {
       setTeamId(Number(router.query.teamId));
@@ -250,19 +254,27 @@ const PortfolioEdit = () => {
                   watch={watch("title")}
                   maxLength={50}
                 />
-                <SelectField
+
+                <SelectCustom
                   label={"Category"}
+                  valueList={skills.map((item) => item.skillName)}
+                  placeholder={"Select category"}
                   register={register("category")}
-                  valueList={skills.map((skill) => skill.skillName)}
-                  placeholder="Select a category"
                   errors={errors.category}
+                  name={"category"}
+                  setValue={setValue}
+                  type={1}
                 />
-                <SelectField
+
+                <SelectCustom
                   label={"Estimated Project Size"}
                   register={register("estimate")}
                   valueList={costEstimate}
                   placeholder=" Select size of project "
                   errors={errors.estimate}
+                  setValue={setValue}
+                  name={"estimate"}
+                  type={1}
                 />
                 <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
                   <div className="font-medium xs:w-fit w-full">
@@ -329,7 +341,7 @@ const PortfolioEdit = () => {
                       {...register("description")}
                       placeholder="Tell a great story about this Portfolio Item."
                       maxLength={2000}
-                      className={`sm:min-w-[400px] custom-scrollbar-des lg:min-w-[600px] w-full pl-3 pr-8 py-2 bg-[#0000000d] rounded-3xl outline-none text-[#606060]`}
+                      className={`sm:min-w-[400px] custom-scrollbar-des lg:min-w-[600px] w-full pl-3 pr-8 py-2 bg-[#0000000d] min-h-[150px] rounded-3xl outline-none text-[#606060]`}
                     />
                     <div className="absolute right-0 bottom-0  m-2 text-gray-400 text-sm font-normal">
                       {watch("description") ? watch("description").length : 0}/
@@ -498,8 +510,7 @@ const PortfolioEdit = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 w-fit bg-[#848abd] text-white  flex justify-center items-center cursor-pointer border-2 border-[#848abd]
-               hover:bg-transparent hover:text-[#848abd]
+                className="px-4 py-2 w-fit bg-[#848abd] rounded-full text-white  flex justify-center items-center cursor-pointer border-2 border-[#848abd]
                disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSubmit(onSubmit)}
                 disabled={!isValid}

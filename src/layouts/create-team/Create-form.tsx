@@ -24,6 +24,7 @@ import { setTeam } from "@/redux/dashboardSlice";
 import { ICreateTeam, ITeam } from "@/type/team/team.type";
 import { ISkill } from "@/type/skill/skill.types";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import SelectCustom from "@/src/layouts/team/SelectCustom";
 const schema = yub.object().shape({
   teamName: yub
     .string()
@@ -103,14 +104,16 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "1.5rem",
-          text: "#606060 !important",
-          // border: "2px solid #ecedee",
-          background: "white",
+          border: "2px solid #ecedee",
+          backgroundColor: "white",
 
-          "&:hover": {
-            border: "none !important",
-            outline: "none !important",
+          "&.Mui-focused": {
+            borderColor: "#848Abd",
+            boxShadow: "0px 1px 2px 2px transparent",
           },
+        },
+        notchedOutline: {
+          border: "none",
         },
       },
     },
@@ -133,6 +136,7 @@ export const CreateForm = (props: IProps) => {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors, isDirty, isValid },
   } = useForm({ resolver: yupResolver(schema), mode: "all" });
   const dispatch = useAppDispatch();
@@ -253,6 +257,9 @@ export const CreateForm = (props: IProps) => {
   const to = Array.from(Array(new Date().getFullYear() + 1).keys());
   const founded = to.filter((i) => !from.includes(i));
 
+  useEffect(() => {
+    console.log(watch(), errors);
+  }, [watch()]);
   return (
     <ThemeProvider theme={theme}>
       <div className="font-jost">
@@ -314,89 +321,42 @@ export const CreateForm = (props: IProps) => {
                   )}
                 </div>
                 <div className="my-5">
-                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
-                    Time Zone
-                  </label>
-                  <div className="md:max-w-[200px] w-full border-2 border-[#ecedee] bg-white rounded-3xl px-3 py-2 outline-none focus-within:shadow-xl   focus-within:border-[#ecedee]">
-                    <select
-                      {...register("timeZone")}
-                      className="w-full outline-none"
-                      defaultValue={team.timeZone || ""}
-                    >
-                      <option value="" className="text-[#606060]">
-                        - Select a value -
-                      </option>
-                      {timeZone &&
-                        timeZone.map((cur, index) => (
-                          <option key={index} value={cur}>
-                            {cur}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                  {errors?.timeZone && (
-                    <div className="flex justify-left mt-1 text-sm ">
-                      <p className={"block  text-red-500 font-medium"}>
-                        {errors?.timeZone?.message}
-                      </p>
-                    </div>
-                  )}
+                  <SelectCustom
+                    label={"Time Zone"}
+                    register={register("timeZone")}
+                    valueList={timeZone}
+                    placeholder=" Select a value "
+                    errors={errors.timeZone}
+                    setValue={setValue}
+                    name={"timeZone"}
+                  />
                 </div>
 
                 <div className="mt-5 mb-5">
-                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
-                    Total Employees
-                  </label>
-                  <div className="md:max-w-[200px] w-full border-2 border-[#ecedee] bg-white rounded-3xl  px-3 py-2 outline-none focus-within:shadow-xl  focus-within:border-[#ecedee]">
-                    <select
-                      {...register("teamSize")}
-                      className="w-full hidden-arrow-input-number outline-none"
-                      defaultValue={team.teamSize || ""}
-                    >
-                      <option value="">- Select a value -</option>
-                      {selectRange.totalEmployee.map((cur, index) => (
-                        <option key={index} value={cur}>
-                          {cur}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {errors?.teamSize && (
-                    <div className="flex justify-left mt-1  text-sm ">
-                      <p className={" block text-red-500 font-medium"}>
-                        {errors?.teamSize?.message}
-                      </p>
-                    </div>
-                  )}
+                  <SelectCustom
+                    label={"Total Employees"}
+                    register={register("teamSize")}
+                    valueList={selectRange.totalEmployee}
+                    placeholder=" Select a value "
+                    errors={errors.teamSize}
+                    setValue={setValue}
+                    name={"teamSize"}
+                  />
                 </div>
                 <div className="my-5">
-                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
-                    Founding Year
-                  </label>
-                  <div className="md:max-w-[200px] w-full border-2 border-[#ecedee] bg-white rounded-3xl  px-3 py-2 outline-non focus-within:shadow-xl focus-within:border-[#ecedee]">
-                    <select
-                      {...register("founded")}
-                      className="w-full outline-none"
-                      defaultValue={team.founded || ""}
-                    >
-                      <option className="text-sm text-[#606060]" value="">
-                        - Select a value -
-                      </option>
-                      {founded &&
-                        founded.map((cur, index) => (
-                          <option className="text-sm" key={index} value={cur}>
-                            {cur}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                  {errors?.founded && (
-                    <div className="flex justify-left mt-1 text-sm ">
-                      <p className={"block  text-red-500 font-medium"}>
-                        {errors?.founded?.message}
-                      </p>
-                    </div>
-                  )}
+                  <SelectCustom
+                    label={"Founding year"}
+                    register={register("founded")}
+                    valueList={
+                      founded.map((item) =>
+                        item.toString()
+                      ) as unknown as string[]
+                    }
+                    placeholder=" Select founding year "
+                    errors={errors.founded}
+                    setValue={setValue}
+                    name={"founded"}
+                  />
                 </div>
 
                 <div className="my-5">

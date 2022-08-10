@@ -216,11 +216,11 @@ const Home: NextPage = () => {
                           in={show}
                           className={`${
                             show ? "absolute" : "hidden"
-                          } bg-white border-2 border-black max-h-[250px] w-full overflow-auto z-[100] custom-scrollbar shadow-lg !font-nunito`}
+                          } bg-white border-2 border-[#848ABD] rounded-xl max-h-[150px] w-full  overflow-auto z-[9999] custom-scrollbar shadow-lg !font-nunito `}
                           ref={subNodeRef as Ref<unknown>}
                         >
                           <h1
-                            className={`text-xs pl-2 px-1 text-[#08537e] mt-1 mb-1 ${
+                            className={`text-xs pl-2 px-1 text-[#848ABD] mt-1 mb-1 ${
                               SkillSelectIsLoaded && skillList?.length === 0
                                 ? "hidden"
                                 : "block"
@@ -229,7 +229,7 @@ const Home: NextPage = () => {
                             Popular Skill
                           </h1>
                           {SkillSelectIsLoaded && skillList?.length === 0 ? (
-                            <div className="text-[#08537e] text-sm pl-1 py-1 mb-1">
+                            <div className="text-[#848ABD] text-sm pl-1 py-1 mb-1">
                               No matching results
                             </div>
                           ) : (
@@ -242,6 +242,7 @@ const Home: NextPage = () => {
                                 setValue={() =>
                                   setValue("skill", item.skillName)
                                 }
+                                label={"skill"}
                                 setSearchText={setSearchText}
                               />
                             ))
@@ -265,7 +266,7 @@ const Home: NextPage = () => {
                     </select>
 
                     <button
-                      className="px-10 min-w-[150px] py-2 mr-2 bg-[#848abd] text-black mt-2 md:mt-0 rounded-3xl w-full font-nunito"
+                      className="px-10 min-w-[150px] py-2 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full font-nunito"
                       onClick={() => {
                         router.push(
                           `teams?skill=${watch("skill")}&timezone=${watch(
