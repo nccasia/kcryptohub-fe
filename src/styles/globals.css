@@ -100,3 +100,36 @@ a {
   z-index: 100;
   border-radius: 50%;
 }
+
+.MuiOutlinedInput-root {
+  border: none !important;
+}
+
+.MuiOutlinedInput-input {
+  padding: 0px;
+}
+
+.Mui-focused {
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+.MuiInputBase-root {
+  border-radius: 10px;
+}
+
+.MuiPopper-root {
+  background-color: #000000;
+}
+
+.MuiPopper-root::-webkit-scrollbar {
+  width: 2px;
+}
+
+.MuiOutlinedInput-root:hover {
+  border: none !important;
+}
+
+.Mui-focused-custom {
+  border: 2px solid #ecedee !important;
+}

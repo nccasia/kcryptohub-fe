@@ -10,6 +10,7 @@ export const InputSelect = ({
   type,
   itemString,
   label,
+  clearError,
 }: {
   item: ISkill;
   setShow: (selected: Boolean) => void;
@@ -19,6 +20,7 @@ export const InputSelect = ({
   type?: number;
   itemString?: string;
   label: string;
+  clearError?: (name: string) => void;
 }) => {
   return (
     <div className="z-[9999]">
@@ -28,7 +30,12 @@ export const InputSelect = ({
           setShow(false);
           if (type === 1) {
             setValue(label, itemString || "");
+            clearError ? clearError(label) : null;
           } else setValue(label, item.skillName);
+
+          if (setSearchText) {
+            setSearchText(" ");
+          }
         }}
       >
         {type === 1 && <label className={`cursor-pointer`}>{itemString}</label>}

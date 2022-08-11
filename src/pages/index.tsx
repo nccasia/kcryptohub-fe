@@ -208,7 +208,7 @@ const Home: NextPage = () => {
                                 setSkillList(skill);
                               }
                             }}
-                            className="absolute right-2 bottom-[8px] text-[#08537e] text-[20px]"
+                            className="absolute right-2 bottom-[8px] mb-[1px] text-[#08537e] text-[20px]"
                           />
                         )}
 

@@ -5,7 +5,7 @@ import { TimeZone } from "@/type/enum/TimeZone";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, Paper } from "@mui/material";
 import router from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -25,6 +25,8 @@ import { ICreateTeam, ITeam } from "@/type/team/team.type";
 import { ISkill } from "@/type/skill/skill.types";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SelectCustom from "@/src/layouts/team/SelectCustom";
+import MonthPicker from "@mui/x-date-pickers/MonthPicker";
+
 const schema = yub.object().shape({
   teamName: yub
     .string()
@@ -89,46 +91,110 @@ const selectRange = {
 };
 
 const theme = createTheme({
+  typography: {
+    fontFamily: "Nunito",
+  },
   components: {
-    // MuiAutocomplete: {
-    //   styleOverrides: {
-    //     root: {
-    //       "&:hover": {
-    //         background: "transparent",
-    //         border: "none !important",
-    //       },
-    //     },
-    //   },
-    // },
-    MuiOutlinedInput: {
+    MuiCssBaseline: {
       styleOverrides: {
-        root: {
-          borderRadius: "1.5rem",
-          border: "2px solid #ecedee",
-          backgroundColor: "white",
-
-          "&.Mui-focused": {
-            borderColor: "#848Abd",
-            boxShadow: "0px 1px 2px 2px transparent",
+        html: {
+          "&::-webkit-scrollbar": {
+            width: "2px !important",
           },
-        },
-        notchedOutline: {
-          border: "none",
+          "*::-webkit-scrollbar-track": {},
+          "*::-webkit-scrollbar-thumb": {},
+          "*::-webkit-scrollbar-thumb:hover": {},
         },
       },
     },
-    // MuiFormControl: {
-    //   styleOverrides: {
-    //     root: {
-    //       "&:hover": {
-    //         background: "transparent",
-    //         border: "none",
-    //       },
-    //     },
-    //   },
-    // },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "transparent",
+        },
+        notchedOutline: {
+          border: "none",
+          ":hover": {
+            borderColor: "transparent !important",
+          },
+        },
+      },
+    },
+
+    MuiInputBase: {
+      styleOverrides: {
+        root: {},
+      },
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: {
+          // ...
+        },
+        listbox: {
+          "&::-webkit-scrollbar": {
+            width: "3px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888",
+          },
+
+          "&::-webkit-scrollbar-track-piece:end": {
+            backgroundColor: "transparent",
+            marginBottom: "10px",
+          },
+
+          "&::-webkit-scrollbar-track-piece:start": {
+            backgroundColor: " transparent",
+            marginTop: "10px",
+          },
+        },
+        option: {
+          padding: "6px 14px",
+          backgroundColor: "transparent",
+          color: "#848ABD",
+          display: "flex",
+          borderRadius: "10px",
+
+          "&:hover": {
+            backgroundColor: "#606060 !important",
+            color: "white",
+            "& .Mui-Typography-root": { color: "white" },
+          },
+
+          "& .Mui-selected": {
+            backgroundColor: "#606060",
+            "& .Mui-Typography-root": { color: "white" },
+          },
+
+          "&.disabled": {
+            opacity: 0.5,
+            "& .Mui-Typography-root": {
+              color: "#848ABD",
+            },
+          },
+        },
+      },
+    },
   },
 });
+
+const CustomPaper = (props: any) => {
+  return (
+    <Paper
+      className="custom-scrollbar-des"
+      {...props}
+      sx={{
+        width: "100%",
+        borderRadius: "10px",
+        border: "1px solid #ecedee",
+      }}
+    />
+  );
+};
 
 export const CreateForm = (props: IProps) => {
   const {
@@ -137,6 +203,7 @@ export const CreateForm = (props: IProps) => {
     watch,
     reset,
     setValue,
+    clearErrors,
     formState: { errors, isDirty, isValid },
   } = useForm({ resolver: yupResolver(schema), mode: "all" });
   const dispatch = useAppDispatch();
@@ -329,6 +396,7 @@ export const CreateForm = (props: IProps) => {
                     errors={errors.timeZone}
                     setValue={setValue}
                     name={"timeZone"}
+                    clearError={clearErrors}
                   />
                 </div>
 
@@ -341,6 +409,7 @@ export const CreateForm = (props: IProps) => {
                     errors={errors.teamSize}
                     setValue={setValue}
                     name={"teamSize"}
+                    clearError={clearErrors}
                   />
                 </div>
                 <div className="my-5">
@@ -356,6 +425,7 @@ export const CreateForm = (props: IProps) => {
                     errors={errors.founded}
                     setValue={setValue}
                     name={"founded"}
+                    clearError={clearErrors}
                   />
                 </div>
 
@@ -488,12 +558,13 @@ export const CreateForm = (props: IProps) => {
                   multiple
                   options={handleAutocompleteOption()}
                   getOptionLabel={(option) => option.skillName}
+                  PaperComponent={CustomPaper}
                   value={dataSkill}
                   filterSelectedOptions
                   onChange={(e, value) => {
                     setData(value);
                   }}
-                  className="md:max-w-[400px] w-full custom-scrollbar"
+                  className="md:max-w-[400px] w-full bg-white mt-1 border-2 border-[#ecedee] focus:border-[#ecedee] rounded-3xl text-[#606060] Mui-focused-custom"
                   renderInput={(params) => (
                     <TextField
                       {...params}

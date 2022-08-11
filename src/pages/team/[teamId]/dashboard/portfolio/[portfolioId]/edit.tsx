@@ -118,6 +118,7 @@ const PortfolioEdit = () => {
     handleSubmit,
     setValue,
     watch,
+    clearErrors,
     reset,
     formState: { errors, isDirty, isValid },
   } = useForm({
@@ -262,6 +263,7 @@ const PortfolioEdit = () => {
                   register={register("category")}
                   errors={errors.category}
                   name={"category"}
+                  clearError={clearErrors}
                   setValue={setValue}
                   type={1}
                 />
@@ -272,6 +274,7 @@ const PortfolioEdit = () => {
                   valueList={costEstimate}
                   placeholder=" Select size of project "
                   errors={errors.estimate}
+                  clearError={clearErrors}
                   setValue={setValue}
                   name={"estimate"}
                   type={1}

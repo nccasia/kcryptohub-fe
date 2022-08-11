@@ -15,6 +15,7 @@ function SelectCustom({
   setValue,
   name,
   type,
+  clearError,
 }: {
   label: string;
   register: UseFormRegisterReturn;
@@ -25,12 +26,21 @@ function SelectCustom({
   setValue: (label: string, item: string) => void;
   name: string;
   type?: number;
+  clearError: (name: string) => void;
 }) {
   const [items, setItem] = useState(valueList);
 
   const [searchText, setSearchText] = useState("");
 
   const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
+
+  useEffect(() => {
+    register;
+  }, [register]);
+
+  useEffect(() => {
+    setItem(valueList);
+  }, [valueList]);
 
   const handleSearchItems = (event: FormEvent<HTMLInputElement>) => {
     setSearchText(event.currentTarget.value);
@@ -48,6 +58,7 @@ function SelectCustom({
       </label>
       <input
         readOnly={true}
+        type="text"
         className={`appearance-none xs:max-w-[350px] ${
           type === 1 ? "bg-[#ecedee]" : "bg-white"
         } text-[#606060] border-2 rounded-3xl mr-3 block w-full px-3 py-2 pr-8 border-solid placeholder-gray-500 focus:outline-none focus:border-[#848abd]  md:mt-0 mt-4 sm:text-sm placeholder:text-xs custom-scrollbar`}
@@ -68,9 +79,7 @@ function SelectCustom({
           {label}
         </label>
         {items?.length === 0 ? (
-          <div className="text-[#848ABD] text-sm pl-1 py-1 mb-1">
-            No matching results
-          </div>
+          <div className="text-[#848ABD] text-sm pl-1 py-1 mb-1">No Items</div>
         ) : (
           items?.map((item, index) => (
             <InputSelect
@@ -81,6 +90,7 @@ function SelectCustom({
               setValue={setValue}
               type={1}
               label={name}
+              clearError={clearError}
             />
           ))
         )}

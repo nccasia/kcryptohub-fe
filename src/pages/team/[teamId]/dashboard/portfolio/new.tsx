@@ -15,7 +15,7 @@ import {
   LockOutlined,
   PersonOutlineOutlined,
 } from "@mui/icons-material";
-import { Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -115,6 +115,7 @@ const NewPortfolio = () => {
     handleSubmit,
     watch,
     reset,
+    clearErrors,
     setValue,
     formState: { errors, isDirty, isValid },
   } = useForm({
@@ -234,6 +235,7 @@ const NewPortfolio = () => {
                   errors={errors.category}
                   name={"category"}
                   setValue={setValue}
+                  clearError={clearErrors}
                   type={1}
                 />
 
@@ -245,6 +247,7 @@ const NewPortfolio = () => {
                   errors={errors.estimate}
                   setValue={setValue}
                   name={"estimate"}
+                  clearError={clearErrors}
                   type={1}
                 />
 
@@ -258,11 +261,23 @@ const NewPortfolio = () => {
                       <span className="text-sm text-gray-300">optional</span>
                     </label>
                     <div className="xs:w-fit w-full flex flex-col relative">
-                      <input
+                      {/*   <input
                         id="startDate"
                         type="month"
                         {...register("startDate")}
                         className={` bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none `}
+                      />
+ */}
+
+                      <TextField
+                        id="startDate"
+                        type="month"
+                        className={` bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none MuiOutlinedInput-root .MuiOutlinedInput-input Mui-focused MuiInputBase-root`}
+                        sx={{ width: 250 }}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        {...register("startDate")}
                       />
                     </div>
                     {errors.startDate && (
@@ -286,7 +301,7 @@ const NewPortfolio = () => {
                         {...register("endDate")}
                         autoComplete="off"
                         placeholder={"MM/YYYY"}
-                        className={` bg-[#0000000d] text-[#606060] rounded-3xl mt-1 pl-3 pr-8 py-2 outline-none `}
+                        className={` bg-[#0000000d] text-[#606060] rounded-3xl mt-1 pl-3 pr-8 py-2 outline-none`}
                       />
                     </div>
                     {errors.endDate && (
