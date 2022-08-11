@@ -83,3 +83,7 @@ a {
 .Mui-selected {
   color: #848abd;
 }
+
+/* input[type="month"]{
+  border: 1px solid #848abd;
+} */

@@ -15,9 +15,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { IconMap } from "../IconSVG/IconMap";
 import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
+import JoinTeamModal from "./JoinTeamModal";
 
 const CardInfo = ({ editable }: { editable: boolean }) => {
   const [show, setShow] = useState(false);
@@ -27,6 +26,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
   const [hover3, setHover3] = useState(false);
   const [hover4, setHover4] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isShowModalMobile, setIsShowModalMobile] = useState(false);
 
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const userProfile = useAppSelector(getUserInfoSelector);
@@ -42,19 +42,24 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
   const handleRemoveFromShortList = () => {
     dispatch(removeFromShortList(teamProfile.id));
   };
-
   const handleShowModal = () => {
     setIsShowModal(true);
   };
   const handleCloseModal = () => {
     setIsShowModal(false);
   };
+  const handleShowModalMobile = () => {
+    setIsShowModalMobile(true);
+  };
+  const handleCloseModalMobile = () => {
+    setIsShowModalMobile(false);
+  };
 
   return (
     <div>
       <div
         className="hidden fixed w-[50px] flex top-0 right-4 float-right
-    md:block md:top-44 rounded-full z-[9999] font-nunito"
+    md:block md:top-44 rounded-full z-20 font-nunito"
       >
         <div
           className="mb-3 fixed w-[50px] flex right-4 float-right bg-white border border-[#848ABD] shadow-xl 
@@ -184,7 +189,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
             </div>
           </Link>
           <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center items-center cursor-pointer">
-            {userProfile.username ? (
+            {userProfile.username && !editable ? (
               <>
                 <div
                   className="w-full flex justify-center relative"
@@ -203,19 +208,10 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
                     Join Team
                   </div>
                 </div>
-                <Modal
-                  keepMounted
-                  open={isShowModal}
-                  onClose={handleCloseModal}
-                >
-                  <div className="absolute top-1/2 left-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2">
-                    <Typography>Text in a modal</Typography>
-                    <Typography>
-                      Duis mollis, est non commodo luctus, nisi erat porttitor
-                      ligula.
-                    </Typography>
-                  </div>
-                </Modal>
+                <JoinTeamModal
+                  isShowModal={isShowModal}
+                  handleCloseModal={handleCloseModal}
+                />
               </>
             ) : (
               <></>
@@ -304,12 +300,12 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
             </div>
           </div>
         </Link>
-        <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center w-1/4 items-center cursor-pointer border-x border-[#cae0e7] md:border-0">
-          {userProfile.username ? (
+        {userProfile.username && !editable ? (
+          <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center w-1/4 items-center cursor-pointer border-x border-[#cae0e7] md:border-0">
             <>
               <div
                 className="w-full flex justify-center relative "
-                onClick={handleShowModal}
+                onClick={handleShowModalMobile}
                 onMouseEnter={() => setHover4(true)}
                 onMouseLeave={() => {
                   setHover4(false);
@@ -318,20 +314,15 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
                 <GroupsIcon className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
               </div>
 
-              <Modal keepMounted open={isShowModal} onClose={handleCloseModal}>
-                <div className="absolute top-1/2 left-1/2 w-[400px] z-40 bg-white -translate-x-1/2 -translate-y-1/2">
-                  <Typography>Text in a modal</Typography>
-                  <Typography>
-                    Duis mollis, est non commodo luctus, nisi erat porttitor
-                    ligula.
-                  </Typography>
-                </div>
-              </Modal>
+              <JoinTeamModal
+                isShowModal={isShowModalMobile}
+                handleCloseModal={handleCloseModalMobile}
+              />
             </>
-          ) : (
-            <></>
-          )}
-        </div>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
