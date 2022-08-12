@@ -115,7 +115,7 @@ const schemaValidation = yup.object().shape({
             if (date.getTime() - new Date(ctx.parent.startDate).getTime() < 0) {
               return createError({
                 path,
-                message: `Please choose a date after ${ctx.parent.startDate}`,
+                message: `Please choose a date after ${ctx.parent.startDate.toDateString()}`,
               });
             } else {
               return true;
