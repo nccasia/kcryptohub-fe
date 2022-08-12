@@ -336,11 +336,11 @@ const PortfolioEdit = () => {
                         className={` bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none `}
                       />
  */}
-                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none">
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-6 py-1 mt-1 rounded-3xl outline-none">
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DesktopDatePicker
                               {...register("startDate")}
-                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
+                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root"
                               inputFormat="MM/dd/yyyy"
                               value={new Date(watch("startDate"))}
                               onChange={(e) => {
@@ -370,7 +370,7 @@ const PortfolioEdit = () => {
                         <span className="text-sm text-gray-300">optional</span>
                       </label>
                       <div className="xs:w-fit w-full flex flex-col relative">
-                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none Mui-focused ">
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-6 py-1 mt-1 rounded-3xl outline-none Mui-focused ">
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DesktopDatePicker
                               {...register("endDate")}

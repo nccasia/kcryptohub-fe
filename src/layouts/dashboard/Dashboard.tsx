@@ -80,7 +80,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     // <div className="bg-thirdary h-full">
     <Layout>
       <div className="px-4 py-2 bg-[#f9fafb] font-nunito ">
-        <div className=" py-2 container  w-full  ">
+        <div className="mx-auto py-2 container  w-4/5  ">
           <ul className="flex justify-start px-2 w-full mx-auto items-center gap-x-10  md:overflow-x-hidden overflow-x-scroll">
             {route.map((item, index) => {
               return (

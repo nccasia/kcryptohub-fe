@@ -292,7 +292,7 @@ const NewPortfolio = () => {
 
                 <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
                   <ThemeProvider theme={theme}>
-                    <div className="font-medium xs:w-fit w-full">
+                    <div className="font-medium xs:w-fit w-full mr-2">
                       <label
                         htmlFor="startDate"
                         className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
@@ -308,11 +308,11 @@ const NewPortfolio = () => {
                         className={` bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none `}
                       />
  */}
-                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none">
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-6 py-1 mt-1 rounded-3xl outline-none">
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DesktopDatePicker
                               {...register("startDate")}
-                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
+                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root"
                               inputFormat="MM/dd/yyyy"
                               value={new Date(watch("startDate"))}
                               onChange={(e) => {
@@ -342,7 +342,7 @@ const NewPortfolio = () => {
                         <span className="text-sm text-gray-300">optional</span>
                       </label>
                       <div className="xs:w-fit w-full flex flex-col relative">
-                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none Mui-focused ">
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-6 py-1 mt-1 rounded-3xl outline-none Mui-focused ">
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DesktopDatePicker
                               {...register("endDate")}

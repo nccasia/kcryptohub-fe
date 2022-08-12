@@ -102,8 +102,8 @@ const Dashboard = () => {
       <div className="w-full h-full font-nunito">
         <div className="container mx-auto pt-4">
           <div className="w-full">
-            <div className="grid grid-cols-12">
-              <div className="bg-white text-[#606060]  w-full md-2:col-span-3 col-span-12 m-3 rounded-3xl shadow-lg">
+            <div className="grid grid-cols-12 gap-2.5">
+              <div className="bg-white text-[#606060]  w-full md-2:col-span-3 col-span-12  rounded-3xl shadow-lg">
                 <div className="p-2">
                   <div className="h-[30px] w-[30px] relative inline-block float-left mr-2 ">
                     <Image
@@ -216,7 +216,7 @@ const Dashboard = () => {
                   </span>
                 </div>
               </div>
-              <div className="bg-white  text-[#606060] w-full md-2:col-span-6 col-span-12  m-3 border-x rounded-3xl shadow-lg">
+              <div className="bg-white  text-[#606060] w-full md-2:col-span-6 col-span-12  border-x rounded-3xl shadow-lg">
                 <div className="text-cyan-900 break-normal border-b p-4">
                   {team.skills &&
                     team.skills.map((skill, i) => (
@@ -316,7 +316,7 @@ const Dashboard = () => {
                     ))}
                 </div>
               </div>
-              <div className="bg-white  text-[#606060] w-full md-2:col-span-3 col-span-12 m-3 rounded-3xl shadow-lg">
+              <div className="bg-white  text-[#606060] w-full md-2:col-span-3 col-span-12  rounded-3xl shadow-lg">
                 <p className="p-3 break-words">
                   {team.description.length > 650
                     ? showAll
@@ -325,7 +325,7 @@ const Dashboard = () => {
                     : team.description}
                   {showAll ? (
                     <span
-                      className="text-cyan-600 cursor-pointer ml-2"
+                      className="text-[#606060] hover:underline cursor-pointer ml-2"
                       onClick={() => setShowAll(false)}
                     >
                       Less
@@ -334,7 +334,7 @@ const Dashboard = () => {
                     <>
                       {team.description.length > 650 && (
                         <span
-                          className="text-[#606060] cursor-pointer"
+                          className="text-[#606060] hover:underline cursor-pointer"
                           onClick={() => setShowAll(true)}
                         >
                           More
