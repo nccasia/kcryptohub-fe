@@ -53,14 +53,6 @@ const theme = createTheme({
         },
       },
     },
-    MuiButtonBase: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "black",
-        },
-      },
-    },
-
     MuiInputBase: {
       styleOverrides: {
         root: {},
@@ -226,99 +218,98 @@ const NewPortfolio = () => {
 
   return (
     <ManagePortfolio>
-      <ThemeProvider theme={theme}>
-        <div className="font-jost">
-          <div className="lg:border-b-0 border-b mb-2 pb-2">
-            <h1 className="text-3xl">Add a New Portfolio Item</h1>
-            <Typography className="text-xl my-3">
-              Share your latest exciting work.
-            </Typography>
-          </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="font-jost">
+        <div className="lg:border-b-0 border-b mb-2 pb-2">
+          <h1 className="text-3xl">Add a New Portfolio Item</h1>
+          <Typography className="text-xl my-3">
+            Share your latest exciting work.
+          </Typography>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="">
             <div className="">
-              <div className="">
-                <div className="border-b flex items-center font-medium text-lg">
-                  <PersonOutlineOutlined className="font-sm mr-2" />
-                  <span>Client Details</span>
-                </div>
-                <div className="my-2 pl-4">
-                  <InputFieldCol
-                    label={"Client Team"}
-                    register={register("companyName")}
-                    errors={errors.companyName}
-                    placeholder="Team name"
-                    watch={watch("companyName")}
-                    maxLength={50}
-                  />
-                  <InputFieldCol
-                    label={"Client Website"}
-                    register={register("clientWebsite")}
-                    errors={errors.clientWebsite}
-                    placeholder="https://www.example.com"
-                    watch={watch("clientWebsite")}
-                    maxLength={200}
-                  />
-                </div>
+              <div className="border-b flex items-center font-medium text-lg">
+                <PersonOutlineOutlined className="font-sm mr-2" />
+                <span>Client Details</span>
               </div>
-              <div className="">
-                <div className="border-b flex items-center font-medium text-lg">
-                  <DesktopWindowsOutlined className="font-sm mr-2" />
-                  <span>Portfolio Item Details</span>
-                </div>
-                <div className="my-2 pl-4">
-                  <InputFieldCol
-                    label={"Title"}
-                    register={register("title")}
-                    errors={errors.title}
-                    placeholder="Enter a Title for this Portfolio Item"
-                    watch={watch("title")}
-                    maxLength={50}
-                  />
+              <div className="my-2 pl-4">
+                <InputFieldCol
+                  label={"Client Team"}
+                  register={register("companyName")}
+                  errors={errors.companyName}
+                  placeholder="Team name"
+                  watch={watch("companyName")}
+                  maxLength={50}
+                />
+                <InputFieldCol
+                  label={"Client Website"}
+                  register={register("clientWebsite")}
+                  errors={errors.clientWebsite}
+                  placeholder="https://www.example.com"
+                  watch={watch("clientWebsite")}
+                  maxLength={200}
+                />
+              </div>
+            </div>
+            <div className="">
+              <div className="border-b flex items-center font-medium text-lg">
+                <DesktopWindowsOutlined className="font-sm mr-2" />
+                <span>Portfolio Item Details</span>
+              </div>
+              <div className="my-2 pl-4">
+                <InputFieldCol
+                  label={"Title"}
+                  register={register("title")}
+                  errors={errors.title}
+                  placeholder="Enter a Title for this Portfolio Item"
+                  watch={watch("title")}
+                  maxLength={50}
+                />
 
-                  <SelectCustom
-                    label={"Category"}
-                    valueList={skills.map((item) => item.skillName)}
-                    placeholder={"Select category"}
-                    register={register("category")}
-                    errors={errors.category}
-                    name={"category"}
-                    setValue={setValue}
-                    clearError={clearErrors}
-                    type={1}
-                  />
+                <SelectCustom
+                  label={"Category"}
+                  valueList={skills.map((item) => item.skillName)}
+                  placeholder={"Select category"}
+                  register={register("category")}
+                  errors={errors.category}
+                  name={"category"}
+                  setValue={setValue}
+                  clearError={clearErrors}
+                  type={1}
+                />
 
-                  <SelectCustom
-                    label={"Estimated Project Size"}
-                    register={register("estimate")}
-                    valueList={costEstimate}
-                    placeholder=" Select size of project "
-                    errors={errors.estimate}
-                    setValue={setValue}
-                    name={"estimate"}
-                    clearError={clearErrors}
-                    type={1}
-                  />
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
-                      <div className="font-medium xs:w-fit w-full">
-                        <label
-                          htmlFor="startDate"
-                          className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
-                        >
-                          Start Date
-                          <span className="text-sm text-gray-300">
-                            optional
-                          </span>
-                        </label>
-                        <div className="xs:w-fit w-full flex flex-col relative">
-                          {/*   <input
+                <SelectCustom
+                  label={"Estimated Project Size"}
+                  register={register("estimate")}
+                  valueList={costEstimate}
+                  placeholder=" Select size of project "
+                  errors={errors.estimate}
+                  setValue={setValue}
+                  name={"estimate"}
+                  clearError={clearErrors}
+                  type={1}
+                />
+
+                <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
+                  <ThemeProvider theme={theme}>
+                    <div className="font-medium xs:w-fit w-full">
+                      <label
+                        htmlFor="startDate"
+                        className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
+                      >
+                        Start Date
+                        <span className="text-sm text-gray-300">optional</span>
+                      </label>
+                      <div className="xs:w-fit w-full flex flex-col relative">
+                        {/*   <input
                         id="startDate"
                         type="month"
                         {...register("startDate")}
                         className={` bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none `}
                       />
  */}
-                          <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none Mui-focused ">
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none">
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DesktopDatePicker
                               {...register("startDate")}
                               className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
@@ -333,26 +324,26 @@ const NewPortfolio = () => {
                                 <TextField {...params} />
                               )}
                             />
-                          </div>
-                          {errors.startDate && (
-                            <span className="text-red-500 text-left text-sm font-normal mt-1">
-                              {errors.startDate?.message}
-                            </span>
-                          )}
+                          </LocalizationProvider>
                         </div>
-                      </div>
-                      <div className="font-medium xs:w-fit w-full">
-                        <label
-                          htmlFor="endDate"
-                          className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
-                        >
-                          End Date
-                          <span className="text-sm text-gray-300">
-                            optional
+                        {errors.startDate && (
+                          <span className="text-red-500 text-left text-sm font-normal mt-1">
+                            {errors.startDate?.message}
                           </span>
-                        </label>
-                        <div className="xs:w-fit w-full flex flex-col relative">
-                          <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none Mui-focused ">
+                        )}
+                      </div>
+                    </div>
+                    <div className="font-medium xs:w-fit w-full">
+                      <label
+                        htmlFor="endDate"
+                        className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
+                      >
+                        End Date
+                        <span className="text-sm text-gray-300">optional</span>
+                      </label>
+                      <div className="xs:w-fit w-full flex flex-col relative">
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none Mui-focused ">
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DesktopDatePicker
                               {...register("endDate")}
                               className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
@@ -367,214 +358,210 @@ const NewPortfolio = () => {
                                 <TextField {...params} />
                               )}
                             />
-                          </div>
-                          {errors.endDate && (
-                            <span className="text-red-500 text-left text-sm font-normal mt-1">
-                              {errors.endDate?.message}
-                            </span>
-                          )}
+                          </LocalizationProvider>
                         </div>
+                        {errors.endDate && (
+                          <span className="text-red-500 text-left text-sm font-normal mt-1">
+                            {errors.endDate?.message}
+                          </span>
+                        )}
                       </div>
                     </div>
-                  </LocalizationProvider>
+                  </ThemeProvider>
+                </div>
 
-                  <div className="items-center my-4 font-medium">
-                    <label
-                      htmlFor="descripton"
-                      className="text-primary min-w-[130px] block py-2 md:py-0"
-                    >
-                      Descripton
-                    </label>
-                    <div className="xs:w-fit w-full flex items-center justify-center flex-col relative">
-                      <textarea
-                        id="descripton"
-                        {...register("description")}
-                        placeholder="Tell a great story about this Portfolio Item."
-                        maxLength={2000}
-                        className={`xs:min-w-[400px] custom-scrollbar-des lg:min-w-[600px] text-[#606060] w-full h-[100px] pl-5 pr-8 py-3 bg-[#0000000d] rounded-3xl outline-none`}
-                      />
-                      <div className="absolute right-0 bottom-0  m-2 text-gray-400 text-sm font-normal">
-                        {watch("description") ? watch("description").length : 0}
-                        /{2000}
-                      </div>
-                    </div>
-                    {errors.description && (
-                      <span className="text-red-500 text-left text-sm font-normal mt-1">
-                        {errors.description?.message}
-                      </span>
-                    )}
-                  </div>
-                  <div className="items-center my-4 font-medium">
-                    <label
-                      htmlFor="endDate"
-                      className="text-primary xs:min-w-[130px] max-w-[300px] flex justify-between items-center py-2 md:py-0"
-                    >
-                      Add a Video Link or Image
-                      <span className="text-sm text-gray-300">optional</span>
-                    </label>
-                    <div className="">
-                      <div className="">
-                        <input
-                          id="videoLinkField"
-                          type="radio"
-                          name="media"
-                          className="peer"
-                        />
-                        <label htmlFor="videoLinkField" className="pl-1">
-                          Video Link
-                        </label>
-                        <div className="xs:w-fit w-full hidden flex-col relative peer-checked:flex">
-                          <input
-                            id="videoLink"
-                            {...register("videoLink")}
-                            maxLength={300}
-                            className={`sm:min-w-[400px] lg:min-w-[600px] w-full  pl-3 pr-8 py-2 outline-none peer bg-[#0000000d] rounded-3xl outline-none text-[#606060] `}
-                          />
-                          <div className="absolute right-0 h-full p-2 flex items-center justify-center text-gray-400 text-sm font-normal">
-                            {watch("videoLink") ? watch("videoLink").length : 0}
-                            /{200}
-                          </div>
-                          {errors.videoLink && (
-                            <span className="text-red-500 text-left text-sm font-normal mt-1">
-                              {errors.videoLink?.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="">
-                        <input
-                          id="imageField"
-                          type="radio"
-                          name="media"
-                          className="peer"
-                        />
-                        <label htmlFor="imageField" className="pl-1">
-                          Image
-                        </label>
-                        <div className="hidden items-center font-normal justify-between peer-checked:flex">
-                          <UploadImage
-                            createObjectURL={imageUrl}
-                            uploadToClient={handleFileChange}
-                            setCreateObjectURL={setImageUrl}
-                            setImage={setImage}
-                          />
-                        </div>
-                      </div>
+                <div className="items-center my-4 font-medium">
+                  <label
+                    htmlFor="descripton"
+                    className="text-primary min-w-[130px] block py-2 md:py-0"
+                  >
+                    Descripton
+                  </label>
+                  <div className="xs:w-fit w-full flex items-center justify-center flex-col relative">
+                    <textarea
+                      id="descripton"
+                      {...register("description")}
+                      placeholder="Tell a great story about this Portfolio Item."
+                      maxLength={2000}
+                      className={`xs:min-w-[400px] custom-scrollbar-des lg:min-w-[600px] text-[#606060] w-full h-[100px] pl-5 pr-8 py-3 bg-[#0000000d] rounded-3xl outline-none`}
+                    />
+                    <div className="absolute right-0 bottom-0  m-2 text-gray-400 text-sm font-normal">
+                      {watch("description") ? watch("description").length : 0}/
+                      {2000}
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="border-b pb-4">
-                <div className="border-b flex items-center font-medium text-lg">
-                  <LockOutlined className="font-sm mr-2" />
-                  <span>Privacy Settings</span>
-                </div>
-                <div className="px-4 py-2">
-                  <div className="">
-                    <input
-                      type="radio"
-                      value={1}
-                      id="showall"
-                      className="cursor-pointer"
-                      {...register("privacy")}
-                    />
-                    <label htmlFor="showall" className="pl-1 cursor-pointer">
-                      Show All
-                    </label>
-                    <p className="pl-4 text-sm text-gray-500">
-                      All of the above content will be displayed on your
-                      profile.
-                      <br></br>
-                      <em>
-                        Currently, we will only show portfolio items with images
-                      </em>
-                    </p>
-                  </div>
-                </div>
-                <div className="px-4 py-2">
-                  <div className="">
-                    <input
-                      type="radio"
-                      value={2}
-                      id="confidential"
-                      className="cursor-pointer"
-                      {...register("privacy")}
-                    />
-                    <label
-                      htmlFor="confidential"
-                      className="pl-1 cursor-pointer"
-                    >
-                      Confidential
-                    </label>
-                    <div className="pl-4 text-sm text-gray-500">
-                      <span>
-                        Only the following details for this Portfolio Item will
-                        be displayed on your Profile:
-                      </span>
-                      <ul className="list-disc pl-8 pb-4">
-                        <li>Title</li>
-                        <li>Description</li>
-                        <li>Category</li>
-                        <li>Image or Video Link</li>
-                      </ul>
-                      <span>
-                        This is ideal for projects where you are not able to
-                        showcase client details.
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="px-4 py-2">
-                  <div className="">
-                    <input
-                      type="radio"
-                      value={3}
-                      id="hidden"
-                      className="cursor-pointer"
-                      {...register("privacy")}
-                    />
-                    <label htmlFor="hidden" className="pl-1 cursor-pointer">
-                      Hidden
-                    </label>
-                    <p className="pl-4 text-sm text-gray-500">
-                      This Portfolio Item will be kept safe and hidden from
-                      prying eyes until you’re ready to share it.
-                    </p>
-                  </div>
-                </div>
-                <div className="px-4">
-                  {errors.privacy && (
+                  {errors.description && (
                     <span className="text-red-500 text-left text-sm font-normal mt-1">
-                      {errors.privacy?.message}
+                      {errors.description?.message}
                     </span>
                   )}
                 </div>
-              </div>
-              <div className="flex xxs:flex-row flex-col-reverse items-center justify-end p-4">
-                <button
-                  className="bg-white px-16 py-3 hover:text-[#848abd] "
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleCancel();
-                  }}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 w-fit bg-[#848abd] text-white  flex justify-center items-center cursor-pointer border-2 border-[#848abd]
-               hover:bg-transparent hover:text-[#848abd] rounded-3xl
-               disabled:opacity-50 disabled:cursor-not-allowed"
-                  onClick={handleSubmit(onSubmit)}
-                  disabled={!isValid}
-                >
-                  Add Portfolio Item
-                </button>
+                <div className="items-center my-4 font-medium">
+                  <label
+                    htmlFor="endDate"
+                    className="text-primary xs:min-w-[130px] max-w-[300px] flex justify-between items-center py-2 md:py-0"
+                  >
+                    Add a Video Link or Image
+                    <span className="text-sm text-gray-300">optional</span>
+                  </label>
+                  <div className="">
+                    <div className="">
+                      <input
+                        id="videoLinkField"
+                        type="radio"
+                        name="media"
+                        className="peer"
+                      />
+                      <label htmlFor="videoLinkField" className="pl-1">
+                        Video Link
+                      </label>
+                      <div className="xs:w-fit w-full hidden flex-col relative peer-checked:flex">
+                        <input
+                          id="videoLink"
+                          {...register("videoLink")}
+                          maxLength={300}
+                          className={`sm:min-w-[400px] lg:min-w-[600px] w-full  pl-3 pr-8 py-2 outline-none peer bg-[#0000000d] rounded-3xl outline-none text-[#606060] `}
+                        />
+                        <div className="absolute right-0 h-full p-2 flex items-center justify-center text-gray-400 text-sm font-normal">
+                          {watch("videoLink") ? watch("videoLink").length : 0}/
+                          {200}
+                        </div>
+                        {errors.videoLink && (
+                          <span className="text-red-500 text-left text-sm font-normal mt-1">
+                            {errors.videoLink?.message}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="">
+                      <input
+                        id="imageField"
+                        type="radio"
+                        name="media"
+                        className="peer"
+                      />
+                      <label htmlFor="imageField" className="pl-1">
+                        Image
+                      </label>
+                      <div className="hidden items-center font-normal justify-between peer-checked:flex">
+                        <UploadImage
+                          createObjectURL={imageUrl}
+                          uploadToClient={handleFileChange}
+                          setCreateObjectURL={setImageUrl}
+                          setImage={setImage}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </form>
-        </div>
-      </ThemeProvider>
+            <div className="border-b pb-4">
+              <div className="border-b flex items-center font-medium text-lg">
+                <LockOutlined className="font-sm mr-2" />
+                <span>Privacy Settings</span>
+              </div>
+              <div className="px-4 py-2">
+                <div className="">
+                  <input
+                    type="radio"
+                    value={1}
+                    id="showall"
+                    className="cursor-pointer"
+                    {...register("privacy")}
+                  />
+                  <label htmlFor="showall" className="pl-1 cursor-pointer">
+                    Show All
+                  </label>
+                  <p className="pl-4 text-sm text-gray-500">
+                    All of the above content will be displayed on your profile.
+                    <br></br>
+                    <em>
+                      Currently, we will only show portfolio items with images
+                    </em>
+                  </p>
+                </div>
+              </div>
+              <div className="px-4 py-2">
+                <div className="">
+                  <input
+                    type="radio"
+                    value={2}
+                    id="confidential"
+                    className="cursor-pointer"
+                    {...register("privacy")}
+                  />
+                  <label htmlFor="confidential" className="pl-1 cursor-pointer">
+                    Confidential
+                  </label>
+                  <div className="pl-4 text-sm text-gray-500">
+                    <span>
+                      Only the following details for this Portfolio Item will be
+                      displayed on your Profile:
+                    </span>
+                    <ul className="list-disc pl-8 pb-4">
+                      <li>Title</li>
+                      <li>Description</li>
+                      <li>Category</li>
+                      <li>Image or Video Link</li>
+                    </ul>
+                    <span>
+                      This is ideal for projects where you are not able to
+                      showcase client details.
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="px-4 py-2">
+                <div className="">
+                  <input
+                    type="radio"
+                    value={3}
+                    id="hidden"
+                    className="cursor-pointer"
+                    {...register("privacy")}
+                  />
+                  <label htmlFor="hidden" className="pl-1 cursor-pointer">
+                    Hidden
+                  </label>
+                  <p className="pl-4 text-sm text-gray-500">
+                    This Portfolio Item will be kept safe and hidden from prying
+                    eyes until you’re ready to share it.
+                  </p>
+                </div>
+              </div>
+              <div className="px-4">
+                {errors.privacy && (
+                  <span className="text-red-500 text-left text-sm font-normal mt-1">
+                    {errors.privacy?.message}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="flex xxs:flex-row flex-col-reverse items-center justify-end p-4">
+              <button
+                className="bg-white px-16 py-3 hover:text-[#848abd] "
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCancel();
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 w-fit bg-[#848abd] text-white  flex justify-center items-center cursor-pointer border-2 border-[#848abd]
+               hover:bg-transparent hover:text-[#848abd] rounded-3xl
+               disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={handleSubmit(onSubmit)}
+                disabled={!isValid}
+              >
+                Add Portfolio Item
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </ManagePortfolio>
   );
 };

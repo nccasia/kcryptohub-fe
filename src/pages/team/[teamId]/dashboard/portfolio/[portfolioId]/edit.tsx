@@ -20,8 +20,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as yup from "yup";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { createTheme } from "@mui/material/styles";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -51,13 +51,6 @@ const theme = createTheme({
           ":hover": {
             borderColor: "transparent !important",
           },
-        },
-      },
-    },
-    MuiButtonBase: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "black",
         },
       },
     },
@@ -325,8 +318,8 @@ const PortfolioEdit = () => {
                   name={"estimate"}
                   type={1}
                 />
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
+                <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
+                  <ThemeProvider theme={theme}>
                     <div className="font-medium xs:w-fit w-full">
                       <label
                         htmlFor="startDate"
@@ -343,25 +336,23 @@ const PortfolioEdit = () => {
                         className={` bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none `}
                       />
  */}
-                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none Mui-focused ">
-                          <DesktopDatePicker
-                            {...register("startDate")}
-                            className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
-                            inputFormat="MM/dd/yyyy"
-                            value={
-                              new Date(
-                                watch("startDate") === null
-                                  ? ""
-                                  : watch("startDate")
-                              )
-                            }
-                            onChange={(e) => {
-                              setValue("startDate", e?.toDateString(), {
-                                shouldValidate: true,
-                              });
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none">
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DesktopDatePicker
+                              {...register("startDate")}
+                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
+                              inputFormat="MM/dd/yyyy"
+                              value={new Date(watch("startDate"))}
+                              onChange={(e) => {
+                                setValue("startDate", e?.toDateString(), {
+                                  shouldValidate: true,
+                                });
+                              }}
+                              renderInput={(params) => (
+                                <TextField {...params} />
+                              )}
+                            />
+                          </LocalizationProvider>
                         </div>
                         {errors.startDate && (
                           <span className="text-red-500 text-left text-sm font-normal mt-1">
@@ -380,24 +371,22 @@ const PortfolioEdit = () => {
                       </label>
                       <div className="xs:w-fit w-full flex flex-col relative">
                         <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none Mui-focused ">
-                          <DesktopDatePicker
-                            {...register("endDate")}
-                            className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
-                            inputFormat="MM/dd/yyyy"
-                            value={
-                              new Date(
-                                watch("endDate") === null
-                                  ? ""
-                                  : watch("endDate")
-                              )
-                            }
-                            onChange={(e) => {
-                              setValue("endDate", e?.toDateString(), {
-                                shouldValidate: true,
-                              });
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                          />
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DesktopDatePicker
+                              {...register("endDate")}
+                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
+                              inputFormat="MM/dd/yyyy"
+                              value={new Date(watch("endDate"))}
+                              onChange={(e) => {
+                                setValue("endDate", e?.toDateString(), {
+                                  shouldValidate: true,
+                                });
+                              }}
+                              renderInput={(params) => (
+                                <TextField {...params} />
+                              )}
+                            />
+                          </LocalizationProvider>
                         </div>
                         {errors.endDate && (
                           <span className="text-red-500 text-left text-sm font-normal mt-1">
@@ -406,8 +395,8 @@ const PortfolioEdit = () => {
                         )}
                       </div>
                     </div>
-                  </div>
-                </LocalizationProvider>
+                  </ThemeProvider>
+                </div>
                 <div className="items-center my-4 font-medium">
                   <label
                     htmlFor="descripton"
