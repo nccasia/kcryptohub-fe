@@ -1,13 +1,11 @@
 import { PortfolioApi } from "@/api/portfolio-api";
 import { teamApi } from "@/api/team-api";
 import { InputFieldCol } from "@/components/portfolio/InputFieldCol";
-import { SelectField } from "@/components/portfolio/SelectField";
 import { setTeam } from "@/redux/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { UploadImage } from "@/src/layouts/create-team/UploadImage";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
-import { InputSelect } from "@/src/layouts/team/InputSelect";
 import SelectCustom from "@/src/layouts/team/SelectCustom";
 import { IPortfolio } from "@/type/team/team.type";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,13 +14,61 @@ import {
   LockOutlined,
   PersonOutlineOutlined,
 } from "@mui/icons-material";
-import { Collapse, Typography } from "@mui/material";
-import { useOutsideClick } from "hook/OuterClick";
+import { TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { FormEvent, LegacyRef, Ref, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as yup from "yup";
+
+import { createTheme } from "@mui/material/styles";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "Nunito",
+  },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: "20px",
+          transform: "translateX(10%) !important",
+          border: "2px solid #848abd",
+          color: "#848abd",
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "transparent",
+        },
+        notchedOutline: {
+          border: "none",
+          ":hover": {
+            borderColor: "transparent !important",
+          },
+        },
+      },
+    },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "black",
+        },
+      },
+    },
+
+    MuiInputBase: {
+      styleOverrides: {
+        root: {},
+      },
+    },
+  },
+});
 
 const schemaValidation = yup.object().shape({
   companyName: yup.string().required("Company name is required"),
@@ -279,58 +325,89 @@ const PortfolioEdit = () => {
                   name={"estimate"}
                   type={1}
                 />
-                <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
-                  <div className="font-medium xs:w-fit w-full">
-                    <label
-                      htmlFor="startDate"
-                      className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
-                    >
-                      Start Date
-                      <span className="text-sm text-gray-300">optional</span>
-                    </label>
-                    <div className="xs:w-fit w-full flex flex-col relative">
-                      <input
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
+                    <div className="font-medium xs:w-fit w-full">
+                      <label
+                        htmlFor="startDate"
+                        className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
+                      >
+                        Start Date
+                        <span className="text-sm text-gray-300">optional</span>
+                      </label>
+                      <div className="xs:w-fit w-full flex flex-col relative">
+                        {/*   <input
                         id="startDate"
                         type="month"
                         {...register("startDate")}
-                        className={` pl-3 pr-8 py-2 bg-[#0000000d] rounded-3xl outline-none text-[#606060] ${
-                          errors.startDate && "bg-red-200"
-                        }`}
+                        className={` bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none `}
                       />
+ */}
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none Mui-focused ">
+                          <DesktopDatePicker
+                            {...register("startDate")}
+                            className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
+                            inputFormat="MM/dd/yyyy"
+                            value={
+                              new Date(
+                                watch("startDate") === null
+                                  ? ""
+                                  : watch("startDate")
+                              )
+                            }
+                            onChange={(e) => {
+                              setValue("startDate", e?.toDateString(), {
+                                shouldValidate: true,
+                              });
+                            }}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </div>
+                        {errors.startDate && (
+                          <span className="text-red-500 text-left text-sm font-normal mt-1">
+                            {errors.startDate?.message}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    {errors.startDate && (
-                      <span className="text-red-500 text-left text-sm font-normal mt-1">
-                        {errors.startDate?.message}
-                      </span>
-                    )}
-                  </div>
-                  <div className="font-medium xs:w-fit w-full">
-                    <label
-                      htmlFor="endDate"
-                      className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
-                    >
-                      End Date
-                      <span className="text-sm text-gray-300">optional</span>
-                    </label>
-                    <div className="xs:w-fit w-full flex flex-col relative">
-                      <input
-                        id="endDate"
-                        type="month"
-                        {...register("endDate")}
-                        autoComplete="off"
-                        placeholder={"MM/YYYY"}
-                        className={` pl-3 pr-8 py-2 bg-[#0000000d] rounded-3xl outline-none text-[#606060] ${
-                          errors.endDate && "bg-red-200"
-                        }`}
-                      />
+                    <div className="font-medium xs:w-fit w-full">
+                      <label
+                        htmlFor="endDate"
+                        className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
+                      >
+                        End Date
+                        <span className="text-sm text-gray-300">optional</span>
+                      </label>
+                      <div className="xs:w-fit w-full flex flex-col relative">
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none Mui-focused ">
+                          <DesktopDatePicker
+                            {...register("endDate")}
+                            className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
+                            inputFormat="MM/dd/yyyy"
+                            value={
+                              new Date(
+                                watch("endDate") === null
+                                  ? ""
+                                  : watch("endDate")
+                              )
+                            }
+                            onChange={(e) => {
+                              setValue("endDate", e?.toDateString(), {
+                                shouldValidate: true,
+                              });
+                            }}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </div>
+                        {errors.endDate && (
+                          <span className="text-red-500 text-left text-sm font-normal mt-1">
+                            {errors.endDate?.message}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    {errors.endDate && (
-                      <span className="text-red-500 text-left text-sm font-normal mt-1">
-                        {errors.endDate?.message}
-                      </span>
-                    )}
                   </div>
-                </div>
+                </LocalizationProvider>
                 <div className="items-center my-4 font-medium">
                   <label
                     htmlFor="descripton"

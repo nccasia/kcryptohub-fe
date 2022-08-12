@@ -258,7 +258,7 @@ export const TeamCard = (props: Props) => {
                         className="inline-block p-1 pt-3 font-nunito"
                       >
                         <span
-                          className={`px-2 py-1 block rounded-2xl  md:max-w-[175px] max-w-[140px] hover:max-w-none hover:scale-110 cursor-default truncate  ${
+                          className={`px-2 py-1 block rounded-2xl  md:max-w-[175px] max-w-[140px] md:hover:max-w-[500px] hover:max-h-[50px] hover:scale-110 cursor-default truncate  ${
                             skillColor[
                               skill.id
                                 ? skill.id % skillColor.length

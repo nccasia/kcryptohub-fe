@@ -21,6 +21,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { InputSelect } from "../layouts/team/InputSelect";
 import SettingsIcon from "@mui/icons-material/Settings";
 import useWindowSize from "../layouts/Header";
+import { ISkill } from "@/type/skill/skill.types";
+import SelectCustom from "@/src/layouts/team/SelectCustom";
+
 const schema = yub.object().shape({
   skill: yub.string(),
   timeZone: yub.string(),
@@ -122,6 +125,7 @@ const Home: NextPage = () => {
     watch,
     setValue,
     resetField,
+    clearErrors,
     formState: { errors, isDirty, isValid },
   } = useForm({ resolver: yupResolver(schema), mode: "all" });
 
@@ -135,6 +139,8 @@ const Home: NextPage = () => {
   const [searchText, setSearchText] = React.useState("");
 
   const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
+
+  const [showTimeZone, setShowTimeZone] = React.useState(false);
 
   React.useEffect(() => {
     if (SkillSelectIsLoaded) {
@@ -156,13 +162,14 @@ const Home: NextPage = () => {
     <Layout>
       <header
         className="absolute bg-[#e6e6e6] top-0 left-0 right-0 bottom-0 overflow-hidden bg-center bg-cover w-full h-screen "
+
         // style={{
         //   backgroundImage:
         //     "url('https://mdbcdn.b-cdn.net/img/new/slides/146.webp')",
         // }}
       >
         <div className="relative top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed  font-nunito">
-          <div className="inline-block mt-20 xxs:flex xxs:justify-center xxs:flex-col  h-full transition animate-slide-in-up">
+          <div className="inline-block mt-20 xxs:flex xxs:justify-center xxs:flex-col  h-full transition animate-slide-in-up z-[1000]">
             <div className="text-center text-black px-6 mt-16 md:px-12">
               <h1 className="text-xl md:text-4xl font-semibold mt-6 mb-3 cursor-pointer hover:underline">
                 <a href="https://kryptohub.co/">
@@ -180,7 +187,7 @@ const Home: NextPage = () => {
                   Choose the best-fit company for your business using 98,000+
                   client reviews from real people.
                 </h2>
-                <div className="flex lg:flex-row flex-col items-start lg:items-center">
+                <div className="flex lg:flex-row flex-col items-start lg:items-center ">
                   <h2 className="text-black mr-3 min-w-[115px]">
                     I am looking for
                   </h2>
@@ -216,7 +223,7 @@ const Home: NextPage = () => {
                           in={show}
                           className={`${
                             show ? "absolute" : "hidden"
-                          } bg-white border-2 border-[#848ABD] rounded-xl max-h-[150px] w-full  overflow-auto z-[9999] custom-scrollbar shadow-lg !font-nunito `}
+                          } bg-white rounded-xl max-h-[150px] w-full  overflow-auto z-[1000] custom-scrollbar shadow-lg !font-nunito `}
                           ref={subNodeRef as Ref<unknown>}
                         >
                           <h1
@@ -253,7 +260,7 @@ const Home: NextPage = () => {
                     <h2 className="text-black mx-3 md:flex items-center hidden ">
                       in
                     </h2>
-                    <select
+                    {/* <select
                       className="appearance-none mr-3 min-w-[190px] font-nunito bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-10 sm:text-sm"
                       {...register("timeZone")}
                     >
@@ -263,8 +270,17 @@ const Home: NextPage = () => {
                           {cur}
                         </option>
                       ))}
-                    </select>
-
+                    </select> */}
+                    <SelectCustom
+                      label={""}
+                      register={register("timeZone")}
+                      valueList={Object.values(TimeZone)}
+                      placeholder=" Select timezone"
+                      setValue={setValue}
+                      name={"timeZone"}
+                      clearError={clearErrors}
+                      type={2}
+                    />
                     <button
                       className="px-10 min-w-[150px] py-2 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full font-nunito"
                       onClick={() => {
@@ -285,7 +301,7 @@ const Home: NextPage = () => {
         </div>
       </header>
       <div
-        className=" bg-[#f9fafb] h-full flex flex-col items-center justify-center"
+        className=" bg-[#f9fafb] h-full flex flex-col items-center justify-center z-0"
         style={{
           paddingTop: "calc(100vh  - 50px)",
         }}

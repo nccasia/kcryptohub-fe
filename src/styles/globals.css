@@ -81,7 +81,8 @@ a {
 }
 
 .Mui-selected {
-  color: #848abd;
+  color: white !important;
+  background-color: #848abd !important;
 }
 
 .select-style::after {
@@ -133,3 +134,20 @@ a {
 .Mui-focused-custom {
   border: 2px solid #ecedee !important;
 }
+
+.MuiTypography-root {
+  color: #848abd !important;
+}
+
+.MuiPickersDay-root {
+  color: #848abd;
+}
+
+.MuiIconButton-root {
+  color: #848abd !important;
+}
+
+/* .MuiPickersDay-root:not(.Mui-selected) {
+  color: white;
+  background-color: #848abd;
+} */
