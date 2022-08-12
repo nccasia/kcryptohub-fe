@@ -350,7 +350,7 @@ export const Teams = () => {
             <div className="flex items-center justify-center pb-2">
               <ThemeProvider theme={theme}>
                 <Pagination
-                  className="Mui-selected "
+                  className="custom-pagination "
                   count={totalPage}
                   page={currentPage}
                   variant="text"
