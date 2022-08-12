@@ -342,7 +342,13 @@ const PortfolioEdit = () => {
                               {...register("startDate")}
                               className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root"
                               inputFormat="MM/dd/yyyy"
-                              value={new Date(watch("startDate"))}
+                              value={
+                                new Date(
+                                  watch("startDate") === null
+                                    ? ""
+                                    : watch("startDate")
+                                )
+                              }
                               onChange={(e) => {
                                 setValue("startDate", e?.toDateString(), {
                                   shouldValidate: true,
@@ -376,7 +382,13 @@ const PortfolioEdit = () => {
                               {...register("endDate")}
                               className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
                               inputFormat="MM/dd/yyyy"
-                              value={new Date(watch("endDate"))}
+                              value={
+                                new Date(
+                                  watch("endDate") === null
+                                    ? ""
+                                    : watch("endDate")
+                                )
+                              }
                               onChange={(e) => {
                                 setValue("endDate", e?.toDateString(), {
                                   shouldValidate: true,
