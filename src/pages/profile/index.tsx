@@ -97,8 +97,6 @@ const theme = createTheme({
           borderRadius: "10px",
 
           "&:hover": {
-            backgroundColor: "#606060 !important",
-            color: "white",
             "& .Mui-Typography-root": { color: "white" },
           },
 

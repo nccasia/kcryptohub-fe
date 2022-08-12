@@ -25,7 +25,7 @@ export const InputSelect = ({
   return (
     <div className="z-[9999]">
       <label
-        className="block cursor-pointer border-l-2 px-1 py-[1px] rounded-lg pl-5 border-transparent border hover:border-[#606060] hover:bg-[#606060] text-[#848ABD] hover:text-white"
+        className="block cursor-pointer border-l-2 px-1 py-[1px] rounded-lg pl-5 border-transparent border hover:bg-gray-100 text-[#848ABD]"
         onClick={() => {
           setShow(false);
           if (type === 1) {

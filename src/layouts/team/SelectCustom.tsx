@@ -61,8 +61,9 @@ function SelectCustom({
         type="text"
         className={`appearance-none xs:max-w-[350px] ${
           type === 1 ? "bg-[#ecedee]" : "bg-white"
-        } text-[#606060] border-2 rounded-3xl mr-3 block w-full px-3 py-2 pr-8 border-solid placeholder-gray-500 focus:outline-none focus:border-[#848abd]  md:mt-0 mt-4 sm:text-sm placeholder:text-xs custom-scrollbar`}
+        } text-[#606060] border-2 rounded-3xl mr-3 block w-full px-3 py-2 pr-8 border-solid placeholder-gray-500 focus:outline-none  md:mt-0 mt-4 sm:text-sm placeholder:text-xs custom-scrollbar`}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         autoComplete="off"
         onClick={() => setShow(true)}
         {...register}
@@ -72,7 +73,7 @@ function SelectCustom({
         in={show}
         className={`${
           show ? "absolute" : "hidden"
-        } bg-white border-2 border-[#848ABD] rounded-xl max-h-[250px] w-full  overflow-auto z-[9999] xs:max-w-[350px] custom-scrollbar shadow-lg !font-nunito `}
+        } bg-white border-2 rounded-xl max-h-[250px] w-full  overflow-auto z-[9999] xs:max-w-[350px] custom-scrollbar shadow-lg !font-nunito `}
         ref={subNodeRef as Ref<unknown>}
       >
         <label className={`text-xs pl-5 px-1 text-[#848ABD] mt-1 mb-1`}>

@@ -160,8 +160,6 @@ const theme = createTheme({
           borderRadius: "10px",
 
           "&:hover": {
-            backgroundColor: "#606060 !important",
-            color: "white",
             "& .Mui-Typography-root": { color: "white" },
           },
 
@@ -227,6 +225,8 @@ export const CreateForm = (props: IProps) => {
       }
     }
   }, [props.defaultTeamInfo]);
+
+  useEffect(() => {}, [team]);
 
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -397,6 +397,7 @@ export const CreateForm = (props: IProps) => {
                     setValue={setValue}
                     name={"timeZone"}
                     clearError={clearErrors}
+                    defaultValue={team.timeZone || ""}
                   />
                 </div>
 
@@ -410,6 +411,7 @@ export const CreateForm = (props: IProps) => {
                     setValue={setValue}
                     name={"teamSize"}
                     clearError={clearErrors}
+                    defaultValue={team.teamSize.toString() || ""}
                   />
                 </div>
                 <div className="my-5">
@@ -426,6 +428,7 @@ export const CreateForm = (props: IProps) => {
                     setValue={setValue}
                     name={"founded"}
                     clearError={clearErrors}
+                    defaultValue={team.founded || ""}
                   />
                 </div>
 
