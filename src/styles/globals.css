@@ -146,3 +146,24 @@ a {
 .MuiIconButton-root {
   color: #848abd !important;
 }
+
+.MuiCalendarPicker-viewTransitionContainer::-webkit-scrollbar {
+  display: block;
+  width: 2px;
+}
+.MuiCalendarPicker-viewTransitionContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+.MuiCalendarPicker-viewTransitionContainer::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.MuiCalendarPicker-viewTransitionContainer::-webkit-scrollbar-track-piece:end {
+  background: transparent;
+  margin-bottom: 20px;
+}
+
+.MuiCalendarPicker-viewTransitionContainer::-webkit-scrollbar-track-piece:start {
+  background: transparent;
+  margin-top: 20px;
+}

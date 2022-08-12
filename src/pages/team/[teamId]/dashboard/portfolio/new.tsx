@@ -312,7 +312,7 @@ const NewPortfolio = () => {
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DesktopDatePicker
                               {...register("startDate")}
-                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root"
+                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root custom-scrollbar MuiYearPicker-root"
                               inputFormat="MM/dd/yyyy"
                               value={new Date(watch("startDate"))}
                               onChange={(e) => {
