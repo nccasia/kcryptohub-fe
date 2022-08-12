@@ -411,7 +411,7 @@ export const CreateForm = (props: IProps) => {
                     setValue={setValue}
                     name={"teamSize"}
                     clearError={clearErrors}
-                    defaultValue={team.teamSize.toString() || ""}
+                    defaultValue={team.teamSize?.toString() || ""}
                   />
                 </div>
                 <div className="my-5">
