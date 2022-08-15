@@ -52,19 +52,22 @@ export const Clients = () => {
   const [disUpdate, setDisUpdate] = useState(false);
 
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (router.isReady) {
       setTeamId(parseInt(router.query.teamId as string));
     }
 
     if (keyClient) {
-      setKeyClientInfo(keyClient[0]?.keyName || [""]);
+      keyClient[0]?.keyName.length > 0 && keyClient[0]?.keyName
+        ? setKeyClientInfo(keyClient[0]?.keyName || [""])
+        : setKeyClientInfo([""]);
       setKeyClientId(keyClient[0]?.id);
       if (keyClient[0]?.keyName) {
         setStringArr(Array.from(keyClient[0]?.keyName).join(""));
       }
     }
-  }, [keyClient, router]);
+  }, [keyClient, router, keyClientInfo]);
 
   const handleAdd = () => {
     setKeyClientInfo([...keyClientInfo, ""]);

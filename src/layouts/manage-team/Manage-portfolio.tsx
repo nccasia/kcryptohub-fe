@@ -108,7 +108,7 @@ export const ManagePortfolio = (props: Props) => {
                   </div>
                 </Collapse>
               </div>
-              <div className="bg-white h-full col-span-12 md:col-span-9 p-4 rounded-xl shadow-xl">
+              <div className="bg-white h-fit col-span-12 md:col-span-9 p-4 rounded-xl shadow-xl">
                 {props.children}
               </div>
             </div>

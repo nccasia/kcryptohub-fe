@@ -20,19 +20,7 @@ import { useOutsideClick } from "hook/OuterClick";
 import { useRouter } from "next/router";
 import { FormEvent, LegacyRef, useCallback, useEffect, useState } from "react";
 
-const theme = createTheme({
-  components: {
-    // Name of the component
-    MuiPaginationItem: {
-      styleOverrides: {
-        selected: {
-          color: "#848abd",
-        },
-        root: {},
-      },
-    },
-  },
-});
+const theme = createTheme({});
 
 const SortBy = ["none"];
 interface PageResponse {
@@ -362,7 +350,7 @@ export const Teams = () => {
             <div className="flex items-center justify-center pb-2">
               <ThemeProvider theme={theme}>
                 <Pagination
-                  className="Mui-selected "
+                  className="custom-pagination "
                   count={totalPage}
                   page={currentPage}
                   variant="text"

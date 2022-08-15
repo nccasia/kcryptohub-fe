@@ -1,5 +1,5 @@
 import { ISkill } from "@/type/skill/skill.types";
-import React from "react";
+import React, { useEffect } from "react";
 
 export const InputSelect = ({
   item,
@@ -7,26 +7,42 @@ export const InputSelect = ({
   setValue,
   searchText,
   setSearchText,
+  type,
+  itemString,
+  label,
+  clearError,
 }: {
   item: ISkill;
   setShow: (selected: Boolean) => void;
   setValue: (name: string, setName: string) => void;
   searchText?: string;
-  setSearchText: (name: string) => void;
+  setSearchText?: (name: string) => void;
+  type?: number;
+  itemString?: string;
+  label: string;
+  clearError?: (name: string) => void;
 }) => {
   return (
-    <div>
+    <div className="z-50">
       <label
-        className="block cursor-pointer border-l-2 px-1 py-[1px] pl-1 border-transparent hover:border-cyan-900 hover:bg-cyan-100"
+        className="block cursor-pointer border-l-2 px-1 py-[1px] rounded-lg pl-5 border-transparent border hover:bg-gray-100 text-[#848ABD]"
         onClick={() => {
           setShow(false);
-          setValue("skill", item.skillName);
-          setSearchText(" ");
+          if (type === 1) {
+            setValue(label, itemString || "");
+            clearError ? clearError(label) : null;
+          } else setValue(label, item.skillName);
+
+          if (setSearchText) {
+            setSearchText(" ");
+          }
         }}
       >
-        <label className={`cursor-pointer text-[#08537e]`}>
-          {item.skillName}
-        </label>
+        {type === 1 && <label className={`cursor-pointer`}>{itemString}</label>}
+
+        {type !== 1 && (
+          <label className={`cursor-pointer`}>{item.skillName}</label>
+        )}
       </label>
     </div>
   );

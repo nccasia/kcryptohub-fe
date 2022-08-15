@@ -5,7 +5,7 @@ import { TimeZone } from "@/type/enum/TimeZone";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, Paper } from "@mui/material";
 import router from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -24,6 +24,9 @@ import { setTeam } from "@/redux/dashboardSlice";
 import { ICreateTeam, ITeam } from "@/type/team/team.type";
 import { ISkill } from "@/type/skill/skill.types";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import SelectCustom from "@/src/layouts/team/SelectCustom";
+import MonthPicker from "@mui/x-date-pickers/MonthPicker";
+
 const schema = yub.object().shape({
   teamName: yub
     .string()
@@ -88,44 +91,108 @@ const selectRange = {
 };
 
 const theme = createTheme({
+  typography: {
+    fontFamily: "Nunito",
+  },
   components: {
-    // MuiAutocomplete: {
-    //   styleOverrides: {
-    //     root: {
-    //       "&:hover": {
-    //         background: "transparent",
-    //         border: "none !important",
-    //       },
-    //     },
-    //   },
-    // },
+    MuiCssBaseline: {
+      styleOverrides: {
+        html: {
+          "&::-webkit-scrollbar": {
+            width: "2px !important",
+          },
+          "*::-webkit-scrollbar-track": {},
+          "*::-webkit-scrollbar-thumb": {},
+          "*::-webkit-scrollbar-thumb:hover": {},
+        },
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: "1.5rem",
-          text: "#606060 !important",
-          // border: "2px solid #ecedee",
-          background: "white",
-
-          "&:hover": {
-            border: "none !important",
-            outline: "none !important",
+          backgroundColor: "transparent",
+        },
+        notchedOutline: {
+          border: "none",
+          ":hover": {
+            borderColor: "transparent !important",
           },
         },
       },
     },
-    // MuiFormControl: {
-    //   styleOverrides: {
-    //     root: {
-    //       "&:hover": {
-    //         background: "transparent",
-    //         border: "none",
-    //       },
-    //     },
-    //   },
-    // },
+
+    MuiInputBase: {
+      styleOverrides: {
+        root: {},
+      },
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: {
+          // ...
+        },
+        listbox: {
+          "&::-webkit-scrollbar": {
+            width: "3px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888",
+          },
+
+          "&::-webkit-scrollbar-track-piece:end": {
+            backgroundColor: "transparent",
+            marginBottom: "10px",
+          },
+
+          "&::-webkit-scrollbar-track-piece:start": {
+            backgroundColor: " transparent",
+            marginTop: "10px",
+          },
+        },
+        option: {
+          padding: "6px 14px",
+          backgroundColor: "transparent",
+          color: "#848ABD",
+          display: "flex",
+          borderRadius: "10px",
+
+          "&:hover": {
+            "& .Mui-Typography-root": { color: "white" },
+          },
+
+          "& .Mui-selected": {
+            backgroundColor: "#606060",
+            "& .Mui-Typography-root": { color: "white" },
+          },
+
+          "&.disabled": {
+            opacity: 0.5,
+            "& .Mui-Typography-root": {
+              color: "#848ABD",
+            },
+          },
+        },
+      },
+    },
   },
 });
+
+const CustomPaper = (props: any) => {
+  return (
+    <Paper
+      className="custom-scrollbar-des"
+      {...props}
+      sx={{
+        width: "100%",
+        borderRadius: "10px",
+        border: "1px solid #ecedee",
+      }}
+    />
+  );
+};
 
 export const CreateForm = (props: IProps) => {
   const {
@@ -133,6 +200,8 @@ export const CreateForm = (props: IProps) => {
     handleSubmit,
     watch,
     reset,
+    setValue,
+    clearErrors,
     formState: { errors, isDirty, isValid },
   } = useForm({ resolver: yupResolver(schema), mode: "all" });
   const dispatch = useAppDispatch();
@@ -156,6 +225,8 @@ export const CreateForm = (props: IProps) => {
       }
     }
   }, [props.defaultTeamInfo]);
+
+  useEffect(() => {}, [team]);
 
   const uploadToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -253,6 +324,9 @@ export const CreateForm = (props: IProps) => {
   const to = Array.from(Array(new Date().getFullYear() + 1).keys());
   const founded = to.filter((i) => !from.includes(i));
 
+  useEffect(() => {
+    console.log(watch(), errors);
+  }, [watch()]);
   return (
     <ThemeProvider theme={theme}>
       <div className="font-jost">
@@ -314,89 +388,48 @@ export const CreateForm = (props: IProps) => {
                   )}
                 </div>
                 <div className="my-5">
-                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
-                    Time Zone
-                  </label>
-                  <div className="md:max-w-[200px] w-full border-2 border-[#ecedee] bg-white rounded-3xl px-3 py-2 outline-none focus-within:shadow-xl   focus-within:border-[#ecedee]">
-                    <select
-                      {...register("timeZone")}
-                      className="w-full outline-none"
-                      defaultValue={team.timeZone || ""}
-                    >
-                      <option value="" className="text-[#606060]">
-                        - Select a value -
-                      </option>
-                      {timeZone &&
-                        timeZone.map((cur, index) => (
-                          <option key={index} value={cur}>
-                            {cur}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                  {errors?.timeZone && (
-                    <div className="flex justify-left mt-1 text-sm ">
-                      <p className={"block  text-red-500 font-medium"}>
-                        {errors?.timeZone?.message}
-                      </p>
-                    </div>
-                  )}
+                  <SelectCustom
+                    label={"Time Zone"}
+                    register={register("timeZone")}
+                    valueList={timeZone}
+                    placeholder=" Select a value "
+                    errors={errors.timeZone}
+                    setValue={setValue}
+                    name={"timeZone"}
+                    clearError={clearErrors}
+                    defaultValue={team.timeZone || ""}
+                  />
                 </div>
 
                 <div className="mt-5 mb-5">
-                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
-                    Total Employees
-                  </label>
-                  <div className="md:max-w-[200px] w-full border-2 border-[#ecedee] bg-white rounded-3xl  px-3 py-2 outline-none focus-within:shadow-xl  focus-within:border-[#ecedee]">
-                    <select
-                      {...register("teamSize")}
-                      className="w-full hidden-arrow-input-number outline-none"
-                      defaultValue={team.teamSize || ""}
-                    >
-                      <option value="">- Select a value -</option>
-                      {selectRange.totalEmployee.map((cur, index) => (
-                        <option key={index} value={cur}>
-                          {cur}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {errors?.teamSize && (
-                    <div className="flex justify-left mt-1  text-sm ">
-                      <p className={" block text-red-500 font-medium"}>
-                        {errors?.teamSize?.message}
-                      </p>
-                    </div>
-                  )}
+                  <SelectCustom
+                    label={"Total Employees"}
+                    register={register("teamSize")}
+                    valueList={selectRange.totalEmployee}
+                    placeholder=" Select a value "
+                    errors={errors.teamSize}
+                    setValue={setValue}
+                    name={"teamSize"}
+                    clearError={clearErrors}
+                    defaultValue={team.teamSize?.toString() || ""}
+                  />
                 </div>
                 <div className="my-5">
-                  <label className="text-[#606060] min-w-[130px] mb-2 block py-2 md:py-0">
-                    Founding Year
-                  </label>
-                  <div className="md:max-w-[200px] w-full border-2 border-[#ecedee] bg-white rounded-3xl  px-3 py-2 outline-non focus-within:shadow-xl focus-within:border-[#ecedee]">
-                    <select
-                      {...register("founded")}
-                      className="w-full outline-none"
-                      defaultValue={team.founded || ""}
-                    >
-                      <option className="text-sm text-[#606060]" value="">
-                        - Select a value -
-                      </option>
-                      {founded &&
-                        founded.map((cur, index) => (
-                          <option className="text-sm" key={index} value={cur}>
-                            {cur}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                  {errors?.founded && (
-                    <div className="flex justify-left mt-1 text-sm ">
-                      <p className={"block  text-red-500 font-medium"}>
-                        {errors?.founded?.message}
-                      </p>
-                    </div>
-                  )}
+                  <SelectCustom
+                    label={"Founding year"}
+                    register={register("founded")}
+                    valueList={
+                      founded.map((item) =>
+                        item.toString()
+                      ) as unknown as string[]
+                    }
+                    placeholder=" Select founding year "
+                    errors={errors.founded}
+                    setValue={setValue}
+                    name={"founded"}
+                    clearError={clearErrors}
+                    defaultValue={team.founded || ""}
+                  />
                 </div>
 
                 <div className="my-5">
@@ -528,12 +561,13 @@ export const CreateForm = (props: IProps) => {
                   multiple
                   options={handleAutocompleteOption()}
                   getOptionLabel={(option) => option.skillName}
+                  PaperComponent={CustomPaper}
                   value={dataSkill}
                   filterSelectedOptions
                   onChange={(e, value) => {
                     setData(value);
                   }}
-                  className="md:max-w-[400px] w-full custom-scrollbar"
+                  className="md:max-w-[400px] w-full bg-white mt-1 border-2 border-[#ecedee] focus:border-[#ecedee] rounded-3xl text-[#606060] Mui-focused-custom"
                   renderInput={(params) => (
                     <TextField
                       {...params}
