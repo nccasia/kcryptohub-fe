@@ -39,6 +39,14 @@ import { toast, ToastContainer } from "react-toastify";
 import * as yup from "yup";
 import { ErrorOutline } from "@mui/icons-material";
 import { Layout } from "@/src/layouts/layout";
+import { joinTeamApi } from "@/api/joinTeam-api";
+import {
+  addToMemberList,
+  changeStatus,
+  deleteContact,
+  getContact,
+  resetSuccessContact,
+} from "@/redux/joinTeamContactSlice";
 
 const theme = createTheme({
   components: {
@@ -93,11 +101,6 @@ interface PaginationQueryParams {
   page: string;
 }
 
-interface RequestMember {
-  name: string;
-  email: string;
-}
-
 const Members = () => {
   const [email, setEmail] = useState<string>("");
   const [tags, setTags] = useState<emails[]>([]);
@@ -106,10 +109,6 @@ const Members = () => {
   const [disableIvt, setDisableIvt] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [onLoading, setOnLoading] = useState<boolean[]>([]);
-
-  const [page, setPage] = useState(1);
-  const [prev, setPrev] = useState(1);
-  const [next, setNext] = useState(9);
 
   const DEFAULT_SIZE = 10;
 
@@ -238,6 +237,8 @@ const Members = () => {
         })
       );
 
+      dispatch(getContact(parseInt(teamId as string)));
+
       const getMaxPage = () => {
         return Math.ceil(pageAble?.total / pageAble?.size);
       };
@@ -276,12 +277,31 @@ const Members = () => {
     router.isReady,
   ]);
 
+  const ContactJoinTeam = useSelector(
+    (state: RootState) => state.JoinTeamContactReducer.memberContact
+  );
+
+  const contactJoinTeamSuccess = useSelector(
+    (state: RootState) => state.JoinTeamContactReducer.success
+  );
+
+  const isApproved = useSelector(
+    (state: RootState) =>
+      state.JoinTeamContactReducer.changeStatusSuccess.isApproved
+  );
+
+  const userIsApproved = useSelector(
+    (state: RootState) =>
+      state.JoinTeamContactReducer.changeStatusSuccess.userId
+  );
+
   useEffect(() => {
-    if (actionSuccess === true) {
+    if (actionSuccess === true || contactJoinTeamSuccess === true) {
       dispatch(resetSuccess());
+      dispatch(resetSuccessContact());
       dispatch(getMemberList({ teamId: parseInt(teamId as string) }));
     }
-  }, [actionSuccess, dispatch, teamId]);
+  }, [actionSuccess, contactJoinTeamSuccess, dispatch, teamId]);
 
   const handleSubmit = async () => {
     reset();
@@ -317,6 +337,33 @@ const Members = () => {
     );
   };
 
+  const approveMember = async (id: number) => {
+    toast.success("Approve Success");
+    return await dispatch(changeStatus(id));
+  };
+
+  const deleteMemberContact = async (id: number) => {
+    toast.success("Delete Success");
+    return await dispatch(deleteContact(id));
+  };
+
+  useEffect(() => {
+    if (isApproved) {
+      dispatch(
+        addToMemberList({
+          teamId: parseInt(teamId as string),
+          userId: userIsApproved,
+        })
+      );
+    }
+  }, [dispatch, teamId, isApproved, userIsApproved]);
+
+  useEffect(() => {
+    if (contactJoinTeamSuccess === true) {
+      dispatch(resetSuccessContact());
+      dispatch(getContact(parseInt(teamId as string)));
+    }
+  }, [contactJoinTeamSuccess, dispatch, teamId]);
   return (
     <DashboardLayout>
       <ThemeProvider theme={theme}>
@@ -459,101 +506,80 @@ const Members = () => {
                         </div>
                       </div>
                       <ul className="h-full" aria-label="aria-owns">
-                        <li className="border-t-2 border-[#eff0f5] py-3 flex items-center justify-center">
-                          <div className="w-2/4 px-4 py-2 text-sm font-normal">
-                            <span className="text-[#17313b] break-all">
-                              nguyen hong thang siba haha ha
-                            </span>
-                          </div>
-                          <div className="w-2/4 px-4 py-2 text-sm font-normal">
-                            <span className="text-[#17313b] break-all">
-                              thangngh.00@gmail.com
-                            </span>
-                          </div>
-                          <div className="w-1/5 px-4 py-2 text-sm font-normal">
-                            <span className="cursor-pointer  ">
-                              <ClearIcon className="w-5 h-5 font-medium text-[#61619b]" />
-                            </span>
-                            {" | "}
-                            <span className="cursor-pointer  ">
-                              <CheckIcon className="w-5 h-5 font-medium  text-[#61619b]" />
-                            </span>
-                          </div>
-                        </li>
-                        <li className="border-t-2 border-[#eff0f5] py-3 flex items-center justify-center">
-                          <div className="w-2/4 px-4 py-2 text-sm font-normal">
-                            <span className="text-[#17313b] break-all">
-                              nguyen hong thang siba haha ha
-                            </span>
-                          </div>
-                          <div className="w-2/4 px-4 py-2 text-sm font-normal">
-                            <span className="text-[#17313b] break-all">
-                              thangngh.00@gmail.com
-                            </span>
-                          </div>
-                          <div className="w-1/5 px-4 py-2 text-sm font-normal">
-                            <span className="cursor-pointer  ">
-                              <ClearIcon className="w-5 h-5 font-medium text-[#61619b]" />
-                            </span>
-                            {" | "}
-                            <span className="cursor-pointer  ">
-                              <CheckIcon className="w-5 h-5 font-medium  text-[#61619b]" />
-                            </span>
-                          </div>
-                        </li>
-                        <li className="border-t-2 border-[#eff0f5] py-3 flex items-center justify-center">
-                          <div className="w-2/4 px-4 py-2 text-sm font-normal">
-                            <span className="text-[#17313b] break-all">
-                              nguyen hong thang siba haha ha
-                            </span>
-                          </div>
-                          <div className="w-2/4 px-4 py-2 text-sm font-normal">
-                            <span className="text-[#17313b] break-all">
-                              thangngh.00@gmail.com
-                            </span>
-                          </div>
-                          <div className="w-1/5 px-4 py-2 text-sm font-normal">
-                            <span className="cursor-pointer  ">
-                              <ClearIcon className="w-5 h-5 font-medium text-[#61619b]" />
-                            </span>
-                            {" | "}
-                            <span className="cursor-pointer  ">
-                              <CheckIcon className="w-5 h-5 font-medium  text-[#61619b]" />
-                            </span>
-                          </div>
-                        </li>
-                        <li className="border-t-2 border-[#eff0f5] py-3 flex items-center justify-center">
-                          <div className="w-2/4 px-4 py-2 text-sm font-normal">
-                            <span className="text-[#17313b] break-all">
-                              nguyen hong thang siba haha ha
-                            </span>
-                          </div>
-                          <div className="w-2/4 px-4 py-2 text-sm font-normal">
-                            <span className="text-[#17313b] break-all">
-                              thangngh.00@gmail.com
-                            </span>
-                          </div>
-                          <div className="w-1/5 px-4 py-2 text-sm font-normal">
-                            <span className="cursor-pointer  ">
-                              <ClearIcon className="w-5 h-5 font-medium text-[#61619b]" />
-                            </span>
-                            {" | "}
-                            <span className="cursor-pointer  ">
-                              <CheckIcon className="w-5 h-5 font-medium  text-[#61619b]" />
-                            </span>
-                          </div>
-                        </li>
+                        {ContactJoinTeam?.map((contact, index) => (
+                          <>
+                            <li className="border-t-2 border-[#eff0f5] py-3 flex items-center justify-center">
+                              <div className="w-2/4 px-4 py-2 text-sm font-normal">
+                                <span className="text-[#17313b] break-all">
+                                  {contact.username}
+                                </span>
+                              </div>
+                              <div className="w-2/4 px-4 py-2 text-sm font-normal">
+                                <span className="text-[#17313b] break-all">
+                                  {contact.emailAddress}
+                                </span>
+                              </div>
+                              <div className="w-1/5 px-4 py-2 text-sm font-normal">
+                                <span
+                                  onClick={() =>
+                                    deleteMemberContact(contact.id)
+                                  }
+                                  className="cursor-pointer"
+                                >
+                                  <ClearIcon className="w-5 h-5 font-medium text-[#61619b]" />
+                                </span>
+                                {" | "}
+                                <span
+                                  onClick={() => approveMember(contact.id)}
+                                  className="cursor-pointer  "
+                                >
+                                  <CheckIcon className="w-5 h-5 font-medium  text-[#61619b]" />
+                                </span>
+                              </div>
+                            </li>
+                          </>
+                        )) ?? (
+                          <>
+                            <li className="animate-pulse border-t-2 border-[#eff0f5] py-3 flex items-center justify-center">
+                              <div className="w-2/4 px-4 py-2 text-sm font-normal">
+                                <span className="text-[#17313b] bg-[#1b08086c] w-full"></span>
+                              </div>
+                              <div className="w-2/4 px-4 py-2 text-sm font-normal">
+                                <span className="text-[#17313b] bg-[#1b08086c] w-full"></span>
+                              </div>
+                              <div className="w-1/5 px-4 py-2 text-sm font-normal">
+                                <span className="cursor-pointer  ">
+                                  <ClearIcon className="w-5 h-5 font-medium text-[#17313b]" />
+                                </span>
+                                {" | "}
+                                <span className="cursor-pointer  ">
+                                  <CheckIcon className="w-5 h-5 font-medium  text-[#17313b]" />
+                                </span>
+                              </div>
+                            </li>
+                          </>
+                        )}
+                        {ContactJoinTeam?.length === 0 && (
+                          <>
+                            <li className="border-t-2 border-[#eff0f5] py-3 flex items-center justify-center w-full">
+                              <div className="text-[#7d6d6d9a] inline-flex">
+                                <span>No Data</span>
+                                <svg
+                                  className="w-6 h-6"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z" />
+                                  <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z" />
+                                  <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z" />
+                                </svg>
+                              </div>
+                            </li>
+                          </>
+                        )}
                       </ul>
                     </div>
-                    {/* <div className="flex items-center justify-center py-2">
-                      <Pagination
-                        count={totalPage}
-                        page={currentPage}
-                        onChange={(e, value) => {
-                          handlePageChange(value);
-                        }}
-                      />
-                    </div> */}
                   </form>
                 </div>
               </div>

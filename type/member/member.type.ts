@@ -36,3 +36,21 @@ export interface IMemberPageAble {
   page: number;
   size: number;
 }
+
+export interface IMemberContact {
+  id: number;
+  teamId: number;
+  userId: number;
+  username: string;
+  emailAddress: string;
+  verified: boolean;
+  isApproved: boolean;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+}
+
+export interface IAddToMemberList {
+  teamId: number;
+  userId: number;
+}
