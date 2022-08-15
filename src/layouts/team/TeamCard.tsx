@@ -325,7 +325,7 @@ export const TeamCard = (props: Props) => {
               : "#"
           }
         >
-          <span className="w-full xs:py-4 py-2 px-2 items-center flex md:justify-between justify-center bg-[#848ABD] rounded-full">
+          <span className="w-full xs:py-4 py-2 px-2 items-center flex md:justify-between justify-center bg-[#848ABD] rounded-full hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]">
             <span className="pr-2 text-sm">Visit Website</span>
             <LanguageOutlined />
           </span>

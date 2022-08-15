@@ -67,7 +67,7 @@ export const Clients = () => {
         setStringArr(Array.from(keyClient[0]?.keyName).join(""));
       }
     }
-  }, [keyClient, router, keyClientInfo]);
+  }, [keyClient, router]);
 
   const handleAdd = () => {
     setKeyClientInfo([...keyClientInfo, ""]);
@@ -239,9 +239,11 @@ export const Clients = () => {
                 <button
                   disabled={!disUpdate}
                   type="submit"
-                  className={`px-4 py-2 w-fit bg-[#848ABD] rounded-full text-white  flex justify-center items-center
+                  className={`px-4 py-2 w-fit bg-[#848ABD] rounded-full text-white  flex justify-center items-center 
                 ${
-                  disUpdate ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+                  disUpdate
+                    ? "cursor-pointer hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
+                    : "cursor-not-allowed opacity-50 "
                 } `}
                   onClick={handleSubmit(onSubmit)}
                 >
@@ -252,7 +254,9 @@ export const Clients = () => {
                   disabled={!dis}
                   type="submit"
                   className={`px-4 py-2 w-fit bg-[#848ABD] rounded-full text-white  flex justify-center items-center  ${
-                    dis ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+                    dis
+                      ? "cursor-pointer"
+                      : "cursor-not-allowed opacity-50 hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
                   } `}
                   onClick={handleSubmit(onSubmit)}
                 >

@@ -347,7 +347,11 @@ export const Teams = () => {
                 <TeamCard team={item as ITeam} key={index} />
               ))}
             </div>
-            <div className="flex items-center justify-center pb-2">
+            <div
+              className={`flex items-center justify-center pb-2 ${
+                teams.length > 0 ? "" : "mt-3"
+              }`}
+            >
               <ThemeProvider theme={theme}>
                 <Pagination
                   className="custom-pagination "

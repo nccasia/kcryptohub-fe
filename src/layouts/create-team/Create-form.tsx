@@ -604,7 +604,7 @@ export const CreateForm = (props: IProps) => {
               type="button"
               onClick={handleSubmit(handleSave)}
               className={
-                "py-3 md:text-md text-lg text-white px-3 flex items center bg-[#848abd] rounded-3xl disabled:opacity-80 "
+                "py-3 md:text-md text-lg text-white px-3 flex items center bg-[#848abd] rounded-full hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)] disabled:opacity-80 "
               }
               disabled={btnDisable}
             >
@@ -628,7 +628,7 @@ export const CreateForm = (props: IProps) => {
                 <div className="inline-flex">
                   <span>Add Skill Distribution</span>
                   <span className=" font-medium">
-                    <ChevronRightIcon />
+                    <ChevronRightIcon className="mb-[1px]" />
                   </span>
                 </div>
               )}
