@@ -7,6 +7,7 @@ import TeamProfileReducer from "@/redux/teamProfileSlice";
 import AwardsReducer from "@/redux/awardSlice";
 import DashboardReducer from "@/redux/dashboardSlice";
 import { SkillDistributionReducer } from "@/redux/skillDistributionSlice";
+import JoinTeamContactReducer from "@/redux/joinTeamContactSlice";
 const reducer = {
   ProfileReducer,
   SkillReducer,
@@ -16,6 +17,7 @@ const reducer = {
   DashboardReducer,
   MemberReducer,
   SkillDistributionReducer,
+  JoinTeamContactReducer,
 };
 
 const store = configureStore({ reducer });

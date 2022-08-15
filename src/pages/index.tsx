@@ -208,7 +208,7 @@ const Home: NextPage = () => {
                                 setSkillList(skill);
                               }
                             }}
-                            className="absolute right-2 bottom-[8px] text-[#08537e] text-[20px]"
+                            className="absolute right-2 bottom-[8px] text-[#606060 z-20 text-[20px]"
                           />
                         )}
 
@@ -216,7 +216,7 @@ const Home: NextPage = () => {
                           in={show}
                           className={`${
                             show ? "absolute" : "hidden"
-                          } bg-white border-2 border-black max-h-[250px] w-full overflow-auto z-[100] custom-scrollbar shadow-lg !font-nunito`}
+                          } bg-white border-2 border-black max-h-[250px] w-full overflow-auto z-20 custom-scrollbar shadow-lg !font-nunito`}
                           ref={subNodeRef as Ref<unknown>}
                         >
                           <h1
@@ -253,12 +253,16 @@ const Home: NextPage = () => {
                       in
                     </h2>
                     <select
-                      className="appearance-none mr-3 min-w-[190px] font-nunito bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-10 sm:text-sm"
+                      className="appearance-none mr-3 min-w-[190px] font-nunito bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-20 sm:text-sm"
                       {...register("timeZone")}
                     >
                       <option className="font-nunito">--Timezone--</option>
                       {Object.values(TimeZone).map((cur, index) => (
-                        <option key={index} value={cur} className="font-nunito">
+                        <option
+                          key={index}
+                          value={cur}
+                          className="font-nunito z-20 text-sm w-full px-3 block"
+                        >
                           {cur}
                         </option>
                       ))}
