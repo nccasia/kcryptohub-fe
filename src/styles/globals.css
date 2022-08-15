@@ -81,9 +81,89 @@ a {
 }
 
 .Mui-selected {
+  color: white !important;
+  background-color: #848abd !important;
+}
+
+.select-style::after {
+  top: 50%;
+  left: 85%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(0, 0, 0, 0);
+  border-top-color: #000000;
+  border-width: 5px;
+  margin-top: -2px;
+  z-index: 100;
+  border-radius: 50%;
+}
+
+.MuiOutlinedInput-root {
+  border: none !important;
+}
+
+.MuiOutlinedInput-input {
+  padding: 0px;
+}
+
+.Mui-focused {
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+.MuiInputBase-root {
+  border-radius: 10px;
+}
+
+.MuiPopper-root {
+  background-color: #000000;
+}
+
+.MuiPopper-root::-webkit-scrollbar {
+  width: 2px;
+}
+
+.MuiOutlinedInput-root:hover {
+  border: none !important;
+}
+
+.Mui-focused-custom {
+  border: 2px solid #ecedee !important;
+}
+
+.MuiTypography-root {
+  color: #848abd !important;
+}
+
+.MuiPickersDay-root {
   color: #848abd;
 }
 
-/* input[type="month"]{
-  border: 1px solid #848abd;
-} */
+.MuiIconButton-root {
+  color: #848abd !important;
+}
+
+.MuiCalendarPicker-viewTransitionContainer::-webkit-scrollbar {
+  display: block;
+  width: 2px;
+}
+.MuiCalendarPicker-viewTransitionContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+.MuiCalendarPicker-viewTransitionContainer::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.MuiCalendarPicker-viewTransitionContainer::-webkit-scrollbar-track-piece:end {
+  background: transparent;
+  margin-bottom: 20px;
+}
+
+.MuiCalendarPicker-viewTransitionContainer::-webkit-scrollbar-track-piece:start {
+  background: transparent;
+  margin-top: 20px;
+}

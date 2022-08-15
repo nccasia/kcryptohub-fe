@@ -1,12 +1,12 @@
 import { PortfolioApi } from "@/api/portfolio-api";
 import { teamApi } from "@/api/team-api";
 import { InputFieldCol } from "@/components/portfolio/InputFieldCol";
-import { SelectField } from "@/components/portfolio/SelectField";
 import { setTeam } from "@/redux/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getSkillsSelector } from "@/redux/selector";
 import { UploadImage } from "@/src/layouts/create-team/UploadImage";
 import { ManagePortfolio } from "@/src/layouts/manage-team/Manage-portfolio";
+import SelectCustom from "@/src/layouts/team/SelectCustom";
 import { IPortfolio } from "@/type/team/team.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -14,12 +14,52 @@ import {
   LockOutlined,
   PersonOutlineOutlined,
 } from "@mui/icons-material";
-import { Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as yup from "yup";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "Nunito",
+  },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: "20px",
+          transform: "translateX(10%) !important",
+          border: "2px solid #848abd",
+          color: "#848abd",
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "transparent",
+        },
+        notchedOutline: {
+          border: "none",
+          ":hover": {
+            borderColor: "transparent !important",
+          },
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {},
+      },
+    },
+  },
+});
 
 const schemaValidation = yup.object().shape({
   companyName: yup.string().required("Company name is required"),
@@ -114,6 +154,8 @@ const NewPortfolio = () => {
     handleSubmit,
     watch,
     reset,
+    clearErrors,
+    setValue,
     formState: { errors, isDirty, isValid },
   } = useForm({
     resolver: yupResolver(schemaValidation),
@@ -223,68 +265,111 @@ const NewPortfolio = () => {
                   watch={watch("title")}
                   maxLength={50}
                 />
-                <SelectField
+
+                <SelectCustom
                   label={"Category"}
+                  valueList={skills.map((item) => item.skillName)}
+                  placeholder={"Select category"}
                   register={register("category")}
-                  valueList={skills.map((skill) => skill.skillName)}
-                  placeholder="Select a category"
                   errors={errors.category}
+                  name={"category"}
+                  setValue={setValue}
+                  clearError={clearErrors}
+                  type={1}
                 />
-                <SelectField
+
+                <SelectCustom
                   label={"Estimated Project Size"}
                   register={register("estimate")}
                   valueList={costEstimate}
-                  placeholder=" Select size of project"
+                  placeholder=" Select size of project "
                   errors={errors.estimate}
+                  setValue={setValue}
+                  name={"estimate"}
+                  clearError={clearErrors}
+                  type={1}
                 />
+
                 <div className="flex lg:w-[600px] lg:flex-row flex-col w-full items-start justify-between ">
-                  <div className="font-medium xs:w-fit w-full">
-                    <label
-                      htmlFor="startDate"
-                      className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
-                    >
-                      Start Date
-                      <span className="text-sm text-gray-300">optional</span>
-                    </label>
-                    <div className="xs:w-fit w-full flex flex-col relative">
-                      <input
+                  <ThemeProvider theme={theme}>
+                    <div className="font-medium xs:w-fit w-full mr-2">
+                      <label
+                        htmlFor="startDate"
+                        className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
+                      >
+                        Start Date
+                        <span className="text-sm text-gray-300">optional</span>
+                      </label>
+                      <div className="xs:w-fit w-full flex flex-col relative">
+                        {/*   <input
                         id="startDate"
                         type="month"
                         {...register("startDate")}
                         className={` bg-[#0000000d] text-[#606060] pl-3 pr-8 py-2 mt-1 rounded-3xl outline-none `}
                       />
+ */}
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-6 py-1 mt-1 rounded-3xl outline-none">
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DesktopDatePicker
+                              {...register("startDate")}
+                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root custom-scrollbar MuiYearPicker-root"
+                              inputFormat="MM/dd/yyyy"
+                              value={new Date(watch("startDate"))}
+                              onChange={(e) => {
+                                setValue("startDate", e?.toDateString(), {
+                                  shouldValidate: true,
+                                });
+                              }}
+                              renderInput={(params) => (
+                                <TextField {...params} />
+                              )}
+                            />
+                          </LocalizationProvider>
+                        </div>
+                        {errors.startDate && (
+                          <span className="text-red-500 text-left text-sm font-normal mt-1">
+                            {errors.startDate?.message}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    {errors.startDate && (
-                      <span className="text-red-500 text-left text-sm font-normal mt-1">
-                        {errors.startDate?.message}
-                      </span>
-                    )}
-                  </div>
-                  <div className="font-medium xs:w-fit w-full">
-                    <label
-                      htmlFor="endDate"
-                      className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
-                    >
-                      End Date
-                      <span className="text-sm text-gray-300">optional</span>
-                    </label>
-                    <div className="xs:w-fit w-full flex flex-col relative">
-                      <input
-                        id="endDate"
-                        type="month"
-                        {...register("endDate")}
-                        autoComplete="off"
-                        placeholder={"MM/YYYY"}
-                        className={` bg-[#0000000d] text-[#606060] rounded-3xl mt-1 pl-3 pr-8 py-2 outline-none `}
-                      />
+                    <div className="font-medium xs:w-fit w-full">
+                      <label
+                        htmlFor="endDate"
+                        className="text-primary xs:min-w-[130px] flex justify-between py-2 md:py-0"
+                      >
+                        End Date
+                        <span className="text-sm text-gray-300">optional</span>
+                      </label>
+                      <div className="xs:w-fit w-full flex flex-col relative">
+                        <div className="bg-[#0000000d] text-[#606060] pl-3 pr-6 py-1 mt-1 rounded-3xl outline-none Mui-focused ">
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DesktopDatePicker
+                              {...register("endDate")}
+                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
+                              inputFormat="MM/dd/yyyy"
+                              value={new Date(watch("endDate"))}
+                              onChange={(e) => {
+                                setValue("endDate", e?.toDateString(), {
+                                  shouldValidate: true,
+                                });
+                              }}
+                              renderInput={(params) => (
+                                <TextField {...params} />
+                              )}
+                            />
+                          </LocalizationProvider>
+                        </div>
+                        {errors.endDate && (
+                          <span className="text-red-500 text-left text-sm font-normal mt-1">
+                            {errors.endDate?.message}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    {errors.endDate && (
-                      <span className="text-red-500 text-left text-sm font-normal mt-1">
-                        {errors.endDate?.message}
-                      </span>
-                    )}
-                  </div>
+                  </ThemeProvider>
                 </div>
+
                 <div className="items-center my-4 font-medium">
                   <label
                     htmlFor="descripton"

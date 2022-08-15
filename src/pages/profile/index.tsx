@@ -35,18 +35,82 @@ const theme = createTheme({
     fontFamily: "Nunito",
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        html: {
+          "::-webkit-scrollbar": {
+            width: "2px",
+          },
+          "*::-webkit-scrollbar-track": {},
+          "*::-webkit-scrollbar-thumb": {},
+          "*::-webkit-scrollbar-thumb:hover": {},
+        },
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
           borderRadius: "1.5rem",
-          border: "2px solid transparent",
+          border: "2px solid #ecedee",
+
           "&.Mui-focused": {
-            borderColor: "transparent",
+            borderColor: "#848Abd",
             boxShadow: "0px 1px 2px 2px transparent",
           },
         },
         notchedOutline: {
           border: "none",
+        },
+      },
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: {
+          // ...
+        },
+        listbox: {
+          "&::-webkit-scrollbar": {
+            width: "3px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888",
+          },
+
+          "&::-webkit-scrollbar-track-piece:end": {
+            backgroundColor: "transparent",
+            marginBottom: "10px",
+          },
+
+          "&::-webkit-scrollbar-track-piece:start": {
+            backgroundColor: " transparent",
+            marginTop: "10px",
+          },
+        },
+        option: {
+          padding: "6px 14px",
+          backgroundColor: "transparent",
+          color: "#848ABD",
+          display: "flex",
+          borderRadius: "10px",
+
+          "&:hover": {
+            "& .Mui-Typography-root": { color: "white" },
+          },
+
+          "& .Mui-selected": {
+            backgroundColor: "#606060",
+            "& .Mui-Typography-root": { color: "white" },
+          },
+
+          "&.disabled": {
+            opacity: 0.5,
+            "& .Mui-Typography-root": {
+              color: "#848ABD",
+            },
+          },
         },
       },
     },
@@ -56,6 +120,7 @@ const theme = createTheme({
 const CustomPaper = (props: any) => {
   return (
     <Paper
+      className="custom-scrollbar"
       {...props}
       sx={{
         width: "100%",
@@ -256,14 +321,8 @@ const UpdateProfilePage = () => {
                     onChange={(e, value) => setUserSkills(value)}
                     className="md:max-w-[400px] w-full bg-[#0000000d] mt-1 rounded-3xl text-[#606060] "
                     sx={{
-                      display: "inline-block",
-                      "& div": {
-                        borderColor: "transparent",
-                        outline: "none",
-                      },
-                      "& MuiOutlinedInput-root": {
-                        border: "none",
-                        borderRadius: "50px",
+                      "*::-webkit-scrollbar": {
+                        width: "2px",
                       },
                     }}
                     renderInput={(params) => (

@@ -60,11 +60,11 @@ const CreateNewTeam = () => {
               <div className="flex pt-10 pb-5">
                 <div className="flex-[50%] relative px-2 py-1 xl:text-xl text-sm rounded-3xl md:text-lg text-white bg-[#848abd] shadow-lg mr-1">
                   {step === 0 && (
-                    <div className="absolute bottom-[40px] text-black right-0 flex justify-end items-center">
+                    <div className="absolute bottom-[40px] text-black lg:right-[-15px] right-[-10px] flex justify-end items-center">
                       <div className="mr-2 xl:text-lg relative text-sm lg:text-base">
                         Create Team Profile
                       </div>
-                      <div className="bg-[#ff3d2e] px-2 py-1 flex justify-center  items-center text-white after:content-['']  after:border-[#c3281d] after:border-solid after:rotate-45 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-5px] after:bottom-[-6px]">
+                      <div className="bg-[#ff3d2e] px-2 py-1 flex justify-center rounded-3xl  items-center text-white after:content-['']  after:border-[#ff3d2e] after:border-solid after:rotate-180 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute lg:after:right-[20px] after:right-[15px] after:bottom-[-6px]">
                         50%
                       </div>
                     </div>
@@ -79,11 +79,11 @@ const CreateNewTeam = () => {
                   }
                 >
                   {step === 1 && (
-                    <div className="absolute bottom-[40px] text-black right-0 flex justify-end items-center">
+                    <div className="absolute bottom-[40px] text-black right-[-15px] flex justify-end items-center">
                       <div className="mr-2 xl:text-lg relative text-xs lg:text-base">
                         Add Skill Distribution
                       </div>
-                      <div className="bg-[#ff3d2e] px-2 py-1 flex justify-center items-center text-white after:content-[''] rounded-3xl  ">
+                      <div className="bg-[#ff3d2e] px-2 py-1 flex justify-center items-center text-white after:content-[''] rounded-3xl  after:border-[#ff3d2e] after:border-solid after:rotate-180 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[20px] after:bottom-[-6px]">
                         100%
                       </div>
                     </div>
