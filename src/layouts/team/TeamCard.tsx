@@ -281,7 +281,6 @@ export const TeamCard = (props: Props) => {
                             title={skill.skillName}
                             arrow
                             placement="top"
-                            followCursor
                           >
                             <span
                               className={`px-2 py-1 block rounded-2xl md:max-w-[175px] max-w-[140px] hover:scale-105 cursor-default  truncate  ${
