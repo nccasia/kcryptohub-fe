@@ -158,10 +158,11 @@ const Home: NextPage = () => {
     setSearchText(event.currentTarget.value);
   };
 
+  console.log("skillList", skillList);
   return (
     <Layout>
       <header
-        className="absolute bg-[#e6e6e6] top-0 left-0 right-0 bottom-0 overflow-hidden bg-center bg-cover w-full h-screen "
+        className="absolute bg-[#e6e6e6] top-0 left-0 right-0 bottom-0 overflow-hidden bg-center bg-cover w-full h-fit md:h-screen"
 
         // style={{
         //   backgroundImage:
@@ -215,7 +216,7 @@ const Home: NextPage = () => {
                                 setSkillList(skill);
                               }
                             }}
-                            className="absolute right-2 bottom-[8px] text-[#08537e] text-[20px]"
+                            className="absolute right-2 bottom-[8px] mb-[1px] text-[#08537e] text-[20px]"
                           />
                         )}
 
@@ -223,7 +224,7 @@ const Home: NextPage = () => {
                           in={show}
                           className={`${
                             show ? "absolute" : "hidden"
-                          } bg-white border-2 border-black max-h-[250px] w-full overflow-auto z-[100] custom-scrollbar shadow-lg !font-nunito`}
+                          } bg-white rounded-xl h-[50vh] -top-[50vh] w-full  overflow-auto z-20 custom-scrollbar shadow-lg !font-nunito `}
                           ref={subNodeRef as Ref<unknown>}
                         >
                           <h1
@@ -260,17 +261,13 @@ const Home: NextPage = () => {
                     <h2 className="text-black mx-3 md:flex items-center hidden ">
                       in
                     </h2>
-                    <select
+                    {/* <select
                       className="appearance-none mr-3 min-w-[190px] font-nunito bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-10 sm:text-sm"
                       {...register("timeZone")}
                     >
                       <option className="font-nunito">--Timezone--</option>
                       {Object.values(TimeZone).map((cur, index) => (
-                        <option
-                          key={index}
-                          value={cur}
-                          className="font-nunito z-20 text-sm w-full px-3 block"
-                        >
+                        <option key={index} value={cur} className="font-nunito">
                           {cur}
                         </option>
                       ))}
@@ -286,7 +283,7 @@ const Home: NextPage = () => {
                       type={2}
                     />
                     <button
-                      className="px-10 min-w-[150px] py-2 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full font-nunito"
+                      className="px-10 min-w-[150px] py-2 ml-0  md:ml-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full font-nunito"
                       onClick={() => {
                         router.push(
                           `teams?skill=${watch("skill")}&timezone=${watch(
@@ -304,13 +301,8 @@ const Home: NextPage = () => {
           </div>
         </div>
       </header>
-      <div
-        className=" bg-[#f9fafb] h-full flex flex-col items-center justify-center z-0"
-        style={{
-          paddingTop: "calc(100vh  - 50px)",
-        }}
-      >
-        <div className="block relative w-full h-fit  my-5 py-5 font-nunito">
+      <div className=" bg-[#f9fafb] h-full pt-[calc(100vh_+_50px)] flex flex-col items-center justify-center z-0">
+        <div className="block relative w-full   my-5 py-5 font-nunito">
           <div className="w-full text-center my-[70px] px-3 ">
             <h2 className="text-3xl font-normal mb-6 text-black">
               Start Your Search With Our Most Popular Services
@@ -330,7 +322,7 @@ const Home: NextPage = () => {
             <div className="px-3 md:px-[30px] grid grid-rows-1 md-2:grid-cols-2 md-3:grid-cols-3">
               {Object.keys(categoty).map((item, index) => (
                 <>
-                  <div className="block md:flex w-full px-4 mb-5 ">
+                  <div key={index} className="block md:flex w-full px-4 mb-5 ">
                     <div className="px-0 md:px-3">
                       <div className="w-20 h-20 bg-[#eff0f5] rounded-circle block relative mx-auto">
                         {categoty[item].icon}

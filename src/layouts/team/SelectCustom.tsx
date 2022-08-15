@@ -107,7 +107,7 @@ function SelectCustom({
       )}
     </div>
   ) : (
-    <div className="relative mr-3" ref={nodeRef as LegacyRef<HTMLDivElement>}>
+    <div className="relative " ref={nodeRef as LegacyRef<HTMLDivElement>}>
       <input
         className=" appearance-none mr-3 min-w-[190px] font-nunito bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-10 sm:text-sm"
         placeholder="Select Timezone"
@@ -120,7 +120,7 @@ function SelectCustom({
         in={show}
         className={`${
           show ? "absolute" : "hidden"
-        } bg-white rounded-xl max-h-[150px] w-full  overflow-auto z-[1000] custom-scrollbar shadow-lg !font-nunito `}
+        } bg-white rounded-xl h-[50vh] -top-[50vh] w-full  overflow-auto z-[1000] custom-scrollbar shadow-lg !font-nunito `}
         ref={subNodeRef as Ref<unknown>}
       >
         <h1 className={`text-xs pl-2 px-1 text-[#848ABD] mt-1 mb-1 `}>

@@ -77,8 +77,10 @@ const JoinTeamModal = ({ isShowModal, handleCloseModal }: IProps) => {
     dispatch(getAllContact());
   }, []);
 
-  const checkDuplicateId = (id: number) => {
-    const check = AllContact.find((item: IMemberContact) => item.userId === id);
+  const checkDuplicateTeamId = (index: number) => {
+    const check = AllContact.find(
+      (item: IMemberContact) => item.teamId === index
+    );
     if (check) {
       return true;
     } else {
@@ -87,7 +89,7 @@ const JoinTeamModal = ({ isShowModal, handleCloseModal }: IProps) => {
   };
 
   const onSubmit = async () => {
-    if (checkDuplicateId(userAccount.id)) {
+    if (checkDuplicateTeamId(parseInt(router.query.teamId as string))) {
       toast.error("You sended request to this team already");
       handleCloseModal();
       return;
@@ -105,11 +107,11 @@ const JoinTeamModal = ({ isShowModal, handleCloseModal }: IProps) => {
       dispatch(getAllContact());
       handleCloseModal();
     }
-  }, [success, dispatch, handleCloseModal]);
+  }, [success, dispatch]);
 
   return (
     <Modal keepMounted open={isShowModal} onClose={handleCloseModal}>
-      <div className="absolute top-1/2 left-1/2 rounded-lg  z-40 w-4/5 md:w-5/12 lg:w-2/6 mx-auto bg-white -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute top-1/2 left-1/2 rounded-lg  z-40 w-4/5 md:w-5/12 lg:w-2/6 mx-auto bg-white -translate-x-1/2 -translate-y-1/2 focus:outline-none">
         <form className="p-10 font-nunito" onSubmit={handleSubmit(onSubmit)}>
           <label>
             <h1 className="text-2xl mb-4">Join Team</h1>

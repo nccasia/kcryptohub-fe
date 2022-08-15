@@ -337,14 +337,14 @@ const Members = () => {
     );
   };
 
-  const approveMember = async (index: number) => {
+  const approveMember = async (id: number) => {
     toast.success("Approve Success");
-    return await dispatch(changeStatus(index));
+    return await dispatch(changeStatus(id));
   };
 
-  const deleteMemberContact = async (index: number) => {
+  const deleteMemberContact = async (id: number) => {
     toast.success("Delete Success");
-    return await dispatch(deleteContact(index));
+    return await dispatch(deleteContact(id));
   };
 
   useEffect(() => {

@@ -121,11 +121,9 @@ export const joinTeamContactSlice = createSlice({
 		})
 			.addCase(getContact.fulfilled, (state, action) => {
 				state.memberContact = action.payload;
-				// console.log("payload", action.payload);
 			})
 			.addCase(getContact.rejected, (state, action) => {
 				state.loading = false;
-				// state.error = action.error.response;
 			})
 
 		builder.addCase(joinTeamContact.pending, (state) => {
@@ -133,9 +131,9 @@ export const joinTeamContactSlice = createSlice({
 		}).addCase(joinTeamContact.fulfilled, (state, action) => {
 			state.success = true;
 			state.loading = false;
+			state.error = action.payload?.data
 		}).addCase(joinTeamContact.rejected, (state, action) => {
 			state.loading = false;
-			// state.error = action.error.response;
 		})
 
 		builder.addCase(changeStatus.pending, (state) => {
