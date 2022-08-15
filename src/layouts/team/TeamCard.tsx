@@ -1,4 +1,5 @@
 import { teamApi } from "@/api/team-api";
+import BadgeHover from "@/components/team/BadgeHover";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToShortList, removeFromShortList } from "@/redux/profileSlice";
 import { getUserInfoSelector } from "@/redux/selector";
@@ -18,10 +19,27 @@ import {
   LabelOutlined,
   LanguageOutlined,
 } from "@mui/icons-material";
+import { createTheme, ThemeProvider, Tooltip } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IconHover } from "./IconHover";
+
+const theme = createTheme({
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        popper: {},
+        tooltip: {
+          fontFamily: "Nunito",
+          fontSize: "14px",
+          borderRadius: "15px",
+        },
+      },
+    },
+  },
+});
+
 const skillColor = [
   "bg-red-500",
   "bg-orange-500",
@@ -255,21 +273,31 @@ export const TeamCard = (props: Props) => {
                     (skill, i) => (
                       <div
                         key={i}
-                        className="inline-block p-1 pt-3 font-nunito"
+                        className="inline-block p-1 pt-3 font-nunito "
                       >
-                        <span
-                          className={`px-2 py-1 block rounded-2xl  md:max-w-[175px] max-w-[140px] md:hover:max-w-[500px] hover:max-h-[50px] hover:scale-110 cursor-default truncate  ${
-                            skillColor[
-                              skill.id
-                                ? skill.id % skillColor.length
-                                : Math.round(
-                                    Math.random() * (skillColor.length - 1)
-                                  )
-                            ]
-                          } text-white ml-2 mt-2 font-medium`}
-                        >
-                          {skill.skillName}
-                        </span>
+                        <ThemeProvider theme={theme}>
+                          <Tooltip
+                            className="font-nunito"
+                            title={skill.skillName}
+                            arrow
+                            placement="top"
+                            followCursor
+                          >
+                            <span
+                              className={`px-2 py-1 block rounded-2xl md:max-w-[175px] max-w-[140px] hover:scale-105 cursor-default  truncate  ${
+                                skillColor[
+                                  skill.id
+                                    ? skill.id % skillColor.length
+                                    : Math.round(
+                                        Math.random() * (skillColor.length - 1)
+                                      )
+                                ]
+                              } text-white ml-2 mt-2 font-medium`}
+                            >
+                              {skill.skillName}
+                            </span>
+                          </Tooltip>
+                        </ThemeProvider>
                       </div>
                     )
                   )}

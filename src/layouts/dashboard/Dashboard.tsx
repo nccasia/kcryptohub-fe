@@ -67,14 +67,14 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   });
 
   useEffect(() => {
-    /*     if (
+    if (
       userProfile.id &&
       team.userId &&
       (!team.userId || team.userId !== userProfile.id)
     ) {
       toast.error("You are not authorized to access this team dashboard");
       router.push("/manage-teams");
-    } */
+    }
   }, [team, userProfile]);
   return (
     // <div className="bg-thirdary h-full">
