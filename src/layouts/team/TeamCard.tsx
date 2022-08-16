@@ -1,5 +1,6 @@
 import { teamApi } from "@/api/team-api";
 import BadgeHover from "@/components/team/BadgeHover";
+import TooltipCustom from "@/components/team/TooltipCustom";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToShortList, removeFromShortList } from "@/redux/profileSlice";
 import { getUserInfoSelector } from "@/redux/selector";
@@ -19,26 +20,17 @@ import {
   LabelOutlined,
   LanguageOutlined,
 } from "@mui/icons-material";
-import { createTheme, ThemeProvider, Tooltip } from "@mui/material";
+import {
+  ClickAwayListener,
+  createTheme,
+  ThemeProvider,
+  Tooltip,
+  Zoom,
+} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IconHover } from "./IconHover";
-
-const theme = createTheme({
-  components: {
-    MuiTooltip: {
-      styleOverrides: {
-        popper: {},
-        tooltip: {
-          fontFamily: "Nunito",
-          fontSize: "14px",
-          borderRadius: "15px",
-        },
-      },
-    },
-  },
-});
 
 const skillColor = [
   "bg-red-500",
@@ -273,33 +265,11 @@ export const TeamCard = (props: Props) => {
                 {team.skills &&
                   (showAllSkill ? team.skills : team.skills.slice(0, 7)).map(
                     (skill, i) => (
-                      <div
+                      <TooltipCustom
                         key={i}
-                        className="inline-block p-1 pt-3 font-nunito "
-                      >
-                        <ThemeProvider theme={theme}>
-                          <Tooltip
-                            className="font-nunito"
-                            title={skill.skillName}
-                            arrow
-                            placement="top"
-                          >
-                            <span
-                              className={`px-2 py-1 block rounded-2xl md:max-w-[175px] max-w-[140px] hover:scale-105 cursor-default  truncate  ${
-                                skillColor[
-                                  skill.id
-                                    ? skill.id % skillColor.length
-                                    : Math.round(
-                                        Math.random() * (skillColor.length - 1)
-                                      )
-                                ]
-                              } text-white ml-2 mt-2 font-medium`}
-                            >
-                              {skill.skillName}
-                            </span>
-                          </Tooltip>
-                        </ThemeProvider>
-                      </div>
+                        skillColor={skillColor}
+                        skill={skill}
+                      />
                     )
                   )}
                 {team.skills.length > 7 && !showAllSkill ? (
