@@ -27,7 +27,7 @@ export const updateProfile = createAsyncThunk(
 
 export const uploadAvatar = createAsyncThunk(
   "uploadAvatar",
-  async ({avatar, userId}:{avatar: File, userId: number}) => {
+  async ({ avatar, userId }: { avatar: File, userId: number }) => {
     const formData = new FormData();
     formData.append("file", avatar);
     const response = await axiosClient.post(`/profile/${userId}/image`, formData, {
@@ -65,6 +65,15 @@ export const removeFromShortList = createAsyncThunk(
     return id;
   }
 );
+
+export const removeAllShortList = createAsyncThunk(
+  "removeAllShortList",
+  async () => {
+    const res = await shortListApi.removeAllShortList();
+    return res;
+  }
+);
+
 const initialState = {
   userInfo: {} as IProfile,
   skills: [] as ISkill[],
@@ -114,10 +123,10 @@ export const profileSlice = createSlice({
         toast.error("Can't add to short list!");
       })
       .addCase(addToShortList.fulfilled, (state, action) => {
-        if(!state.userInfo.shortList) state.userInfo.shortList = [];
-        if(action.payload){
+        if (!state.userInfo.shortList) state.userInfo.shortList = [];
+        if (action.payload) {
           state.userInfo.shortList = [
-            ...state.userInfo.shortList,action.payload,
+            ...state.userInfo.shortList, action.payload,
           ];
         }
       })
@@ -125,9 +134,15 @@ export const profileSlice = createSlice({
         toast.error("Can't remove from short list!");
       })
       .addCase(removeFromShortList.fulfilled, (state, action) => {
-        if(action.payload){
+        if (action.payload) {
           state.userInfo.shortList = state.userInfo.shortList.filter(item => item !== action.payload);
         }
+      })
+      .addCase(removeAllShortList.rejected, (state, action) => {
+        toast.error("Can't remove all short list!");
+      })
+      .addCase(removeAllShortList.fulfilled, (state, action) => {
+        state.userInfo.shortList = [];
       });
   },
 });

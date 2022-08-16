@@ -10,6 +10,7 @@ import {
   Menu,
   PersonOutline,
   Search,
+  SearchOutlined,
 } from "@mui/icons-material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
@@ -27,6 +28,8 @@ import {
   AccordionSummary,
   ClickAwayListener,
   createTheme,
+  InputAdornment,
+  TextField,
   ThemeProvider,
   Tooltip,
 } from "@mui/material";
@@ -69,11 +72,17 @@ export const Header = () => {
 
   const router = useRouter();
 
-  const headerRef = useRef<HTMLElement>(null);
-
   useEffect(() => {
     setUserImage(profileApi.getImageUrl(user.avatarPath));
   }, [user.avatarPath]);
+
+  const size = useWindowSize() as { width: number; height: number };
+
+  useEffect(() => {
+    if (size?.width > 840) {
+      setIsOpenHamburger(false);
+    }
+  }, [size?.width]);
 
   const handleHamburger = () => {
     setIsOpenHamburger(!isOpenHamburger);
@@ -87,6 +96,10 @@ export const Header = () => {
     setShowPopUp(false);
   };
 
+  const handleShowSearch = () => {
+    setShowSearch(!showSearch);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div className={` w-full relative mx-auto  z-50 `}>
@@ -98,7 +111,6 @@ export const Header = () => {
           }`}
         ></div>
         <nav
-          ref={headerRef}
           className={` flex items-center justify-between px-[15px] pt-[15px] font-nunito `}
         >
           <div className="py-5 relative">
@@ -192,22 +204,6 @@ export const Header = () => {
                       : "transform transition duration-500 ease-in-out "
                   }`}
                 />
-              </div>
-              <div className="hidden px-[5px] md-2:block">
-                <svg
-                  className={`w-6 h-6 text-black cursor-pointer`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
               </div>
               <div className="hidden relative px-[5px] md-2:block tracking-wider ">
                 {user?.username ? (
@@ -386,12 +382,11 @@ export const Header = () => {
         >
           <div className="relative">
             <div className="py-12 relative">
-              <a
-                href="index.html"
-                className="text-3xl font-bold text-center text-white font-nunito"
-              >
-                <span>Kryptohub</span>
-              </a>
+              <Link href="/">
+                <span className="text-3xl font-bold text-center text-white font-nunito cursor-pointer">
+                  Kryptohub
+                </span>
+              </Link>
             </div>
             <div
               className="absolute right-0 top-3 cursor-pointer"
