@@ -226,7 +226,6 @@ export const Teams = () => {
                           setShow(!show);
                           setSwitchValue(e.currentTarget.id);
                         }}
-                        ref={nodeRef as LegacyRef<HTMLDivElement>}
                       >
                         <div
                           className={` flex items-center text-center justify-between w-full ${
