@@ -123,7 +123,7 @@ function SelectCustom({
         in={show}
         className={`${
           show ? "absolute" : "hidden"
-        } bg-white rounded-xl max-h-[150px] w-full  overflow-auto z-[1000] custom-scrollbar shadow-lg !font-nunito `}
+        } bg-white rounded-xl h-[50vh] -top-[50vh] w-full  overflow-auto z-[1000] custom-scrollbar shadow-lg !font-nunito `}
         ref={subNodeRef as Ref<unknown>}
       >
         <h1 className={`text-xs pl-2 px-1 text-[#848ABD] mt-1 mb-1 `}>

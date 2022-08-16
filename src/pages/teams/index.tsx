@@ -19,7 +19,7 @@ import {
 import { useOutsideClick } from "hook/OuterClick";
 import { useRouter } from "next/router";
 import { FormEvent, LegacyRef, useCallback, useEffect, useState } from "react";
-
+import FilterListIcon from "@mui/icons-material/FilterList";
 const theme = createTheme({});
 
 const SortBy = ["none"];
@@ -196,26 +196,49 @@ export const Teams = () => {
                 </div>
                 <div className="flex-1 bg-white">
                   <div className="flex flex-col sm:flex-row p-2 items-end sm:items-center  justify-center text-sm md:text-md w-full h-full">
-                    <div className="flex flex-row items-center justify-center flex-1 w-full relative sm:mb-0 mb-2">
-                      <input
-                        type="text"
-                        placeholder="Search here..."
-                        className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  border-[1px] border-[#848abd] rounded-3xl"
-                        name="search"
-                        value={keyword}
-                        onChange={handleSearch}
-                      />
-                      <div className="absolute right-2">
-                        {filter.search.length > 0 ? (
-                          <Close
-                            onClick={() => {
-                              setFilter({ ...filter, search: "" });
-                              setKeyword("");
-                            }}
-                          />
-                        ) : (
-                          <SearchIcon className="text-[#606060]" />
-                        )}
+                    <div className="flex w-full">
+                      <div className="flex flex-row items-center justify-center flex-1 relative sm:mb-0 mb-2">
+                        <input
+                          type="text"
+                          placeholder="Search here..."
+                          className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  border-[1px] border-[#848abd] rounded-3xl"
+                          name="search"
+                          value={keyword}
+                          onChange={handleSearch}
+                        />
+                        <div className="absolute right-2">
+                          {filter.search.length > 0 ? (
+                            <Close
+                              onClick={() => {
+                                setFilter({ ...filter, search: "" });
+                                setKeyword("");
+                              }}
+                            />
+                          ) : (
+                            <SearchIcon className="text-[#606060]" />
+                          )}
+                        </div>
+                      </div>
+                      <div
+                        className="cursor-pointer xxs:hidden flex items-center ml-2 text-[#848abd]"
+                        id="All Filter"
+                        onClick={(e) => {
+                          setShow(!show);
+                          setSwitchValue(e.currentTarget.id);
+                        }}
+                        ref={nodeRef as LegacyRef<HTMLDivElement>}
+                      >
+                        <div
+                          className={` flex items-center text-center justify-between w-full ${
+                            switchValue === "All Filter"
+                              ? "px-2 py-2 rounded-full border-none text-[#848abd]"
+                              : ""
+                          }  `}
+                        >
+                          <label className={`pointer-events-none min-w-[50px]`}>
+                            <FilterListIcon />
+                          </label>
+                        </div>
                       </div>
                     </div>
                     <div className="flex flex-1 justify-center items-center font-jost ml-3">

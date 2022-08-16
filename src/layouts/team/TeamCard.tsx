@@ -155,9 +155,11 @@ export const TeamCard = (props: Props) => {
                   <span className="w-full break-words">{team.teamName}</span>
                 </a>
               </Link>
-              <p className="text-[#606060] px-2 text-ellipsis inline-block max-w-full">
-                {team.slogan}
-              </p>
+              {team.slogan && (
+                <p className="text-[#606060] px-2 text-ellipsis inline-block max-w-full">
+                  {team.slogan}
+                </p>
+              )}
             </div>
             <div className="absolute top-0 right-0 flex-1 text-right">
               <div className="absolute top-[-6px] right-6 group ">
