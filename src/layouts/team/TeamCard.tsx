@@ -150,7 +150,7 @@ export const TeamCard = (props: Props) => {
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-3xl xxs:inline-block hidden break-words"
+                  className="lg:text-3xl text-2xl py-1 px-3 xxs:inline-block hidden break-words "
                 >
                   <span className="w-full break-words">{team.teamName}</span>
                 </a>
