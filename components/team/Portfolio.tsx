@@ -160,7 +160,7 @@ const Portfolio = ({
                     />
                   )}
                 </div>
-                <p className="md:text-[20px] text-[18px] text-[#6A797D] whitespace-pre-line mb-5 break-words ">
+                <p className="md:text-[22px] text-[18px] text-[#6A797D] whitespace-pre-line mb-5 break-words ">
                   <div className={`${show ? "overflow-hidden" : ""}`}>
                     {!show ? (
                       <span
@@ -169,7 +169,7 @@ const Portfolio = ({
                         Description: {portfolio.description}
                       </span>
                     ) : (
-                      <span className="text-[#6b7a7e] overflow-auto inline-block text-left custom-scrollbar lg:max-h-[240px] max-h-[300px] break-all whitespace-pre-line">
+                      <span className="text-[#6b7a7e] overflow-auto inline-block text-left custom-scrollbar lg:max-h-[240px] max-h-[300px] whitespace-pre-line">
                         Description: {portfolio.description}
                       </span>
                     )}
