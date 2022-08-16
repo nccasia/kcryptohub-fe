@@ -144,13 +144,13 @@ export const TeamCard = (props: Props) => {
               </Link>
             </div>
           </div>
-          <div className="xl:col-span-11 md:col-span-10 col-span-12 px-2 flex items-center justify-center">
+          <div className="xl:col-span-11 md:col-span-10 col-span-12 px-2 pr-6 flex items-center justify-center">
             <div className="w-full break-words font-nunito">
               <Link href={`/team/${team.id}`}>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="lg:text-3xl text-2xl py-1 px-3 xxs:inline-block hidden break-words "
+                  className="lg:text-3xl text-2xl xxs:inline-block hidden break-words "
                 >
                   <span className="w-full break-words">{team.teamName}</span>
                 </a>
