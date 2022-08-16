@@ -105,7 +105,7 @@ const Portfolio = ({
                 </button>
               </div>
             )}
-            <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-5 mb-5">
+            <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-5 md:p-4 items-center">
               <div className="hidden md:block w-full">
                 {portfolio?.imageUrl ? (
                   <div className=" w-full h-[350px]  mt-2 relative">
@@ -160,7 +160,7 @@ const Portfolio = ({
                     />
                   )}
                 </div>
-                <p className="md:text-[26px] text-[18px] text-[#6A797D] whitespace-pre-line mb-5 break-words ">
+                <p className="md:text-[20px] text-[18px] text-[#6A797D] whitespace-pre-line mb-5 break-words ">
                   <div className={`${show ? "overflow-hidden" : ""}`}>
                     {!show ? (
                       <span
