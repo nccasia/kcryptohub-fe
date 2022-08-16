@@ -55,6 +55,7 @@ export const Teams = () => {
   const [totalTeam, setTotalTeam] = useState(0);
   const { show, setShow, nodeRef, subNodeRef } = useOutsideClick();
   const [isReady, setIsReady] = useState(false);
+  const [showFilterMobile, setShowFilterMobile] = useState(false);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -145,6 +146,11 @@ export const Teams = () => {
       setIsReady(true);
     }
   }, [filter, currentPage, SkillSelect, SkillSelectIsLoaded]);
+
+  useEffect(() => {
+    console.log(show);
+  }, [show]);
+
   const debounceSearch = useCallback(
     debounce((value: string) => {
       setFilter({ ...filter, search: value });
@@ -196,8 +202,30 @@ export const Teams = () => {
                 </div>
                 <div className="flex-1 bg-white">
                   <div className="flex flex-col sm:flex-row p-2 items-end sm:items-center  justify-center text-sm md:text-md w-full h-full">
-                    <div className="flex w-full">
-                      <div className="flex flex-row items-center justify-center flex-1 relative sm:mb-0 mb-2">
+                    <div className="xxs:flex hidden flex-row items-center justify-center w-full flex-1 relative sm:mb-0 mb-2">
+                      <input
+                        type="text"
+                        placeholder="Search here..."
+                        className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  border-[1px] border-[#848abd] rounded-3xl"
+                        name="search"
+                        value={keyword}
+                        onChange={handleSearch}
+                      />
+                      <div className="absolute right-2">
+                        {filter.search.length > 0 ? (
+                          <Close
+                            onClick={() => {
+                              setFilter({ ...filter, search: "" });
+                              setKeyword("");
+                            }}
+                          />
+                        ) : (
+                          <SearchIcon className="text-[#606060]" />
+                        )}
+                      </div>
+                    </div>
+                    <div className="w-full flex xxs:hidden">
+                      <div className=" flex flex-row items-center justify-center w-full flex-1 relative sm:mb-0 mb-2">
                         <input
                           type="text"
                           placeholder="Search here..."
@@ -223,7 +251,7 @@ export const Teams = () => {
                         className="cursor-pointer xxs:hidden flex items-center ml-2 text-[#848abd]"
                         id="All Filter"
                         onClick={(e) => {
-                          setShow(!show);
+                          setShowFilterMobile(!showFilterMobile);
                           setSwitchValue(e.currentTarget.id);
                         }}
                       >
@@ -240,6 +268,7 @@ export const Teams = () => {
                         </div>
                       </div>
                     </div>
+
                     <div className="flex flex-1 justify-center items-center font-jost ml-3">
                       <div className="xxs:flex hidden lg:text-[18px] text-[#606060] text-[14px]">
                         <div
@@ -289,7 +318,7 @@ export const Teams = () => {
                           </div>
                         </div>
                         <div
-                          className="cursor-pointer flex items-center justify-center mr-5 rounded-full border-none text-[#848abd]"
+                          className="cursor-pointer flex items-center justify-center rounded-full border-none text-[#848abd]"
                           id="Timezone"
                           onClick={(e) => {
                             setSwitchValue(e.currentTarget.id);
@@ -400,7 +429,7 @@ export const Teams = () => {
 
         <div
           className={`fixed right-0 top-0 font-jost bg-white overflow-y-scroll h-full custom-scrollbar z-50 p-2 min-w-[300px] w-full xs:w-fit shadow-xl text-cyan-900 animate-slide-in-left ${
-            show ? "" : "hidden"
+            show || showFilterMobile ? "" : "hidden"
           }`}
           ref={subNodeRef as LegacyRef<HTMLDivElement>}
         >
@@ -409,6 +438,7 @@ export const Teams = () => {
               className="absolute left-2 cursor-pointer"
               onClick={() => {
                 setShow(false);
+                setShowFilterMobile(false);
               }}
             >
               <CancelOutlined className="text-[#606060]" />
