@@ -90,7 +90,7 @@ const JoinTeamModal = ({ isShowModal, handleCloseModal }: IProps) => {
 
   const onSubmit = async () => {
     if (checkDuplicateTeamId(parseInt(router.query.teamId as string))) {
-      toast.error("You sended request to this team already");
+      toast.error("You already sent the request to this team");
       handleCloseModal();
       return;
     } else {

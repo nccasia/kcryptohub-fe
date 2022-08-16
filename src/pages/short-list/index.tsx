@@ -5,6 +5,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import {
   Container,
   createTheme,
+  Modal,
   Pagination,
   ThemeProvider,
 } from "@mui/material";
@@ -27,9 +28,10 @@ import { shortListApi } from "@/api/shortList-api";
 import { useRouter } from "next/router";
 import { getUserInfoSelector } from "@/redux/selector";
 import { teamApi } from "@/api/team-api";
-import { removeFromShortList } from "@/redux/profileSlice";
+import { removeAllShortList, removeFromShortList } from "@/redux/profileSlice";
 import React from "react";
 import ShortlistCard from "@/components/team/Shortlist-card";
+import { toast } from "react-toastify";
 
 const theme = createTheme({
   components: {
@@ -57,12 +59,24 @@ const ShortList = () => {
   const dispatch = useAppDispatch();
   const userProfile = useAppSelector(getUserInfoSelector);
   const [shortList, setShortList] = useState<ITeam[]>([]);
-  const [show, setShow] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
 
   const [pageItem, setPageItem] = useState<ITeam[]>([]);
   const [page, setPage] = useState(1);
   const [prev, setPrev] = useState(1);
   const [next, setNext] = useState(9);
+
+  // const mail = btoa(userProfile.emailAddress);
+  // const link = process.env.API_URL + router.asPath + "/" + mail;
+
+  // console.log(link);
+
+  const handleShowModal = () => {
+    setIsShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setIsShowModal(false);
+  };
 
   useEffect(() => {
     shortListApi.getShortList().then((res) => {
@@ -79,6 +93,7 @@ const ShortList = () => {
   const handleRemoveFromShortList = (teamId: number) => {
     dispatch(removeFromShortList(teamId));
   };
+
   return (
     <Layout>
       <ThemeProvider theme={theme}>
@@ -106,11 +121,11 @@ const ShortList = () => {
           </div> */}
         </div>
         <div className="sticky top-0 z-[40] bg-white w-full text-[#606060]">
-          <nav className="w-full mb-4 shadow-lg flex flex-col sm:flex-row sm:justify-between items-center px-[30px] mx-auto">
-            <h1 className="text-xl text-left font-bold">
+          <nav className="w-full mb-4 shadow-lg flex flex-col sm:flex-row sm:justify-between sm:items-center px-[15px] mx-auto">
+            <h1 className="text-xl text-left font-bold mt-3 sm:mt-0">
               KryptoHub {">"} Short List
             </h1>
-            <ul className="flex relative mb-0  pt-1  font-nunito">
+            <ul className="flex justify-end relative mb-0  pt-1  font-nunito">
               <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0">
                 <button
                   className="text-[#848abd] pr-2 text-base relative inline-flex"
@@ -124,7 +139,11 @@ const ShortList = () => {
                   </span>
                 </button>
               </li>
-              <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0 ">
+              <li
+                className={`${
+                  shortList.length === 0 ? "hidden" : "block"
+                } flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0 `}
+              >
                 <button
                   type="button"
                   className="text-base font-bold text-[#606060]"
@@ -132,14 +151,23 @@ const ShortList = () => {
                   Share List
                 </button>
               </li>
-              <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0 ">
+              <li
+                className={`${
+                  shortList.length === 0 ? "hidden" : "block"
+                } flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0 `}
+              >
                 <button
+                  onClick={handleShowModal}
                   type="button"
                   className="text-base text-[#606060] font-bold"
                 >
                   New List
                 </button>
               </li>
+              <ShortListRemoveAllModal
+                isShowModal={isShowModal}
+                handleCloseModal={handleCloseModal}
+              />
             </ul>
           </nav>
         </div>
@@ -309,6 +337,23 @@ const ShortList = () => {
               </div>
             </div>
           ))}
+          {shortList.length === 0 && (
+            <div className="  py-10 flex items-center justify-center w-full">
+              <div className="text-[#7d6d6d9a] inline-flex">
+                <span>No Data</span>
+                <svg
+                  className="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z" />
+                  <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z" />
+                  <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z" />
+                </svg>
+              </div>
+            </div>
+          )}
         </div>
         {pageItem && pageItem.length > 0 && (
           <Pagination
@@ -332,3 +377,85 @@ const ShortList = () => {
 };
 
 export default ShortList;
+
+interface ShortListRemoveAllModalProps {
+  isShowModal: boolean;
+  handleCloseModal: () => void;
+}
+
+const ShortListRemoveAllModal = ({
+  isShowModal,
+  handleCloseModal,
+}: ShortListRemoveAllModalProps) => {
+  const dispatch = useAppDispatch();
+
+  const handleRemoveAllShortList = async () => {
+    toast.success("All teams removed from shortlist");
+    handleCloseModal();
+    await dispatch(removeAllShortList());
+  };
+
+  return (
+    <Modal keepMounted open={isShowModal}>
+      <div className="absolute top-1/2 left-1/2 rounded-lg  z-40 w-4/5 md:w-5/12 lg:w-2/6 mx-auto bg-white -translate-x-1/2 -translate-y-1/2 focus:outline-none">
+        <form className="p-10 font-nunito">
+          <label>
+            <h1 className="mb-5">Will you need this list in the future?</h1>
+            <p className="mb-2">
+              You will no longer be able to edit your current list after
+              completing this action.
+            </p>
+          </label>
+          <div className="flex justify-between items-center">
+            <button
+              className="bg-transparent hover:bg-[#848abd] text-[#848abd] font-semibold hover:text-white py-2 px-4 border border-[#848abd] hover:border-transparent rounded"
+              type="button"
+              onClick={handleCloseModal}
+            >
+              Cancel
+            </button>
+            <button
+              className="bg-[#848abd] hover:bg-[#848abd] text-white font-semibold hover:text-white py-2 px-4 border border-transparent hover:border-[#848abd] rounded"
+              type="button"
+              onClick={handleRemoveAllShortList}
+            >
+              Remove All
+            </button>
+          </div>
+        </form>
+      </div>
+    </Modal>
+  );
+};
+
+const ShareShortListModal = () => {
+  return (
+    <Modal keepMounted open>
+      <div className="absolute top-1/2 left-1/2 rounded-lg  z-40 w-4/5 md:w-5/12 lg:w-2/6 mx-auto bg-white -translate-x-1/2 -translate-y-1/2 focus:outline-none">
+        <form className="p-10 font-nunito">
+          <label>
+            <h1 className="mb-5">Share your shortlist</h1>
+            <p className="mb-2">
+              You will no longer be able to edit your current list after
+              completing this action.
+            </p>
+          </label>
+          <div className="flex justify-between items-center">
+            <button
+              className="bg-transparent hover:bg-[#848abd] text-[#848abd] font-semibold hover:text-white py-2 px-4 border border-[#848abd] hover:border-transparent rounded"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              className="bg-[#848abd] hover:bg-[#848abd] text-white font-semibold hover:text-white py-2 px-4 border border-transparent hover:border-[#848abd] rounded"
+              type="button"
+            >
+              Share
+            </button>
+          </div>
+        </form>
+      </div>
+    </Modal>
+  );
+};
