@@ -158,7 +158,6 @@ const Home: NextPage = () => {
     setSearchText(event.currentTarget.value);
   };
 
-  console.log("skillList", skillList);
   return (
     <Layout>
       <header

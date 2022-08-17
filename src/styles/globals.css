@@ -27,9 +27,23 @@ a {
   box-sizing: border-box;
 }
 
-.Toastify__toast--error {
-  font-size: 13px;
+.Toastify__toast-container{
+  font-family: "Nunito", "sans-serif";
 }
+
+.Toastify__toast--error {
+  font-size: 14px;
+  border-radius: 50px;
+}
+.Toastify__toast--warning{
+  font-size: 14px;
+  border-radius: 50px;
+}
+.Toastify__toast--success{
+  font-size: 14px;
+  border-radius: 50px;
+}
+
 
 .hidden-arrow-input-number::-webkit-inner-spin-button,
 .hidden-arrow-input-number::-webkit-outer-spin-button {

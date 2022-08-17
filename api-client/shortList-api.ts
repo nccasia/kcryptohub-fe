@@ -15,4 +15,9 @@ export const shortListApi = {
     const res = await axiosClient.delete(`/user/remove-short-list/${id}`);
     return res.data;
   },
+
+  async removeAllShortList() {
+    const res = await axiosClient.delete("/user/remove-all-short-list");
+    return res.data;
+  }
 };
