@@ -115,7 +115,7 @@ const JoinTeamModal = ({ isShowModal, handleCloseModal }: IProps) => {
         <form className="p-10 font-nunito" onSubmit={handleSubmit(onSubmit)}>
           <label>
             <h1 className="text-2xl mb-4">Join Team</h1>
-            <p className="mb-4 text-sm">some thing description</p>
+            <p className="mb-4 text-sm">Some thing description</p>
             <div className="block">
               <div className="my-4 ">
                 <label className="text-[#606060] min-w-[130px] mb-2 ml-1 block py-2 md:py-0">
