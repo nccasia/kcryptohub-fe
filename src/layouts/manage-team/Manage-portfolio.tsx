@@ -67,9 +67,9 @@ export const ManagePortfolio = (props: Props) => {
                 >
                   <h1 className="text-3xl font-normal">My portfolio</h1>
                   {show ? (
-                    <KeyboardArrowDown className="text-2xl text-secondary" />
+                    <KeyboardArrowDown className="text-2xl text-[#848abd]" />
                   ) : (
-                    <KeyboardArrowUp className="text-2xl text-secondary" />
+                    <KeyboardArrowUp className="text-2xl text-[#848abd]" />
                   )}
                 </div>
                 <Collapse in={show}>
