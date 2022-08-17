@@ -610,7 +610,7 @@ export const SkillDis = (props: IProps) => {
             className={
               +loading
                 ? "cursor-not-allowed py-3 text-white px-3 rounded-full flex items center bg-[#848abd]"
-                : "py-3 text-white px-3 rounded-full flex items center bg-[#848abd] cursor-pointer"
+                : "py-3 text-white px-3 rounded-full flex items center bg-[#848abd] cursor-pointer hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
             }
             ref={buttonRef}
           >
@@ -638,7 +638,7 @@ export const SkillDis = (props: IProps) => {
             className={
               +loading
                 ? "cursor-not-allowed py-3 text-white px-3 rounded-full flex items center bg-[#848abd]"
-                : "py-3 text-white px-3 rounded-full flex items center bg-[#848abd] cursor-pointer"
+                : "py-3 text-white px-3 rounded-full flex items center bg-[#848abd] cursor-pointer hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
             }
             ref={buttonRef}
           >

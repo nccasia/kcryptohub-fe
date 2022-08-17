@@ -170,7 +170,7 @@ const PortfolioDetail = () => {
           <Link
             href={`/team/${teamId}/dashboard/portfolio/${portfolioId}/edit`}
           >
-            <a className="px-4 py-2 w-fit rounded-full bg-[#848ABD] text-white  flex justify-center items-center cursor-pointer ">
+            <a className="px-4 py-2 w-fit rounded-full bg-[#848ABD] text-white  flex justify-center items-center cursor-pointer hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]">
               Edit Portoflio Item
             </a>
           </Link>

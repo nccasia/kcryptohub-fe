@@ -143,7 +143,7 @@ const TeamDetail = () => {
                   </div>
                   <button
                     type="button"
-                    className="mt-4 px-4 py-3 text-[14px] rounded-full text-white bg-[#848ABD] uppercase hover:shadow hover:shadow-[#848ABD]"
+                    className="mt-4 px-4 py-3 text-[14px] rounded-full text-white bg-[#848ABD] uppercase hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
                     onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
                   >
                     See my work

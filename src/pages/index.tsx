@@ -282,7 +282,7 @@ const Home: NextPage = () => {
                       type={2}
                     />
                     <button
-                      className="px-10 min-w-[150px] py-2 ml-0  md:ml-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full font-nunito"
+                      className="px-10 min-w-[150px] py-2 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full font- hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
                       onClick={() => {
                         router.push(
                           `teams?skill=${watch("skill")}&timezone=${watch(

@@ -41,13 +41,13 @@ const Portfolio = () => {
               them and showcase examples of work that you have performed.
             </p>
             <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
-              <a className="px-8 py-3 w-fit bg-[#848ABD] font-semibold text-white  flex justify-center items-center cursor-pointer rounded-full">
+              <a className="px-8 py-3 w-fit bg-[#848ABD] font-semibold text-white  flex justify-center items-center cursor-pointer rounded-full hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]">
                 Add a Portfolio Item
               </a>
             </Link>
           </div>
           <div className="p-4 max-w-[650px]">
-            <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4 w-full">
+            <div className="flex flex-col items-center justify-center max-w-[300px] shadow-xl shadow-indigo-100 rounded-xl p-4 w-full ">
               <h1 className="text-lg mb-2">1. Add a new Portfolio Item</h1>
               <Step1Img />
             </div>
@@ -86,7 +86,7 @@ const Portfolio = () => {
         <hr />
         <div className="p-3 flex justify-end">
           <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
-            <a className="px-4 py-2 w-fit bg-[#848ABD] font-semibold text-white  flex justify-center items-center cursor-pointer rounded-full">
+            <a className="px-4 py-2 w-fit bg-[#848ABD] font-semibold text-white  flex justify-center items-center cursor-pointer rounded-full hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]">
               Add a Portfolio Item
             </a>
           </Link>
