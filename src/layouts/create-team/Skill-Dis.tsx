@@ -274,10 +274,10 @@ export const SkillDis = (props: IProps) => {
         callbacks: {
           label: function (tooltipItems: any) {
             if (tooltipItems.label === "Allocate a percentage") {
-              return tooltipItems.label + ": " + 0 + "%";
+              return " "+tooltipItems.label + ": " + 0 + "%";
             } else {
               return (
-                tooltipItems.label + " : " + tooltipItems.formattedValue + "%"
+                " "+tooltipItems.label + ": " + tooltipItems.formattedValue + "%"
               );
             }
           },
