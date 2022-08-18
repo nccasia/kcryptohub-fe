@@ -180,6 +180,7 @@ export const SkillDis = (props: IProps) => {
   const [skillDistribute, setDataSkillDistribute] = useState<IValue[]>([]);
   const [skillName, setSkillName] = useState("");
   const [skillId, setSkillId] = useState("");
+  const [valid, setValid] = useState(false);
 
   useEffect(() => {
     if (props.skillDistribution && props.skillDistribution?.length > 0) {
@@ -274,10 +275,14 @@ export const SkillDis = (props: IProps) => {
         callbacks: {
           label: function (tooltipItems: any) {
             if (tooltipItems.label === "Allocate a percentage") {
-              return " "+tooltipItems.label + ": " + 0 + "%";
+              return " " + tooltipItems.label + ": " + 0 + "%";
             } else {
               return (
-                " "+tooltipItems.label + ": " + tooltipItems.formattedValue + "%"
+                " " +
+                tooltipItems.label +
+                ": " +
+                tooltipItems.formattedValue +
+                "%"
               );
             }
           },
@@ -322,7 +327,11 @@ export const SkillDis = (props: IProps) => {
         },
       ],
     };
-    if (total === 100) {
+    if (
+      total === 100 &&
+      skillDistribute.filter((cur) => cur.quantity < 5 && cur.quantity > 0)
+        .length === 0
+    ) {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       if (props.title === "Add") {
         await dispatch(
@@ -355,6 +364,18 @@ export const SkillDis = (props: IProps) => {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       setLoading(true);
       toast.error("Total percentage exceed 100%");
+      setTimeout(() => {
+        (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
+        setLoading(false);
+      }, 3100);
+    } else if (
+      skillDistribute.filter((cur) => cur.quantity < 5 && cur.quantity > 0)
+        .length !== 0
+    ) {
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
+      setLoading(true);
+      toast.error("Total percentage have some items are less than 5%");
+      setValid(true);
       setTimeout(() => {
         (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
         setLoading(false);
@@ -539,7 +560,13 @@ export const SkillDis = (props: IProps) => {
 
                     <input
                       maxLength={3}
-                      className="w-[65px] px-3 py-1 border-2 border-[#b0a6ef] rounded-2xl"
+                      className={`w-[65px] px-3 py-1 border-2 focus:outline-none  rounded-2xl ${
+                        skillDistribute &&
+                        valid &&
+                        +skillDistribute[index].quantity < 5
+                          ? "border-red-400"
+                          : "border-[#b0a6ef]"
+                      }`}
                       value={Number(cur.quantity)}
                       onChange={(event) => {
                         if (parseInt(event.target.value) > 100) return;
@@ -554,6 +581,14 @@ export const SkillDis = (props: IProps) => {
                     />
                     <span className="px-3">%</span>
                   </div>
+
+                  {skillDistribute &&
+                  valid &&
+                  +skillDistribute[index].quantity < 5 ? (
+                    <span className="text-[#606060">
+                      Less than 5% limits your exposure. Please to 5% or more
+                    </span>
+                  ) : null}
                 </div>
               ))}
           </div>

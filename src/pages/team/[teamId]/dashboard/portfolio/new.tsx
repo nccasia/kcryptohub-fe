@@ -18,6 +18,7 @@ import { TextField, Typography } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -91,6 +92,20 @@ const schemaValidation = yup.object().shape({
             path,
             message: "Project Start date cannot be in the future.",
           });
+        } else if (
+          date.getDate().toString() === "NaN" ||
+          date.getMonth().toString() === "NaN" ||
+          date.getFullYear().toString() === "NaN"
+        ) {
+          return createError({
+            path,
+            message: "Start Date is invalid",
+          });
+        } else if (+value?.split(" ")[3] < 1960) {
+          return createError({
+            path,
+            message: "Start Date year must be larger than 1960",
+          });
         } else {
           return true;
         }
@@ -99,6 +114,29 @@ const schemaValidation = yup.object().shape({
     .nullable(),
   endDate: yup
     .string()
+    .test("date", "", function (value, ctx) {
+      const { path, createError } = ctx;
+
+      if (!value) return true;
+      const date = new Date(value);
+      if (
+        date.getDate().toString() === "NaN" ||
+        date.getMonth().toString() === "NaN" ||
+        date.getFullYear().toString() === "NaN"
+      ) {
+        return createError({
+          path,
+          message: "End Date is invalid",
+        });
+      } else if (+value?.split(" ")[3] < 1960) {
+        return createError({
+          path,
+          message: "End Date year must be larger than 1960",
+        });
+      } else {
+        return true;
+      }
+    })
     .when("startDate", {
       is: (startDate: string) => startDate,
       then: yup
@@ -344,9 +382,9 @@ const NewPortfolio = () => {
                       <div className="xs:w-fit w-full flex flex-col relative">
                         <div className="bg-[#0000000d] text-[#606060] pl-3 pr-6 py-1 mt-1 rounded-3xl outline-none Mui-focused ">
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DesktopDatePicker
+                            <DatePicker
                               {...register("endDate")}
-                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root MuiPickersDay-today"
+                              minDate={new Date("01/01/1960")}
                               inputFormat="MM/dd/yyyy"
                               value={new Date(watch("endDate"))}
                               onChange={(e) => {
