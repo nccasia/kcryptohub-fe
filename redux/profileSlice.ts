@@ -2,6 +2,7 @@ import axiosClient from "@/api/axios-client";
 import { shortListApi } from "@/api/shortList-api";
 import { IProfile } from "@/type/profile/profile.type";
 import { ISkill } from "@/type/skill/skill.types";
+import { ITeam } from "@/type/team/team.type";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
@@ -74,9 +75,18 @@ export const removeAllShortList = createAsyncThunk(
   }
 );
 
+export const shareShortListWithAccessToken = createAsyncThunk(
+  "shareShortListWithAccessToken",
+  async (accessToken: string) => {
+    const res = await shortListApi.shareShortListWithAccessToken(accessToken);
+    return res;
+  }
+);
+
 const initialState = {
   userInfo: {} as IProfile,
   skills: [] as ISkill[],
+  shortList: [] as ITeam[],
 };
 
 export const profileSlice = createSlice({
@@ -143,7 +153,13 @@ export const profileSlice = createSlice({
       })
       .addCase(removeAllShortList.fulfilled, (state, action) => {
         state.userInfo.shortList = [];
-      });
+      })
+      .addCase(shareShortListWithAccessToken.rejected, (state, action) => {
+        console.log(action.payload);
+      }).addCase(shareShortListWithAccessToken.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.shortList = action.payload
+      })
   },
 });
 
