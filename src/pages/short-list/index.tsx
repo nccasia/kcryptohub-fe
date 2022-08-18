@@ -66,10 +66,6 @@ const ShortList = () => {
   const [prev, setPrev] = useState(1);
   const [next, setNext] = useState(9);
 
-  // const mail = btoa(userProfile.emailAddress);
-  // const link = process.env.API_URL + router.asPath + "/" + mail;
-
-  // console.log(link);
 
   const handleShowModal = () => {
     setIsShowModal(true);
