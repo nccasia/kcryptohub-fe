@@ -1,19 +1,16 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Layout } from "@/src/layouts/layout";
 import { ITeam } from "@/type/team/team.type";
-
+import { createTheme, Modal, Pagination, ThemeProvider } from "@mui/material";
+import { useEffect, useState } from "react";
 import {
-  Container,
-  createTheme,
-  Modal,
-  Pagination,
-  ThemeProvider,
-} from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-
+  ShareShortListModal,
+  ShortlistCard,
+} from "@/components/team/Shortlist-card";
 import {
-  ArrowBackIos,
   AvTimerOutlined,
+  Bookmark,
+  BookmarkBorderOutlined,
   CheckCircleOutlined,
   ContactlessOutlined,
   GroupsOutlined,
@@ -23,22 +20,14 @@ import {
 } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
-import { IconHover } from "../../layouts/team/IconHover";
-import { shortListApi } from "@/api/shortList-api";
+import { IconHover } from "../../../layouts/team/IconHover";
 import { useRouter } from "next/router";
-import { getUserInfoSelector } from "@/redux/selector";
 import { teamApi } from "@/api/team-api";
-import {
-  removeAllShortList,
-  removeFromShortList,
-  shareShortListWithAccessToken,
-} from "@/redux/profileSlice";
-import React from "react";
-import {
-  ShareShortListModal,
-  ShortlistCard,
-  ShortListRemoveAllModal,
-} from "@/components/team/Shortlist-card";
+import { shareShortListWithAccessToken } from "@/redux/profileSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { addToShortList, removeFromShortList } from "@/redux/profileSlice";
+import { getUserInfoSelector } from "@/redux/selector";
 import { toast } from "react-toastify";
 
 const theme = createTheme({
@@ -62,17 +51,53 @@ const theme = createTheme({
   },
 });
 
-const ShortList = () => {
+const ShareShortList = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { token } = router.query;
   const userProfile = useAppSelector(getUserInfoSelector);
+  useEffect(() => {
+    if (router.isReady) {
+      dispatch(shareShortListWithAccessToken(token as string));
+    }
+  }, [router.isReady]);
+
   const [shortList, setShortList] = useState<ITeam[]>([]);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [isShowModalShare, setIsShowModalShare] = useState(false);
+
+  const getShareShortList = useSelector(
+    (state: RootState) => state.ProfileReducer.shortList
+  );
+
   const [pageItem, setPageItem] = useState<ITeam[]>([]);
   const [page, setPage] = useState(1);
   const [prev, setPrev] = useState(1);
   const [next, setNext] = useState(9);
+
+  const handleAddToShortList = async (id: number) => {
+    return await dispatch(addToShortList(id));
+  };
+
+  const handleRemoveFromShortList = async (id: number) => {
+    return await dispatch(removeFromShortList(id));
+  };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      router.push("/login");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (getShareShortList?.length > 0) {
+      setShortList(getShareShortList);
+    }
+  }, [getShareShortList]);
+
+  useEffect(() => {
+    setPageItem(shortList);
+  }, [shortList]);
 
   const handleShowModal = () => {
     setIsShowModal(true);
@@ -80,111 +105,37 @@ const ShortList = () => {
   const handleCloseModal = () => {
     setIsShowModal(false);
   };
-  const handleShowModalShare = () => {
-    setIsShowModalShare(true);
-  };
-  const handleCloseModalShare = () => {
-    setIsShowModalShare(false);
-  };
-
-  useEffect(() => {
-    shortListApi.getShortList().then((res) => {
-      if (res) {
-        setShortList(res as ITeam[]);
-      }
-    });
-  }, [userProfile.shortList]);
-
-  useEffect(() => {
-    setPageItem(shortList);
-  }, [shortList]);
-
-  const handleRemoveFromShortList = (teamId: number) => {
-    dispatch(removeFromShortList(teamId));
-  };
 
   return (
     <Layout>
       <ThemeProvider theme={theme}>
-        <div className="flex items-center justify-center relative bg-[#606060] border-t border-[#848abd] font-nunito">
-          {/* <div className="py-6 flex items-center justify-start text-white  font-semibold w-full md-2:w-4/5 px-2">
-            <Container>
-              <div className="flex items-center justify-start relative">
-                <div className="px-4 py-2 w-fit xxs:flex hidden items-center justify-center text-4xl">
-                  <span>My Shortlist</span>
-                </div>
-                <div className="flex items-center justify-center relative ml-4 text-3xl">
-                  <div className="px-1">
-                    <span>
-                      <BookmarkIcon className="text-red-500" />
-                    </span>
-                  </div>
-                  <div className="px-1">
-                    <span className="text-sm">
-                      {userProfile.shortList?.length || 0} Companies
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </Container>
-          </div> */}
-        </div>
+        <div className="flex items-center justify-center relative bg-[#606060] border-t border-[#848abd] font-nunito"></div>
         <div className="sticky top-0 z-[40] bg-white w-full text-[#606060]">
           <nav className="w-full mb-4 shadow-lg flex flex-col sm:flex-row sm:justify-between sm:items-center px-[15px] mx-auto">
             <h1 className="text-xl text-left font-bold mt-3 sm:mt-0">
               KryptoHub {">"} Short List
             </h1>
             <ul className="flex justify-end relative mb-0  pt-1  font-nunito">
-              <li className="flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0">
-                <button
-                  className="text-[#848abd] pr-2 text-base relative inline-flex"
-                  onClick={() => {
-                    router.back();
-                  }}
-                >
-                  <ArrowBackIos className="hover:underline !text-[#848abd]" />
-                  <span className="hover:underline !text-[#848abd] font-bold">
-                    Back
-                  </span>
-                </button>
-              </li>
               <li
                 className={`${
-                  shortList.length === 0 ? "hidden" : "block"
+                  shortList?.length === 0 ? "invisible" : "visible"
                 } flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0 `}
               >
                 <button
                   type="button"
-                  onClick={handleShowModalShare}
+                  onClick={handleShowModal}
                   className="text-base font-bold text-[#606060]"
                 >
                   Share List
                 </button>
               </li>
-              <li
-                className={`${
-                  shortList.length === 0 ? "hidden" : "block"
-                } flex justify-center py-6 mx-0 relative  text-center min-w-fit w-28 after:bg-[#eff0f5]  after:absolute after:h-full after:w-[1px] after:bottom-0 after:right-0 `}
-              >
-                <button
-                  onClick={handleShowModal}
-                  type="button"
-                  className="text-base text-[#606060] font-bold"
-                >
-                  New List
-                </button>
-              </li>
-              <ShortListRemoveAllModal
-                isShowModal={isShowModal}
-                handleCloseModal={handleCloseModal}
-              />
-              <ShareShortListModal
-                isShowModal={isShowModalShare}
-                handleCloseModal={handleCloseModalShare}
-              />
             </ul>
           </nav>
         </div>
+        <ShareShortListModal
+          isShowModal={isShowModal}
+          handleCloseModal={handleCloseModal}
+        />
         <div className="flex flex-col items-center justify-center w-full  font-nunito">
           {shortList.slice(prev - 1, next).map((team, index) => (
             <div key={index} className="w-full px-3">
@@ -232,15 +183,25 @@ const ShortList = () => {
                       </div>
                       <div className="absolute top-0 right-0 flex-1 text-right">
                         <div className="absolute top-[-6px] right-6 group">
-                          <div>
-                            <ShortlistCard
-                              title="Remove from Shortlist "
-                              teamId={team.id}
-                              handleRemoveFromShortList={
-                                handleRemoveFromShortList
-                              }
-                            />
-                          </div>
+                          {userProfile?.shortList.includes(team.id) ? (
+                            <>
+                              <ShortlistCard
+                                title="Remove from Shortlist "
+                                teamId={team.id}
+                                handleRemoveFromShortList={
+                                  handleRemoveFromShortList
+                                }
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <ShortlistCard
+                                title="Add to Shortlist "
+                                teamId={team.id}
+                                handleRemoveFromShortList={handleAddToShortList}
+                              />
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -352,20 +313,11 @@ const ShortList = () => {
               </div>
             </div>
           ))}
-          {shortList.length === 0 && (
-            <div className="  py-10 flex items-center justify-center w-full">
-              <div className="text-[#7d6d6d9a] inline-flex">
-                <span>No Data</span>
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z" />
-                  <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z" />
-                  <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z" />
-                </svg>
+
+          {shortList?.length === 0 && (
+            <div className="  py-10 my-5 flex items-center justify-center w-full h-full">
+              <div className="text-[#7d6d6d9a] text-4xl">
+                <h1>Not found</h1>
               </div>
             </div>
           )}
@@ -392,4 +344,114 @@ const ShortList = () => {
   );
 };
 
-export default ShortList;
+export default ShareShortList;
+
+interface Props {
+  team: ITeam;
+}
+
+// const Card = (props: Props) => {
+//   const team = props.team;
+//   const dispatch = useAppDispatch();
+//   const [show, setShow] = useState(false);
+//   const userProfile = useAppSelector(getUserInfoSelector);
+// const handleAddToShortList = async (id: number) => {
+//     return await dispatch(addToShortList(id));
+//   };
+//   const handleRemoveFromShortList = async (id: number) => {
+//     return await dispatch(removeFromShortList(id));
+//   };
+
+//   return (
+//     <>
+//     {userProfile.shortList?.includes(team.id) ? (
+//       <div>
+//         {show ? (
+//           <div
+//             className="relative"
+//             onMouseEnter={() => setShow(true)}
+//             onMouseLeave={() => setShow(false)}
+//           >
+//             <Bookmark
+//               className={`absolute cursor-pointer ${
+//                 show ? "bg-white text-[#848ABD]" : ""
+//               }`}
+//             ></Bookmark>
+//             <div className="absolute w-[190px] z-[100] h-[60px] bg-white border-2 border-[#848ABD] rounded-lg top-[24px] right-[-24px]">
+//               <div className="text-left px-2">
+//                 <li className="list-none py-1 cursor-pointer border-b-[1px] font-nunito">
+//                   <a
+//                     className="text-[#848ABD]  font-medium"
+//                     onClick={() =>
+//                       handleRemoveFromShortList(team.id)
+//                     }
+//                   >
+//                     Remove from Shortlist
+//                   </a>
+//                 </li>
+
+//                 <Link href={`/short-list`}>
+//                   <a className="text-sm text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
+//                     View Shortlist {">"}
+//                   </a>
+//                 </Link>
+//               </div>
+//             </div>
+//           </div>
+//         ) : (
+//           <Bookmark
+//             className={`absolute cursor-pointer text-[#848ABD] hover:bg-white hover:text-[#848ABD] ${
+//               show ? "hidden" : ""
+//             }`}
+//             onMouseEnter={() => setShow(true)}
+//           ></Bookmark>
+//         )}
+//       </div>
+//     ) : (
+//       <div className="relative">
+//         {show ? (
+//           <div
+//             className="relative"
+//             onMouseEnter={() => setShow(true)}
+//             onMouseLeave={() => setShow(false)}
+//           >
+//             <Bookmark
+//               className={`absolute cursor-pointer ${
+//                 show ? "bg-white text-[#848ABD]" : ""
+//               }`}
+//             ></Bookmark>
+//             <div className="absolute w-[150px] z-[100] h-[60px] bg-white border-2 rounded-lg border-[#848ABD] top-[24px] right-[-24px]">
+//               <div className="text-left px-2">
+//                 <li className="list-none py-1 cursor-pointer border-b-[1px] font-nunito">
+//                   <a
+//                     className="text-[#848ABD] font-medium "
+//                     onClick={() =>
+//                       handleAddToShortList(team.id)
+//                     }
+//                   >
+//                     Add to Shortlist
+//                   </a>
+//                 </li>
+
+//                 <Link href={`/short-list`}>
+//                   <a className=" text-sm text-red-500 hover:underline tracking-widest cursor-pointer font-nunito">
+//                     View Shortlist {">"}
+//                   </a>
+//                 </Link>
+//               </div>
+//             </div>
+//           </div>
+//         ) : (
+//           <BookmarkBorderOutlined
+//             className={`absolute text-[#848ABD] cursor-pointer hover:bg-white hover:text-[#848ABD] ${
+//               show ? "hidden" : ""
+//             }`}
+//             onMouseEnter={() => setShow(true)}
+//           ></BookmarkBorderOutlined>
+//         )}
+//       </div>
+//     )}
+//     </>
+//   )
+
+// }
