@@ -592,7 +592,7 @@ const PortfolioEdit = () => {
               </button>
               <button
                 className="px-4 py-2 w-fit bg-[#848abd] rounded-full text-white  flex justify-center items-center cursor-pointer border-2 border-[#848abd]
-               disabled:opacity-50 disabled:cursor-not-allowed"
+               disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
                 onClick={handleSubmit(onSubmit)}
                 disabled={!isValid}
               >

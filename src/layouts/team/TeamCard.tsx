@@ -1,4 +1,6 @@
 import { teamApi } from "@/api/team-api";
+import BadgeHover from "@/components/team/BadgeHover";
+import TooltipCustom from "@/components/team/TooltipCustom";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToShortList, removeFromShortList } from "@/redux/profileSlice";
 import { getUserInfoSelector } from "@/redux/selector";
@@ -18,10 +20,18 @@ import {
   LabelOutlined,
   LanguageOutlined,
 } from "@mui/icons-material";
+import {
+  ClickAwayListener,
+  createTheme,
+  ThemeProvider,
+  Tooltip,
+  Zoom,
+} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IconHover } from "./IconHover";
+
 const skillColor = [
   "bg-red-500",
   "bg-orange-500",
@@ -126,20 +136,22 @@ export const TeamCard = (props: Props) => {
               </Link>
             </div>
           </div>
-          <div className="xl:col-span-11 md:col-span-10 col-span-12 px-2 flex items-center justify-center">
+          <div className="xl:col-span-11 md:col-span-10 col-span-12 px-2 pr-6 flex items-center justify-center">
             <div className="w-full break-words font-nunito">
               <Link href={`/team/${team.id}`}>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-3xl xxs:inline-block hidden break-words"
+                  className="lg:text-3xl text-2xl xxs:inline-block hidden break-words "
                 >
                   <span className="w-full break-words">{team.teamName}</span>
                 </a>
               </Link>
-              <p className="text-[#606060] px-2 text-ellipsis inline-block max-w-full">
-                {team.slogan}
-              </p>
+              {team.slogan && (
+                <p className="text-[#606060] px-2 text-ellipsis inline-block max-w-full">
+                  {team.slogan}
+                </p>
+              )}
             </div>
             <div className="absolute top-0 right-0 flex-1 text-right">
               <div className="absolute top-[-6px] right-6 group ">
@@ -253,24 +265,11 @@ export const TeamCard = (props: Props) => {
                 {team.skills &&
                   (showAllSkill ? team.skills : team.skills.slice(0, 7)).map(
                     (skill, i) => (
-                      <div
+                      <TooltipCustom
                         key={i}
-                        className="inline-block p-1 pt-3 font-nunito"
-                      >
-                        <span
-                          className={`px-2 py-1 block rounded-2xl  md:max-w-[175px] max-w-[140px] md:hover:max-w-[500px] hover:max-h-[50px] hover:scale-110 cursor-default truncate  ${
-                            skillColor[
-                              skill.id
-                                ? skill.id % skillColor.length
-                                : Math.round(
-                                    Math.random() * (skillColor.length - 1)
-                                  )
-                            ]
-                          } text-white ml-2 mt-2 font-medium`}
-                        >
-                          {skill.skillName}
-                        </span>
-                      </div>
+                        skillColor={skillColor}
+                        skill={skill}
+                      />
                     )
                   )}
                 {team.skills.length > 7 && !showAllSkill ? (
@@ -325,7 +324,7 @@ export const TeamCard = (props: Props) => {
               : "#"
           }
         >
-          <span className="w-full xs:py-4 py-2 px-2 items-center flex md:justify-between justify-center bg-[#848ABD] rounded-full">
+          <span className="w-full xs:py-4 py-2 px-2 items-center flex md:justify-between justify-center bg-[#848ABD] rounded-full hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]">
             <span className="pr-2 text-sm">Visit Website</span>
             <LanguageOutlined />
           </span>

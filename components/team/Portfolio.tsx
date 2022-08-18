@@ -7,7 +7,7 @@ import React, { MutableRefObject, useState } from "react";
 import { IconMap } from "@/components/IconSVG/IconMap";
 import { useRouter } from "next/router";
 import { PortfolioApi } from "@/api/portfolio-api";
-import { Add, PlusOne } from "@mui/icons-material";
+import { Add, PlusOne, Close } from "@mui/icons-material";
 import { Box, Modal } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 const style = {
@@ -94,18 +94,18 @@ const Portfolio = ({
             justifyContent: "center",
           }}
         >
-          <div className="xs:w-2/3 w-full m-auto bg-white p-10 rounded-2xl shadow">
+          <div className="xs:w-2/3 w-full m-auto bg-white p-4 rounded-2xl shadow">
             {show && (
               <div className="w-full flex justify-end">
                 <button
                   className="py-2 px-2 sm:hidden block"
                   onClick={() => setPortfolio(null)}
                 >
-                  Close
+                  <Close />
                 </button>
               </div>
             )}
-            <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-5 mb-5">
+            <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-5 md:p-4 items-center">
               <div className="hidden md:block w-full">
                 {portfolio?.imageUrl ? (
                   <div className=" w-full h-[350px]  mt-2 relative">
@@ -132,7 +132,7 @@ const Portfolio = ({
               </div>
               <div className="relative">
                 <div className="">
-                  <h2 className="md:text-[30px] sm:text-[24px] xs:text-[18px] text-[16px] text-center my-2 break-words">
+                  <h2 className="md:text-[30px] sm:text-[24px] xs:text-[22px] text-[20px] font-medium text-center my-2 break-words">
                     {portfolio?.title}
                   </h2>
                 </div>
@@ -160,20 +160,22 @@ const Portfolio = ({
                     />
                   )}
                 </div>
-                <p className="md:text-[26px] text-[20px] text-[#6A797D] whitespace-pre-line mb-5 break-words ">
+                <p className="md:text-[22px] text-[18px] text-[#6A797D] whitespace-pre-line mb-5 break-words ">
                   <div className={`${show ? "overflow-hidden" : ""}`}>
                     {!show ? (
-                      <p className="text-sm text-[#6b7a7e] text-left  h-auto max-h-[100px] md:max-h-[200px] overflow-hidden break-words whitespace-pre-line">
+                      <span
+                        className={`text-[#6b7a7e] text-left inline-block h-auto max-h-[100px] md:max-h-[200px] overflow-hidden break-words whitespace-pre-line`}
+                      >
                         Description: {portfolio.description}
-                      </p>
+                      </span>
                     ) : (
-                      <p className="text-sm text-[#6b7a7e] overflow-auto text-left custom-scrollbar lg:max-h-[240px] max-h-[300px] break-all whitespace-pre-line">
+                      <span className="text-[#6b7a7e] overflow-auto inline-block text-left custom-scrollbar lg:max-h-[240px] max-h-[300px] whitespace-pre-line">
                         Description: {portfolio.description}
-                      </p>
+                      </span>
                     )}
 
                     <p
-                      hidden={portfolio.description?.length <= 650 || show}
+                      hidden={portfolio.description?.length <= 180 || show}
                       className="text-ellipsis overflow-hidden mt-2 text-xs text-[#848ABD] hover:underline tracking-widest cursor-pointer"
                       onClick={() => setShow(!show)}
                     >
