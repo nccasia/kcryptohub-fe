@@ -114,7 +114,10 @@ export const ShareShortListModal = ({
   const accessToken =
     typeof window !== "undefined" ? localStorage.getItem("accessToken") : "";
   const baseUrl = typeof window !== "undefined" ? window.location.href : "";
-  const link = `${baseUrl}/${router.query.token || accessToken}`;
+  const link =
+    baseUrl.indexOf(router.query.token as string) !== -1
+      ? baseUrl
+      : `${baseUrl}/${accessToken}`;
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [isCopied, setIsCopied] = useState(false);

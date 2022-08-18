@@ -183,7 +183,7 @@ const ShareShortList = () => {
                       </div>
                       <div className="absolute top-0 right-0 flex-1 text-right">
                         <div className="absolute top-[-6px] right-6 group">
-                          {userProfile?.shortList.includes(team.id) ? (
+                          {userProfile.shortList?.includes(team.id) ? (
                             <>
                               <ShortlistCard
                                 title="Remove from Shortlist "
