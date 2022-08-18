@@ -23,6 +23,7 @@ const InputField = ({
       </label>
       <div className="w-full flex flex-col">
         <input
+          id={label}
           type="text"
           {...register}
           autoComplete="off"

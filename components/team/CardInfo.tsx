@@ -201,7 +201,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
                 >
                   <GroupsIcon className="text-[#404040] w-5 h-5 hover:text-[#848ABD]" />
                   <div
-                    className={`absolute right-9 w-28 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px]  ${
+                    className={`absolute right-9 w-[88px] rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px]  ${
                       hover4 ? "" : "hidden"
                     }`}
                   >

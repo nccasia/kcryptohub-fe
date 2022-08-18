@@ -14,7 +14,7 @@ module.exports = {
       },
       boxShadow: {
         "3xl":
-          "inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%)",
+          "inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px #848abd",
         btn: "0px 5px 20px rgba(0, 0, 0, 0.04)",
       },
       keyframes: {

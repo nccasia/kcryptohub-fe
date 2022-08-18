@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { ArrowBackIos, Done, Save } from "@mui/icons-material";
 import { authApi } from "@/api/auth-api";
 import { toast } from "react-toastify";
@@ -23,6 +23,7 @@ const schemaValidation = Yup.object({
 const ForgotPassword = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const buttonRef = useRef(null);
   const {
     register,
     handleSubmit,
@@ -42,8 +43,13 @@ const ForgotPassword = () => {
       setIsSubmitting(false);
       reset();
     } catch (err: any) {
+      (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       toast.error(err.response.data.message);
-      setIsSubmitting(false);
+
+      setTimeout(() => {
+        (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
+        setIsSubmitting(false);
+      }, 3000);
     }
   };
   return (
@@ -76,7 +82,7 @@ const ForgotPassword = () => {
                 <label className="font-medium text-[#606060]">Email</label>
                 <input
                   type="text"
-                  className="border-solid  w-full  border-2 border-[#cae0e7]  rounded-3xl px-3 py-2 outline-none focus:shadow-3xl focus:border-[#cae0e7]"
+                  className="border-solid  w-full  border-2  rounded-3xl px-3 py-2 outline-none"
                   {...register("email")}
                   autoComplete="off"
                 />
@@ -87,11 +93,13 @@ const ForgotPassword = () => {
                 </span>
               )}
             </div>
-            {isSubmitting ? (
-              <button
-                type="button"
-                className="bg-[#5ca7db] rounded-3xl text-white block text-center py-2 px-0 md:px-5 w-1/2 shadow-lg mt-4 mx-auto"
-              >
+
+            <button
+              type="submit"
+              className="bg-[#848abd] rounded-3xl text-white block text-center py-2 px-0 md:px-5 w-1/2 shadow-lg mt-4 mx-auto"
+              ref={buttonRef}
+            >
+              {isSubmitting ? (
                 <LoadingButton
                   loading
                   loadingPosition="start"
@@ -100,15 +108,10 @@ const ForgotPassword = () => {
                 >
                   Sending
                 </LoadingButton>
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="bg-[#5ca7db] rounded-3xl text-white block text-center py-2 px-0 md:px-5 w-1/2 shadow-lg mt-4 mx-auto"
-              >
-                Reset Password
-              </button>
-            )}
+              ) : (
+                "Reset Password"
+              )}
+            </button>
           </form>
         </div>
       </div>

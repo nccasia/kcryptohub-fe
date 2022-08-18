@@ -35,8 +35,8 @@ const AwardList = () => {
             Add a New Award
           </a>
         </Link>
-        <div className="w-4 h-4 flex-none ">
-          <PlaylistAddOutlined className="text-[#848ABD] " />
+        <div className="w-4 h-4 flex-none mb-2">
+          <PlaylistAddOutlined className="text-[#848ABD]" />
         </div>
       </div>
       <ul>
