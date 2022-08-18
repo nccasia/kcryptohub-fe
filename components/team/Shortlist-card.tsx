@@ -122,7 +122,9 @@ export const ShareShortListModal = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const [isCopied, setIsCopied] = useState(false);
   const handleCopy = () => {
-    navigator.clipboard.writeText(inputRef.current?.value as string);
+    typeof navigator.clipboard !== "undefined"
+      ? navigator.clipboard?.writeText(inputRef.current?.value as string)
+      : "";
     setIsCopied(true);
   };
   useEffect(() => {
