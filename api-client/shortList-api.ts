@@ -19,5 +19,10 @@ export const shortListApi = {
   async removeAllShortList() {
     const res = await axiosClient.delete("/user/remove-all-short-list");
     return res.data;
+  },
+
+  async shareShortListWithAccessToken(accessToken: string) {
+    const res = await axiosClient.get(`/user/share-short-list/${accessToken}`);
+    return res.data;
   }
 };

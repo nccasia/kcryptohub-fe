@@ -15,7 +15,7 @@ const nextConfig = {
       "static2.clutch.co",
       "clutch.co",
       "www.goodfirms.co",
-      "172.16.100.117",
+      "172.16.100.186",
       "vinasa.org.vn",
       "www.vinasa.org.vn",
     ],
