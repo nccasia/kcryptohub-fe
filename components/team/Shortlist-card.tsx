@@ -7,6 +7,7 @@ import { Modal } from "@mui/material";
 import { useRouter } from "next/router";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 export function ShortlistCard({
   handleRemoveFromShortList,
@@ -122,9 +123,9 @@ export const ShareShortListModal = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const [isCopied, setIsCopied] = useState(false);
   const handleCopy = () => {
-    typeof window !== "undefined"
-      ? window.navigator.clipboard?.writeText(inputRef.current?.value as string)
-      : document.execCommand(inputRef.current?.value as string);
+    // typeof window !== "undefined"
+    //   ? window.navigator.clipboard?.writeText(inputRef.current?.value as string)
+    //   : document.execCommand(inputRef.current?.value as string);
     setIsCopied(true);
   };
   useEffect(() => {
@@ -152,31 +153,33 @@ export const ShareShortListModal = ({
           >
             X
           </span>
-          <div className="flex justify-between items-center">
-            <div className="w-full mx-auto py-2">
-              <input
+          <CopyToClipboard text={link}>
+            <div className="flex justify-between items-center">
+              <div className="w-full mx-auto py-2">
+                <input
+                  onClick={handleCopy}
+                  ref={inputRef}
+                  type="text"
+                  value={link}
+                  readOnly
+                  className="border-solid  bg-[#0000000d] w-full  border-2 border-r-0 border-[#848abd] rounded-l-3xl px-3 py-2 outline-none cursor-pointer"
+                />
+              </div>
+              <button
+                className="bg-transparent flex items-center hover:bg-[#848abd] text-[#848abd] font-semibold hover:text-white py-2 px-4 border-2 border-l-0 border-[#848abd] hover:border-transparent rounded-r-3xl "
+                type="button"
                 onClick={handleCopy}
-                ref={inputRef}
-                type="text"
-                value={link}
-                readOnly
-                className="border-solid  bg-[#0000000d] w-full  border-2 border-r-0 border-[#848abd] rounded-l-3xl px-3 py-2 outline-none cursor-pointer"
-              />
-            </div>
-            <button
-              className="bg-transparent flex items-center hover:bg-[#848abd] text-[#848abd] font-semibold hover:text-white py-2 px-4 border-2 border-l-0 border-[#848abd] hover:border-transparent rounded-r-3xl "
-              type="button"
-              onClick={handleCopy}
-            >
-              <span className="px-2">Copy</span>
+              >
+                <span className="px-2">Copy</span>
 
-              {!isCopied ? (
-                <ContentCopyIcon className="w-5 h-5" />
-              ) : (
-                <CheckCircleOutlineIcon className="w-5 h-5" />
-              )}
-            </button>
-          </div>
+                {!isCopied ? (
+                  <ContentCopyIcon className="w-5 h-5" />
+                ) : (
+                  <CheckCircleOutlineIcon className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+          </CopyToClipboard>
         </form>
       </div>
     </Modal>
