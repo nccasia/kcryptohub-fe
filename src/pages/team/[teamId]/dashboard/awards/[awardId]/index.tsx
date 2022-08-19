@@ -13,6 +13,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Delete, Language } from "@mui/icons-material";
+import { teamApi } from "@/api/team-api";
+import { setTeam } from "@/redux/dashboardSlice";
 
 const theme = createTheme({
   components: {
@@ -51,6 +53,9 @@ const AwardDetail = () => {
       deleteAward({ award: awardDetail, handler: handleRedirect })
     );
     await dispatch(getAwards(parseInt(teamId)));
+    teamApi.getTeam(+teamId).then((team) => {
+      dispatch(setTeam(team.data));
+    });
   };
 
   if (router.isFallback) {
