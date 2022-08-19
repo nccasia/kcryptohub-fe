@@ -27,7 +27,7 @@ a {
   box-sizing: border-box;
 }
 
-.Toastify__toast-container{
+.Toastify__toast-container {
   font-family: "Nunito", "sans-serif";
 }
 
@@ -35,15 +35,14 @@ a {
   font-size: 14px;
   border-radius: 50px;
 }
-.Toastify__toast--warning{
+.Toastify__toast--warning {
   font-size: 14px;
   border-radius: 50px;
 }
-.Toastify__toast--success{
+.Toastify__toast--success {
   font-size: 14px;
   border-radius: 50px;
 }
-
 
 .hidden-arrow-input-number::-webkit-inner-spin-button,
 .hidden-arrow-input-number::-webkit-outer-spin-button {
@@ -152,7 +151,7 @@ a {
 }
 
 .MuiTypography-root {
-  color: #848abd !important;
+  color: #848abd;
 }
 
 .MuiPickersDay-root {

@@ -467,7 +467,7 @@ export const Teams = () => {
                     className="cursor-pointer"
                   />
                 ) : (
-                  <SearchIcon />
+                  <SearchIcon className="text-[#606060]" />
                 )}
               </div>
             </div>
