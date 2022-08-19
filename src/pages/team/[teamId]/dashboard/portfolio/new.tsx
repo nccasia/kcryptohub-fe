@@ -106,6 +106,11 @@ const schemaValidation = yup.object().shape({
             path,
             message: "Start Date year must be larger than 1960",
           });
+        } else if (+value?.split(" ")[3] > 2099) {
+          return createError({
+            path,
+            message: "Start Date year must be smaller than 2099",
+          });
         } else {
           return true;
         }
@@ -132,6 +137,11 @@ const schemaValidation = yup.object().shape({
         return createError({
           path,
           message: "End Date year must be larger than 1960",
+        });
+      } else if (+value?.split(" ")[3] > 2099) {
+        return createError({
+          path,
+          message: "End Date year must be smaller than 2099",
         });
       } else {
         return true;

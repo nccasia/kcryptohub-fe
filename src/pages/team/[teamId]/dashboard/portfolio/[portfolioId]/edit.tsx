@@ -80,7 +80,7 @@ const schemaValidation = yup.object().shape({
   category: yup.string().required("Category is required"),
   estimate: yup.string().required("Project size is required"),
   startDate: yup
-    .date()
+    .string()
     .test(
       "maxDate",
       "Project Start date cannot be in the future.",
@@ -93,6 +93,25 @@ const schemaValidation = yup.object().shape({
             path,
             message: "Project Start date cannot be in the future.",
           });
+        } else if (
+          date.getDate().toString() === "NaN" ||
+          date.getMonth().toString() === "NaN" ||
+          date.getFullYear().toString() === "NaN"
+        ) {
+          return createError({
+            path,
+            message: "Start Date is invalid",
+          });
+        } else if (+value?.split(" ")[3] < 1960) {
+          return createError({
+            path,
+            message: "Start Date year must be larger than 1960",
+          });
+        } else if (+value?.split(" ")[3] > 2099) {
+          return createError({
+            path,
+            message: "Start Date year must be smaller than 2099",
+          });
         } else {
           return true;
         }
@@ -101,6 +120,34 @@ const schemaValidation = yup.object().shape({
     .nullable(),
   endDate: yup
     .string()
+    .test("date", "", function (value, ctx) {
+      const { path, createError } = ctx;
+
+      if (!value) return true;
+      const date = new Date(value);
+      if (
+        date.getDate().toString() === "NaN" ||
+        date.getMonth().toString() === "NaN" ||
+        date.getFullYear().toString() === "NaN"
+      ) {
+        return createError({
+          path,
+          message: "End Date is invalid",
+        });
+      } else if (+value?.split(" ")[3] < 1960) {
+        return createError({
+          path,
+          message: "End Date year must be larger than 1960",
+        });
+      } else if (+value?.split(" ")[3] > 2099) {
+        return createError({
+          path,
+          message: "End Date year must be smaller than 2099",
+        });
+      } else {
+        return true;
+      }
+    })
     .when("startDate", {
       is: (startDate: string) => startDate,
       then: yup
@@ -115,7 +162,7 @@ const schemaValidation = yup.object().shape({
             if (date.getTime() - new Date(ctx.parent.startDate).getTime() < 0) {
               return createError({
                 path,
-                message: `Please choose a date after ${ctx.parent.startDate.toDateString()}`,
+                message: `Please choose a date after ${ctx.parent.startDate}`,
               });
             } else {
               return true;
