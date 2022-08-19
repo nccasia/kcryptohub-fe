@@ -7,11 +7,15 @@ import { getAwards } from "@/redux/awardSlice";
 import { IAwardDetail } from "@/type/awards/awards.type";
 import { useRouter } from "next/router";
 import { PlaylistAddOutlined } from "@mui/icons-material";
+import { getDashboardAwardsSelector } from "@/redux/selector";
 
 const AwardList = () => {
   const router = useRouter();
+  const awards = useAppSelector(
+    getDashboardAwardsSelector
+  ) as unknown as IAwardDetail[];
   const { userInfo } = useAppSelector((state) => state.ProfileReducer);
-  const { awards } = useAppSelector((state) => state.AwardsReducer);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (router.query.teamId && userInfo?.team?.length) {
@@ -41,7 +45,7 @@ const AwardList = () => {
       </div>
       <ul>
         {awards?.length > 0 &&
-          awards.map((award: IAwardDetail) => (
+          awards.map((award) => (
             <li
               key={award.id}
               className="py-2 border-t border-[#cae0e7] truncate"
