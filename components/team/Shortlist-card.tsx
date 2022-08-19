@@ -80,7 +80,7 @@ export const ShortListRemoveAllModal = ({
         <form className="p-10 font-nunito">
           <label>
             <h1 className="mb-5">Will you need this list in the future?</h1>
-            <p className="mb-2">
+            <p className="mb-5">
               You will no longer be able to edit your current list after
               completing this action.
             </p>
