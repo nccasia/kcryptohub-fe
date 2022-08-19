@@ -148,7 +148,7 @@ const NewAward = () => {
               <button
                 type="submit"
                 onClick={handleAddAward}
-                className="bg-[#848abd] text-white px-4 py-2 border-2 border-transparent transition duration-300 rounded-3xl hover:border-[#848abd] hover:bg-white hover:text-[#848abd]"
+                className="bg-[#848abd] text-white px-4 py-2 border-2 border-transparent transition duration-300 rounded-full hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
                 ref={buttonRef}
               >
                 Add Award

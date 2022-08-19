@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
-
+import { Delete } from "@mui/icons-material";
 const schemaValidation = Yup.object({
   awardsTitle: Yup.string().required("Award title is required!"),
   awardsWebsite: Yup.string()
@@ -148,7 +148,7 @@ const EditAwardDetail = () => {
                     placeholder="e.g. #7 on Time's Top 100 Digital Agencies"
                     maxLength={50}
                     {...register("awardsTitle")}
-                    className="md:max-w-[400px] w-full border-2 border-[#cae0e7] pl-3 pr-14 py-2 outline-none focus:shadow-3xl focus:border-primary placeholder:text-sm"
+                    className="md:max-w-[400px] w-full border-2 border-[##9CA3AF] pl-3 pr-14 py-2 outline-none placeholder:text-sm rounded-3xl"
                   />
                   {errors?.awardsTitle && (
                     <span className="text-red-500 text-left text-sm mt-1 w-full absolute left-0 top-full">
@@ -173,7 +173,7 @@ const EditAwardDetail = () => {
                     placeholder="e.g. https://www.time.com/top-100-digital-agencies-2021"
                     maxLength={200}
                     {...register("awardsWebsite")}
-                    className="md:max-w-[600px] w-full border-2 border-[#cae0e7] pl-3 pr-16 py-2 outline-none focus:shadow-3xl focus:border-primary placeholder:text-sm"
+                    className="md:max-w-[600px] w-full border-2 border-[#9CA3AF] pl-3 pr-16 py-2 outline-none rounded-3xl placeholder:text-sm"
                   />
                   {errors?.awardsWebsite && (
                     <span className="text-red-500 text-left text-sm mt-1 w-full absolute left-0 top-full">
@@ -188,26 +188,18 @@ const EditAwardDetail = () => {
             </div>
           </div>
           <div className="flex flex-col-reverse sm:flex-row justify-between gap-x-5 pt-5 mt-5 border-t border-[#cae0e7]">
-            <div className="flex gap-x-2 justify-center items-center py-3">
+            <div className="flex justify-center items-center py-3">
               <span
-                className="text-sm text-[#08537E] cursor-pointer hover:underline"
+                className="text-sm text-[#848abd] cursor-pointer hover:underline"
                 onClick={() => setOpenConfirmModal(true)}
               >
                 Delete Award
               </span>
-              <div className="w-4 h-4 flex-none">
-                <Image
-                  width="16"
-                  height="16"
-                  src={IconMap.Trash.src}
-                  alt="avatar"
-                  layout="responsive"
-                />
-              </div>
+              <Delete className="text-[#848abd] mb-1" />
             </div>
             <button
               onClick={handleUpdateAward}
-              className="bg-secondary text-white px-10 py-4 border-2 border-transparent transition duration-300 hover:border-secondary hover:bg-white hover:text-secondary"
+              className="bg-[#848abd] text-white px-10 py-3 border-2 border-transparent transition duration-300 w-full sm:w-auto rounded-full hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
               ref={buttonRef}
             >
               Update Award
@@ -216,14 +208,14 @@ const EditAwardDetail = () => {
         </AwardLayout>
       </DashboardLayout>
       <Modal open={openConfirmModal} onClose={() => setOpenConfirmModal(false)}>
-        <div className="bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[600px] w-full shadow-lg outline-none p-4 text-center">
-          <span className="text-primary text-2xl my-5 block font-medium">
+        <div className="bg-white rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[600px] w-full shadow-lg outline-none p-4 text-center">
+          <span className="text-[#848abd] text-2xl my-5 block font-medium">
             Delete Award?
           </span>
-          <span className="text-primary text-lg mb-4 block">
+          <span className="text-[#60606] text-lg mb-4 block">
             This will permanently delete the following Award:
           </span>
-          <span className="text-[#6A797D] text-lg font-bold">
+          <span className="text-[#606060] text-lg font-bold">
             {awardDetail?.awardsTitle}
           </span>
           <div className="flex justify-between mt-10">
@@ -234,7 +226,7 @@ const EditAwardDetail = () => {
               Cancel
             </button>
             <button
-              className="px-7 py-4 bg-secondary text-white text-sm rounded-sm"
+              className="px-7 py-2 bg-[#848abd] text-white text-sm rounded-full hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
               onClick={handleDeleteAward}
             >
               Delete Award
