@@ -155,9 +155,7 @@ export const profileSlice = createSlice({
         state.userInfo.shortList = [];
       })
       .addCase(shareShortListWithAccessToken.rejected, (state, action) => {
-        console.log(action.payload);
       }).addCase(shareShortListWithAccessToken.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.shortList = action.payload
       })
   },

@@ -264,19 +264,12 @@ const Dashboard = () => {
                                         ],
                                     }}
                                   >
-                                    {handleCalculatePercentage(
-                                      item.skillDistributionValue,
-                                      +skillDistributionValue.quantity
-                                    ) >= 5 ? (
-                                      <span className="block text-sm text-white font-medium">
-                                        {`${handleCalculatePercentage(
-                                          item.skillDistributionValue,
-                                          Number(
-                                            skillDistributionValue.quantity
-                                          )
-                                        )}%`}
-                                      </span>
-                                    ) : null}
+                                    <span className="hidden md:block text-sm text-white px-2 font-medium">
+                                      {`${handleCalculatePercentage(
+                                        item.skillDistributionValue,
+                                        skillDistributionValue.quantity
+                                      )}%`}
+                                    </span>
                                     <BadgeHover
                                       label={skillDistributionValue.field}
                                     />

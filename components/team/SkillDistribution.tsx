@@ -78,7 +78,7 @@ const SkillDistribution = ({
                         {handleCalculatePercentage(
                           item.skillDistributionValue,
                           +skillDistributionValue.quantity
-                        ) >= 5 ? (
+                        ) >= 10 ? (
                           <span className="block text-sm text-white font-medium">
                             {`${handleCalculatePercentage(
                               item.skillDistributionValue,
