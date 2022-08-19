@@ -180,7 +180,6 @@ export const SkillDis = (props: IProps) => {
   const [skillDistribute, setDataSkillDistribute] = useState<IValue[]>([]);
   const [skillName, setSkillName] = useState("");
   const [skillId, setSkillId] = useState("");
-  const [valid, setValid] = useState(false);
 
   useEffect(() => {
     if (props.skillDistribution && props.skillDistribution?.length > 0) {
@@ -375,7 +374,6 @@ export const SkillDis = (props: IProps) => {
       (buttonRef.current as unknown as HTMLButtonElement).disabled = true;
       setLoading(true);
       toast.error("Total percentage have some items are less than 5%");
-      setValid(true);
       setTimeout(() => {
         (buttonRef.current as unknown as HTMLButtonElement).disabled = false;
         setLoading(false);
@@ -562,8 +560,8 @@ export const SkillDis = (props: IProps) => {
                       maxLength={3}
                       className={`w-[65px] px-3 py-1 border-2 focus:outline-none  rounded-2xl ${
                         skillDistribute &&
-                        valid &&
-                        +skillDistribute[index].quantity < 5
+                        +skillDistribute[index].quantity < 5 &&
+                        +skillDistribute[index].quantity > 0
                           ? "border-red-400"
                           : "border-[#b0a6ef]"
                       }`}
@@ -583,8 +581,8 @@ export const SkillDis = (props: IProps) => {
                   </div>
 
                   {skillDistribute &&
-                  valid &&
-                  +skillDistribute[index].quantity < 5 ? (
+                  +skillDistribute[index].quantity < 5 &&
+                  +skillDistribute[index].quantity > 0 ? (
                     <span className="text-[#606060">
                       Less than 5% limits your exposure. Please to 5% or more
                     </span>
