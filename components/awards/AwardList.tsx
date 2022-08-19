@@ -52,7 +52,7 @@ const AwardList = () => {
                   query: { teamId: router.query.teamId, awardId: award.id },
                 }}
               >
-                <a className="text-sm text-[#08537e] cursor-pointer hover:underline ">
+                <a className="text-sm text-[#606060] cursor-pointer hover:underline ">
                   {award.awardsTitle}
                 </a>
               </Link>
