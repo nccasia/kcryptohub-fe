@@ -164,7 +164,7 @@ export const Clients = () => {
                   return (
                     <div key={index}>
                       <div className="flex items-center">
-                        <div className="items-center xs:my-3 font-medium w-fit pl-16">
+                        <div className="items-center xs:my-3 font-medium xs:w-fit w-full xs:pl-16 px-10">
                           <label
                             htmlFor="keyClient"
                             className="text-primary flex justify-between py-2 md:py-0"
@@ -176,7 +176,7 @@ export const Clients = () => {
                               </span>
                             )}
                           </label>
-                          <div className="w-fit flex flex-col relative">
+                          <div className="xs:w-fit w-full flex flex-col relative">
                             <input
                               type="text"
                               name="key"
@@ -230,7 +230,7 @@ export const Clients = () => {
                 keyClientInfo.filter((items, index) => items.length !== 0)
                   .length === keyClientInfo.length && (
                   <div
-                    className="items-center font-medium w-fit pl-16 mb-3"
+                    className="items-center font-medium w-fit xs:pl-16 pl-10 mb-3"
                     onClick={handleAdd}
                   >
                     <a className="text-sm text-[#606060] flex items-center relative cursor-pointer hover:underline hover:decoration-solid">
