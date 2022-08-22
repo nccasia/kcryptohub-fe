@@ -112,7 +112,7 @@ function SelectCustom({
       ref={nodeRef as LegacyRef<HTMLDivElement>}
     >
       <input
-        className=" appearance-none mr-3 min-w-[190px] font-nunito bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-10 sm:text-sm"
+        className=" appearance-none mr-0 md:mr-3 min-w-[190px] font-nunito bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2 3xl:py-4  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-10 placeholder:text-xs sm:text-sm 3xl:placeholder:text-2xl"
         placeholder="Select Timezone"
         autoComplete="off"
         onClick={() => setShow(true)}
@@ -123,10 +123,10 @@ function SelectCustom({
         in={show}
         className={`${
           show ? "absolute" : "hidden"
-        } bg-white rounded-xl h-[50vh] -top-[50vh] w-full  overflow-auto z-[1000] custom-scrollbar shadow-lg !font-nunito `}
+        } bg-white rounded-xl h-[50vh] -top-[50vh] w-full text-left  overflow-auto z-[1000] custom-scrollbar shadow-lg !font-nunito `}
         ref={subNodeRef as Ref<unknown>}
       >
-        <h1 className={`text-xs pl-2 px-1 text-[#848ABD] mt-1 mb-1 `}>
+        <h1 className={`text-sm pl-2 px-1 text-[#848ABD] mt-1 mb-1 `}>
           Timezone
         </h1>
         {items?.map((item, index) => (

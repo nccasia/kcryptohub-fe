@@ -23,7 +23,7 @@ export const InputSelect = ({
   clearError?: (name: string) => void;
 }) => {
   return (
-    <div className="z-50">
+    <div className="z-50 2xl:text-xl">
       <label
         className="block cursor-pointer border-l-2 px-1 py-[1px] rounded-lg pl-5 border-transparent border hover:bg-gray-100 text-[#848ABD]"
         onClick={() => {

@@ -13,8 +13,7 @@ module.exports = {
         thirdary: "#e8eef0",
       },
       boxShadow: {
-        "3xl":
-          "inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px #848abd",
+        "3xl": "inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px #848abd",
         btn: "0px 5px 20px rgba(0, 0, 0, 0.04)",
       },
       keyframes: {
@@ -57,6 +56,7 @@ module.exports = {
       lg: "1024px",
       xl: "1280px",
       "2xl": "1536px",
+      "3xl": "1920px",
     },
   },
   plugins: [],

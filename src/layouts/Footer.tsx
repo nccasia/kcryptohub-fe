@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#1e2228] block">
+    <footer className="bg-[#1e2228] h-screen">
       <div className="container text-[#cacaca] pt-16 pb-10 text-center mx-auto leading-6">
         <div className="flex flex-wrap justify-center mb-10">
           <div className="w-10/12">
