@@ -394,6 +394,7 @@ const NewPortfolio = () => {
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                               {...register("endDate")}
+                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root custom-scrollbar MuiYearPicker-root"
                               minDate={new Date("01/01/1960")}
                               inputFormat="MM/dd/yyyy"
                               value={new Date(watch("endDate"))}

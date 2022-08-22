@@ -200,7 +200,7 @@ const TeamDetail = () => {
               </div>
             </div>
             {read && (
-              <div className="md:mt-[-100px] mt-[-80px] mb-10 text-[#404040] break-all text-left md:text-[18px] text-[14px] leading-9">
+              <div className="md:mt-[-100px] mt-[-80px] mb-10 text-[#404040] xs:text-left text-justify md:text-[18px] text-[14px] leading-9">
                 {teamProfile.description}
                 <span
                   className="text-ellipsis ml-2 overflow-hidden mt-2 text-xs text-[#606060] hover:underline tracking-widest cursor-pointer"
