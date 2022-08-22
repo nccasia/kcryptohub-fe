@@ -111,12 +111,12 @@ export const Header = () => {
           }`}
         ></div>
         <nav
-          className={` flex items-center justify-between px-[15px] pt-[15px] font-nunito `}
+          className={` flex items-center justify-between px-[15px] 3xl:px-[30px] pt-[15px] font-nunito  3xl:tracking-wide`}
         >
           <div className="py-5 relative">
             <Link href="/">
               <span
-                className={`text-3xl font-bold text-center cursor-pointer  text-black 
+                className={`text-3xl 3xl:text-5xl font-bold text-center cursor-pointer  text-black 
 
                 `}
               >
@@ -129,14 +129,16 @@ export const Header = () => {
               className={`w-full inline-flex  text-black items-center justify-center`}
             >
               <Link href="/teams">
-                <span className="px-2 mx-4 cursor-pointer text-lg font-medium">
+                <span className="px-2 mx-4 cursor-pointer text-lg 3xl:text-3xl font-medium">
                   List Team
                 </span>
               </Link>
               <Link href="/short-list">
                 <div className="px-2 mx-4 cursor-pointer">
                   <div className="inline-flex items-center">
-                    <span className="pr-2 text-lg font-medium">Short List</span>
+                    <span className="pr-2 text-lg 3xl:text-3xl font-medium">
+                      Short List
+                    </span>
                     <div className="relative">
                       <div
                         className={`absolute ${
@@ -164,7 +166,9 @@ export const Header = () => {
               </Link>
               <div className="px-2 mx-4 cursor-pointer ">
                 <div className="inline-flex items-center ">
-                  <span className="pr-2 text-lg font-medium">Message</span>
+                  <span className="pr-2 text-lg 3xl:text-3xl font-medium">
+                    Message
+                  </span>
                   <div className="relative">
                     <div
                       className={`absolute !hidden inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 w-5 h-5 skew-x-0 skew-y-0 scale-x-100 scale-y-100 py-[5px] px-1 bg-[#848abd] text-[10px] leading-none text-center  align-baseline font-bold text-white rounded-full z-10`}
@@ -362,7 +366,7 @@ export const Header = () => {
                   <>
                     <Link href="/login">
                       <span
-                        className={`font-semibold mx-2 cursor-pointer text-black hover:underline`}
+                        className={`font-semibold mx-2 cursor-pointer text-lg 3xl:text-3xl text-black hover:underline`}
                       >
                         Sign in
                       </span>

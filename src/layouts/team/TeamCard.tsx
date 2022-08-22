@@ -329,10 +329,8 @@ export const TeamCard = (props: Props) => {
             <LanguageOutlined />
           </span>
         </a>
-        <Link href={`/team/${team.id}`} >
-          <a
-            className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center flex-1 font-nunito hover:text-[#848ABD]"
-          >
+        <Link href={`/team/${team.id}`}>
+          <a className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center flex-1 font-nunito hover:text-[#848ABD]">
             <span className="hidden xs:block mr-2 ">View Profile</span>
             <InfoOutlined />
           </a>
