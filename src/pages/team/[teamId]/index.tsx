@@ -224,7 +224,7 @@ const TeamDetail = () => {
                       ).map((skill, i) => (
                         <div key={i} className="inline-block p-1 pt-3">
                           <span
-                            className={`px-3 py-1 block rounded-2xl  md:max-w-[250px] max-w-[140px] hover:max-w-none hover:scale-110 cursor-default truncate  ${
+                            className={`px-3 py-1 block rounded-2xl  md:max-w-[250px] max-w-[140px] hover:max-w-none hover:scale-110 hover:mx-8 cursor-default truncate  ${
                               skillColor[
                                 skill.id
                                   ? skill.id % skillColor.length
