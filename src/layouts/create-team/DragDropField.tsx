@@ -10,9 +10,9 @@ export const DragDropField = ({
 }: any) => {
   return (
     <div className="flex-[50%] w-full">
-      <label className="text-primary w-full block mb-2 py-2 md:py-0">
+      <label className="text-primary w-full block sm:mb-2 mb-4 py-2 md:py-0">
         {label}
-        <span className="float-right text-gray-400 ">optional</span>
+        <span className="float-right text-gray-400">optional</span>
       </label>
       <input
         id="image"

@@ -60,8 +60,8 @@ function SelectCustom({
         readOnly={true}
         type="text"
         className={`appearance-none xs:max-w-[350px] ${
-          type === 1 ? "bg-[#ecedee]" : "bg-white"
-        } text-[#606060] border-2 rounded-3xl mr-3 block w-full px-3 py-2 pr-8 border-solid placeholder-gray-500 focus:outline-none  md:mt-0 mt-4 sm:text-sm placeholder:text-xs custom-scrollbar`}
+          type === 1 ? "bg-[#ecedee]" : "bg-white focus:shadow-lg"
+        } text-[#606060] border-2 rounded-3xl mr-3 block w-full px-3 py-2 pr-8 peer border-solid placeholder-gray-500 focus:outline-none  md:mt-0 mt-4 sm:text-sm placeholder:text-xs custom-scrollbar`}
         placeholder={placeholder}
         defaultValue={defaultValue}
         autoComplete="off"
