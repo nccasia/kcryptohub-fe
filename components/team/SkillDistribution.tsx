@@ -29,7 +29,7 @@ const SkillDistribution = ({
   };
 
   return (
-    <section ref={skillDistributionRef} className="py-3">
+    <section ref={skillDistributionRef} className="py-5">
       {!teamProfile.skillDistribution?.length && editable && (
         <div className="flex items-center gap-x-2">
           <Link href="#">
@@ -78,11 +78,8 @@ const SkillDistribution = ({
                         {handleCalculatePercentage(
                           item.skillDistributionValue,
                           +skillDistributionValue.quantity
-                        ) >= 10 ||
-                        item.skillDistributionValue.filter(
-                          (cur) => cur.quantity === 10
-                        ).length < 1 ? (
-                          <span className="block text-sm text-white font-medium">
+                        ) > 10 ? (
+                          <span className="block text-sm xxs:text-white text-transparent font-medium">
                             {`${handleCalculatePercentage(
                               item.skillDistributionValue,
                               Number(skillDistributionValue.quantity)
@@ -97,7 +94,7 @@ const SkillDistribution = ({
               </div>
             </div>
 
-            {/*  <ul className="md:hidden block flex flex-wrap gap-5">
+            <ul className="md:hidden block flex flex-wrap gap-5">
               {item.skillDistributionValue.map(
                 (skillDistributionValue, index) =>
                   Number(skillDistributionValue.quantity) > 0 && (
@@ -126,7 +123,7 @@ const SkillDistribution = ({
                     </li>
                   )
               )}
-            </ul> */}
+            </ul>
           </div>
         ))}
     </section>
