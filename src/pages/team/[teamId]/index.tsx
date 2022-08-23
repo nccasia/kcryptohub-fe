@@ -162,7 +162,7 @@ const TeamDetail = () => {
                 read ? "justify-center" : "md:flex-row"
               }`}
             >
-              <div className="md:w-1/3 mr-2 relative">
+              <div className="md:w-1/3 md:mr-2 px-[30px] relative">
                 <div className="text-[#606060]">
                   <div
                     className={`md:text-[30px] text-[24px] leading-4 text-[#404040]  text-center mb-6 ${
@@ -193,7 +193,9 @@ const TeamDetail = () => {
                   </p>
                 </div>
               </div>
-              <div className={`md:flex-1 w-full ${read ? "mb-5" : "md:ml-8"}`}>
+              <div
+                className={`md:flex-1 w-full px-5 ${read ? "mb-5" : "md:ml-8"}`}
+              >
                 <SkillDistribution
                   skillDistributionRef={skillDistributionRef}
                   editable={userProfile.userInfo.id === ownerId}
@@ -201,7 +203,7 @@ const TeamDetail = () => {
               </div>
             </div>
             {read && (
-              <div className="md:mt-[-100px] mt-[-80px] mb-10 text-[#404040] xs:text-left text-justify md:text-[24px] sm:text-[20px] text-[16px] leading-9">
+              <div className="md:mt-[-100px] mt-[-80px] mb-10 text-[#404040] break-all text-left md:text-[18px] text-[14px] leading-9">
                 {teamProfile.description}
                 <span
                   className="text-ellipsis ml-2 overflow-hidden mt-2 text-xs text-[#606060] hover:underline tracking-widest cursor-pointer"
@@ -211,7 +213,7 @@ const TeamDetail = () => {
                 </span>
               </div>
             )}
-            <div className="lg:w-full xs:w-2/3 w-full">
+            <div className="lg:w-full xs:w-2/3 w-full ">
               <h3 className="md:text-[30px] text-[24px] leading-4 text-[#404040] mb-6 font-medium">
                 Tags
               </h3>
