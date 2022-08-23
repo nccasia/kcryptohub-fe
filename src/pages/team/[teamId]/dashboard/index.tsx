@@ -163,7 +163,10 @@ const Dashboard = () => {
                     </span>
                   </span>
                   {
-                    <a href={team.linkWebsite} className="py-1 break-all">
+                    <a
+                      href={team.linkWebsite}
+                      className="py-1 break-all max-h-[80px] overflow-hidden truncate"
+                    >
                       {<LanguageOutlined className="text-[#848abd]" />}
                       <span className="text-left ml-1 text-[#848abd]">
                         {team.linkWebsite}

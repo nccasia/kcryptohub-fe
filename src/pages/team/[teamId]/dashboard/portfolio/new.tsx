@@ -392,9 +392,9 @@ const NewPortfolio = () => {
                       <div className="xs:w-fit w-full flex flex-col relative">
                         <div className="bg-[#0000000d] text-[#606060] pl-3 pr-6 py-1 mt-1 rounded-3xl outline-none Mui-focused ">
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
+                            <DesktopDatePicker
                               {...register("endDate")}
-                              minDate={new Date("01/01/1960")}
+                              className="Mui-selected MuiTypography-root MuiPickersDay-root MuiIconButton-root custom-scrollbar MuiYearPicker-root"
                               inputFormat="MM/dd/yyyy"
                               value={new Date(watch("endDate"))}
                               onChange={(e) => {
