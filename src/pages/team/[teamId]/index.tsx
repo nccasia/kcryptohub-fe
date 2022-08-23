@@ -171,7 +171,7 @@ const TeamDetail = () => {
                     What I do?
                   </div>
                   <div
-                    className={`md:text-[24px] h-auto max-h-[180px] overflow-hidden break-words whitespace-pre-line text-[18px] font-normal ${
+                    className={`md:text-[24px] h-auto max-h-[185px] overflow-hidden break-words whitespace-pre-line sm:text-[20px] text-[18px] font-normal ${
                       read ? "hidden" : ""
                     }`}
                   >
@@ -200,7 +200,7 @@ const TeamDetail = () => {
               </div>
             </div>
             {read && (
-              <div className="md:mt-[-100px] mt-[-80px] mb-10 text-[#404040] xs:text-left text-justify md:text-[18px] text-[14px] leading-9">
+              <div className="md:mt-[-100px] mt-[-80px] mb-10 text-[#404040] xs:text-left text-justify md:text-[24px] sm:text-[20px] text-[16px] leading-9">
                 {teamProfile.description}
                 <span
                   className="text-ellipsis ml-2 overflow-hidden mt-2 text-xs text-[#606060] hover:underline tracking-widest cursor-pointer"
