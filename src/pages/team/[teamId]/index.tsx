@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import TooltipCustom from "@/components/team/TooltipCustom";
 const skillColor = [
   "bg-red-500",
   "bg-orange-500",
@@ -222,21 +223,11 @@ const TeamDetail = () => {
                         ? teamProfile.skills
                         : teamProfile.skills.slice(0, 7)
                       ).map((skill, i) => (
-                        <div key={i} className="inline-block p-1 pt-3">
-                          <span
-                            className={`px-3 py-1 block rounded-2xl  md:max-w-[250px] max-w-[140px] hover:max-w-none hover:scale-110 hover:mx-8 cursor-default truncate  ${
-                              skillColor[
-                                skill.id
-                                  ? skill.id % skillColor.length
-                                  : Math.round(
-                                      Math.random() * (skillColor.length - 1)
-                                    )
-                              ]
-                            } text-white ml-2 mt-2 font-medium`}
-                          >
-                            {skill.skillName}
-                          </span>
-                        </div>
+                        <TooltipCustom
+                          key={i}
+                          skillColor={skillColor}
+                          skill={skill}
+                        />
                       ))}
                     {teamProfile.skills?.length > 7 && !showAllSkill ? (
                       <div className="inline-block p-1 pt-3">
