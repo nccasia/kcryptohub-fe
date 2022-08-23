@@ -159,7 +159,7 @@ const JoinTeamModal = ({ isShowModal, handleCloseModal }: IProps) => {
                   errors.fullName || errors.email
                     ? "cursor-not-allowed"
                     : "cursor-pointer"
-                } bg-[#848abd] text-white block text-center mb-4 rounded-3xl px-3 py-2 w-1/4 shadow-lg mx-auto`}
+                } bg-[#848abd] text-white block text-center  mb-4 rounded-3xl px-3 py-2 w-full md:w-1/3 shadow-lg mx-auto`}
                 type="submit"
               >
                 Join

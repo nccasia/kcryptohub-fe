@@ -58,14 +58,14 @@ const SkillDistribution = ({
               </h3>
             </div>
 
-            <div className="w-full mb-6 ">
-              <div className="h-6 flex justify-center">
+            <div className="mb-6 px-2">
+              <div className="h-6 flex justify-center w-full">
                 {item.skillDistributionValue.map(
                   (skillDistributionValue, index) =>
                     Number(skillDistributionValue.quantity) > 0 && (
                       <div
                         key={skillDistributionValue.field}
-                        className="relative flex justify-center items-center group h-full first:rounded-l-lg last:rounded-r-lg"
+                        className="relative flex justify-center items-center group  h-full first:rounded-l-lg last:rounded-r-lg"
                         style={{
                           width: `${handleCalculatePercentage(
                             item.skillDistributionValue,
@@ -94,7 +94,7 @@ const SkillDistribution = ({
               </div>
             </div>
 
-            <ul className="md:hidden block flex flex-wrap gap-5">
+            <ul className="md:hidden block flex flex-wrap gap-5 h-40 overflow-auto">
               {item.skillDistributionValue.map(
                 (skillDistributionValue, index) =>
                   Number(skillDistributionValue.quantity) > 0 && (

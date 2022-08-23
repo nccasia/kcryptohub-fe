@@ -259,7 +259,7 @@ export const TeamCard = (props: Props) => {
               <span className="text-left ml-1">{team.timeZone}</span>
             </span>
           </div>
-          <div className="flex flex-col items-start justify-start p-4 border-x xs:w-1/2 ">
+          <div className="flex flex-col items-start justify-start p-4 border-none md:border-x xs:w-1/2 ">
             <div className="flex w-full">
               <div className="text-cyan-900 w-full break-normal">
                 {team.skills &&
@@ -313,7 +313,7 @@ export const TeamCard = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-l text-[#606060] transition-all duration-500 ease-in-out text-md">
+      <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-none md:border-l text-[#606060] transition-all duration-500 ease-in-out text-md">
         <a
           className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white cursor-pointer "
           href={
