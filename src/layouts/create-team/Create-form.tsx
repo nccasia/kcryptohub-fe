@@ -5,27 +5,26 @@ import { TimeZone } from "@/type/enum/TimeZone";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Autocomplete, TextField, Paper } from "@mui/material";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
+import { Autocomplete, Paper, TextField } from "@mui/material";
 import router from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 
+import { teamApi } from "@/api/team-api";
+import { setTeam } from "@/redux/dashboardSlice";
+import SelectCustom from "@/src/layouts/team/SelectCustom";
+import { ISkill } from "@/type/skill/skill.types";
+import { ICreateTeam, ITeam } from "@/type/team/team.type";
+import { Save } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as yub from "yup";
 import { Dialog } from "../Dialog";
 import { UploadImage } from "./UploadImage";
-import { teamApi } from "@/api/team-api";
-import { LoadingButton } from "@mui/lab";
-import { Save } from "@mui/icons-material";
-import { setTeam } from "@/redux/dashboardSlice";
-import { ICreateTeam, ITeam } from "@/type/team/team.type";
-import { ISkill } from "@/type/skill/skill.types";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import SelectCustom from "@/src/layouts/team/SelectCustom";
-import MonthPicker from "@mui/x-date-pickers/MonthPicker";
 
 const schema = yub.object().shape({
   teamName: yub
