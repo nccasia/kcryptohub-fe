@@ -57,7 +57,7 @@ const TooltipCustom = ({
             placement="top"
           >
             <span
-              className={`px-2 py-1 block rounded-2xl md:max-w-[175px] max-w-[140px] hover:scale-105 cursor-default  truncate  ${
+              className={`px-2 py-1 3xl:text-2xl block rounded-2xl md:max-w-[175px] max-w-[140px] hover:scale-105 cursor-default  truncate  ${
                 skillColor[
                   skill.id
                     ? skill.id % skillColor.length

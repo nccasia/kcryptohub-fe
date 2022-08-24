@@ -7,8 +7,6 @@ const nextConfig = {
       "img.shgstatic.com",
       "avatars.githubusercontent.com",
       "www.google.com",
-      "kryptohub-be.herokuapp.com",
-      "kryptohub-fe.herokuapp.com",
       "img.youtube.com",
       "localhost",
       "goodfirms-prod.s3.amazonaws.com",
@@ -16,8 +14,8 @@ const nextConfig = {
       "clutch.co",
       "www.goodfirms.co",
       "172.16.100.186",
+      "app.kryptohub.co",
       "vinasa.org.vn",
-      "www.vinasa.org.vn",
     ],
   },
   env: {

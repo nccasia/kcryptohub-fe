@@ -51,14 +51,14 @@ const SkillDistribution = ({
 
       {teamProfile.skillDistribution?.length > 0 &&
         teamProfile.skillDistribution.map((item) => (
-          <div key={item.id} className="mb-5">
+          <div key={item.id} className="mb-5 mx-5 xxs:mx-2">
             <div className="flex justify-start items-center">
               <h3 className="text-[#6b7a7e] mb-3 3xl:text-2xl">
                 {item.skillDistributionName}
               </h3>
             </div>
 
-            <div className="mb-6 px-2">
+            <div className="mb-6 px-2 mx-5 xxs:mx-2">
               <div className="flex justify-center w-full h-6 3xl:h-full">
                 {item.skillDistributionValue.map(
                   (skillDistributionValue, index) =>
@@ -94,7 +94,7 @@ const SkillDistribution = ({
               </div>
             </div>
 
-            <ul className="md:hidden block flex flex-wrap gap-5 h-40 overflow-auto">
+            <ul className="md:hidden px-2 flex flex-wrap gap-5 h-40 overflow-auto">
               {item.skillDistributionValue.map(
                 (skillDistributionValue, index) =>
                   Number(skillDistributionValue.quantity) > 0 && (

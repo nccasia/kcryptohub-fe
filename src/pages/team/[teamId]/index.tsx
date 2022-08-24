@@ -162,7 +162,7 @@ const TeamDetail = () => {
                 read ? "justify-center" : "md:flex-row"
               }`}
             >
-              <div className="md:w-1/3 mr-2 relative">
+              <div className="md:w-1/3 md:mr-2 px-[30px] relative">
                 <div className="text-[#606060]">
                   <div
                     className={`md:text-[30px] text-[24px] 3xl:text-4xl leading-4 text-[#404040]  text-center mb-6 ${
@@ -219,7 +219,7 @@ const TeamDetail = () => {
               </h3>
               <div className="flex flex-col items-start justify-start xs:w-full">
                 <div className="flex w-full">
-                  <div className="text-cyan-900 w-full break-normal 3xl:text-2xl">
+                  <div className="text-cyan-900 w-full break-normal 3xl:text-3xl">
                     {teamProfile.skills &&
                       (showAllSkill
                         ? teamProfile.skills

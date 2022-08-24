@@ -156,7 +156,7 @@ const Portfolio = ({
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
-                      className="mb-3 w-full h-[300px]"
+                      className="mb-3 h-96 3xl:h-[800px]"
                     />
                   )}
                 </div>
@@ -220,7 +220,7 @@ const Portfolio = ({
                         setShow(false);
                       }}
                     >
-                      <div className="relative w-full h-[350px]">
+                      <div className="relative w-full h-[350px] 3xl:h-[450px]">
                         <Image
                           src={
                             item?.imageUrl
@@ -239,10 +239,10 @@ const Portfolio = ({
                         </span>
                       </div>
                       <div className="text-center font-jost p-4">
-                        <h3 className="w-full break-words md:max-h-[200px] text-xl font-medium">
+                        <h3 className="w-full break-words md:max-h-[200px] text-xl 3xl:text-2xl font-medium">
                           {item.title}
                         </h3>
-                        <span>{item.category}</span>
+                        <span className="py-2 text-base">{item.category}</span>
                       </div>
                     </div>
                   )
@@ -251,23 +251,36 @@ const Portfolio = ({
                 return (
                   <div
                     key={index}
-                    className="relative cursor-pointer overflow-hidden group"
-                    onClick={() => setPortfolio(item)}
+                    className="relative cursor-pointer overflow-hidden group shadow-lg rounded-md"
+                    onClick={() => {
+                      setPortfolio(item);
+                      setShow(false);
+                    }}
                   >
-                    <Image
-                      src={
-                        item?.imageUrl
-                          ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
-                          : handleYoutubeThumbnail(item.videoLink!) || ""
-                      }
-                      alt="portfolio"
-                      className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
-                      width={400}
-                      height={200}
-                    />
-                    <span className="opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                      {item.title}
-                    </span>
+                    <div className="relative w-full h-[350px] 3xl:h-[450px]">
+                      <Image
+                        src={
+                          item?.imageUrl
+                            ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
+                            : handleYoutubeThumbnail(item.videoLink!) ||
+                              "/user1.png"
+                        }
+                        alt="portfolio"
+                        className="object-fit"
+                        layout="fill"
+                      />
+                      <span className="px-5 opacity-0 hover:opacity-100 transition duration-1000 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <span className="w-full break-words text-center">
+                          <Add className="text-2xl" />
+                        </span>
+                      </span>
+                    </div>
+                    <div className="text-center font-jost p-4">
+                      <h3 className="w-full break-words md:max-h-[200px] text-xl 3xl:text-2xl font-medium">
+                        {item.title}
+                      </h3>
+                      <span className="py-2 text-base">{item.category}</span>
+                    </div>
                   </div>
                 );
               }
