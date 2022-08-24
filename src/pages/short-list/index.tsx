@@ -131,7 +131,7 @@ const ShortList = () => {
         </div>
         <div className="sticky top-0 z-[40] bg-white w-full text-[#606060]">
           <nav className="w-full mb-4 shadow-lg flex flex-col sm:flex-row sm:justify-between sm:items-center px-[15px] mx-auto">
-            <h1 className="text-xl text-left font-bold mt-3 sm:mt-0">
+            <h1 className="text-xl 3xl:text-3xl text-left font-bold mt-3 sm:mt-0">
               KryptoHub {">"} Short List
             </h1>
             <ul className="flex justify-end relative mb-0  pt-1  font-nunito">
@@ -219,7 +219,7 @@ const ShortList = () => {
                           <a
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-3xl xxs:inline-block hidden break-words "
+                            className="text-3xl 3xl:text-5xl xxs:inline-block hidden break-words "
                           >
                             <span className="w-full break-words text-[#606060]">
                               {team.teamName}

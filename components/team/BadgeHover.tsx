@@ -5,7 +5,9 @@ export interface BadgeHoverProps {
 const BadgeHover = ({ label }: BadgeHoverProps) => {
   return (
     <div className="hidden z-[1] absolute w-min  px-1 rounded-lg bg-white border-2 border-[#848ABD] py-2 shadow-sm group-hover:inline-flex right-1/2 bottom-[calc(100%+12px)] translate-x-1/2">
-      <span className="text-xs text-[#606060] text-ellipsis">{label}</span>
+      <span className="text-xs 3xl:text-xl text-[#606060] text-ellipsis">
+        {label}
+      </span>
       <div className="absolute w-[1px] h-[6px] bg-[#e1e1e1] top-[calc(100%+1px)] left-1/2 -translate-x-1/2"></div>
       <div className="absolute w-[10px] h-[10px] bg-white border-2 border-[#e1e1e1] rounded-full top-[calc(100%+7px)] left-1/2 -translate-x-1/2"></div>
     </div>

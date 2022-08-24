@@ -72,10 +72,10 @@ const Portfolio = ({
   };
   return (
     <section ref={portfolioRef} className="py-3">
-      <h2 className="md:text-[30px] text-[24px] text-[#154369] mb-5">
+      <h2 className="md:text-[30px] 3xl:text-4xl text-[24px] text-[#154369] mb-5">
         Portfolio
       </h2>
-      <p className="md:text-[22px] text-[18px] text-[#6b7a7e] w-4/5 mb-5">
+      <p className="md:text-[22px] 3xl:text-3xl text-[18px] text-[#6b7a7e] w-4/5 mb-5">
         Key client:{" "}
         {teamProfile.keyClients && teamProfile.keyClients.length > 0
           ? (teamProfile.keyClients[0] as any).keyName?.join(", ")
@@ -108,7 +108,7 @@ const Portfolio = ({
             <div className="grid grid-cols-1 grid-flow-col-dense md:grid-cols-2 gap-x-5 md:p-4 items-center">
               <div className="hidden md:block w-full">
                 {portfolio?.imageUrl ? (
-                  <div className=" w-full h-[350px]  mt-2 relative">
+                  <div className=" h-96 3xl:h-[800px]  mt-2 relative">
                     <Image
                       className="object-fit"
                       src={PortfolioApi.getPortfolioImageUrl(
@@ -126,13 +126,13 @@ const Portfolio = ({
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
-                    className="hidden md:block w-full h-96"
+                    className="hidden md:block w-full h-96 3xl:h-[800px]"
                   />
                 )}
               </div>
               <div className="relative">
                 <div className="">
-                  <h2 className="md:text-[30px] sm:text-[24px] xs:text-[22px] text-[20px] font-medium text-center my-2 break-words">
+                  <h2 className="md:text-[30px] 3xl:text-4xl sm:text-[24px] xs:text-[22px] text-[20px] font-medium text-center my-2 break-words">
                     {portfolio?.title}
                   </h2>
                 </div>
@@ -156,7 +156,7 @@ const Portfolio = ({
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
-                      className="mb-3 w-full h-[300px]"
+                      className="mb-3 h-96 3xl:h-[800px]"
                     />
                   )}
                 </div>
@@ -164,19 +164,19 @@ const Portfolio = ({
                   <div className={`${show ? "overflow-hidden" : ""}`}>
                     {!show ? (
                       <span
-                        className={`text-[#6b7a7e] text-left inline-block h-auto max-h-[100px] md:max-h-[200px] overflow-hidden break-words whitespace-pre-line`}
+                        className={`text-[#6b7a7e] text-left 3xl:text-2xl inline-block h-auto max-h-[100px] md:max-h-[200px] overflow-hidden break-words whitespace-pre-line`}
                       >
                         Description: {portfolio.description}
                       </span>
                     ) : (
-                      <span className="text-[#6b7a7e] overflow-auto inline-block text-left custom-scrollbar lg:max-h-[240px] max-h-[300px] whitespace-pre-line">
+                      <span className="text-[#6b7a7e] 3xl:text-3xl overflow-auto inline-block text-left custom-scrollbar lg:max-h-[240px] max-h-[300px] whitespace-pre-line">
                         Description: {portfolio.description}
                       </span>
                     )}
 
                     <p
                       hidden={portfolio.description?.length <= 180 || show}
-                      className="text-ellipsis overflow-hidden mt-2 text-xs text-[#848ABD] hover:underline tracking-widest cursor-pointer"
+                      className="text-ellipsis overflow-hidden mt-2 text-xs uppercase 3xl:text-lg text-[#848ABD] hover:underline tracking-widest cursor-pointer"
                       onClick={() => setShow(!show)}
                     >
                       READ MORE...
@@ -220,7 +220,7 @@ const Portfolio = ({
                         setShow(false);
                       }}
                     >
-                      <div className="relative w-full h-[350px]">
+                      <div className="relative w-full h-[350px] 3xl:h-[450px]">
                         <Image
                           src={
                             item?.imageUrl
@@ -239,10 +239,10 @@ const Portfolio = ({
                         </span>
                       </div>
                       <div className="text-center font-jost p-4">
-                        <h3 className="w-full break-words md:max-h-[200px] text-xl font-medium">
+                        <h3 className="w-full break-words md:max-h-[200px] text-xl 3xl:text-2xl font-medium">
                           {item.title}
                         </h3>
-                        <span>{item.category}</span>
+                        <span className="py-2 text-base">{item.category}</span>
                       </div>
                     </div>
                   )
@@ -251,23 +251,36 @@ const Portfolio = ({
                 return (
                   <div
                     key={index}
-                    className="relative cursor-pointer overflow-hidden group"
-                    onClick={() => setPortfolio(item)}
+                    className="relative cursor-pointer overflow-hidden group shadow-lg rounded-md"
+                    onClick={() => {
+                      setPortfolio(item);
+                      setShow(false);
+                    }}
                   >
-                    <Image
-                      src={
-                        item?.imageUrl
-                          ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
-                          : handleYoutubeThumbnail(item.videoLink!) || ""
-                      }
-                      alt="portfolio"
-                      className="w-full h-full group-hover:scale-125 transition duration-1000 ease-in-out"
-                      width={400}
-                      height={200}
-                    />
-                    <span className="opacity-0 group-hover:opacity-100 transition duration-500 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                      {item.title}
-                    </span>
+                    <div className="relative w-full h-[350px] 3xl:h-[450px]">
+                      <Image
+                        src={
+                          item?.imageUrl
+                            ? PortfolioApi.getPortfolioImageUrl(item.imageUrl)
+                            : handleYoutubeThumbnail(item.videoLink!) ||
+                              "/user1.png"
+                        }
+                        alt="portfolio"
+                        className="object-fit"
+                        layout="fill"
+                      />
+                      <span className="px-5 opacity-0 hover:opacity-100 transition duration-1000 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <span className="w-full break-words text-center">
+                          <Add className="text-2xl" />
+                        </span>
+                      </span>
+                    </div>
+                    <div className="text-center font-jost p-4">
+                      <h3 className="w-full break-words md:max-h-[200px] text-xl 3xl:text-2xl font-medium">
+                        {item.title}
+                      </h3>
+                      <span className="py-2 text-base">{item.category}</span>
+                    </div>
                   </div>
                 );
               }
@@ -279,7 +292,7 @@ const Portfolio = ({
 
       {teamProfile.portfolios?.length > 6 && editable && !isShowAll && (
         <span
-          className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
+          className="text-xs 3xl:text-lg text-[#3e839e] tracking-widest cursor-pointer hover:underline"
           onClick={() => setIsShowAll(true)}
         >
           SHOW ALL +
@@ -288,7 +301,7 @@ const Portfolio = ({
 
       {teamProfile.portfolios?.length > 6 && editable && isShowAll && (
         <span
-          className="text-xs text-[#3e839e] tracking-widest cursor-pointer hover:underline"
+          className="text-xs 3xl:text-lg text-[#3e839e] tracking-widest cursor-pointer hover:underline"
           onClick={() => setIsShowAll(false)}
         >
           SHOW LESS -

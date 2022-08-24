@@ -112,7 +112,7 @@ function SelectCustom({
       ref={nodeRef as LegacyRef<HTMLDivElement>}
     >
       <input
-        className=" appearance-none mr-0 md:mr-3 min-w-[190px] font-nunito bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2 3xl:py-4  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-10 placeholder:text-xs sm:text-sm 3xl:placeholder:text-2xl"
+        className=" appearance-none mr-0 md:mr-3 min-w-[190px] font-nunito bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2 3xl:py-4  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-10 placeholder:text-xs sm:text-sm 3xl:placeholder:text-lg"
         placeholder="Select Timezone"
         autoComplete="off"
         onClick={() => setShow(true)}

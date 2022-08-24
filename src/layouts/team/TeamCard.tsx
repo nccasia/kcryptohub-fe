@@ -110,7 +110,7 @@ export const TeamCard = (props: Props) => {
       className="grid grid-cols-12 w-full border-y my-4 shadow-md flex-col rounded-lg"
       onMouseEnter={() => setShow(false)}
     >
-      <div className="xl:col-span-10 md:col-span-9 col-span-12 ">
+      <div className="xl:col-span-10 md:col-span-9 col-span-12 3xl:py-4">
         <div className="grid grid-cols-12 border-b relative ">
           <div className="xl:col-span-1 md:col-span-2 col-span-12 flex items-center justify-start p-2">
             <div className="h-[50px] w-[50px] relative">
@@ -148,13 +148,13 @@ export const TeamCard = (props: Props) => {
                 </a>
               </Link>
               {team.slogan && (
-                <p className="text-[#606060] px-2 text-ellipsis inline-block max-w-full">
+                <p className="text-[#606060] 3xl:text-lg px-2 text-ellipsis inline-block max-w-full">
                   {team.slogan}
                 </p>
               )}
             </div>
             <div className="absolute top-0 right-0 flex-1 text-right">
-              <div className="absolute top-[-6px] right-6 group ">
+              <div className="absolute -top-5 right-6 group ">
                 {userProfile.shortList?.includes(team.id) ? (
                   <div>
                     {show ? (
@@ -252,16 +252,20 @@ export const TeamCard = (props: Props) => {
 
             <span className="text-[#606060] font-nunito flex items-end">
               <IconHover icon={<GroupsOutlined />} hoverText="Team size" />
-              <span className="text-left ml-1">{team.teamSize} members</span>
+              <span className="text-left 3xl:text-base ml-1">
+                {team.teamSize} members
+              </span>
             </span>
             <span className="text-[#606060] font-nunito flex items-end pt-3">
               <IconHover icon={<AvTimerOutlined />} hoverText="Timezone" />
-              <span className="text-left ml-1">{team.timeZone}</span>
+              <span className="text-left 3xl:text-base ml-1">
+                {team.timeZone}
+              </span>
             </span>
           </div>
           <div className="flex flex-col items-start justify-start p-4 border-none md:border-x xs:w-1/2 ">
             <div className="flex w-full">
-              <div className="text-cyan-900 w-full break-normal">
+              <div className="text-cyan-900 w-full 3xl:text-base break-normal">
                 {team.skills &&
                   (showAllSkill ? team.skills : team.skills.slice(0, 7)).map(
                     (skill, i) => (
@@ -313,7 +317,7 @@ export const TeamCard = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="xl:col-span-2 md:col-span-3 col-span-12 flex flex-row-reverse md:flex-col border-none md:border-l text-[#606060] transition-all duration-500 ease-in-out text-md">
+      <div className="xl:col-span-2 md:col-span-3 col-span-12 flex 3xl:py-4 flex-row-reverse md:flex-col border-none md:border-l text-[#606060] transition-all duration-500 ease-in-out text-md">
         <a
           className="md:p-2 p-1 xs:w-full w-1/2 xs:flex-1 font-semibold text-white cursor-pointer "
           href={
@@ -325,19 +329,21 @@ export const TeamCard = (props: Props) => {
           }
         >
           <span className="w-full xs:py-4 py-2 px-2 items-center flex md:justify-between justify-center bg-[#848ABD] rounded-full hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]">
-            <span className="pr-2 text-sm">Visit Website</span>
+            <span className="pr-2 text-sm  3xl:text-lg">Visit Website</span>
             <LanguageOutlined />
           </span>
         </a>
         <Link href={`/team/${team.id}`}>
           <a className="xs:p-4 p-2  w-full flex items-center md:justify-between justify-center flex-1 font-nunito hover:text-[#848ABD]">
-            <span className="hidden xs:block mr-2 ">View Profile</span>
+            <span className="hidden xs:block mr-2  3xl:text-lg">
+              View Profile
+            </span>
             <InfoOutlined />
           </a>
         </Link>
         <Link href={`/team/${team.id}/contact`}>
           <a className="xs:p-4 p-2 w-full flex items-center md:justify-between justify-center flex-1 font-nunito hover:text-[#848ABD]">
-            <span className="hidden xs:block mr-2">Contact</span>
+            <span className="hidden xs:block mr-2  3xl:text-lg">Contact</span>
             <ContactlessOutlined />
           </a>
         </Link>
