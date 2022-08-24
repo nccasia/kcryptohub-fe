@@ -147,10 +147,6 @@ export const Teams = () => {
     }
   }, [filter, currentPage, SkillSelect, SkillSelectIsLoaded]);
 
-  useEffect(() => {
-    console.log(show);
-  }, [show]);
-
   const debounceSearch = useCallback(
     debounce((value: string) => {
       setFilter({ ...filter, search: value });
@@ -393,7 +389,7 @@ export const Teams = () => {
                 </div>
               ) : null}
             </div>
-            <div className="flex flex-col items-center justify-center  w-full px-4 mx-auto">
+            <div className="flex flex-col items-center justify-center 3xl:container w-full px-4 mx-auto">
               {teams.map((item, index) => (
                 <TeamCard team={item as ITeam} key={index} />
               ))}
@@ -443,7 +439,9 @@ export const Teams = () => {
             >
               <CancelOutlined className="text-[#606060]" />
             </div>
-            <span className="text-xl text-[#606060]">All Filter</span>
+            <span className="text-xl 3xl:text-3xl text-[#606060]">
+              All Filter
+            </span>
           </div>
 
           <div className="flex flex-col items-end">
@@ -451,7 +449,7 @@ export const Teams = () => {
               <input
                 type="text"
                 placeholder="Search here..."
-                className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none  rounded-full"
+                className="shadow w-full  text-[#606060] bg-white pl-5 px-1 py-3 focus:outline-none 3xl:placeholder:text-xl rounded-full"
                 name="search"
                 onChange={handleSearch}
                 value={keyword}
@@ -478,7 +476,7 @@ export const Teams = () => {
                 selected={filter.skill}
                 setSelected={handleSkillSelect}
                 isCollapsor={true}
-                className="py-2 w-full border-b"
+                className="py-2 w-full 3xl:text-lg placeholder:text-xl border-b"
               />
               <ComboboxSelect
                 label={"Timezones"}
@@ -486,7 +484,7 @@ export const Teams = () => {
                 selected={filter.timezone}
                 setSelected={handleTimezoneSelect}
                 isCollapsor={true}
-                className="py-2 w-full border-b"
+                className="py-2 w-full border-b 3xl:text-lg placeholder:text-xl"
               />
             </div>
           </div>

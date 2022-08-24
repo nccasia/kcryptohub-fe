@@ -170,7 +170,7 @@ const Home: NextPage = () => {
       >
         <div className="relative top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed  font-nunito">
           <div className="inline-block xxs:text-center text-left mt-20 xxs:flex xxs:justify-center xxs:flex-col  h-full transition animate-slide-in-up z-[1000]">
-            <div className="text-center text-black px-6 mt-10 md:px-12">
+            <div className="text-center text-black px-6 my-10 md:px-12">
               <h1 className="text-xl 3xl:text-6xl md:text-4xl font-semibold my-3 cursor-pointer hover:underline 3xl:tracking-wide">
                 <a href="https://kryptohub.co/">
                   Welcome to KryptoHub{" "}
@@ -178,7 +178,7 @@ const Home: NextPage = () => {
                 </a>
               </h1>
             </div>
-            <div className="px-1 md:px-4 flex items-center justify-center py-20 text-black w-full ">
+            <div className="px-1 md:px-4 flex items-center justify-center mb-10 text-black w-full ">
               <div className="">
                 <h1 className="text-xl md:text-3xl 3xl:text-6xl 3xl:tracking-wide font-700 mb-5 3xl:my-10">
                   The only resource you need to find the right company.
@@ -197,7 +197,7 @@ const Home: NextPage = () => {
                         className="relative h-auto"
                         ref={nodeRef as LegacyRef<HTMLDivElement>}
                       >
-                        <SearchIcon className="absolute left-2 bottom-[7px] 3xl:bottom-[15px] text-[#848abd] " />
+                        <SearchIcon className="absolute left-2 bottom-[7px] 3xl:bottom-[17px] text-[#848abd] " />
                         <input
                           className=" appearance-none min-w-[300px] bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl mr-3 block w-full pl-8 px-3 py-2 3xl:py-4 pr-8 border-solid placeholder-gray-500 focus:outline-none focus:border-[#848abd]  md:mt-0 mt-4 sm:text-sm 3xl:text-lg placeholder:text-xs 3xl:placeholder:text-2xl custom-scrollbar"
                           placeholder="e.g. App Development, UX design, IT services..."
@@ -215,7 +215,7 @@ const Home: NextPage = () => {
                                 setSkillList(skill);
                               }
                             }}
-                            className="absolute right-2 bottom-[10px] 3xl:bottom-[10px] 3xl:right-[15px] mb-[1px] text-[#08537e] text-[20px]"
+                            className="absolute right-2 bottom-[10px] 3xl:bottom-[17px] 3xl:right-[15px] mb-[1px] text-[#08537e] text-[20px]"
                           />
                         )}
 
@@ -227,7 +227,7 @@ const Home: NextPage = () => {
                           ref={subNodeRef as Ref<unknown>}
                         >
                           <h1
-                            className={`text-sm 3xl:text-lg  pl-2 px-1 text-[#848ABD] mt-1 mb-1 ${
+                            className={`text-sm 3xl:text-xl  pl-2 px-1 text-[#848ABD] mt-1 mb-1 ${
                               SkillSelectIsLoaded && skillList?.length === 0
                                 ? "hidden"
                                 : "block"
@@ -282,7 +282,7 @@ const Home: NextPage = () => {
                       type={2}
                     />
                     <button
-                      className="px-10 min-w-[150px]  text-lg py-2 3xl:py-4 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full 3xl:w-1/3 font-nunito hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
+                      className="px-10 min-w-[150px]  3xl:text-2xl py-2 3xl:py-3 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full 3xl:w-1/3 font-nunito hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
                       onClick={() => {
                         router.push(
                           `teams?skill=${watch("skill")}&timezone=${watch(
@@ -300,9 +300,9 @@ const Home: NextPage = () => {
           </div>
         </div>
       </header>
-      <div className=" bg-[#f9fafb] h-full 3xl:h-[195vh]   md:h-fit  pt-[calc(90vh_-_10px)] pb-[20px] flex flex-col items-center justify-center z-0">
+      <div className=" bg-[#f9fafb] h-fit 3xl:h-[calc(190vh_+_10px)]  pt-[calc(90vh_-_10px)] pb-[20px] flex flex-col items-center justify-center z-0">
         <div className="flex flex-col relative w-full py-[70px] font-nunito">
-          <div className="w-full text-center my-10  md:my-[70px] px-3 ">
+          <div className="w-full text-center my-5  md:my-[70px] px-3 ">
             <h2 className="text-3xl 3xl:text-6xl font-normal mb-6 text-black">
               Start Your Search With Our Most Popular Services
             </h2>

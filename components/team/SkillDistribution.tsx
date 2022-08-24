@@ -53,13 +53,13 @@ const SkillDistribution = ({
         teamProfile.skillDistribution.map((item) => (
           <div key={item.id} className="mb-5">
             <div className="flex justify-start items-center">
-              <h3 className="text-[#6b7a7e] mb-3">
+              <h3 className="text-[#6b7a7e] mb-3 3xl:text-2xl">
                 {item.skillDistributionName}
               </h3>
             </div>
 
             <div className="mb-6 px-2">
-              <div className="h-6 flex justify-center w-full">
+              <div className="flex justify-center w-full h-6 3xl:h-full">
                 {item.skillDistributionValue.map(
                   (skillDistributionValue, index) =>
                     Number(skillDistributionValue.quantity) > 0 && (
@@ -79,7 +79,7 @@ const SkillDistribution = ({
                           item.skillDistributionValue,
                           +skillDistributionValue.quantity
                         ) > 10 ? (
-                          <span className="block text-sm xxs:text-white text-transparent font-medium">
+                          <span className="block text-sm xxs:text-white text-transparent font-medium 3xl:py-2">
                             {`${handleCalculatePercentage(
                               item.skillDistributionValue,
                               Number(skillDistributionValue.quantity)

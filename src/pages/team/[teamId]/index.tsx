@@ -136,15 +136,15 @@ const TeamDetail = () => {
                     </div>
                   </div>
 
-                  <div className="md:text-[40px] sm:text-[30px] text-[26px] md:leading-10 font-semibold text-[#404040] md:text-left text-center whitespace-normal">
+                  <div className="md:text-[40px] sm:text-[30px] 3xl:text-6xl text-[26px] md:leading-10 font-semibold text-[#404040] md:text-left text-center whitespace-normal">
                     We&apos;re {teamProfile.teamName}
                   </div>
-                  <div className="my-6 md:text-[26px] sm:text-[22px] text-[18px] leading-9 font-normal">
+                  <div className="my-6 md:text-[26px] 3xl:text-3xl sm:text-[22px] text-[18px] leading-9 font-normal">
                     {teamProfile.slogan}
                   </div>
                   <button
                     type="button"
-                    className="mt-4 px-4 py-3 text-[14px] rounded-full text-white bg-[#848ABD] uppercase hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
+                    className="mt-4 px-4 py-3 text-[14px] 3xl:text-xl rounded-full text-white bg-[#848ABD] uppercase hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
                     onClick={() => handleScrollToSection(ESection["PORTFOLIO"])}
                   >
                     See my work
@@ -162,17 +162,17 @@ const TeamDetail = () => {
                 read ? "justify-center" : "md:flex-row"
               }`}
             >
-              <div className="md:w-1/3 md:mr-2 px-[30px] relative">
+              <div className="md:w-1/3 mr-2 relative">
                 <div className="text-[#606060]">
                   <div
-                    className={`md:text-[30px] text-[24px] leading-4 text-[#404040]  text-center mb-6 ${
+                    className={`md:text-[30px] text-[24px] 3xl:text-4xl leading-4 text-[#404040]  text-center mb-6 ${
                       read ? "" : "xs:text-left"
                     }`}
                   >
                     What I do?
                   </div>
                   <div
-                    className={`md:text-[24px] h-auto max-h-[185px] overflow-hidden break-words whitespace-pre-line sm:text-[20px] text-[18px] font-normal ${
+                    className={`md:text-2xl 3xl:text-3xl h-auto max-h-[185px] overflow-hidden break-words whitespace-pre-line sm:text-[20px] text-[18px] font-normal ${
                       read ? "hidden" : ""
                     }`}
                   >
@@ -184,18 +184,17 @@ const TeamDetail = () => {
                       teamProfile.description?.length <= 200 ||
                       teamProfile.description === null
                     }
-                    className={`text-ellipsis overflow-hidden mt-2 text-xs text-[#606060] hover:underline tracking-widest cursor-pointer ${
+                    className={`text-ellipsis overflow-hidden mt-2 text-xs 3xl:text-lg text-[#606060] hover:underline tracking-widest cursor-pointer ${
                       read ? "hidden" : ""
                     }`}
                     onClick={() => setRead(!read)}
                   >
-                    READ MORE <ArrowForwardIcon className="text-xs" />
+                    READ MORE{" "}
+                    <ArrowForwardIcon className="text-xs 3xl:text-lg" />
                   </p>
                 </div>
               </div>
-              <div
-                className={`md:flex-1 w-full px-5 ${read ? "mb-5" : "md:ml-8"}`}
-              >
+              <div className={`md:flex-1 w-full ${read ? "mb-5" : "md:ml-8"}`}>
                 <SkillDistribution
                   skillDistributionRef={skillDistributionRef}
                   editable={userProfile.userInfo.id === ownerId}
@@ -203,23 +202,24 @@ const TeamDetail = () => {
               </div>
             </div>
             {read && (
-              <div className="md:mt-[-100px] mt-[-80px] mb-10 text-[#404040] break-all text-left md:text-[18px] text-[14px] leading-9">
+              <div className="md:mt-[-100px] mt-[-80px] mb-10 text-[#404040] xs:text-left text-justify md:text-2xl 3xl:text-3xl sm:text-[20px] text-[16px] leading-9">
                 {teamProfile.description}
+                <br />
                 <span
-                  className="text-ellipsis ml-2 overflow-hidden mt-2 text-xs text-[#606060] hover:underline tracking-widest cursor-pointer"
+                  className="text-ellipsis ml-2 overflow-hidden mt-2 text-xs 3xl:text-lg text-[#606060] hover:underline tracking-widest cursor-pointer"
                   onClick={() => setRead(!read)}
                 >
-                  SEE LESS <ArrowBackIcon className="text-xs" />
+                  SEE LESS <ArrowBackIcon className="text-xs 3xl:text-lg" />
                 </span>
               </div>
             )}
-            <div className="lg:w-full xs:w-2/3 w-full ">
+            <div className="lg:w-full xs:w-2/3 w-full">
               <h3 className="md:text-[30px] text-[24px] leading-4 text-[#404040] mb-6 font-medium">
                 Tags
               </h3>
               <div className="flex flex-col items-start justify-start xs:w-full">
                 <div className="flex w-full">
-                  <div className="text-cyan-900 w-full break-normal">
+                  <div className="text-cyan-900 w-full break-normal 3xl:text-2xl">
                     {teamProfile.skills &&
                       (showAllSkill
                         ? teamProfile.skills

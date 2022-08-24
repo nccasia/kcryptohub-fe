@@ -133,8 +133,8 @@ const Register = () => {
   }, [watch("emailAddress")]);
 
   return (
-    <div className="min-h-screen  flex items-center justify-center  py-10 px-4 sm:px-6 lg:px-8 bg-[#f9fafb] font-jost">
-      <div className="flex flex-col items-center content-center relative  w-[470px] ">
+    <div className="min-h-screen w-full 3xl:max-w-screen flex items-center justify-center  py-10 px-4 sm:px-6  lg:px-8 bg-[#f9fafb] font-jost">
+      <div className="flex flex-col items-center content-center relative   ">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="space-y-6 relative bg-white w-full p-8 shadow-lg rounded-3xl"
@@ -165,7 +165,7 @@ const Register = () => {
           </div>
           {step === 0 && (
             <div>
-              <div className="mb-5 text-[#606060]">
+              <div className="mb-5 text-[#606060] w-full">
                 <div className="flex justify-center items-center w-full">
                   <span className="text-left mr-9 font-bold ">Email</span>
                   <input
