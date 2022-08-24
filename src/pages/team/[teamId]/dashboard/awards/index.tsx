@@ -13,25 +13,25 @@ const Awards = () => {
     <DashboardLayout>
       <AwardLayout>
         <div className="mb-5">
-          <h2 className="text-3xl text-[#606060] font-normal mb-3">
+          <h2 className="text-3xl 3xl:text-4xl text-[#606060] font-normal mb-3">
             Add Awards
           </h2>
-          <span className="text-xl text-[#606060] font-norma">
+          <span className="text-xl 3xl:text-2xl text-[#606060] font-norma">
             Tell us about the awards your company has received.
           </span>
         </div>
         <div>
-          <p className="text-sm text-[#606060] mb-3">
+          <p className="text-sm 3xl:text-lg text-[#606060] mb-3">
             We want to know all about your company’s recognitions and awards!
           </p>
-          <p className="text-sm text-[#606060] mb-3">
+          <p className="text-sm 3xl:text-lg text-[#606060] mb-3">
             Add an award below to tell us where your company has been recognized
             for its accomplishments. This is an opportunity to share your recent
             achievements and industry recognitions with KryptoHub and potential
             buyers. You do not need to add any KryptoHub Awards you have
             received; we already know about all of those!
           </p>
-          <p className="text-sm text-[#606060] mb-3">
+          <p className="text-sm 3xl:text-lg text-[#606060] mb-3">
             <strong>What qualifies as an award?</strong>
             <br /> Your awards should clearly identify the value that your
             company is being recognized for and what organization is awarding
@@ -48,7 +48,7 @@ const Awards = () => {
           }}
           passHref
         >
-          <button className="bg-[#848abd] text-white mt-6 px-10 py-3 border-2 border-transparent transition duration-300 hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)] rounded-full">
+          <button className="bg-[#848abd] 3xl:text-xl text-white mt-6 px-10 py-3 border-2 border-transparent transition duration-300 hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)] rounded-full">
             Add a New Award
           </button>
         </Link>

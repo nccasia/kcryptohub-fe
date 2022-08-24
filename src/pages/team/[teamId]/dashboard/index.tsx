@@ -100,12 +100,12 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <div className="w-full h-full font-nunito">
-        <div className="container mx-auto pt-4">
+        <div className="w-full 3xl:w-11/12 mx-auto pt-4">
           <div className="w-full">
             <div className="grid grid-cols-12 gap-2.5">
               <div className="bg-white text-[#606060]  w-full md-2:col-span-3 col-span-12  rounded-3xl shadow-lg">
                 <div className="p-2">
-                  <div className="h-[30px] w-[30px] relative inline-block float-left mr-2 ">
+                  <div className="h-[30px] w-[30px] 3xl:h-[50px] 3xl:w-[50px] relative inline-block float-left mr-2 ">
                     <Image
                       key={team.id}
                       layout="fill"
@@ -123,26 +123,26 @@ const Dashboard = () => {
                           rel="noopener noreferrer"
                           className="break-words"
                         >
-                          <span className="text-2xl break-words block">
+                          <span className="text-2xl 3xl:text-4xl break-words block">
                             {team.teamName}
                           </span>
                         </a>
                       </Link>
-                      <p className="text-[#848ABD] text-ellipsis">
+                      <p className="text-[#848ABD] text-ellipsis 3xl:text-xl">
                         {team.slogan}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center justify-between p-2">
-                  <div className="px-2 py-1 border rounded-lg w-fit text-gray-400">
+                  <div className="px-2 py-1 3xl:text-2xl border rounded-lg w-fit text-gray-400">
                     <span>Basic Profile</span>
                   </div>
                   <div
-                    className="text-[#606060] cursor-pointer hover:text-[#848ABD]"
+                    className="text-[#606060] 3xl:text-2xl cursor-pointer hover:text-[#848ABD]"
                     onClick={handleDeleteTeam}
                   >
-                    Delete team <Delete className="text-[#848ABD]" />
+                    Delete team <Delete className="text-[#848ABD] " />
                   </div>
                 </div>
                 <div className="md-2:flex grid grid-cols-2 flex-col text-sm p-2  text-[#848ABD]">
@@ -151,12 +151,12 @@ const Dashboard = () => {
                       <CheckCircleOutlined /> Verified
                     </span>
                   ) : (
-                    <span className="text-gray-400 py-1">
-                      <CircleRounded className="text-secondary" /> Profile Not
+                    <span className="text-gray-400 3xl:text-2xl py-1">
+                      <CircleRounded className="text-secondary " /> Profile Not
                       Verified
                     </span>
                   )}
-                  <span className="py-1">
+                  <span className="py-1 3xl:text-2xl">
                     <CalendarMonthOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Last Update: {new Date(team.updateAt).toDateString()}
@@ -165,53 +165,53 @@ const Dashboard = () => {
                   {
                     <a
                       href={team.linkWebsite}
-                      className="py-1 break-all max-h-[80px] overflow-hidden truncate"
+                      className="py-1 break-all 3xl:text-2xl max-h-[80px] overflow-hidden truncate"
                     >
                       {<LanguageOutlined className="text-[#848abd]" />}
-                      <span className="text-left ml-1 text-[#848abd]">
+                      <span className="text-left  ml-1 text-[#848abd]">
                         {team.linkWebsite}
                       </span>
                     </a>
                   }
-                  <span className="py-1 break-all">
+                  <span className="py-1 3xl:text-2xl break-all">
                     <EmailOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd] ">
                       {team.saleEmail}
                     </span>
                   </span>
-                  <span className="py-1">
+                  <span className="py-1 3xl:text-2xl">
                     <AvTimerOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       TimeZone: {team.timeZone}
                     </span>
                   </span>
-                  <span className="py-1">
+                  <span className="py-1 3xl:text-2xl">
                     <PeopleOutline className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       TeamSize: {team.teamSize}
                     </span>
                   </span>
-                  <span className="py-1">
+                  <span className="py-1 3xl:text-2xl">
                     <FlagOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Founded: {team.founded}
                     </span>
                   </span>
 
-                  <span className="py-1">
+                  <span className="py-1 3xl:text-2xl">
                     <ServiceLineIcon className="inline-block mx-1 text-[#848abd] stroke-[#848abd] " />
                     <span className="text-left ml-1 text-[#848abd]">
                       Distribution: {team.skillDistribution?.length | 0}
                     </span>
                   </span>
-                  <span className="py-1">
+                  <span className="py-1 3xl:text-2xl">
                     <BusinessCenterOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Portfolio:{" "}
                       {team.portfolios ? team.portfolios?.length | 0 : 0}
                     </span>
                   </span>
-                  <span className="py-1">
+                  <span className="py-1 3xl:text-2xl">
                     <EmojiEventsOutlined className="text-[#848abd]" />
                     <span className="text-left ml-1 text-[#848abd]">
                       Awards: {team.awards ? team.awards?.length | 0 : 0}
@@ -233,7 +233,7 @@ const Dashboard = () => {
                                     Math.random() * (skillColor.length - 1)
                                   )
                             ]
-                          } text-white ml-2 mt-2 font-medium`}
+                          } text-white ml-2 mt-2 3xl:text-2xl font-medium`}
                         >
                           {skill.skillName}
                         </span>
@@ -244,11 +244,11 @@ const Dashboard = () => {
                   {team.skillDistribution?.length > 0 &&
                     team.skillDistribution.map((item) => (
                       <div key={item.id} className="mb-10">
-                        <h3 className="text-[#6b7a7e] my-3">
+                        <h3 className="text-[#6b7a7e] my-3 3xl:text-2xl">
                           {item.skillDistributionName}
                         </h3>
                         <div className="w-full ">
-                          <div className="h-10 py-2 flex w-full">
+                          <div className="h-10 3xl:h-12 py-2 flex w-full">
                             {item.skillDistributionValue.map(
                               (skillDistributionValue, index) =>
                                 skillDistributionValue.quantity > 0 && (
@@ -271,7 +271,7 @@ const Dashboard = () => {
                                       item.skillDistributionValue,
                                       +skillDistributionValue.quantity
                                     ) >= 5 ? (
-                                      <span className="block text-sm xxs:text-white text-transparent font-medium">
+                                      <span className="block text-sm 3xl:text-lg xxs:text-white text-transparent font-medium">
                                         {`${handleCalculatePercentage(
                                           item.skillDistributionValue,
                                           Number(
@@ -307,7 +307,7 @@ const Dashboard = () => {
                                         ],
                                     }}
                                   ></div>
-                                  <h3 className="text-sm text-[#6d6e71]">
+                                  <h3 className="text-sm 3xl:text-2xl text-[#6d6e71]">
                                     {skillDistributionValue.field}{" "}
                                     <span className="md:hidden">
                                       (
@@ -327,7 +327,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="bg-white  text-[#606060] w-full md-2:col-span-3 col-span-12  rounded-3xl shadow-lg">
-                <p className="p-3 break-words">
+                <p className="p-3 break-words 3xl:text-2xl">
                   {team.description.length > 650
                     ? showAll
                       ? team.description
