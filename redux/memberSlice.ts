@@ -34,6 +34,18 @@ export const getMemberList = createAsyncThunk(
 //     }
 //   }
 // )
+export const getMemberByTeamId = createAsyncThunk(
+  "getAllMember",
+  async (teamId: number) => {
+    if (isNaN(teamId)) return null;
+    try {
+      const response = await memberApi.getMemberByTeamId(teamId);
+      return response
+    } catch (error) {
+      return [];
+    }
+  }
+)
 
 export const addMember = createAsyncThunk(
   "addMember",
@@ -127,6 +139,15 @@ export const memberSlice = createSlice({
         toast.success("Delete Success!", {
           position: toast.POSITION.BOTTOM_RIGHT,
         })
+      })
+    builder
+      .addCase(getMemberByTeamId.rejected, (state, action) => {
+        toast.error("Something Wrong!", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      })
+      .addCase(getMemberByTeamId.fulfilled, (state, action) => {
+        state.member = action.payload;
       })
     // builder.addCase(joinTeam.rejected, (state, action) => {
     //   toast.error(action.error.message, {

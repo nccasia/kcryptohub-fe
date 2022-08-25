@@ -21,6 +21,14 @@ export const memberApi = {
       return [];
     }
   },
+  async getMemberByTeamId(teamId: number) {
+    try {
+      const response = await axiosClient.get(`/members/getAll/${teamId}`)
+      return response.data;
+    } catch (error) {
+      return [];
+    }
+  },
   async addMember({ teamId, members }: IMemberAddRequest) {
     try {
       const response = await axiosClient.post(`/members/add`, { teamId, members });
