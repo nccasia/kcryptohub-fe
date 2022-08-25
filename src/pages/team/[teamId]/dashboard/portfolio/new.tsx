@@ -268,8 +268,8 @@ const NewPortfolio = () => {
     <ManagePortfolio>
       <div className="font-jost">
         <div className="lg:border-b-0 border-b mb-2 pb-2">
-          <h1 className="text-3xl">Add a New Portfolio Item</h1>
-          <Typography className="text-xl my-3">
+          <h1 className="text-3xl 3xl:text-4xl">Add a New Portfolio Item</h1>
+          <Typography className="text-xl 3xl:text-2xl my-3">
             Share your latest exciting work.
           </Typography>
         </div>
@@ -277,7 +277,7 @@ const NewPortfolio = () => {
           <div className="">
             <div className="">
               <div className="border-b flex items-center font-medium text-lg">
-                <PersonOutlineOutlined className="font-sm mr-2" />
+                <PersonOutlineOutlined className="font-sm 3xl:text-xl mr-2" />
                 <span>Client Details</span>
               </div>
               <div className="my-2 pl-4">
