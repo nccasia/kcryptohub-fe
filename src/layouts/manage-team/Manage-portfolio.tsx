@@ -57,7 +57,9 @@ export const ManagePortfolio = (props: Props) => {
             <div className="grid grid-cols-12 gap-5  h-full">
               <div className="md:col-span-3 col-span-12 lg:min-h-full bg-white flex flex-col p-2 lg:mr-4 lg:mb-0 mb-4 rounded-xl shadow-xl">
                 <div className="mb-2 lg:flex hidden items-center justify-between">
-                  <h1 className="text-3xl font-normal">My portfolio</h1>
+                  <h1 className="text-3xl 3xl:text-4xl font-normal">
+                    My portfolio
+                  </h1>
                 </div>
                 <div
                   className="mb-2 lg:hidden flex items-center justify-between"
@@ -65,7 +67,9 @@ export const ManagePortfolio = (props: Props) => {
                     setShow(!show);
                   }}
                 >
-                  <h1 className="text-3xl font-normal">My portfolio</h1>
+                  <h1 className="text-3xl 3xl:text-4xl font-normal">
+                    My portfolio
+                  </h1>
                   {show ? (
                     <KeyboardArrowDown className="text-2xl text-[#848abd]" />
                   ) : (
@@ -73,11 +77,11 @@ export const ManagePortfolio = (props: Props) => {
                   )}
                 </div>
                 <Collapse in={show}>
-                  <p className="text-sm my-4">
+                  <p className="text-sm 3xl:text-xl my-4">
                     The Portfolio items listed will be displayed on your Profile
                     page in the order below.
                   </p>
-                  <div className="w-full text-right text-[#848abd] hover:underline">
+                  <div className="w-full text-right 3xl:text-xl text-[#848abd] hover:underline">
                     <Link href={`/team/${teamId}/dashboard/portfolio/new`}>
                       <a className="">
                         Add A New Portfolio Item{" "}
@@ -86,7 +90,7 @@ export const ManagePortfolio = (props: Props) => {
                     </Link>
                   </div>
                   <hr />
-                  <div className="py-2 text-[#848abd] hover:under">
+                  <div className="py-2 text-[#848abd] 3xl:text-2xl hover:under">
                     <Link href={`/team/${teamId}/dashboard/portfolio/clients`}>
                       <a>Key Clients</a>
                     </Link>
@@ -96,7 +100,7 @@ export const ManagePortfolio = (props: Props) => {
                     {portfolios.map((portfolio, i) => (
                       <div
                         key={i}
-                        className="py-2 text-[#848abd] hover:underline"
+                        className="py-2 text-[#848abd] 3xl:text-xl hover:underline"
                       >
                         <Link
                           href={`/team/${teamId}/dashboard/portfolio/${portfolio.id}`}

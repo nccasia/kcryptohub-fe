@@ -24,8 +24,10 @@ const AwardList = () => {
   }, [dispatch, userInfo, router.query.teamId]);
   return (
     <div className="col-span-12 md:col-span-3 bg-white p-3 shadow-lg rounded-3xl font-nunito">
-      <h2 className="text-3xl text-primary font-normal mb-3">My Awards</h2>
-      <p className="text-sm text-[#606060] mb-3">
+      <h2 className="text-3xl 3xl:text-4xl text-primary font-normal mb-3">
+        My Awards
+      </h2>
+      <p className="text-sm 3xl:text-xl text-[#606060] mb-3">
         You can add a maximum of ten (10) Awards to your Profile.
       </p>
       <div className="flex justify-end items-center gap-x-2 mb-5">
@@ -35,7 +37,7 @@ const AwardList = () => {
             query: { teamId: router.query.teamId },
           }}
         >
-          <a className="text-sm text-[#848abd] cursor-pointer hover:underline">
+          <a className="text-sm 3xl:text-xl text-[#848abd] cursor-pointer hover:underline">
             Add a New Award
           </a>
         </Link>
@@ -56,7 +58,7 @@ const AwardList = () => {
                   query: { teamId: router.query.teamId, awardId: award.id },
                 }}
               >
-                <a className="text-sm text-[#606060] cursor-pointer hover:underline ">
+                <a className="text-sm 3xl:text-xl text-[#606060] cursor-pointer hover:underline ">
                   {award.awardsTitle}
                 </a>
               </Link>
