@@ -14,9 +14,12 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import JoinTeamModal from "./JoinTeamModal";
+import { getMemberByTeamId } from "@/redux/memberSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const CardInfo = ({ editable }: { editable: boolean }) => {
   const [show, setShow] = useState(false);
@@ -35,6 +38,18 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
     if (typeof window !== "undefined") window.open(url, "_blank")?.focus();
   };
   const dispatch = useAppDispatch();
+
+  const getMemberApproved = useSelector(
+    (state: RootState) => state.MemberReducer?.member
+  );
+
+  useEffect(() => {
+    if (router.isReady) {
+      dispatch(getMemberByTeamId(parseInt(router.query.teamId as string)));
+    }
+  }, [router.isReady]);
+
+  console.log("member Approved", getMemberApproved);
 
   const handleAddToShortList = () => {
     dispatch(addToShortList(teamProfile.id));
@@ -188,35 +203,33 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
               </div>
             </div>
           </Link>
-          <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center items-center cursor-pointer">
-            {userProfile.username && !editable ? (
-              <>
+          {userProfile.username && !editable && !getMemberApproved ? (
+            <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center items-center cursor-pointer">
+              <div
+                className="w-full flex justify-center relative"
+                onClick={handleShowModal}
+                onMouseEnter={() => setHover4(true)}
+                onMouseLeave={() => {
+                  setHover4(false);
+                }}
+              >
+                <GroupsIcon className="text-[#404040] w-5 h-5 hover:text-[#848ABD]" />
                 <div
-                  className="w-full flex justify-center relative"
-                  onClick={handleShowModal}
-                  onMouseEnter={() => setHover4(true)}
-                  onMouseLeave={() => {
-                    setHover4(false);
-                  }}
+                  className={`absolute right-9 w-[88px] rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px]  ${
+                    hover4 ? "" : "hidden"
+                  }`}
                 >
-                  <GroupsIcon className="text-[#404040] w-5 h-5 hover:text-[#848ABD]" />
-                  <div
-                    className={`absolute right-9 w-[88px] rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px]  ${
-                      hover4 ? "" : "hidden"
-                    }`}
-                  >
-                    Join Team
-                  </div>
+                  Join Team
                 </div>
-                <JoinTeamModal
-                  isShowModal={isShowModal}
-                  handleCloseModal={handleCloseModal}
-                />
-              </>
-            ) : (
-              <></>
-            )}
-          </div>
+              </div>
+              <JoinTeamModal
+                isShowModal={isShowModal}
+                handleCloseModal={handleCloseModal}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       <div
@@ -300,7 +313,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
             </div>
           </div>
         </Link>
-        {userProfile.username && !editable ? (
+        {userProfile.username && !editable && !getMemberApproved ? (
           <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center w-1/4 items-center cursor-pointer border-x border-[#cae0e7] md:border-0">
             <>
               <div
