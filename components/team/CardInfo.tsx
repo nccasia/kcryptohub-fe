@@ -49,8 +49,6 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
     }
   }, [router.isReady]);
 
-  console.log("member Approved", getMemberApproved);
-
   const handleAddToShortList = () => {
     dispatch(addToShortList(teamProfile.id));
   };
