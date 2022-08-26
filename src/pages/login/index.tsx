@@ -8,6 +8,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import GoogleIcon from "@mui/icons-material/Google";
 import { Collapse } from "@mui/material";
 import { getSession, signIn } from "next-auth/react";
 import Image from "next/image";
@@ -140,22 +141,15 @@ const Login = () => {
                 onClick={() => signIn("github")}
               >
                 <GitHubIcon className="text-white cursor-pointer mx-2 rounded" />
-                <span className="w-full p-2 3xl:text-2xl group-hover:bg-indigo-900 font-nunito">
+                <span className="w-full  p-2 3xl:text-2xl group-hover:bg-indigo-900 font-nunito">
                   Sign in with GitHub
                 </span>
               </button>
               <button
-                className="bg-blue-600 w-fit 3xl:w-full 3xl:max-w-max text-white mb-8 cursor-pointer rounded min-w-[240px] flex items-center justify-center group pl-[1px]"
+                className="bg-blue-600 w-fit 3xl:w-full 3xl:max-w-max text-white mb-8 cursor-pointer rounded min-w-[240px] flex items-center justify-center group"
                 onClick={() => signIn("google")}
               >
-                <div className="h-[38px] w-[47px] flex items-center justify-center bg-white rounded ">
-                  <Image
-                    src={"/google.svg"}
-                    width={22}
-                    height={22}
-                    alt="google"
-                  />
-                </div>
+                <GoogleIcon className="text-white cursor-pointer mx-2 rounded" />
                 <span className="w-full p-2 3xl:text-2xl group-hover:bg-blue-700 font-nunito">
                   Sign in with Google
                 </span>
