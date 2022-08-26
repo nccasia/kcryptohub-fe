@@ -30,7 +30,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
   const [hover4, setHover4] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowModalMobile, setIsShowModalMobile] = useState(false);
-
+  const [isApproved, setIsApproved] = useState(false);
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const userProfile = useAppSelector(getUserInfoSelector);
   const router = useRouter();
@@ -42,6 +42,15 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
   const getMemberApproved = useSelector(
     (state: RootState) => state.MemberReducer?.member
   );
+
+  useEffect(() => {
+    const id = getMemberApproved?.find(
+      (item) => item?.user?.id === userProfile?.id
+    );
+    if (id) {
+      setIsApproved(true);
+    }
+  }, [getMemberApproved]);
 
   useEffect(() => {
     if (router.isReady) {
@@ -201,7 +210,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
               </div>
             </div>
           </Link>
-          {userProfile.username && !editable && !getMemberApproved ? (
+          {userProfile.username && !editable && isApproved === false ? (
             <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center items-center cursor-pointer">
               <div
                 className="w-full flex justify-center relative"
@@ -311,7 +320,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
             </div>
           </div>
         </Link>
-        {userProfile.username && !editable && !getMemberApproved ? (
+        {userProfile.username && !editable && isApproved === false ? (
           <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center w-1/4 items-center cursor-pointer border-x border-[#cae0e7] md:border-0">
             <>
               <div
