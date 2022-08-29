@@ -16,6 +16,7 @@ const nextConfig = {
       "172.16.100.186",
       "app.kryptohub.co",
       "vinasa.org.vn",
+      "www.vinasa.org.vn",
     ],
   },
   env: {

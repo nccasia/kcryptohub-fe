@@ -169,7 +169,7 @@ const Home: NextPage = () => {
         // }}
       >
         <div className="relative top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed  font-nunito">
-          <div className="inline-block xxs:text-center text-left mt-20 xxs:flex xxs:justify-center xxs:flex-col  h-full transition animate-slide-in-up z-[1000]">
+          <div className=" text-center mt-20 flex justify-center flex-col  h-full transition animate-slide-in-up z-[1000]">
             <div className="text-center text-black px-6 my-10 md:px-12">
               <h1 className="text-xl 3xl:text-6xl md:text-4xl font-semibold my-3 cursor-pointer hover:underline 3xl:tracking-wide">
                 <a href="https://kryptohub.co/">
@@ -179,8 +179,8 @@ const Home: NextPage = () => {
               </h1>
             </div>
             <div className="px-1 md:px-4 flex items-center justify-center mb-10 text-black w-full ">
-              <div className="">
-                <h1 className="text-xl md:text-3xl 3xl:text-6xl 3xl:tracking-wide font-700 mb-5 3xl:my-10">
+              <div>
+                <h1 className="text-xl md:text-3xl 3xl:text-6xl 3xl:tracking-wide font-700 mb-5  3xl:my-10">
                   The only resource you need to find the right company.
                 </h1>
                 <h2 className="text-base  md:text-xl 3xl:text-3xl 3xl:tracking-wide text-black mb-5 3xl:my-10">

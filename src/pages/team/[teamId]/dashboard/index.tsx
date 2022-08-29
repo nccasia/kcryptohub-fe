@@ -270,7 +270,7 @@ const Dashboard = () => {
                                     {handleCalculatePercentage(
                                       item.skillDistributionValue,
                                       +skillDistributionValue.quantity
-                                    ) >= 5 ? (
+                                    ) >= 10 ? (
                                       <span className="block text-sm 3xl:text-lg xxs:text-white text-transparent font-medium">
                                         {`${handleCalculatePercentage(
                                           item.skillDistributionValue,
