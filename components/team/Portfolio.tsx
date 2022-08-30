@@ -110,7 +110,7 @@ const Portfolio = ({
                 {portfolio?.imageUrl ? (
                   <div className=" h-96 3xl:h-[800px]  mt-2 relative">
                     <Image
-                      className="object-fit"
+                      className="object-contain"
                       src={PortfolioApi.getPortfolioImageUrl(
                         portfolio.imageUrl
                       )}
@@ -140,7 +140,7 @@ const Portfolio = ({
                   {portfolio?.imageUrl ? (
                     <div className="h-[200px] mt-2 mb-3 relative">
                       <Image
-                        className="object-fit"
+                        className="object-contain"
                         src={PortfolioApi.getPortfolioImageUrl(
                           portfolio.imageUrl
                         )}
@@ -214,13 +214,13 @@ const Portfolio = ({
                   (item.privacy !== 3 || editable) && (
                     <div
                       key={index}
-                      className="relative cursor-pointer overflow-hidden group shadow-lg rounded-md"
+                      className="relative w-full h-full cursor-pointer overflow-hidden group shadow-lg rounded-md"
                       onClick={() => {
                         setPortfolio(item);
                         setShow(false);
                       }}
                     >
-                      <div className="relative w-full h-[350px] 3xl:h-[450px]">
+                      <div className="relative w-full ">
                         <Image
                           src={
                             item?.imageUrl
@@ -229,8 +229,10 @@ const Portfolio = ({
                                 "/user1.png"
                           }
                           alt="portfolio"
-                          className="object-fit"
-                          layout="fill"
+                          className="object-contain"
+                          width={"100%"}
+                          height={"100%"}
+                          layout="responsive"
                         />
                         <span className="px-5 opacity-0 hover:opacity-100 transition duration-1000 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                           <span className="w-full break-words text-center">
@@ -257,7 +259,7 @@ const Portfolio = ({
                       setShow(false);
                     }}
                   >
-                    <div className="relative w-full h-[350px] 3xl:h-[450px]">
+                    <div className="relative w-full h-[300px] ">
                       <Image
                         src={
                           item?.imageUrl
@@ -266,7 +268,9 @@ const Portfolio = ({
                               "/user1.png"
                         }
                         alt="portfolio"
-                        className="object-fit"
+                        className="object-contain"
+                        width={350}
+                        height={350}
                         layout="fill"
                       />
                       <span className="px-5 opacity-0 hover:opacity-100 transition duration-1000 text-white font-medium underline flex items-center justify-center w-full h-full bg-black/70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

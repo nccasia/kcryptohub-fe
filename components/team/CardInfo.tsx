@@ -1,36 +1,31 @@
+import CardItems from "@/components/team/CardItems";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getMemberByTeamId } from "@/redux/memberSlice";
 import { addToShortList, removeFromShortList } from "@/redux/profileSlice";
 import { getUserInfoSelector } from "@/redux/selector";
+import { RootState } from "@/redux/store";
 import {
   Bookmark,
   BookmarkBorderOutlined,
-  BookmarkOutlined,
   ChatOutlined,
+  Edit,
   Language,
   SettingsOutlined,
-  Edit,
 } from "@mui/icons-material";
 import GroupsIcon from "@mui/icons-material/Groups";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import Modal from "@mui/material/Modal";
-import JoinTeamModal from "./JoinTeamModal";
-import { getMemberByTeamId } from "@/redux/memberSlice";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import JoinTeamModal from "./JoinTeamModal";
 
 const CardInfo = ({ editable }: { editable: boolean }) => {
   const [show, setShow] = useState(false);
-  const [hover, setHover] = useState(false);
-  const [hover1, setHover1] = useState(false);
   const [hover2, setHover2] = useState(false);
-  const [hover3, setHover3] = useState(false);
   const [hover4, setHover4] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowModalMobile, setIsShowModalMobile] = useState(false);
-
+  const [isApproved, setIsApproved] = useState(false);
   const { teamProfile } = useAppSelector((state) => state.TeamProfileReducer);
   const userProfile = useAppSelector(getUserInfoSelector);
   const router = useRouter();
@@ -44,12 +39,19 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
   );
 
   useEffect(() => {
+    const id = getMemberApproved?.find(
+      (item) => item?.user?.id === userProfile?.id
+    );
+    if (id) {
+      setIsApproved(true);
+    }
+  }, [getMemberApproved]);
+
+  useEffect(() => {
     if (router.isReady) {
       dispatch(getMemberByTeamId(parseInt(router.query.teamId as string)));
     }
   }, [router.isReady]);
-
-  console.log("member Approved", getMemberApproved);
 
   const handleAddToShortList = () => {
     dispatch(addToShortList(teamProfile.id));
@@ -95,133 +97,39 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
         >
           {editable ? (
             <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center cursor-pointer border-r border-[#cae0e7] md:border-0">
-              <Link
-                href={{
-                  pathname: `/team/[teamId]/dashboard`,
-                  query: { teamId: router.query.teamId },
-                }}
-              >
-                <a
-                  className="flex items-center justify-center w-full relative "
-                  onMouseEnter={() => setHover(true)}
-                  onMouseLeave={() => {
-                    setHover(false);
-                  }}
-                >
-                  <Edit className="text-[#404040] text-[20px] hover:text-[#848ABD] " />
-                  <div
-                    className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
-                      hover ? "" : "hidden"
-                    }`}
-                  >
-                    Edit
-                  </div>
-                </a>
-              </Link>
+              <CardItems
+                type={1}
+                pathName={"/team/[teamId]/dashboard"}
+                title={"Edit"}
+              />
             </div>
           ) : null}
-          <div
-            onClick={() => handleVisitWebsite(teamProfile.linkWebsite)}
-            className="mx-2 my-3 flex gap-x-2 flex-col justify-center items-center rounded-full cursor-pointer"
-            onMouseEnter={() => setHover1(true)}
-            onMouseLeave={() => {
-              setHover1(false);
-            }}
-          >
-            <div className="w-full flex justify-center relative">
-              <Language className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
-              <div
-                className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
-                  hover1 ? "" : "hidden"
-                }`}
-              >
-                Website
-              </div>
-            </div>
+          <CardItems
+            title={"Website"}
+            type={2}
+            website={teamProfile.linkWebsite}
+          />
+          <CardItems
+            type={3}
+            title={"Shortlist"}
+            teamId={teamProfile.id}
+            checkShortlist={userProfile.shortList?.includes(teamProfile.id)}
+          />
+          <div className="bg-white flex gap-x-2 mx-2 my-3 justify-between items-center cursor-pointer border-r border-[#cae0e7] md:border-0">
+            <CardItems
+              type={1}
+              pathName={"/team/[teamId]/contact"}
+              title={"Contact"}
+            />
           </div>
-          <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center items-center cursor-pointer border-x border-[#cae0e7] md:border-0">
-            {userProfile.shortList?.includes(teamProfile.id) ? (
-              <div
-                className="w-full flex justify-center relative"
-                onClick={handleRemoveFromShortList}
-                onMouseEnter={() => setHover2(true)}
-                onMouseLeave={() => {
-                  setHover2(false);
-                }}
-              >
-                <Bookmark className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
-                <div
-                  className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
-                    hover2 ? "" : "hidden"
-                  }`}
-                >
-                  Shortlist
-                </div>
-              </div>
-            ) : (
-              <div
-                className="w-full flex justify-center relative"
-                onClick={handleAddToShortList}
-                onMouseEnter={() => setHover2(true)}
-                onMouseLeave={() => {
-                  setHover2(false);
-                }}
-              >
-                <BookmarkBorderOutlined className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
-                <div
-                  className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px] ${
-                    hover2 ? "" : "hidden"
-                  }`}
-                >
-                  Shortlist
-                </div>
-              </div>
-            )}
-          </div>
-          <Link
-            href={{
-              pathname: `/team/[teamId]/contact`,
-              query: { teamId: router.query.teamId },
-            }}
-          >
+
+          {userProfile.username && !editable && isApproved === false ? (
             <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center items-center cursor-pointer">
-              <div
-                className="w-full flex justify-center relative"
-                onMouseEnter={() => setHover3(true)}
-                onMouseLeave={() => {
-                  setHover3(false);
-                }}
-              >
-                <ChatOutlined className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
-                <div
-                  className={`absolute right-9 rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px]  ${
-                    hover3 ? "" : "hidden"
-                  }`}
-                >
-                  Contact
-                </div>
-              </div>
-            </div>
-          </Link>
-          {userProfile.username && !editable && !getMemberApproved ? (
-            <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center items-center cursor-pointer">
-              <div
-                className="w-full flex justify-center relative"
-                onClick={handleShowModal}
-                onMouseEnter={() => setHover4(true)}
-                onMouseLeave={() => {
-                  setHover4(false);
-                }}
-              >
-                <GroupsIcon className="text-[#404040] w-5 h-5 hover:text-[#848ABD]" />
-                <div
-                  className={`absolute right-9 w-[88px] rounded-md px-2 py-2 top-[-8px] bg-[#848ABD] text-white after:content-['']  after:border-[#848ABD] after:border-solid after:rotate-90 after:border-b-8 after:border-x-transparent after:border-x-8 after:border-t-0 after:absolute after:right-[-10px] after:bottom-[18px]  ${
-                    hover4 ? "" : "hidden"
-                  }`}
-                >
-                  Join Team
-                </div>
-              </div>
+              <CardItems
+                type={4}
+                title={"Join team"}
+                handleShowModal={handleShowModal}
+              />
               <JoinTeamModal
                 isShowModal={isShowModal}
                 handleCloseModal={handleCloseModal}
@@ -244,13 +152,7 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
                 query: { teamId: router.query.teamId },
               }}
             >
-              <a
-                className="flex items-center justify-center relative "
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => {
-                  setHover(false);
-                }}
-              >
+              <a className="flex items-center justify-center relative ">
                 <Edit className="text-[#404040] text-[20px] hover:text-[#848ABD] " />
               </a>
             </Link>
@@ -261,10 +163,6 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
           className={`mx-2 my-3 flex gap-x-2 flex-col justify-center items-center rounded-full cursor-pointer ${
             editable ? "w-1/4" : "w-2/4"
           }`}
-          onMouseEnter={() => setHover1(true)}
-          onMouseLeave={() => {
-            setHover1(false);
-          }}
         >
           <div className="w-full flex justify-center relative">
             <Language className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
@@ -275,10 +173,6 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
             <div
               className="w-full flex justify-center relative "
               onClick={handleRemoveFromShortList}
-              onMouseEnter={() => setHover2(true)}
-              onMouseLeave={() => {
-                setHover2(false);
-              }}
             >
               <Bookmark className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
             </div>
@@ -286,10 +180,6 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
             <div
               className="w-full flex justify-center relative"
               onClick={handleAddToShortList}
-              onMouseEnter={() => setHover2(true)}
-              onMouseLeave={() => {
-                setHover2(false);
-              }}
             >
               <BookmarkBorderOutlined className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
             </div>
@@ -302,27 +192,17 @@ const CardInfo = ({ editable }: { editable: boolean }) => {
           }}
         >
           <div className="bg-white flex gap-x-2 mx-2 my-3 w-1/4 justify-center items-center cursor-pointer">
-            <div
-              className="w-full flex justify-center relative "
-              onMouseEnter={() => setHover3(true)}
-              onMouseLeave={() => {
-                setHover3(false);
-              }}
-            >
+            <div className="w-full flex justify-center relative ">
               <ChatOutlined className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
             </div>
           </div>
         </Link>
-        {userProfile.username && !editable && !getMemberApproved ? (
+        {userProfile.username && !editable && isApproved === false ? (
           <div className="bg-white flex gap-x-2 mx-2 my-3 justify-center w-1/4 items-center cursor-pointer border-x border-[#cae0e7] md:border-0">
             <>
               <div
                 className="w-full flex justify-center relative "
                 onClick={handleShowModalMobile}
-                onMouseEnter={() => setHover4(true)}
-                onMouseLeave={() => {
-                  setHover4(false);
-                }}
               >
                 <GroupsIcon className="text-[#404040] text-[20px] hover:text-[#848ABD]" />
               </div>

@@ -47,6 +47,9 @@ import {
   getContact,
   resetSuccessContact,
 } from "@/redux/joinTeamContactSlice";
+import { TooltipComponent } from "@/components/member/TooltipComponent";
+import { InviteStatusTooltipComponent } from "@/components/member/InviteStatusTooltipComponent";
+import { PermissionTooltipComponent } from "@/components/member/PermissionTooltipComponent";
 
 const theme = createTheme({
   components: {
@@ -595,105 +598,24 @@ const Members = () => {
                     <span>Email address</span>
                   </div>
                   <div className="w-1/5 px-4 py-2 text-base font-normal cursor-help relative">
-                    <ClickAwayListener onClickAway={handleClosePermissions}>
-                      <div className="bg-transparent relative">
-                        <Tooltip
-                          PopperProps={{
-                            disablePortal: true,
-                          }}
-                          onClose={handleClosePermissions}
-                          placement="bottom"
-                          open={openPermissions}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          title={
-                            <div className="absolute top-[9px] left-0 right-0 w-[180px] z-50 bg-[white] shadow-lg drop-shadow rounded-3xl">
-                              <div className="p-[10px]">
-                                <div className="py-1 text-black">
-                                  <div className="font-bold">Profile Owner</div>
-                                  <div>Profile administrator</div>
-                                  <div>Member administrator</div>
-                                </div>
-                                <div className="py-1 text-black">
-                                  <div className="font-bold">Admin</div>
-                                  <div>
-                                    Profile administrator; cannot add new
-                                    members
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          }
-                        >
-                          <div
-                            onClick={handleOpenPermissions}
-                            className="relative"
-                          >
-                            <span className="3xl:text-xl">Permissions</span>
-                            {!openPermissions ? (
-                              <span className=" ml-1 absolute right-0 z-20 top-0 left-[90px] 3xl:left-[110px] rounded-full">
-                                <ErrorOutline className="w-6- h-6 text-[#61619b]" />
-                              </span>
-                            ) : (
-                              <span className="w-5 h-5 ml-1 absolute right-0 z-20 border-[1px] border-[#61619b] top-1 left-[90px] 3xl:left-[110px] rounded-full after:absolute after:w-3 after:h-[1px] after:right-[3px] after:bg-[#61619b] after:rotate-90 after:top-[24px]"></span>
-                            )}
-                          </div>
-                        </Tooltip>
-                      </div>
-                    </ClickAwayListener>
+                    <TooltipComponent
+                      handleCloseTooltip={handleClosePermissions}
+                      handleOpenTooltip={handleOpenPermissions}
+                      showTooltip={openPermissions}
+                      titleTooltip="Permissions"
+                    >
+                      <PermissionTooltipComponent />
+                    </TooltipComponent>
                   </div>
                   <div className="w-1/5 px-4 py-2 text-base font-normal cursor-help relative">
-                    <ClickAwayListener onClickAway={handleCloseStatus}>
-                      <div className="bg-transparent relative">
-                        <Tooltip
-                          PopperProps={{
-                            disablePortal: true,
-                          }}
-                          onClose={handleCloseStatus}
-                          placement="bottom"
-                          open={openStatus}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          title={
-                            <div className="absolute top-[9px] w-[180px] 3xl:w-[200px] z-50 bg-[white] shadow-lg drop-shadow rounded-3xl">
-                              <div className="p-[10px]">
-                                <div className="py-1 text-black">
-                                  <div className="font-bold 3xl:text-xl">
-                                    Invite Pending
-                                  </div>
-                                  <div className="3xl:text-xl">
-                                    The invite {"hasn't"} been accepted yet.
-                                  </div>
-                                </div>
-                                <div className="py-1 text-black">
-                                  <div className="font-bold 3xl:text-xl">
-                                    Invite Expired
-                                  </div>
-                                  <div className="3xl:text-xl">
-                                    Invite expire after 72 hours
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          }
-                        >
-                          <div onClick={handleOpenStatus} className="relative">
-                            <span className="mr-1 3xl:text-xl">
-                              Invite Status
-                            </span>
-                            {!openStatus ? (
-                              <span className="ml-1 absolute right-0 z-20 top-0 left-[90px] 3xl:left-[110px] rounded-full">
-                                <ErrorOutline className="w-6 h-6 text-[#61619b]" />
-                              </span>
-                            ) : (
-                              <span className="w-5 h-5 ml-1 absolute right-0 z-20 border-[1px] border-[#61619b]  top-[4px] left-[90px] 3xl:left-[110px] rounded-full after:absolute after:w-3 after:h-[1px] after:right-[3px] after:bg-[#61619b] after:rotate-90 after:top-[24px]"></span>
-                            )}
-                          </div>
-                        </Tooltip>
-                      </div>
-                    </ClickAwayListener>
+                    <TooltipComponent
+                      handleCloseTooltip={handleCloseStatus}
+                      handleOpenTooltip={handleOpenStatus}
+                      showTooltip={openStatus}
+                      titleTooltip="Invite Status"
+                    >
+                      <InviteStatusTooltipComponent />
+                    </TooltipComponent>
                   </div>
                   <div className="w-1/5 px-4 py-2 text-base 3xl:text-xl font-normal">
                     <span>Options</span>
