@@ -43,7 +43,7 @@ const ManageTeam = () => {
             <div className="mr-5">
               <Link href="/manage-teams/create-new-team">
                 <a
-                  className="bg-[#848abd] rounded-3xl text-white block text-center py-2 xs:px-5 px-1 w-full shadow-lg mx-2"
+                  className="bg-[#848abd] rounded-3xl text-white block text-center py-2 xs:px-5 px-1 w-full hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)] mx-2"
                   onClick={() => {
                     dispatch(resetTeam());
                   }}

@@ -154,7 +154,7 @@ export const TeamCard = (props: Props) => {
               )}
             </div>
             <div className="absolute top-0 right-0 flex-1 text-right">
-              <div className="absolute -top-2 right-6 group ">
+              <div className="absolute 3xl:-top-6 -top-2 right-6 group ">
                 {userProfile.shortList?.includes(team.id) ? (
                   <div>
                     {show ? (
