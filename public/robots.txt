@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: http://app.kryptohub.co
+
+# Sitemaps
+Sitemap: http://app.kryptohub.co/sitemap.xml
