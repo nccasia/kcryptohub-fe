@@ -21,8 +21,6 @@ import JoinTeamModal from "./JoinTeamModal";
 
 const CardInfo = ({ editable }: { editable: boolean }) => {
   const [show, setShow] = useState(false);
-  const [hover2, setHover2] = useState(false);
-  const [hover4, setHover4] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowModalMobile, setIsShowModalMobile] = useState(false);
   const [isApproved, setIsApproved] = useState(false);
