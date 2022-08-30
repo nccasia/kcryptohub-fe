@@ -115,7 +115,7 @@ function CardItems({
                   hover ? "" : "hidden"
                 }`}
               >
-                Shortlist
+                {title}
               </div>
             </div>
           ) : (
@@ -133,7 +133,7 @@ function CardItems({
                   hover ? "" : "hidden"
                 }`}
               >
-                Shortlist
+                {title}
               </div>
             </div>
           )}
