@@ -171,35 +171,39 @@ const Home: NextPage = () => {
         <div className="relative top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed  font-nunito">
           <div className=" text-center mt-20 flex justify-center flex-col  h-full transition animate-slide-in-up z-[1000]">
             <div className="text-center text-black px-6 my-10 md:px-12">
-              <h1 className="text-xl 3xl:text-6xl md:text-4xl font-semibold my-3 cursor-pointer hover:underline 3xl:tracking-wide">
+              <h1 className="text-lg xxs:text-xl 3xl:text-6xl md:text-4xl font-semibold my-3 cursor-pointer hover:underline 3xl:tracking-wide">
                 <a href="https://kryptohub.co/">
                   Welcome to KryptoHub{" "}
                   <ArrowForwardIosOutlined className="text-sm" />
                 </a>
               </h1>
             </div>
-            <div className="px-1 md:px-4 flex items-center justify-center mb-10 text-black w-full ">
+            <div className="px-1 md:px-4 flex items-center justify-center mb-28 text-black w-full ">
               <div>
-                <h1 className="text-xl md:text-3xl 3xl:text-6xl 3xl:tracking-wide font-700 mb-5  3xl:my-10">
-                  The only resource you need to find the right company.
-                </h1>
-                <h2 className="text-base  md:text-xl 3xl:text-3xl 3xl:tracking-wide text-black mb-5 3xl:my-10">
-                  Choose the best-fit company for your business using 98,000+
-                  client reviews from real people.
-                </h2>
+                <div className="w-4/5 mx-auto xs:w-full">
+                  <h1 className="text-base xxs:text-xl md:text-3xl 3xl:text-6xl 3xl:tracking-wide font-700 mb-5 3xl:my-10">
+                    The only resource you need to find the right company.
+                  </h1>
+                </div>
+                <div className="w-4/5 mx-auto xs:w-full">
+                  <h2 className="text-sm xxs:text-base md:text-xl 3xl:text-3xl 3xl:tracking-wide text-black mb-5 3xl:my-10">
+                    Choose the best-fit company for your business using 98,000+
+                    client reviews from real people.
+                  </h2>
+                </div>
                 <div className="flex lg:flex-row flex-col items-start lg:items-center w-full 3xl:my-10">
-                  <h2 className="text-black mr-3 min-w-[115px] 3xl:w-[10%] 3xl:text-xl">
+                  <h2 className="text-black text-base mx-3 pl-3 xxs:pl-0 min-w-[115px]  text-left w-4/5 xxs:w-[10%] 3xl:text-xl">
                     I am looking for
                   </h2>
-                  <div className="flex md:flex-row md:items-center flex-col w-full 3xl:w-[90%]">
-                    <div className="w-full  flex flex-col justify-center relative">
+                  <div className="flex md:flex-row items-center flex-col w-full h-auto 3xl:w-[90%]">
+                    <div className="w-4/5 xxs:w-full  flex flex-col justify-center relative">
                       <div
                         className="relative h-auto"
                         ref={nodeRef as LegacyRef<HTMLDivElement>}
                       >
                         <SearchIcon className="absolute left-2 bottom-[7px] 3xl:bottom-[17px] text-[#848abd] " />
                         <input
-                          className=" appearance-none min-w-[300px] bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl mr-3 block w-full pl-8 px-3 py-2 3xl:py-4 pr-8 border-solid placeholder-gray-500 focus:outline-none focus:border-[#848abd]  md:mt-0 mt-4 sm:text-sm 3xl:text-lg placeholder:text-xs 3xl:placeholder:text-2xl custom-scrollbar"
+                          className=" appearance-none  bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl mr-3 block w-full pl-8 px-3 py-2 3xl:py-4 pr-8 border-solid placeholder-gray-500 focus:outline-none focus:border-[#848abd]  md:mt-0 mt-4 sm:text-sm 3xl:text-lg placeholder:text-xs 3xl:placeholder:text-2xl custom-scrollbar"
                           placeholder="e.g. App Development, UX design, IT services..."
                           autoComplete="off"
                           onClick={() => setShow(true)}
@@ -260,39 +264,32 @@ const Home: NextPage = () => {
                     <h2 className="text-black 3xl:text-xl mx-3 md:flex items-center hidden ">
                       in
                     </h2>
-                    {/* <select
-                      className="appearance-none mr-3 min-w-[190px] font-nunito bg-[#ecedee] text-[#606060] border-2 border-[#848abd] rounded-3xl relative block w-full px-3 py-2  border-solid placeholder-gray-500 md:mt-0 mt-3  focus:outline-none focus:border-[#848abd]  focus:z-10 sm:text-sm"
-                      {...register("timeZone")}
-                    >
-                      <option className="font-nunito">--Timezone--</option>
-                      {Object.values(TimeZone).map((cur, index) => (
-                        <option key={index} value={cur} className="font-nunito">
-                          {cur}
-                        </option>
-                      ))}
-                    </select> */}
-                    <SelectCustom
-                      label={""}
-                      register={register("timeZone")}
-                      valueList={Object.values(TimeZone)}
-                      placeholder=" Select timezone"
-                      setValue={setValue}
-                      name={"timeZone"}
-                      clearError={clearErrors}
-                      type={2}
-                    />
-                    <button
-                      className="px-10 min-w-[150px]  3xl:text-2xl py-2 3xl:py-3 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full 3xl:w-1/3 font-nunito hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
-                      onClick={() => {
-                        router.push(
-                          `teams?skill=${watch("skill")}&timezone=${watch(
-                            "timeZone"
-                          )}`
-                        );
-                      }}
-                    >
-                      Find Team
-                    </button>
+                    <div className="w-4/5 xxs:w-full">
+                      <SelectCustom
+                        label={""}
+                        register={register("timeZone")}
+                        valueList={Object.values(TimeZone)}
+                        placeholder=" Select timezone"
+                        setValue={setValue}
+                        name={"timeZone"}
+                        clearError={clearErrors}
+                        type={2}
+                      />
+                    </div>
+                    <div className="w-4/5 xxs:w-full">
+                      <button
+                        className="px-10 3xl:text-2xl py-2 3xl:py-3 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full  font-nunito hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
+                        onClick={() => {
+                          router.push(
+                            `teams?skill=${watch("skill")}&timezone=${watch(
+                              "timeZone"
+                            )}`
+                          );
+                        }}
+                      >
+                        Find Team
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -303,7 +300,7 @@ const Home: NextPage = () => {
       <div className=" bg-[#f9fafb] h-fit 3xl:h-[calc(190vh_+_10px)]  pt-[calc(90vh_-_10px)] pb-[20px] flex flex-col items-center justify-center z-0">
         <div className="flex flex-col relative w-full py-[70px] font-nunito">
           <div className="w-full text-center my-5  md:my-[70px] px-3 ">
-            <h2 className="text-3xl 3xl:text-6xl font-normal mb-6 text-black">
+            <h2 className="text-xl md:text-3xl 3xl:text-6xl font-normal mb-6 text-black">
               Start Your Search With Our Most Popular Services
             </h2>
             <p className="mb-4 text-black text-lg 3xl:text-3xl">

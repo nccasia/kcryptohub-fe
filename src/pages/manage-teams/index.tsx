@@ -33,7 +33,7 @@ const ManageTeam = () => {
     <Layout>
       <div className="sticky bg-white shadow-lg top-0 left-0 right-0 py-1 z-20">
         <div className="font-jost px-4 mb-5 mt-5 w-full xs:justify-between flex flex-col xs:flex-row  xs:items-center">
-          <h1 className="text-xl font-bold mb-3 xs:mb-0">
+          <h1 className="text-base xxxs:text-lg md:text-xl font-bold mb-3 xs:mb-0">
             <Link href={"/"}>
               <span className="hover:underline cursor-pointer">KryptoHub </span>
             </Link>

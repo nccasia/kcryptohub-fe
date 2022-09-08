@@ -131,7 +131,7 @@ const ShortList = () => {
         </div>
         <div className="sticky top-0 z-[40] bg-white w-full text-[#606060]">
           <nav className="w-full mb-4 shadow-lg flex flex-col sm:flex-row sm:justify-between sm:items-center px-[15px] mx-auto">
-            <h1 className="text-xl 3xl:text-3xl text-left font-bold mt-3 sm:mt-0">
+            <h1 className="text-base xxxs:text-lg 3xl:text-3xl text-left font-bold mt-3 sm:mt-0">
               KryptoHub {">"} Short List
             </h1>
             <ul className="flex justify-end relative mb-0  pt-1  font-nunito">
@@ -143,7 +143,7 @@ const ShortList = () => {
                   }}
                 >
                   <ArrowBackIos className="hover:underline !text-[#848abd]" />
-                  <span className="hover:underline !text-[#848abd] font-bold">
+                  <span className="hover:underline !text-[#848abd]  font-bold">
                     Back
                   </span>
                 </button>
@@ -328,7 +328,9 @@ const ShortList = () => {
                       className="w-full xs:py-4 py-2 px-2 items-center flex md:justify-between justify-center bg-[#848ABD] 
                       font-nunito rounded-full"
                     >
-                      <span className="mr-3 text-sm">Visit Website</span>
+                      <span className="mr-3 text-[10px] xxxs:text-sm">
+                        Visit Website
+                      </span>
                       <LanguageOutlined />
                     </span>
                   </a>
