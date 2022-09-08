@@ -164,7 +164,7 @@ export const Clients = () => {
                   return (
                     <div key={index}>
                       <div className="flex items-center">
-                        <div className="items-center xs:my-3 font-medium xs:w-fit w-full xs:pl-16 px-10">
+                        <div className="items-center xs:my-3 font-medium xs:w-fit w-full xs:pl-16">
                           <label
                             htmlFor="keyClient"
                             className="text-primary flex justify-between py-2 md:py-0"
@@ -183,7 +183,7 @@ export const Clients = () => {
                               maxLength={30}
                               autoComplete="off"
                               value={items}
-                              className={` bg-[#0000000d] mt-1 rounded-3xl text-[#606060] xs:min-w-[400px] pl-3 pr-8 py-2 outline-none ${
+                              className={` bg-[#0000000d] mt-1 rounded-3xl text-[#606060] w-full xs:min-w-[400px] pl-3 pr-8 py-2 outline-none ${
                                 index >= 0 ? "mt-2" : ""
                               }`}
                               onChange={(e) => {

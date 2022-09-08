@@ -424,7 +424,7 @@ export const Teams = () => {
         </div>
 
         <div
-          className={`fixed right-0 top-0 font-jost bg-white overflow-y-scroll h-full custom-scrollbar z-50 p-2 min-w-[300px] w-full xs:w-fit shadow-xl text-cyan-900 animate-slide-in-left ${
+          className={`fixed right-0 top-0 font-jost bg-white overflow-y-scroll h-full custom-scrollbar z-50 p-2 xxs:w-[300px] w-full xs:w-fit shadow-xl text-cyan-900 animate-slide-in-left ${
             show || showFilterMobile ? "" : "hidden"
           }`}
           ref={subNodeRef as LegacyRef<HTMLDivElement>}

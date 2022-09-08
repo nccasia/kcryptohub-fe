@@ -116,7 +116,7 @@ export const Header = () => {
           <div className="py-5 relative">
             <Link href="/">
               <span
-                className={`text-3xl 3xl:text-5xl font-bold text-center cursor-pointer  text-black 
+                className={`text-xl xxs:text-3xl 3xl:text-5xl  font-bold text-center cursor-pointer  text-black 
 
                 `}
               >
@@ -378,10 +378,10 @@ export const Header = () => {
           </div>
         </nav>
         <div
-          className={`fixed top-0 bottom-0 bg-[#1e2228] w-[300px] left-0 px-6 pb-2 z-[1040] visible md-2:hidden ${
+          className={`fixed top-0 bottom-0 bg-[#1e2228] w-full xxs:w-[300px] left-0 px-8 xxs:px-6 pb-2 z-[1040] visible md-2:hidden ${
             isOpenHamburger
               ? "transition-transform duration-300 ease-in-out transform origin-top-left -translate-x-0"
-              : "transition-transform duration-300 ease-in-out transform origin-top-left -translate-x-[300px]"
+              : "transition-transform duration-300 ease-in-out transform origin-top-left -translate-x-[500px]"
           }`}
         >
           <div className="relative">
@@ -393,7 +393,7 @@ export const Header = () => {
               </Link>
             </div>
             <div
-              className="absolute right-0 top-3 cursor-pointer"
+              className="absolute right-0 top-5 cursor-pointer"
               onClick={() => setIsOpenHamburger(false)}
             >
               <svg
