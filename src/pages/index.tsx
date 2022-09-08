@@ -196,7 +196,7 @@ const Home: NextPage = () => {
                     I am looking for
                   </h2>
                   <div className="flex md:flex-row items-center flex-col w-full h-auto 3xl:w-[90%]">
-                    <div className="w-4/5 xxs:w-full  flex flex-col justify-center relative">
+                    <div className="w-4/5 xxs:w-full md:w-2/5  flex flex-col justify-center relative">
                       <div
                         className="relative h-auto"
                         ref={nodeRef as LegacyRef<HTMLDivElement>}
@@ -264,7 +264,7 @@ const Home: NextPage = () => {
                     <h2 className="text-black 3xl:text-xl mx-3 md:flex items-center hidden ">
                       in
                     </h2>
-                    <div className="w-4/5 xxs:w-full">
+                    <div className="w-4/5 xxs:w-full md:w-2/5">
                       <SelectCustom
                         label={""}
                         register={register("timeZone")}
@@ -276,9 +276,9 @@ const Home: NextPage = () => {
                         type={2}
                       />
                     </div>
-                    <div className="w-4/5 xxs:w-full">
+                    <div className="w-4/5 xxs:w-full md:w-1/5">
                       <button
-                        className="px-10 3xl:text-2xl py-2 3xl:py-3 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full  font-nunito hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
+                        className="px-10 md:px-4 3xl:text-2xl py-2 3xl:py-3 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full  font-nunito hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"
                         onClick={() => {
                           router.push(
                             `teams?skill=${watch("skill")}&timezone=${watch(

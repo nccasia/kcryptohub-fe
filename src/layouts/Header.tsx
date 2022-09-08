@@ -188,21 +188,21 @@ export const Header = () => {
                 onClick={handleHamburger}
               >
                 <span
-                  className={`block w-6 h-1 bg-black   ${
+                  className={`block w-6 h-[3px] bg-black   ${
                     isOpenHamburger
                       ? "transform transition duration-500 ease-in-out rotate-45 translate-y-2"
                       : "transform transition duration-500 ease-in-out "
                   }`}
                 />
                 <span
-                  className={`block w-6 h-1  bg-black ${
+                  className={`block w-1/2 h-[3px] bg-black ${
                     isOpenHamburger
                       ? "transform transition duration-500 ease-in-out opacity-0"
                       : "transform transition duration-500 ease-in-out "
                   }`}
                 />
                 <span
-                  className={`block w-6 h-1  bg-black  ${
+                  className={`block w-6 h-[3px] bg-black  ${
                     isOpenHamburger
                       ? "transform  transition duration-500 ease-in-out -rotate-45  -translate-y-2"
                       : "transform transition duration-500 ease-in-out "
@@ -214,7 +214,7 @@ export const Header = () => {
                   <>
                     <div className="inline-flex ">
                       {userImage ? (
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-center mt-2">
                           <div className="w-6 h-6 block relative">
                             <Image
                               src={userImage}
@@ -510,7 +510,7 @@ export const Header = () => {
                         </span>
                         <div className="relative">
                           <div
-                            className={`absolute ${
+                            className={`absolute text-xs ${
                               user.shortList?.length ? "inline-block" : "hidden"
                             } top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 w-5 h-5 skew-x-0 skew-y-0 scale-x-100 scale-y-100 
                         ${
