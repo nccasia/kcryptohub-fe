@@ -276,7 +276,7 @@ export const TeamCard = (props: Props) => {
                       />
                     )
                   )}
-                {team.skills.length > 7 && !showAllSkill ? (
+                {team.skills?.length > 7 && !showAllSkill ? (
                   <div className="inline-block p-1 pt-3 font-nunito">
                     <span
                       className={`px-2 py-1 block rounded-2xl border md:max-w-[175px] max-w-[140px] truncate   cursor-pointer text-black ml-2 mt-2 font-medium`}

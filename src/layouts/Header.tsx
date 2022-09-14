@@ -116,7 +116,7 @@ export const Header = () => {
           <div className="py-5 relative">
             <Link href="/">
               <span
-                className={`text-xl xxs:text-3xl 3xl:text-5xl  font-bold text-center cursor-pointer  text-black 
+                className={`text-xl xxs:text-3xl 3xl:text-4xl  font-bold text-center cursor-pointer  text-black 
 
                 `}
               >
@@ -129,14 +129,14 @@ export const Header = () => {
               className={`w-full inline-flex  text-black items-center justify-center`}
             >
               <Link href="/teams">
-                <span className="px-2 mx-4 cursor-pointer text-lg 3xl:text-3xl font-medium">
+                <span className="px-2 mx-4 cursor-pointer text-lg 3xl:text-xl font-medium">
                   List Team
                 </span>
               </Link>
               <Link href="/short-list">
                 <div className="px-2 mx-4 cursor-pointer">
                   <div className="inline-flex items-center">
-                    <span className="pr-2 text-lg 3xl:text-3xl font-medium">
+                    <span className="pr-2 text-lg 3xl:text-xl font-medium">
                       Short List
                     </span>
                     <div className="relative">
@@ -166,7 +166,7 @@ export const Header = () => {
               </Link>
               <div className="px-2 mx-4 cursor-pointer ">
                 <div className="inline-flex items-center ">
-                  <span className="pr-2 text-lg 3xl:text-3xl font-medium">
+                  <span className="pr-2 text-lg 3xl:text-xl font-medium">
                     Message
                   </span>
                   <div className="relative">

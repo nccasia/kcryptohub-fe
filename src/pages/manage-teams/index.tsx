@@ -10,23 +10,31 @@ import { Pagination } from "@mui/material";
 import React, { useEffect, useState } from "react";
 const ManageTeam = () => {
   const dispatch = useAppDispatch();
-  const [userTeam, setUserTeam] = useState<ICreateTeam[]>([]);
-  const [pageItem, setPageItem] = useState<ICreateTeam[]>([]);
+  const [userTeam, setUserTeam] = useState<ITeam[]>([]);
+  const [pageItem, setPageItem] = useState<ITeam[]>([]);
   const profile = useAppSelector((state) => state.ProfileReducer);
   const [page, setPage] = React.useState(1);
   const [prev, setPrev] = React.useState(1);
   const [next, setNext] = React.useState(9);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     profileApi.getProfileTeam().then((res) => {
       if (res) {
-        setUserTeam(res as ICreateTeam[]);
+        setUserTeam(res as ITeam[]);
       }
     });
   }, [setUserTeam, profile]);
 
   useEffect(() => {
     setPageItem(userTeam);
+  }, [userTeam]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (userTeam.length === 0) {
+        setIsLoading(true);
+      }
+    }, 500);
   }, [userTeam]);
 
   return (
@@ -55,7 +63,7 @@ const ManageTeam = () => {
           </div>
         </div>
       </div>
-      {userTeam?.length === 0 ? (
+      {isLoading === false ? (
         <div className="flex py-10 w-screen items-center justify-center">
           <button
             type="button"
@@ -84,6 +92,28 @@ const ManageTeam = () => {
             </svg>
             <span className="font-thin md:text-3xl"> Processing... </span>
           </button>
+        </div>
+      ) : (
+        <></>
+      )}
+      {userTeam.length === 0 && isLoading === true ? (
+        <div className="flex py-10 w-screen items-center justify-center">
+          <div className="flex items-center justify-center">
+            <svg
+              className="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z" />
+              <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z" />
+              <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z" />
+            </svg>
+            <span className="font-thin md:text-2xl font-nunito">
+              {" "}
+              No Team Found{" "}
+            </span>
+          </div>
         </div>
       ) : (
         <></>
