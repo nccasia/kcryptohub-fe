@@ -510,7 +510,7 @@ export const CreateForm = (props: IProps) => {
                     autoComplete="off"
                     {...register("saleEmail")}
                     className="md:max-w-[400px] w-full border-2 border-[#ecedee] rounded-3xl pl-10 px-3 py-2 outline-none focus:shadow-xl focus:border-[#ecedee]"
-                    placeholder="email@email.com"
+                    placeholder="email@gmail.com"
                     maxLength={50}
                     defaultValue={team.saleEmail || ""}
                   />
