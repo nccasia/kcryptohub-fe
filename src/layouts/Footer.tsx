@@ -22,7 +22,6 @@ export const Footer = () => {
                     {" "}
                     5th Floor, A2 Ecolife Building, 58 To Huu St.,
                     <br /> Nam Tu Liem Dist., Hanoi, Vietnam.
-                    {/* Moon Street Light Avenue <br /> 14/05 Jupiter 80630{" "} */}
                   </address>
                 </div>
               </div>
