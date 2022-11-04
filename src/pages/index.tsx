@@ -325,7 +325,7 @@ const Home: NextPage = () => {
                           )}
                         /> */}
                       </div>
-                      <div className="w-4/5 xxs:w-full md:w-1/5">
+                      <div className="w-4/5 xxs:w-full md:w-1/5 pr-[10px]">
                         <button
                           type="submit"
                           className="px-10 md:px-4 3xl:text-2xl py-2 3xl:py-3 mr-2 bg-[#848abd] text-white mt-2 md:mt-0 rounded-3xl w-full  font-nunito hover:shadow-[0px_0px_0px_6px_rgba(132,138,189,0.3)]"

@@ -131,7 +131,7 @@ const ShortList = () => {
         </div>
         <div className="sticky top-0 z-[40] bg-white w-full text-[#606060]">
           <nav className="w-full mb-4 shadow-lg flex flex-col sm:flex-row sm:justify-between sm:items-center px-[15px] mx-auto">
-            <h1 className="text-base xxxs:text-lg 3xl:text-3xl text-left font-bold mt-3 sm:mt-0">
+            <h1 className="text-base xxxs:text-lg md:text-xl font-bold mb-3 xs:mb-0">
               KryptoHub {">"} Short List
             </h1>
             <ul className="flex justify-end relative mb-0  pt-1  font-nunito">

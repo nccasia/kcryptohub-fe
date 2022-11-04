@@ -366,7 +366,7 @@ export const Header = () => {
                   <>
                     <Link href="/login">
                       <span
-                        className={`font-semibold mx-2 cursor-pointer text-lg 3xl:text-3xl text-black hover:underline`}
+                        className={`text-base xxxs:text-lg md:text-xl font-bold mb-3 xs:mb-0 hover:underline`}
                       >
                         Sign in
                       </span>
