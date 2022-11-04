@@ -20,7 +20,9 @@ export const Footer = () => {
                   </h3>
                   <address className="mb-0 font-jost">
                     {" "}
-                    Moon Street Light Avenue <br /> 14/05 Jupiter 80630{" "}
+                    5th Floor, A2 Ecolife Building, 58 To Huu St.,
+                    <br /> Nam Tu Liem Dist., Hanoi, Vietnam.
+                    {/* Moon Street Light Avenue <br /> 14/05 Jupiter 80630{" "} */}
                   </address>
                 </div>
               </div>
@@ -61,9 +63,8 @@ export const Footer = () => {
                     Contact
                   </h3>
                   <a href="mailto:#" className="nocolor font-jost">
-                    Kryptohub@gmail.com
+                    info@kryptohub.co
                   </a>{" "}
-                  <br /> 00 (000) 000 00 00
                 </div>
               </div>
             </div>
